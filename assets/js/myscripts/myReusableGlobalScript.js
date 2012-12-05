@@ -36,6 +36,70 @@ $(document).ready(function(){
   	interval: 2000
 	});
 
+    
+
+    var requiredData,mapped,searchQuery;
+    $(".typeahead").typeahead({
+        minLength: 3,
+        source: function(query, process) {
+            searchQuery=query;
+            requiredData = [],
+            mapped = {}
+            $.get(CI.base_url+'AjaxSearchController/getData', { q: query }, function (data) {
+                
+                $.each(JSON.parse(data), function (i, item) {
+                    mapped[item.searchTerm] = item;
+                    requiredData.push(item.searchTerm);
+
+                })
+
+                process(requiredData);
+            });
+
+            
+        },
+        updater: function (item) {
+            if(mapped[item]!=null){
+                url = mapped[item].targetURL;    
+            }
+            else{
+                url='AjaxSearchController/getData?q='+searchQuery;
+            }
+            console.log('url : '+url);
+            //document.location = "AjaxSearchController/getData?q=" + encodeURIComponent(item);
+            return item;
+        },
+        sorter: function (items) {
+            items.unshift(this.query);
+            return items;
+        },
+        items:11,
+        menu: '<ul class="span5 dropdown-menu"></ul>', //to stretch the box
+        
+        //display the result type by concatenating either "question/category/topic" to search keyword
+        //TODO: strip search term if the length is too long 
+        highlighter: function (item) {
+
+            var result = mapped[item];
+            
+            if(result!=undefined){
+                var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
+
+                var highlighted_label = item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+                  return '<strong>' + match + '</strong>'
+                });
+
+                var view_label = highlighted_label + ' (<i>' + result.searchType + '</i>)';            
+                return view_label;
+            }
+            else{
+                var regex = new RegExp( '(' + this.query + ')', 'gi' );
+                return 'Search : '+item.replace( regex, "<strong>$1</strong>" );
+            }
+                
+            
+        }
+    });
  
 
 

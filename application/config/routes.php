@@ -40,14 +40,6 @@
 
 $route['default_controller'] = "HomeController";
 $route['404_override'] = '';
-$route['AnswersController/(:num)'] = "answerscontroller/$1";
-$route['AuthController/(:num)'] = "authcontroller/$1";
-$route['HomeController/(:num)'] = "homecontroller/$1";
-$route['ProfileController/(:num)'] = "profilecontroller/$1";
-$route['QuestionsController/(:num)'] = "questionscontroller/$1";
-$route['SearchController/(:num)'] = "searchcontroller/$1";
-$route['TestController/(:num)'] = "testcontroller/$1";
-
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
