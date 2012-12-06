@@ -30,7 +30,7 @@
 <form class="navbar-search pull-left" action="">
 
   <input type="text" id="ajaxSearchPanel"
-   class="typeahead search-query span6" placeholder="Search" data-provide="typeahead" data-items="4" >
+   class="typeahead search-query span6" placeholder="Search for Questions, Categories and Topics" data-provide="typeahead" data-items="4" >
 </form>
 <ul class="nav pull-right" id="main-menu-right">
 	<li class="dropdown" id="preview-menu"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php if ($this->session->userdata('logged_in') == TRUE)

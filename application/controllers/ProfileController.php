@@ -5,21 +5,25 @@ class ProfileController extends CI_Controller {
 	
 	function index()
 	{
-		$this->load->model('ProfileModel');
-		$data['centerContent']=$this->ProfileModel->getCenterContent();
+		$this->load->model('profilemodel');
+		$data['centerContent']=$this->profilemodel->getCenterContent();
 		$this->load->view('Skeleton',$data);
 		
 	}
 	function MyProfile()
 	{
-		$this->load->model('ProfileModel');
-		$data['centerContent']=$this->ProfileModel->getCenterContentMyProfile();
+		$this->load->model('profilemodel');
+		
+		$data['centerContent']=$this->profilemodel->getCenterContentMyProfile();
+
 		$this->load->view('Skeleton',$data);
 	}
 	function MyGroup()
 	{
-		$this->load->model('ProfileModel');
-		$data['centerContent']=$this->ProfileModel->getCenterContentMyGroup();
+		$this->load->model('profilemodel');
+		$this->load->model('questionsmodel');
+		$data['centerContent']=$this->profilemodel->getCenterContentMyGroup();
+			$data['centerContent'].=$this->questionsmodel->getGroupScopeQuestions();
 		$this->load->view('Skeleton',$data);
 	}
 	function AccountSettings()

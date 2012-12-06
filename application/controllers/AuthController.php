@@ -25,8 +25,8 @@ class AuthController extends CI_Controller {
 	    //ignore the rest of the func
 	    {
 
-		$this->load->model('ProfileModel');
-		$data['centerContent']=$this->ProfileModel->loginForm();
+		$this->load->model('profilemodel');
+		$data['centerContent']=$this->profilemodel->loginForm();
 		$this->load->view('Skeleton',$data);
 	}
 	
@@ -40,22 +40,25 @@ class AuthController extends CI_Controller {
 	    
 	    //validate
         $data['page']='login';
-		$this->load->model('AuthModel');
-	     $loginstatus =$this->AuthModel->authenticate($user_id,$user_pass);
+		$this->load->model('authmodel');
+	     $loginstatus =$this->authmodel->authenticate($user_id,$user_pass);
 
 
-		$this->load->model('ProfileModel');
-		$data['centerContent']=$this->ProfileModel->loginForm();
+		$this->load->model('profilemodel');
+		$data['centerContent']=$this->profilemodel->loginForm();
 		if($loginstatus==true)
-		{$this->load->model('AuthModel');
-	     $user_name =$this->AuthModel->getUserName($user_id);
+		{
+			$this->load->model('authmodel');
+		    $user_name =$this->authmodel->getUserName($user_id);
+		    $group_id=$this->authmodel->getUserGroupId($user_id);
+		    
 
-
-         $sessionData = array(
-                   'user_id'  => $user_id,
-                   'logged_in' => TRUE,
-                   'user_name' =>$user_name
-            );
+			$sessionData = array(
+			'user_id'  => $user_id,
+			'logged_in' => TRUE,
+			'user_name' => $user_name,
+			'group_id' => $group_id
+			);
 
             //jus like $_SESSION['someKey']='someValue';
             //but note that here the key itself is an array of keys!!

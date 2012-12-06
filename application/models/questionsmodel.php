@@ -144,17 +144,6 @@ class QuestionsModel extends CI_Model{
 		$CI =& get_instance();
 		$currentUserName=$CI->session->userdata('user_name');
 		foreach($query->result_array() as $row ) {
-		/*try this!!!
-		$count="select  as count from ANSWER a where a.q_id:=q_id";
-					$f=oci_parse($conn, $count);
-					$w=$row['Q_ID'];
-					oci_bind_by_name($f,":q_id",$w );
-					oci_execute($f);
-					//$c=oci_fetch_array($f);*/
-
-			//$content.=$row[0].' '.$row[1] .' </br>';
-			
-			//$content.=$row[0].' '.$row[1] .' </br>';
 			$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
 			$currentUrl=urlencode(current_url());
 
@@ -236,6 +225,108 @@ class QuestionsModel extends CI_Model{
 		return $content;
 
 	}
+	function getGroupScopeQuestions(){
+		$content=null;
+    $CI =& get_instance();
+    $groupId=$CI->session->userdata('group_id');
+    $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,
+					t.topic_name,c.category_name ,c.category_id,q.posted_by,
+					q.timestamp
+				
+				FROM
+					QUESTION q, TOPIC t, CATEGORY c 
+				where 
+					q.topic_id=t.topic_id and
+					t.category_id=c.category_id and q.scope='group' and q.scope_id='$groupId'"
+				;
+
+$query=$this->db->query($sql);
+      // $row=$query->result_array();
+       $categoryUrl=base_url().'QuestionsController/viewQuestion/';
+		$questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
+		$followUrl=	base_url().'QuestionsController/followQuestion/';
+		$unfollowUrl=	base_url().'QuestionsController/unfollowQuestion/';
+
+		$CI =& get_instance();
+		$currentUserName=$CI->session->userdata('user_name');
+		foreach($query->result_array() as $row ) {
+			$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
+			$currentUrl=urlencode(current_url());
+
+			$dynamicFollowOrUnfollowButton='';
+			if($this->sqlCheckUserFollowsQuestion($currentUserName,$row['q_id']))
+				$dynamicFollowOrUnfollowButton='
+					<i class="icon-minus-sign"></i>
+               		<a href="'.$unfollowUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
+                    data-original-title="Click to unfollow the question!">Unfollow</a>';
+			else
+				$dynamicFollowOrUnfollowButton='
+					<i class="icon-plus-sign"></i>
+               		<a href="'.$followUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
+                    data-original-title="Click to follow the question!">Follow</a>';
+
+			$content.='
+
+				<div id="questionPostDiv" class="well" style="background-color:white">
+                  <div id="userDetailDiv">
+                   <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
+                   
+                  <strong>'.$row['posted_by'].'</strong>
+                    <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
+                  </div>
+                  <div id="questionDetailsDiv">
+                    <p id="questionContent">
+                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['q_id'].'">'.$row['q_content'].'</a>
+                    </strong>
+                    </p>
+                    <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
+                  </div><!--/questionDetailsDiv-->
+                  <div id="questionExtraDetailsDiv">    
+                    <a rel="tooltip" data-placement="top" data-original-title="Category"
+                    href="'.$categoryUrl.$row['category_id'].'" class="label label-warning">'.$row['category_name'].'
+                    </a>
+                    <i class="icon-arrow-right"></i>
+                    <a rel="tooltip" data-placement="top" data-original-title="Topic"
+                    href="'.$categoryUrl.$row['category_id'].'/'.$row['topic_id'].'" class="label label-info">'.$row['topic_name'].'
+                    </a>
+                    <p>      </p>
+                  </div><!--/questionExtraDetailsDiv-->
+                  <div id="questionStatsDiv">
+                    <i class="icon-time"></i>
+                    <a>'.$row['timestamp'].'</a>
+                    <i class="icon-comment"></i>
+                    <a rel="tooltip popover" href="#" 
+                      data-placement="bottom" 
+                      data-original-title="Quick answer!" 
+                      data-content=\'<textarea placeholder="Enter answer here.."></textarea><br/>
+                                    <button class="postAnswerButton btn btn-success pull-right">
+                                    <i class="icon-share-alt icon-white"></i>
+                                    Answer!</button>\' 
+                      data-original-title="Post Answer"
+                      data-placement="bottom">
+                      '.$this->sqlGetAnswerCount($row['q_id']).' Answers
+                    </a>
+                    <i class="icon-eye-open"></i>
+                    <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
+                    <i class="icon-user"></i>
+                    <a rel="tooltip" data-placement="bottom" 
+                    data-original-title="'.
+                    $this->sqlGetFollowersForQuestion($row['q_id'])
+                    .'">
+                    '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
+                    Followers</a>
+               		<div style="float:right">
+                    FLike,Tweet                    
+                    </div>
+                  </div><!--/questionStatsDiv-->
+                  
+                </div><!--/questionPostDiv-->
+
+			';
+		}
+
+return $content;
+  }
 
 
 	function sqlCheckUserFollowsQuestion($user_name,$q_id){

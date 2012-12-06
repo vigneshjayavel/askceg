@@ -22,4 +22,11 @@ class TestController extends CI_Controller {
 		}*/
 	}
 
+	function testSession(){
+		$this->load->model('authmodel');
+		$temp=$this->session->userdata('group_id');
+
+		echo $temp;
+	}
+
 }

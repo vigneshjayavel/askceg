@@ -9,6 +9,13 @@ $query=$this->db->query($sql,array($user_id));
        return $result['user_name'];
       
     }
+    function getUserGroupId($user_id){
+
+        $sql = "select * from USERS where user_id=?";  
+        $query=$this->db->query($sql,array($user_id));
+        if($result=$query->row_array())
+            return $result['group_id'];
+    }
 	function authenticate($user_id,$user_pass){
 
  

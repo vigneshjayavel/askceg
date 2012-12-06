@@ -184,39 +184,42 @@ class ProfileModel extends CI_Model{
 
 
 	}
+  
 
 	function getCenterContentMyGroup(){
+    $CI =& get_instance();
+    $currentUserId=$CI->session->userdata('user_id');
+    $groupId=$CI->session->userdata('group_id');
 
-		return '        <div class="media-grid">
+    
+    $sql='select g.group_name,g.group_desc from GROUPS g where g.group_id=?';
+
+$query=$this->db->query($sql,array($groupId));
+       $row=$query->row_array();
+      
+
+
+		return '        <div class="well">
         
         <a href="#">
         <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/group.jpg" alt="">
-        </a> group_name
+        </a>'.$row['group_name'].'
         <br>
+        </div>
+        <div class="well">
         group_desc
-        For example, "This is a sentence.This is the next one." needs to become "This is a sentence. This is the next one." Notice the added space after the first period.
-        <br>
+       '.$row['group_desc'].' 
 
         
         
         </div>
-            <ul class="tabs">
-    <li class="active"><a href="#home">Home</a></li>
-    <li><a href="#profile">Profile</a></li>
-    <li><a href="#messages">Messages</a></li>
-    <li><a href="#settings">Settings</a></li>
-    </ul>
+        
      
-    <div class="pill-content">
-    <div class="active" id="home">...</div>
-    <div id="profile">...</div>
-    <div id="messages">...</div>
-    <div id="settings">...</div>
-    </div>
-     
-        <div>
+        <div class="well">
+        group members photo
         </div>
-        <div>
+        <div class="well">
+        questions posted by the group members in the group scope
         </div>
          ';
 
