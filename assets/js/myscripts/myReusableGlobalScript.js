@@ -45,11 +45,11 @@ $(document).ready(function(){
             searchQuery=query;
             requiredData = [],
             mapped = {}
-            $.get(CI.base_url+'AjaxSearchController/getData', { q: query }, function (data) {
+            $.get(CI.base_url+'SearchController/ajaxSearch', { query: query }, function (data) {
                 
                 $.each(JSON.parse(data), function (i, item) {
-                    mapped[item.searchTerm] = item;
-                    requiredData.push(item.searchTerm);
+                    mapped[item.resultData] = item;
+                    requiredData.push(item.resultData);
 
                 })
 
@@ -63,7 +63,8 @@ $(document).ready(function(){
                 url = mapped[item].targetURL;    
             }
             else{
-                url='AjaxSearchController/getData?q='+searchQuery;
+                url='SearchController/search/'+searchQuery;
+                window.location=CI.base_url+url;
             }
             console.log('url : '+url);
             //document.location = "AjaxSearchController/getData?q=" + encodeURIComponent(item);
@@ -76,7 +77,7 @@ $(document).ready(function(){
         items:11,
         menu: '<ul class="span5 dropdown-menu"></ul>', //to stretch the box
         
-        //display the result type by concatenating either "question/category/topic" to search keyword
+        //display the result type by concatenating either "question/topic" to search keyword
         //TODO: strip search term if the length is too long 
         highlighter: function (item) {
 
@@ -88,8 +89,9 @@ $(document).ready(function(){
                 var highlighted_label = item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
                   return '<strong>' + match + '</strong>'
                 });
-
-                var view_label = highlighted_label + ' (<i>' + result.searchType + '</i>)';            
+                //append the type of the search result 
+                var view_label = highlighted_label + 
+                    ' : [' + result.resultType + ']';            
                 return view_label;
             }
             else{

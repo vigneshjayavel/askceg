@@ -11,12 +11,12 @@ class AjaxSearchController extends CI_Controller {
 	public function getData(){
 			
 		$jsonObj= array(
-		array("searchTerm"=>"What is php?","searchType"=>"Question","targetURL"=>"AjaxSearchController/getData"),
-		array("searchTerm"=>"why is vishnu so gay?","searchType"=>"Question","targetURL"=>"AjaxSearchController/getData"),
-		array("searchTerm"=>"why is vikki so gay?","searchType"=>"Question","targetURL"=>"AjaxSearchController/getData"),
-		array("searchTerm"=>"why is vishnuJayvel so gay?","searchType"=>"Question","targetURL"=>"AjaxSearchController/getData"),
-		array("searchTerm"=>"ibatch site sucks","searchType"=>"Category","targetURL"=>"AjaxSearchController/getData"),
-		array("searchTerm"=>"we hate ROS","searchType"=>"Topic","targetURL"=>"AjaxSearchController/getData"),
+		array("resultData"=>"What is php?","resultType"=>"Question","targetURL"=>"AjaxSearchController/getData"),
+		array("resultData"=>"why is vishnu so gay?","resultType"=>"Question","targetURL"=>"AjaxSearchController/getData"),
+		array("resultData"=>"why is vikki so gay?","resultType"=>"Question","targetURL"=>"AjaxSearchController/getData"),
+		array("resultData"=>"why is vishnuJayvel so gay?","resultType"=>"Question","targetURL"=>"AjaxSearchController/getData"),
+		array("resultData"=>"ibatch site sucks","resultType"=>"Category","targetURL"=>"AjaxSearchController/getData"),
+		array("resultData"=>"we hate ROS","resultType"=>"Topic","targetURL"=>"AjaxSearchController/getData"),
 				);
 		echo json_encode($jsonObj);
 	}

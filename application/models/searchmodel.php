@@ -15,22 +15,25 @@ class SearchModel extends CI_Model{
 
 	}
 	function sqlReturnSearchResult($searchTerm){
-		$searchTerm="ibatch website";
-		$sql="select q_content from question where q_content like ?";
-		$query=$this->db->query($sql,array($searchTerm));
-		//$result=$query->result_array();
+
+		//search questions
+		$sql="select q_content from QUESTION where q_content LIKE '%".$this->db->escape_like_str($searchTerm)."%'";
+		$query=$this->db->query($sql);
 		$searchResults=array();
-		foreach($query->result_array() as $row){
-			array_push($searchResults,array('result'=>$row['q_content'],'type'=>'question'));
-		}
-		$sql="select topic_name from topic where topic_name like ?";
-		$query=$this->db->query($sql,array($searchTerm));
 		$result=$query->result_array();
-		$searchResults=array();
-		foreach($query->result_array() as $row){
-			array_push($searchResults,array('result'=>$row['topic_name'],'type'=>'topic'));
+		foreach($result as $row){
+			array_push($searchResults,array('resultData'=>$row['q_content'],'resultType'=>'Question'));
 		}
-		return ($searchResults);
+
+		//search topics
+		$sql="select topic_name from TOPIC where topic_name LIKE '%".$this->db->escape_like_str($searchTerm)."%'";
+		$query=$this->db->query($sql);
+		$result=$query->result_array();
+		foreach($result as $row){
+			array_push($searchResults,array('resultData'=>$row['topic_name'],'resultType'=>'Topic'));
+		}
+
+		return json_encode($searchResults);
 		
 		
 	}

@@ -23,6 +23,7 @@ class SearchController extends CI_Controller {
 		$this->load->view('Skeleton',$this->data);
 		
 	}
+
 	function SearchDiscussion()
 	{
 		$this->load->model('SearchModel');
@@ -30,4 +31,19 @@ class SearchController extends CI_Controller {
 		$this->load->view('Skeleton',$this->data);
 		
 	}
+
+	function ajaxSearch(){
+
+		$searchQuery=$this->input->post('query');
+		$this->load->model('searchmodel');
+		$temp=$this->searchmodel->sqlReturnSearchResult($searchQuery);
+
+		echo $temp;
+	} 
+
+	function search($searchQuery){
+
+		echo "search results for ".$searchQuery;
+	}
+
 }

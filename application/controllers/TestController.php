@@ -22,9 +22,9 @@ class TestController extends CI_Controller {
 		}*/
 	}
 
-	function testSession(){
-		$this->load->model('authmodel');
-		$temp=$this->session->userdata('group_id');
+	function test(){
+		$this->load->model('searchmodel');
+		$temp=$this->searchmodel->sqlReturnSearchResult('ibatch');
 
 		echo $temp;
 	}
