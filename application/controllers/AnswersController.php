@@ -18,11 +18,11 @@ class AnswersController extends CI_Controller {
 
 	function viewAnswersForQuestion($q_id){
 
-		$this->load->model('AnswersModel');
-		$this->load->model('QuestionsModel');
-		$this->QuestionsModel->sqlUpdateViewCount($q_id);
+		$this->load->model('answersmodel');
+		$this->load->model('questionsmodel');
+		$this->questionsmodel->sqlUpdateViewCount($q_id);
 		$curr_id=$this->session->userdata('user_id');
-		$this->data['centerContent']=$this->AnswersModel->sqlReadAnswers($q_id,$curr_id);
+		$this->data['centerContent']=$this->answersmodel->sqlReadAnswers($q_id,$curr_id);
 		$this->load->view('Skeleton',$this->data);
 	}
 
@@ -31,9 +31,9 @@ class AnswersController extends CI_Controller {
 		$posted_by=$this->session->userdata('user_name');
 		//$posted_by="hello";
 		$answerObj=$this->input->post('answerObj');
-		$this->load->model('AnswersModel');
+		$this->load->model('answersmodel');
 
-		$response=$this->AnswersModel->sqlCreateAnswer($answerObj,$posted_by);
+		$response=$this->answersmodel->sqlCreateAnswer($answerObj,$posted_by);
 		echo $response;
 	}
 

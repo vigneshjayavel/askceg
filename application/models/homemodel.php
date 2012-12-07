@@ -6,32 +6,32 @@ class HomeModel extends CI_Model{
     //if($this->session->userdata('logged_in')==true)
 //$name=;
 //$url=base_url()."images/profile_normal.jpg";
-		$carousel="
-               <div id=\"myCarousel\" class=\"carousel slide\">
-                <div class=\"carousel-inner\">
-                  <div class=\"item\">
-                    <img src=\"http://localhost/dbproj/assets/img/1.jpg\" height=\"500px\" width=\"800px\" alt=\"\">
-                    <div class=\"carousel-caption\">
+		$carousel='
+               <div id="myCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                  <div class="item">
+                    <img src="'.base_url().'assets/img/1.jpg" height="500px" width="800px" alt="">
+                    <div class="carousel-caption">
                       <h4>ASkCEG-Online forum</h4>
                       <p>have questions?we will help you find your answer!!!</p>
                     </div>
                   </div>
-                  <div class=\"item active\">
-                    <img src=\"http://localhost/dbproj/assets/img/2.jpg\" height=\"500px\" width=\"800px\"alt=\"\">
-                    <div class=\"carousel-caption\">
-                      <h4>CEG's first ever online forum</h4>
+                  <div class="item active">
+                    <img src="'.base_url().'assets/img/2.jpg" height="500px" width="800px" alt="">
+                    <div class="carousel-caption">
+                      <h4>CEG\'s first ever online forum</h4>
                       <p>welcome to AskCEG ,first of its kind app to help CEG students!!</div>
                   </div>
-                  <div class=\"item\">
-                    <img src=\"http://localhost/dbproj/assets/img/3.jpg\" height=\"500px\" width=\"800px\" alt=\"\">
-                    <div class=\"carousel-caption\">
+                  <div class="item">
+                    <img src="'.base_url().'assets/img/3.jpg" height="500px" width="800px" alt="">
+                    <div class="carousel-caption">
                       <h4>ASkCEG - revolutionizing CEG</h4>
                       <p>help your fellow cegians by answering their questions !!</p></div>
                   </div>
                 </div>
-                <a class=\"left carousel-control\" href=\"#myCarousel\" data-slide=\"prev\">‹</a>
-                <a class=\"right carousel-control\" href=\"#myCarousel\" data-slide=\"next\">›</a>
-              </div>";
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+              </div>';
 		return $carousel;
 
 	}

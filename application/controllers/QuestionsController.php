@@ -13,8 +13,8 @@ class QuestionsController extends CI_Controller {
 	function index()
 	{
 
-		$this->load->model('QuestionsModel');
-		$this->data['centerContent']=$this->QuestionsModel->getCenterContent();
+		$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->getCenterContent();
 		$this->load->view('Skeleton',$this->data);
 		
 	}
@@ -22,8 +22,8 @@ class QuestionsController extends CI_Controller {
 		
 		$redirectUrl=$this->input->get('redirectUrl');
 		$posted_by=$this->session->userdata('user_name');
-		$this->load->model('QuestionsModel');
-		$this->QuestionsModel->sqlCreateFollower($q_id,$posted_by);
+		$this->load->model('questionsmodel');
+		$this->questionsmodel->sqlCreateFollower($q_id,$posted_by);
 		//$this->load->view('Skeleton',$this->data);
 		redirect(urldecode($redirectUrl));
 	
@@ -32,8 +32,8 @@ class QuestionsController extends CI_Controller {
 		
 		$redirectUrl=$this->input->get('redirectUrl');
 		$posted_by=$this->session->userdata('user_name');
-		$this->load->model('QuestionsModel');
-		$this->QuestionsModel->sqlDeleteFollower($q_id,$posted_by);
+		$this->load->model('questionsmodel');
+		$this->questionsmodel->sqlDeleteFollower($q_id,$posted_by);
 		//$this->load->view('Skeleton',$this->data);
 		redirect(urldecode($redirectUrl));
 	
@@ -46,14 +46,14 @@ class QuestionsController extends CI_Controller {
 	    	//redirect to some page if logged in
 	       // redirect('HomeController');
 	    	echo "hello".$this->session->userdata('user_name');
-	    }$this->load->model('QuestionsModel');
-		$this->data['centerContent']=$this->QuestionsModel->sqlReadQuestions($category_id,$topic_id,$q_id);
+	    }$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions($category_id,$topic_id,$q_id);
 		$this->load->view('Skeleton',$this->data);
 	}
 
 	function AskQuestion(){
-		$this->load->model('QuestionsModel');
-		$this->data['centerContent']=$this->QuestionsModel->getCenterContentAskQuestion();
+		$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->getCenterContentAskQuestion();
 		$this->load->view('Skeleton',$this->data);
 		
 
@@ -61,48 +61,48 @@ class QuestionsController extends CI_Controller {
 
 	function AnswerQuestion(){
 
-		$this->load->model('QuestionsModel');
-		$this->data['centerContent']=$this->QuestionsModel->sqlReadQuestions();
+		$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions();
 		$this->load->view('Skeleton',$this->data);
 		
 	}
 
 	function CreateDiscussion(){
 
-		$this->load->model('QuestionsModel');
-		$this->data['centerContent']=$this->QuestionsModel->getCenterContentCreateDiscussion();
+		$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->getCenterContentCreateDiscussion();
 		$this->load->view('Skeleton',$this->data);
 
 	}
 
 	function Education($topic_id=null)
 	{
-		$this->load->model('QuestionsModel');
-		$this->data['centerContent']=$this->QuestionsModel->sqlReadQuestions('1',$topic_id,null);
+		$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('1',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
 	}
 	function Entertainment($topic_id=null)
 	{
-		$this->load->model('QuestionsModel');
-		$this->data['centerContent']=$this->QuestionsModel->sqlReadQuestions('2',$topic_id,null);
+		$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('2',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
 	}
 	function Sports($topic_id=null)
 	{
-		$this->load->model('QuestionsModel');
-		$this->data['centerContent']=$this->QuestionsModel->sqlReadQuestions('3',$topic_id,null);
+		$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('3',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
 	}
 	function Technology($topic_id=null)
 	{
-		$this->load->model('QuestionsModel');
-		$this->data['centerContent']=$this->QuestionsModel->sqlReadQuestions('4',$topic_id,null);
+		$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('4',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
 	}
 	function Miscellaneous($topic_id=null)
 	{
-		$this->load->model('QuestionsModel');
-		$this->data['centerContent']=$this->QuestionsModel->sqlReadQuestions('5',$topic_id,null);
+		$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('5',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
 	}
 
@@ -110,10 +110,10 @@ class QuestionsController extends CI_Controller {
 	function getAllQuestionsFromDb(){
 
 		//load questions model
-		$this->load->model('QuestionsModel');
+		$this->load->model('questionsmodel');
 
 		//get all questions using a func in that model
-		$this->data['centerContent'] = $this->QuestionsModel->sqlReadQuestions();
+		$this->data['centerContent'] = $this->questionsmodel->sqlReadQuestions();
 		$this->load->view('Skeleton',$this->data);
 	}
 
@@ -122,18 +122,18 @@ class QuestionsController extends CI_Controller {
 		$questionObj=$this->input->post('questionObj');
 		//load questions model
 
-		$this->load->model('QuestionsModel');
+		$this->load->model('questionsmodel');
 		$posted_by=$this->session->userdata('user_name');
 
 		//get all questions using a func in that model
-		$content = $this->QuestionsModel->sqlCreateQuestion($questionObj,$posted_by);
+		$content = $this->questionsmodel->sqlCreateQuestion($questionObj,$posted_by);
 		echo $content;	
 	}
 
 	function getTopicsInCategory($category)
 	{
-		$this->load->model('QuestionsModel');
-		$content=$this->QuestionsModel->sqlGetTopicsInCategory($category);
+		$this->load->model('questionsmodel');
+		$content=$this->questionsmodel->sqlGetTopicsInCategory($category);
 		echo $content;
 	} 
 }

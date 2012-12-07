@@ -69,51 +69,206 @@
         <div class="span6">
             <!--dynamic content in center div-->
             <div id="center" class="well">
-              <div id="scrollableContentDiv" class="scroll-pane">
-              <?php
-
-                for($i=0;$i<10;$i++){
-
-              ?>
-                <div id="questionPostDiv" class="well" style="background-color:white">
-                  <div id="questionDetailsDiv">
-                    <p><strong>Question Content</strong></p>
-                    <p><span>Question description...</span></p>
-                  </div><!--/questionDetailsDiv-->
-                  <div id="questionExtraDetailsDiv">    
-                    <a class="label label-warning">Ques Category</a>
-                    <i class="icon-arrow-right"></i>
-                    <a class="label label-info">Ques Topic</a>
-                    <p></p>
-                  </div><!--/questionExtraDetailsDiv-->
-                  <div id="questionStatsDiv">
-                    <i class="icon-time"></i>
-                    <a>Date, Time</a>
-                    <i class="icon-comment"></i>
-                    <a rel="tooltip popover" data-placement="bottom" data-original-title="Click to answer!" 
-                      href="#" 
-                      data-content="<textarea placeholder='Enter answer here..'></textarea><br/>
-                                    <button class='btn btn-success'><i class='icon-share-alt icon-white'></i>Answer!</button> " 
-                      data-original-title="Post Answer"
-                      data-placement="bottom">
-                      Answers
-                    </a>
-                    <i class="icon-eye-open"></i>
-                    <a >Views</a>
-                    <i class="icon-user"></i>
-                    <a href="#" rel="tooltip" data-placement="bottom" data-original-title="Click to follow this question!">Followers</a>
-                    
-                    <div style="float:right">
-                    FLike,Tweet,Share buttons                    
-                    </div>
-                  </div><!--/questionStatsDiv-->
+              <div id="searchResultsDiv">
+                <center><legend>Search Results</legend></center>
+                <div id="searchResultsQuestionsDiv">
+                  <legend>Questions Found...</legend>
+                  <div id="questionsFoundDiv">
+                    <div id="questionPostDiv" class="well" style="background-color:white">
+                      <div id="userDetailDiv">
+                       <img src="http://localhost/ask/assets/img/2011103089.jpg" height="40px" width="40px" alt="James" class="display-pic">
+                       
+                      <strong>vishnu</strong>
+                        <div style="float:right">
+                      <i class="icon-minus-sign"></i>
+                      <a href="http://localhost/ask/QuestionsController/unfollowQuestion/1?redirectUrl=http%3A%2F%2Flocalhost%2Fask%2FQuestionsController%2FEducation" rel="tooltip" data-placement="bottom" data-original-title="Click to unfollow the question!">Unfollow</a></div>
+                      </div>
+                      <div id="questionDetailsDiv">
+                        <p id="questionContent">
+                        <strong><a class="question" id="1" href="http://localhost/ask/AnswersController/viewAnswersForQuestion/1">HFFVHVNVVV</a>
+                        </strong>
+                        </p>
+                        <p id="questionDescription"><span>HNBVNV</span></p>
+                      </div><!--/questionDetailsDiv-->
+                      <div id="questionExtraDetailsDiv">    
+                        <a data-original-title="Category" href="http://localhost/ask/QuestionsController/viewQuestion/1" class="label label-warning">education
+                        </a>
+                        <i class="icon-arrow-right"></i>
+                        <a data-original-title="Topic" href="#" class="label label-info">computer
+                        </a>
+                        <p>      </p>
+                      </div><!--/questionExtraDetailsDiv-->
+                      <div id="questionStatsDiv">
+                        <i class="icon-time"></i>
+                        <a>10:47 pm 02 Dec-12 </a>
+                        <i class="icon-comment"></i>
+                        <a rel="tooltip popover" href="#" data-placement="bottom" data-original-title="Quick answer!" data-content="&lt;textarea placeholder=&quot;Enter answer here..&quot;&gt;&lt;/textarea&gt;&lt;br/&gt;
+                                        &lt;button class=&quot;postAnswerButton btn btn-success pull-right&quot;&gt;
+                                        &lt;i class=&quot;icon-share-alt icon-white&quot;&gt;&lt;/i&gt;
+                                        Answer!&lt;/button&gt;">
+                          5 Answers
+                        </a>
+                        <i class="icon-eye-open"></i>
+                        <a>27 Views</a>
+                        <i class="icon-user"></i>
+                        <a rel="tooltip" data-placement="bottom" data-original-title="vishnu&lt;/br&gt;also follow this..">
+                        1
+                        Followers</a>
+                      <div style="float:right">
+                        FLike,Tweet                    
+                        </div>
+                      </div><!--/questionStatsDiv-->
                   
-                </div><!--/questionPostDiv-->
-              <?php
-                }
-              ?>           
-
-              </div><!--/scrollpane-->
+                    </div><!--/questionPostDiv-->
+                    <div id="questionPostDiv" class="well" style="background-color:white">
+                      <div id="userDetailDiv">
+                       <img src="http://localhost/ask/assets/img/2011103089.jpg" height="40px" width="40px" alt="James" class="display-pic">
+                       
+                      <strong>vishnu</strong>
+                        <div style="float:right">
+                      <i class="icon-minus-sign"></i>
+                      <a href="http://localhost/ask/QuestionsController/unfollowQuestion/1?redirectUrl=http%3A%2F%2Flocalhost%2Fask%2FQuestionsController%2FEducation" rel="tooltip" data-placement="bottom" data-original-title="Click to unfollow the question!">Unfollow</a></div>
+                      </div>
+                      <div id="questionDetailsDiv">
+                        <p id="questionContent">
+                        <strong><a class="question" id="1" href="http://localhost/ask/AnswersController/viewAnswersForQuestion/1">HFFVHVNVVV</a>
+                        </strong>
+                        </p>
+                        <p id="questionDescription"><span>HNBVNV</span></p>
+                      </div><!--/questionDetailsDiv-->
+                      <div id="questionExtraDetailsDiv">    
+                        <a data-original-title="Category" href="http://localhost/ask/QuestionsController/viewQuestion/1" class="label label-warning">education
+                        </a>
+                        <i class="icon-arrow-right"></i>
+                        <a data-original-title="Topic" href="#" class="label label-info">computer
+                        </a>
+                        <p>      </p>
+                      </div><!--/questionExtraDetailsDiv-->
+                      <div id="questionStatsDiv">
+                        <i class="icon-time"></i>
+                        <a>10:47 pm 02 Dec-12 </a>
+                        <i class="icon-comment"></i>
+                        <a rel="tooltip popover" href="#" data-placement="bottom" data-original-title="Quick answer!" data-content="&lt;textarea placeholder=&quot;Enter answer here..&quot;&gt;&lt;/textarea&gt;&lt;br/&gt;
+                                        &lt;button class=&quot;postAnswerButton btn btn-success pull-right&quot;&gt;
+                                        &lt;i class=&quot;icon-share-alt icon-white&quot;&gt;&lt;/i&gt;
+                                        Answer!&lt;/button&gt;">
+                          5 Answers
+                        </a>
+                        <i class="icon-eye-open"></i>
+                        <a>27 Views</a>
+                        <i class="icon-user"></i>
+                        <a rel="tooltip" data-placement="bottom" data-original-title="vishnu&lt;/br&gt;also follow this..">
+                        1
+                        Followers</a>
+                      <div style="float:right">
+                        FLike,Tweet                    
+                        </div>
+                      </div><!--/questionStatsDiv-->
+                  
+                    </div><!--/questionPostDiv-->
+                    <div id="questionPostDiv" class="well" style="background-color:white">
+                      <div id="userDetailDiv">
+                       <img src="http://localhost/ask/assets/img/2011103089.jpg" height="40px" width="40px" alt="James" class="display-pic">
+                       
+                      <strong>vishnu</strong>
+                        <div style="float:right">
+                      <i class="icon-minus-sign"></i>
+                      <a href="http://localhost/ask/QuestionsController/unfollowQuestion/1?redirectUrl=http%3A%2F%2Flocalhost%2Fask%2FQuestionsController%2FEducation" rel="tooltip" data-placement="bottom" data-original-title="Click to unfollow the question!">Unfollow</a></div>
+                      </div>
+                      <div id="questionDetailsDiv">
+                        <p id="questionContent">
+                        <strong><a class="question" id="1" href="http://localhost/ask/AnswersController/viewAnswersForQuestion/1">HFFVHVNVVV</a>
+                        </strong>
+                        </p>
+                        <p id="questionDescription"><span>HNBVNV</span></p>
+                      </div><!--/questionDetailsDiv-->
+                      <div id="questionExtraDetailsDiv">    
+                        <a data-original-title="Category" href="http://localhost/ask/QuestionsController/viewQuestion/1" class="label label-warning">education
+                        </a>
+                        <i class="icon-arrow-right"></i>
+                        <a data-original-title="Topic" href="#" class="label label-info">computer
+                        </a>
+                        <p>      </p>
+                      </div><!--/questionExtraDetailsDiv-->
+                      <div id="questionStatsDiv">
+                        <i class="icon-time"></i>
+                        <a>10:47 pm 02 Dec-12 </a>
+                        <i class="icon-comment"></i>
+                        <a rel="tooltip popover" href="#" data-placement="bottom" data-original-title="Quick answer!" data-content="&lt;textarea placeholder=&quot;Enter answer here..&quot;&gt;&lt;/textarea&gt;&lt;br/&gt;
+                                        &lt;button class=&quot;postAnswerButton btn btn-success pull-right&quot;&gt;
+                                        &lt;i class=&quot;icon-share-alt icon-white&quot;&gt;&lt;/i&gt;
+                                        Answer!&lt;/button&gt;">
+                          5 Answers
+                        </a>
+                        <i class="icon-eye-open"></i>
+                        <a>27 Views</a>
+                        <i class="icon-user"></i>
+                        <a rel="tooltip" data-placement="bottom" data-original-title="vishnu&lt;/br&gt;also follow this..">
+                        1
+                        Followers</a>
+                      <div style="float:right">
+                        FLike,Tweet                    
+                        </div>
+                      </div><!--/questionStatsDiv-->
+                  
+                    </div><!--/questionPostDiv-->
+                    <div id="questionPostDiv" class="well" style="background-color:white">
+                      <div id="userDetailDiv">
+                       <img src="http://localhost/ask/assets/img/2011103089.jpg" height="40px" width="40px" alt="James" class="display-pic">
+                       
+                      <strong>vishnu</strong>
+                        <div style="float:right">
+                      <i class="icon-minus-sign"></i>
+                      <a href="http://localhost/ask/QuestionsController/unfollowQuestion/1?redirectUrl=http%3A%2F%2Flocalhost%2Fask%2FQuestionsController%2FEducation" rel="tooltip" data-placement="bottom" data-original-title="Click to unfollow the question!">Unfollow</a></div>
+                      </div>
+                      <div id="questionDetailsDiv">
+                        <p id="questionContent">
+                        <strong><a class="question" id="1" href="http://localhost/ask/AnswersController/viewAnswersForQuestion/1">HFFVHVNVVV</a>
+                        </strong>
+                        </p>
+                        <p id="questionDescription"><span>HNBVNV</span></p>
+                      </div><!--/questionDetailsDiv-->
+                      <div id="questionExtraDetailsDiv">    
+                        <a data-original-title="Category" href="http://localhost/ask/QuestionsController/viewQuestion/1" class="label label-warning">education
+                        </a>
+                        <i class="icon-arrow-right"></i>
+                        <a data-original-title="Topic" href="#" class="label label-info">computer
+                        </a>
+                        <p>      </p>
+                      </div><!--/questionExtraDetailsDiv-->
+                      <div id="questionStatsDiv">
+                        <i class="icon-time"></i>
+                        <a>10:47 pm 02 Dec-12 </a>
+                        <i class="icon-comment"></i>
+                        <a rel="tooltip popover" href="#" data-placement="bottom" data-original-title="Quick answer!" data-content="&lt;textarea placeholder=&quot;Enter answer here..&quot;&gt;&lt;/textarea&gt;&lt;br/&gt;
+                                        &lt;button class=&quot;postAnswerButton btn btn-success pull-right&quot;&gt;
+                                        &lt;i class=&quot;icon-share-alt icon-white&quot;&gt;&lt;/i&gt;
+                                        Answer!&lt;/button&gt;">
+                          5 Answers
+                        </a>
+                        <i class="icon-eye-open"></i>
+                        <a>27 Views</a>
+                        <i class="icon-user"></i>
+                        <a rel="tooltip" data-placement="bottom" data-original-title="vishnu&lt;/br&gt;also follow this..">
+                        1
+                        Followers</a>
+                      <div style="float:right">
+                        FLike,Tweet                    
+                        </div>
+                      </div><!--/questionStatsDiv-->
+                  
+                    </div><!--/questionPostDiv-->
+                  </div><!--/questionsFoundDiv-->
+                </div><!--/searchResultsQuestionsDiv-->
+                <div id="searchResultsTopicsDiv">
+                  <legend>Topics Found...</legend>
+                  <div id="topicsFoundDiv">
+                    <a data-original-title="Topic" href="#" class="label label-info">computer</a></br>
+                    <a data-original-title="Topic" href="#" class="label label-info">computer</a></br>
+                    <a data-original-title="Topic" href="#" class="label label-info">computer</a></br>
+                  </div><!--/topicsFoundDiv-->
+                </div><!--/searchResultsTopicsDiv-->
+              </div><!--/searchResultsDiv-->
             </div><!--/center-->
 
          </div><!--/span-->

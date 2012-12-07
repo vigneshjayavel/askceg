@@ -118,22 +118,28 @@ class QuestionsModel extends CI_Model{
 		$content=null;
 		
 	
-		$sql = "SELECT q.q_id,q.q_content,q.q_description,q.topic_id,
+		$sql = "SELECT 
+          q.q_id,q.q_content,q.q_description,q.topic_id,
 					t.topic_name,c.category_name ,c.category_id,q.posted_by,
 					q.timestamp
-				
-				FROM
+					FROM
 					QUESTION q, TOPIC t, CATEGORY c 
-				where 
-					q.topic_id=t.topic_id and
-					t.category_id=c.category_id 
-				";
-		if($category_id!=null)
-			$sql.="and c.category_id=".mysql_real_escape_string($category_id);
-		if($topic_id!=null)
-			$sql.="and t.topic_id=".mysql_real_escape_string($topic_id);
-		if($q_id!=null)
-			$sql.="and q.q_id=".mysql_real_escape_string($q_id);
+  				where 
+  					q.topic_id=t.topic_id and
+  					t.category_id=c.category_id";
+		if($category_id!=null){
+      $category_id=mysql_real_escape_string($category_id);
+      $sql.=" and c.category_id=".$category_id;
+    }
+		if($topic_id!=null){
+      $topic_id=mysql_real_escape_string($topic_id);
+      $sql.=" and t.topic_id=".$topic_id;
+    }
+		if($q_id!=null){
+      $q_id=mysql_real_escape_string($q_id);
+      $sql.=" and q.q_id=".$q_id;
+    }
+			
 
 		$query=$this->db->query($sql);
 		$categoryUrl=base_url().'QuestionsController/viewQuestion/';
@@ -240,9 +246,9 @@ class QuestionsModel extends CI_Model{
 					t.category_id=c.category_id and q.scope='group' and q.scope_id='$groupId'"
 				;
 
-$query=$this->db->query($sql);
-      // $row=$query->result_array();
-       $categoryUrl=base_url().'QuestionsController/viewQuestion/';
+    $query=$this->db->query($sql);
+    // $row=$query->result_array();
+    $categoryUrl=base_url().'QuestionsController/viewQuestion/';
 		$questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
 		$followUrl=	base_url().'QuestionsController/followQuestion/';
 		$unfollowUrl=	base_url().'QuestionsController/unfollowQuestion/';
@@ -371,11 +377,11 @@ return $content;
 
 	function sqlGetUserid($user_name)
 	{
-	
-		$query="select user_id from USERS u where u.user_name=?";
-				$query=$this->db->query($query,array($user_name));
-				     $row=$query->row_array();
-				    return $row['user_id'];
+	   
+		$query="select u.user_id from USERS u where u.user_name=?";
+		$query=$this->db->query($query,array($user_name));
+    $row=$query->row_array();
+    return $row['user_id'];
 
 	}
 

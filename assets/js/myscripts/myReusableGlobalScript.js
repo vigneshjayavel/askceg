@@ -23,6 +23,9 @@ $(window).load(function(){
 
 $(document).ready(function(){
 
+    //TODO 
+    //deactivated as it is very distracting during dev time
+    /*
 	$.getJSON(CI.base_url+'HomeController/getTickerContent/'+'questions',
 		function(jsonObj){
 
@@ -31,6 +34,7 @@ $(document).ready(function(){
 
 		}
 	);
+    */
 
 	$('.carousel').carousel({
   	interval: 2000

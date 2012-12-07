@@ -23,10 +23,7 @@ class TestController extends CI_Controller {
 	}
 
 	function test(){
-		$this->load->model('searchmodel');
-		$temp=$this->searchmodel->sqlReturnSearchResult('ibatch');
-
-		echo $temp;
+		$this->load->view('TestView');
 	}
 
 }
