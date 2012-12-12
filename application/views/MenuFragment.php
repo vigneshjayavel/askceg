@@ -32,6 +32,8 @@
   <input type="text" id="ajaxSearchPanel" autocomplete="off"
    class="typeahead search-query span6" placeholder="Search for Questions, Categories and Topics" data-provide="typeahead" data-items="4" >
 </form>
+<div id="notificationsPanel" style="float:left">
+      </div>
 <ul class="nav pull-right" id="main-menu-right">
 	<li class="dropdown" id="preview-menu"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php if ($this->session->userdata('logged_in') == TRUE)
       {

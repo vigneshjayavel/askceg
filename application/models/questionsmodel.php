@@ -188,7 +188,7 @@ class QuestionsModel extends CI_Model{
                     </a>
                     <i class="icon-arrow-right"></i>
                     <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$categoryUrl.$row['category_id'].'/'.$row['topic_id'].'" class="label label-important">'.$row['topic_name'].'
+                    href="'.$categoryUrl.$row['category_id'].'/'.$row['topic_id'].'" class="label label-info">'.$row['topic_name'].'
                     </a>
                     <p>      </p>
                   </div><!--/questionExtraDetailsDiv-->
