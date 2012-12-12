@@ -81,7 +81,7 @@
       <div class="row-fluid">
         <div class="span3">
           <div id="left" class="well" style="min-height:648px">
-            <h1>Ticker</h1>
+            <h3>Trending Questions</h3>
           </div><!--/left-->
         </div><!--/span-->
         <div class="span6">

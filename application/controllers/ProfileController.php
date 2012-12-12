@@ -13,9 +13,12 @@ class ProfileController extends CI_Controller {
 	function MyProfile()
 	{
 		$this->load->model('profilemodel');
+		$this->load->model('questionsmodel');
+	
 		
 		$data['centerContent']=$this->profilemodel->getCenterContentMyProfile();
-
+		$data['centerContent'].=$this->questionsmodel->getQuestionsFollowed($this->session->userdata('user_id'));
+		$data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($this->session->userdata('user_id'));
 		$this->load->view('Skeleton',$data);
 	}
 	function MyGroup()

@@ -29,7 +29,7 @@
 </ul></li></ul>
 <form class="navbar-search pull-left" action="">
 
-  <input type="text" id="ajaxSearchPanel"
+  <input type="text" id="ajaxSearchPanel" autocomplete="off"
    class="typeahead search-query span6" placeholder="Search for Questions, Categories and Topics" data-provide="typeahead" data-items="4" >
 </form>
 <ul class="nav pull-right" id="main-menu-right">

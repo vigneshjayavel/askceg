@@ -31,7 +31,20 @@ class AuthController extends CI_Controller {
 	}
 	
 	}
-	
+	function AddRemoveUser(){
+		$group_id=$this->session->userdata('group_id');
+		$this->load->model('authmodel');
+		$data['centerContent']=$this->authmodel->AddRemoveUserMarkup($group_id);
+		$this->load->view('Skeleton',$data);
+
+	}
+	function AddUser(){
+		$request_id = $this->input->post('adduser');
+		$this->load->model('authmodel');
+		$data['centerContent']=$this->authmodel->AddUser($request_id);
+		$this->load->view('Skeleton',$data);
+
+	}
 	function process_login()
 	{
 		//get username & pass
@@ -76,6 +89,16 @@ class AuthController extends CI_Controller {
              	$this->load->view('Skeleton',$data);
 
         }
+	 }
+	 function AddNewUser()
+	 {
+
+	 	$this->load->model('authmodel');
+		$data['centerContent']=$this->authmodel->getCenterContentAddNewUser();
+		$this->load->view('Skeleton',$data);
+
+
+
 	 }
 	function logout()
 	{

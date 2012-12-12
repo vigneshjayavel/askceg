@@ -10,16 +10,20 @@ class TestController extends CI_Controller {
 
 	function dbTest(){
 
-		$sql='insert into dummy values(1,"vvv")';
-		$query=$this->db->query($sql);
-		$i=1;
-		echo $query;
-		/*if( $row=$query->row_array() ){
-
-			echo $i.' '.$row['name'].' '.$row['id']."\n";
-			$i++;
-
-		}*/
+		echo "<style>
+.divLast 
+{
+   top: 0px;
+   margin:0px;  
+   padding: 0px 2px 2px 3px;    
+   border-width: 2px;
+   border-bottom: 2px white solid;
+   width: 100%;
+}
+</style>
+<div class='divLast'>
+   test element with white border bottom
+</div>";
 	}
 
 	function test(){

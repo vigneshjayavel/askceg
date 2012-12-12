@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
 class QuestionsModel extends CI_Model{
 
 	function getCenterContent(){
@@ -167,7 +168,7 @@ class QuestionsModel extends CI_Model{
 
 			$content.='
 
-				<div id="questionPostDiv" class="well" style="background-color:white">
+				<div id="questionPostDiv" class="well questionElement" style="background-color:white">
                   <div id="userDetailDiv">
                    <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
                    
@@ -187,7 +188,7 @@ class QuestionsModel extends CI_Model{
                     </a>
                     <i class="icon-arrow-right"></i>
                     <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$categoryUrl.$row['category_id'].'/'.$row['topic_id'].'" class="label label-info">'.$row['topic_name'].'
+                    href="'.$categoryUrl.$row['category_id'].'/'.$row['topic_id'].'" class="label label-important">'.$row['topic_name'].'
                     </a>
                     <p>      </p>
                   </div><!--/questionExtraDetailsDiv-->
@@ -231,6 +232,99 @@ class QuestionsModel extends CI_Model{
 		return $content;
 
 	}
+  function getQuestionsAnswered($user_id){
+    $sql="select q.q_id ,q.q_content,q.posted_by,a.a_content,a.timestamp,a.a_id 
+    from QUESTION q,ANSWER a 
+    where a.posted_by=? and a.q_id=q.q_id 
+    order by q.q_id desc limit 0,5";  
+    $query=$this->db->query($sql,array($this->sqlGetUserName($user_id)));
+    if( $result=$query->result_array()){
+      
+      $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
+      $content='<h2> Questions Answered:</h2>';
+      $url1=base_url()."assets/img/".$user_id.".jpg"; // for getting images of the user who posted the ans
+
+      foreach($result as $row){
+
+      $url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
+      $content.='
+
+                  <div id="questionAnswerDiv" class="well" style="background-color:white">
+                    <div id="questionDiv">
+                      <div id="userDetailDiv">
+                        <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
+                        <strong>'.$row['posted_by'].'</strong>
+                      </div><!--/userDetailDiv-->
+                      <div id="questionDetailsDiv">
+                        <p id="questionContent">
+                        <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['q_id'].'">'.$row['q_content'].'</a>
+                        </strong>
+                        </p>
+                      </div><!--/questionDetailsDiv-->
+                    </div><!--/questionDiv-->
+                    <div id="answerDiv'.$row['a_id'].'" style="background-color:#DDD">
+                      '.$row['a_content'].'
+                      <div id="answerStats" style="float:right">
+                        <i class="icon-time"></i>'.$row['timestamp'].' 
+                      </div>
+                    </div><!--/answerDiv-->
+                  </div><!--/questionAnswerDiv-->
+                  ';
+
+       }
+       return $content;
+      }
+      else{
+        return 'No questions answered  ';        
+      }
+    }
+
+
+
+  
+  function getQuestionsFollowed($user_id){
+    $sql="select q.q_id ,q.q_content,q.posted_by from QUESTION q,FOLLOWERS f where f.user_name=? and f.q_id=q.q_id order by q.q_id desc limit 0,5 ";
+    $query=$this->db->query($sql,array($this->sqlGetUserName($user_id)));
+    if($result=$query->result_array()){
+
+      $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
+      $content='<h2> Questions Followed:</h2>';
+      foreach($result as $row){
+
+        $url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
+        $content.='
+
+        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
+                  <div id="userDetailDiv">
+                   <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
+                   
+                  <strong>'.$row['posted_by'].'</strong>
+                   </div><!--/userDetailDiv-->
+                   <div id="questionDetailsDiv">
+                    <p id="questionContent">
+                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['q_id'].'">'.$row['q_content'].'</a>
+                    </strong>
+                    </p>
+                    </div><!--/questionDetailsDiv-->
+                  
+                </div><!--/questionPostDiv-->';
+      }
+      return $content;
+    }
+    else{
+      return 'No Questions Followed ';
+    }
+  }
+  function sqlGetUserName($user_id){
+  
+    $query="select user_name from USERS u where u.user_id=?";
+        $query=$this->db->query($query,array($user_id));
+           if($row=$query->row_array())
+            return $row['user_name'];
+          else
+            return $user_id;
+
+  }
 	function getGroupScopeQuestions(){
 		$content=null;
     $CI =& get_instance();
@@ -247,6 +341,7 @@ class QuestionsModel extends CI_Model{
 				;
 
     $query=$this->db->query($sql);
+    
     // $row=$query->result_array();
     $categoryUrl=base_url().'QuestionsController/viewQuestion/';
 		$questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
@@ -255,7 +350,10 @@ class QuestionsModel extends CI_Model{
 
 		$CI =& get_instance();
 		$currentUserName=$CI->session->userdata('user_name');
-		foreach($query->result_array() as $row ) {
+    if($result=$query->result_array()){
+
+
+		foreach( $result as $row ) {
 			$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
 			$currentUrl=urlencode(current_url());
 
@@ -273,7 +371,7 @@ class QuestionsModel extends CI_Model{
 
 			$content.='
 
-				<div id="questionPostDiv" class="well" style="background-color:white">
+				<div id="questionPostDiv" class="well questionElement" style="background-color:white">
                   <div id="userDetailDiv">
                    <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
                    
@@ -333,6 +431,12 @@ class QuestionsModel extends CI_Model{
 
 return $content;
   }
+else
+
+  return 'No Questions posted in the group yet ';
+  }
+
+
 
 
 	function sqlCheckUserFollowsQuestion($user_name,$q_id){

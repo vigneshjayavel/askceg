@@ -57,9 +57,100 @@ class ProfileModel extends CI_Model{
 
 
     }
-	function getCenterContentMyProfile(){
 
-	   return '<fieldset>
+    function getGroupName($group_id){
+      $sql='select group_name from GROUPS where group_id=?';
+      $query=$this->db->query($sql,array($group_id));
+       $row=$query->row_array();
+       return $row['group_name'];
+
+    }
+	 function getCenterContentMyProfile(){
+      $CI =& get_instance();
+    $currentUserId=$CI->session->userdata('user_id');
+
+    
+      $sql='select * from USERS where user_id=?';
+      $query=$this->db->query($sql,array($currentUserId));
+      $row=$query->row_array();
+
+      return'<div class="well">
+      <table>
+      <tr>
+            <td>Name:
+            </td>
+            <td>'.$row['user_name'].'
+            </td>
+     
+      </tr>
+      </table>
+      </div>
+      <div class="well">
+      <table>
+      <tr>
+           <td>Group/Batch :
+           </td>
+           <td>'.$this->getGroupName($row['group_id']).'
+           </td>
+
+
+      </tr>
+      </table>
+      </div>
+      
+<div class="well">
+      <table>
+      <tr>
+          <td>Year:
+          </td>
+          <td>'.$row['user_year'].'
+          </td>
+
+      </tr>
+      </table>
+      </div>
+      
+      <div class="well">
+      <table>
+      <tr>
+          <td>Degree and Course:
+          </td>
+          <td>'.$row['user_degree'].'-'.$row['user_course'].'
+          </td>
+
+      </tr>
+      </table>
+      </div>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ';
+
+    }
+  function getCenterContentMyProfileEdit(){
+
+     return '<fieldset>
                  <label class="control-label" for="name">Your Name</label>
                   <div class="controls">
                   <input type="text" class="input-xlarge" name="name" id="name" value="vishnu jayvel">
@@ -183,13 +274,24 @@ class ProfileModel extends CI_Model{
 
 
 
-	}
-  
+  }
+  //$a=array();
+
 
 	function getCenterContentMyGroup(){
+
     $CI =& get_instance();
     $currentUserId=$CI->session->userdata('user_id');
     $groupId=$CI->session->userdata('group_id');
+    $sql='select user_level from USERS where user_id=?';
+
+$query=$this->db->query($sql,array( $currentUserId));
+       $row=$query->row_array();
+       $AdminMarkup='';
+       if($row['user_level']>='1'&& $row['user_level']!='2')
+        $AdminMarkup='<input type="button" value="Add/Remove users" onclick="window.location =\''.base_url().'AuthController/AddRemoveuser/'.'\';">
+';
+
 
     
     $sql='select g.group_name,g.group_desc from GROUPS g where g.group_id=?';
@@ -205,6 +307,7 @@ $query=$this->db->query($sql,array($groupId));
         <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/group.jpg" alt="">
         </a>'.$row['group_name'].'
         <br>
+        '.$AdminMarkup.'
         </div>
         <div class="well">
         group_desc

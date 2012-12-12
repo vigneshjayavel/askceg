@@ -45,7 +45,6 @@ class QuestionsController extends CI_Controller {
 	    {
 	    	//redirect to some page if logged in
 	       // redirect('HomeController');
-	    	echo "hello".$this->session->userdata('user_name');
 	    }$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions($category_id,$topic_id,$q_id);
 		$this->load->view('Skeleton',$this->data);
