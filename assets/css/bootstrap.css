@@ -211,6 +211,7 @@ body {
   line-height: 20px;
   color: #555555;
   background-color: #ffffff;
+  background: url(../img/bg.png);
 }
 a {
   color: #19558D;

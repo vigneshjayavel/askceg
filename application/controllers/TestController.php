@@ -10,24 +10,19 @@ class TestController extends CI_Controller {
 
 	function dbTest(){
 
-		echo "<style>
-.divLast 
-{
-   top: 0px;
-   margin:0px;  
-   padding: 0px 2px 2px 3px;    
-   border-width: 2px;
-   border-bottom: 2px white solid;
-   width: 100%;
-}
-</style>
-<div class='divLast'>
-   test element with white border bottom
-</div>";
+		echo '';
 	}
 
 	function test(){
 		$this->load->view('TestView');
 	}
 
+
+	function testRegex(){
+		$str="What is Askceg?";
+		echo "before : ".$str;
+		$str = trim($str, '-');
+		$str = preg_replace('/[^A-Za-z0-9]+/', '-', $str);
+		echo "<br>after : ".$str;
+	}
 }

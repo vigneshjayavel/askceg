@@ -33,7 +33,8 @@
     <link rel="apple-touch-icon-precomposed" href="<?php echo base_url()?>assets/ico/apple-touch-icon-57-precomposed.png">
     <script src="<?php echo base_url()?>assets/js/jquery.js"></script>
     <script src="<?php echo base_url()?>assets/js/bootstrap.js"></script>
-    
+    <script src="<?php echo base_url()?>assets/js/myscripts/myReusableGlobalScript.js"></script>
+
     <style type="text/css" id="page-css">
       /* Styles specific to this particular page */
       .scroll-pane
@@ -44,6 +45,22 @@
       }
       
     </style>
+    <script type="text/javascript">
+    <!--
+        var CI = {
+          'base_url': '<?php echo base_url(); ?>'
+        };
+    -->
+    </script>
+
+    <script type="text/javascript">
+    <!--
+        var userData = {
+          'user_id': "<?php $CI =& get_instance(); echo $CI->session->userdata('user_id'); ?>",
+          'user_name':"<?php echo $CI->session->userdata('user_name'); ?>"
+        };
+    -->
+    </script>
     <script type="text/javascript">
       $(document).ready(function(){
 
@@ -67,6 +84,7 @@
           </div><!--/left-->
         </div><!--/span-->
         <div class="span6">
+          <input type="submit" id="testerButton" />
             <!--dynamic content in center div-->
             <div id="center" class="well">
               <div id="searchResultsDiv">

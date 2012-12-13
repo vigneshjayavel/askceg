@@ -181,3 +181,44 @@ function textRotate() {
     }
 
 }
+
+//TODO
+$(document).ready(function(){
+
+    //TODO make the function synchronous
+    function checkIfDataExists(content,type){
+
+        var dataObj={
+            'content':content,
+            'type':type
+        };
+        var result=0;
+        $.post(CI.base_url+'ValidationController/checkExistence', 
+            { 'dataObj':JSON.stringify(dataObj) }, 
+            function (jsonObj) {
+                if(jsonObj.result==="yes"){
+                    result= true;
+                }else{
+                    result= false;
+                }
+                console.log('inside $.post callback, result='+result)
+            }
+            ,'json'
+        );
+        return result;
+        
+    }
+
+
+    $('#testerButton').click(function(){
+
+        var content='What is Askceg?';
+        var type='question';
+        var temp=checkIfDataExists(content,type);
+        console.log('actual data returned, result='+temp);
+
+    });
+
+});
+
+
