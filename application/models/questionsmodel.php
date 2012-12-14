@@ -93,24 +93,33 @@ class QuestionsModel extends CI_Model{
           <div class="control-group">
             <label class="control-label" for="textarea">Topic </label>
             <div class="controls">
-              <textarea data-placement="top" data-original-title="create one!!!"  disabled="true" id="questionText" class="input-xlarge" rows="3"></textarea>
+              <textarea data-placement="top" data-original-title="create one!!!"  disabled="true" id="topicnameText" class="input-xlarge" rows="3"></textarea>
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="textarea">Topic Description (Optional)</label>
             <div class="controls">
-              <textarea data-placement="top" data-original-title="People will be happy to hear more!!!"  disabled="true" id="questionDescText" class="input-xlarge" rows="3"></textarea>
+              <textarea data-placement="top" data-original-title="People will be happy to hear more!!!"  disabled="true" id="topicDescText" class="input-xlarge" rows="3"></textarea>
             </div>
           </div>
                    
           <div class="form-actions">
-            <a disabled=true id="postQuestionButton" type="submit" class="btn btn-danger"><i class="icon-ok icon-white"></i>Create now</a>
+            <a disabled=true id="postTopicButton" type="submit" class="btn btn-danger"><i class="icon-ok icon-white"></i>Create now</a>
             </div>
         </fieldset>
       </form>
       ';
 
 	}
+  function userMarkup($user_id){
+          $url=base_url()."assets/img/".$user_id.".jpg";
+
+    return '<img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
+                   
+                  <strong>'.$this->sqlGetUserName($user_id).'</strong>
+                   ';
+
+  }
 
 
 	
@@ -151,7 +160,6 @@ class QuestionsModel extends CI_Model{
 		$CI =& get_instance();
 		$currentUserName=$CI->session->userdata('user_name');
 		foreach($query->result_array() as $row ) {
-			$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
 			$currentUrl=urlencode(current_url());
 
 			$dynamicFollowOrUnfollowButton='';
@@ -169,10 +177,7 @@ class QuestionsModel extends CI_Model{
 			$content.='
 
 				<div id="questionPostDiv" class="well questionElement" style="background-color:white">
-                  <div id="userDetailDiv">
-                   <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
-                   
-                  <strong>'.$row['posted_by'].'</strong>
+                  <div id="userDetailDiv">'.$this->userMarkup($row['posted_by']).'
                     <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
                   </div>
                   <div id="questionDetailsDiv">
@@ -246,14 +251,11 @@ class QuestionsModel extends CI_Model{
 
       foreach($result as $row){
 
-      $url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
       $content.='
 
                   <div id="questionAnswerDiv" class="well" style="background-color:white">
                     <div id="questionDiv">
-                      <div id="userDetailDiv">
-                        <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
-                        <strong>'.$row['posted_by'].'</strong>
+                      <div id="userDetailDiv">'.$this->userMarkup($row['posted_by']).'
                       </div><!--/userDetailDiv-->
                       <div id="questionDetailsDiv">
                         <p id="questionContent">
@@ -291,15 +293,11 @@ class QuestionsModel extends CI_Model{
       $content='<h2> Questions Followed:</h2>';
       foreach($result as $row){
 
-        $url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
         $content.='
 
         <div id="questionPostDiv" class="well questionElement" style="background-color:white">
                   <div id="userDetailDiv">
-                   <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
-                   
-                  <strong>'.$row['posted_by'].'</strong>
-                   </div><!--/userDetailDiv-->
+                  '.$this->userMarkup($row['posted_by']).' </div><!--/userDetailDiv-->
                    <div id="questionDetailsDiv">
                     <p id="questionContent">
                     <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['q_id'].'">'.$row['q_content'].'</a>
@@ -373,10 +371,7 @@ class QuestionsModel extends CI_Model{
 
 				<div id="questionPostDiv" class="well questionElement" style="background-color:white">
                   <div id="userDetailDiv">
-                   <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
-                   
-                  <strong>'.$row['posted_by'].'</strong>
-                    <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
+                  '.$this->userMarkup($row['posted_by']).' <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
                   </div>
                   <div id="questionDetailsDiv">
                     <p id="questionContent">
@@ -484,7 +479,7 @@ else
 	   
 		$query="select u.user_id from USERS u where u.user_name=?";
 		$query=$this->db->query($query,array($user_name));
-    $row=$query->row_array();
+   if( $row=$query->row_array())
     return $row['user_id'];
 
 	}

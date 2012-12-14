@@ -36,8 +36,18 @@ $(document).ready(function(){
 		cascadeTopicSelectBoxBasedOnCategory();
 		cascadeQuestionTextBasedOnTopic();
 		enableOrDisablepostQuestionButton();
+		enableOrDisablepostTopicButton();
+		enableOrDisableTopicText();
 		
 	});//categorySelectBox change ends
+	function enableOrDisableTopicText(){
+		if(isValidCategorySelected()){
+						$('#topicnameText').attr('disabled',false);
+			            $('#topicDescText').attr('disabled',false);
+		}
+
+
+	}
 
 
 	function cascadeQuestionTextBasedOnTopic(){
@@ -96,7 +106,13 @@ $(document).ready(function(){
 			return true;	
 		return false;
 	}
+function isValidTopicEntered(){
+		var TopicTextEntered=$.trim($('#topicnameText').val());
+		if(TopicTextEntered!=null && TopicTextEntered!='' && TopictextEntered.length>0)
+			return true;	
+		return false;
 
+	}
 	function isValidQuestionEntered(){
 		var questionTextEntered=$.trim($('#questionText').val());
 		if(questionTextEntered!=null && questionTextEntered!='' && questionTextEntered.length>0)
@@ -104,7 +120,22 @@ $(document).ready(function(){
 		return false;
 
 	}
+function enableOrDisablepostTopicButton(){
 
+		if(isValidCategorySelected() && isValidTopicEntered()){
+			$('#postTopicButton')
+				.attr('disabled',false)
+				.removeClass('btn-danger')
+				.addClass('btn-success');
+		}			
+		else{
+			$('#postTopicButton')
+				.attr('disabled',true)
+				.addClass('btn-danger')
+				.removeClass('btn-success');
+		}
+	}
+	
 	function enableOrDisablepostQuestionButton(){
 
 		if(isValidCategorySelected() && isValidTopicSelected() && isValidQuestionEntered()){
@@ -122,7 +153,13 @@ $(document).ready(function(){
 	}
 			
 
-
+    $('#postTopicButton').click(function(){
+    	var topicObj={
+    		'topic_name':$('#topicnameText').val(),
+    		'topic_description':$('#topicDescText').val(),
+    		'category_id':$('#categorySelectBox').attr('value')
+       };
+    })
 
 	//change event listener for the postQuestionButton
 	$('#postQuestionButton').click(function(){

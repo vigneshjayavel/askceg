@@ -18,11 +18,6 @@ class TestController extends CI_Controller {
 	}
 
 
-	function testRegex(){
-		$str="What is Askceg?";
-		echo "before : ".$str;
-		$str = trim($str, '-');
-		$str = preg_replace('/[^A-Za-z0-9]+/', '-', $str);
-		echo "<br>after : ".$str;
-	}
+
+
 }

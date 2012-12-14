@@ -16,7 +16,16 @@ class AnswersModel extends CI_Model{
 		}
 	}
 */
+function sqlGetUserName($user_id){
+  
+    $query="select user_name from USERS u where u.user_id=?";
+        $query=$this->db->query($query,array($user_id));
+           if($row=$query->row_array())
+            return $row['user_name'];
+          else
+            return $user_id;
 
+  }
 	function sqlReadAnswers($q_id=null,$curr_id){
 
 
@@ -48,7 +57,7 @@ class AnswersModel extends CI_Model{
 		$previousAnswers='';
 		$url_curr=base_url()."assets/img/".$curr_id.".jpg";
 		foreach($query->result() as $row ) {
-			$url=base_url()."assets/img/".$this->sqlGetUserid($row->posted_by).".jpg";
+			$url=base_url()."assets/img/".$row->posted_by.".jpg";
 		     
 		     
 			$previousAnswers.='
@@ -56,7 +65,7 @@ class AnswersModel extends CI_Model{
 					'.'	<div id="userDetailDiv">
 				           	<img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
 				           
-				          	<a class="answer" id="#" href="#">'.$row->posted_by.'</a>
+				          	<a class="answer" id="#" href="#">'.$this->sqlGetUserName($row->posted_by).'</a>
 				            <div id="answerVoteStats" style="float:right">
 						
 							</div>
@@ -108,7 +117,7 @@ class AnswersModel extends CI_Model{
 	
 		$query="select user_id from USERS u where u.user_name=?";
 		$query=$this->db->query($query,array($user_name));
-	    $row=$query->row_array();
+	    if($row=$query->row_array())
 	    return $row['user_id'];
 
 	}
@@ -138,7 +147,7 @@ class AnswersModel extends CI_Model{
         	<div id="answerDiv'.'dummy-id'.'" class="well">
 			'.'<div id="userDetailDiv">
 				   	<img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
-   				   	<a class="answer" id="#" href="#">'.$posted_by.'</a>
+   				   	<a class="answer" id="#" href="#">'.$THIS->sqlGetUserName($answerArray['posted_by']).'</a>
     			</div>'.$answerArray['a_content'].'
     			<div id="answerStats" style="float:right">
     				<a href=#><i class="icon-circle-arrow-up"></i>Vote</a>

@@ -28,7 +28,7 @@ class AnswersController extends CI_Controller {
 
 	function postAnswerForQuestionToDb(){
 
-		$posted_by=$this->session->userdata('user_name');
+		$posted_by=$this->session->userdata('user_id');
 		//$posted_by="hello";
 		$answerObj=$this->input->post('answerObj');
 		$this->load->model('answersmodel');
