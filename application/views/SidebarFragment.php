@@ -4,6 +4,7 @@
               <li ><a href="<?php echo base_url() ?>HomeController">Home</a></li>
               <li><a href="<?php echo base_url() ?>ProfileController/MyProfile">Profile</a></li>
               <li><a href="<?php echo base_url() ?>ProfileController/MyGroup">MyGroup</a></li>
+              <li><a href="<?php echo base_url() ?>ProfileController/ViewMyYearProfile/">MyYear</a></li>
               <li><a href="<?php echo base_url() ?>QuestionsController/AskQuestion">AskQuestion</a></li>
               <li><a href="<?php echo base_url() ?>QuestionsController/AnswerQuestion">AnswerQuestion</a></li>
               <li><a href="<?php echo base_url() ?>QuestionsController/CreateDiscussion">CreateDiscussion</a></li>

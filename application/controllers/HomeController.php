@@ -19,7 +19,7 @@ function HomeController()
 	    {
 		$this->load->model('HomeModel');
 		$name=$this->session->userdata('user_name');
-		$url=base_url()."assets/img/".$this->session->userdata('user_id').".jpg";
+		$url=base_url()."assets/img/users/".$this->session->userdata('user_id').".jpg";
 		$data['centerContent']='<div id="bio">
                     <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
                     <h2>Greetings '.$name.'!</h2>

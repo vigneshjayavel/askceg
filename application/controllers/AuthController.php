@@ -31,6 +31,27 @@ class AuthController extends CI_Controller {
 	}
 	
 	}
+	function AddAccountRequest(){
+		$account['user_id']=$this->input->post('reg_no');
+		$account['user_name']=$this->input->post('user_name');
+		$account['user_pass']=$this->input->post('pwd');
+		$account['user_email']=$this->input->post('user_email');
+		$account['user_group']=$this->input->post('group');
+		$account['user_year']=$this->input->post('Year');
+		$account['user_gender']=$this->input->post('gender');
+		$account['user_degree']=$this->input->post('degree');
+		$account['user_course']=$this->input->post('course');
+		$this->load->model('authmodel');
+		$data['centerContent']=$this->authmodel->AddAccountRequest($account);
+		$this->load->view('Skeleton',$data);
+	
+   }
+	function RequestAccount(){ 
+		
+		$this->load->model('authmodel');
+		$data['centerContent']=$this->authmodel->getCenterContentRequestAccount();
+		$this->load->view('Skeleton',$data);
+	}
 	function AddRemoveUser(){
 		$group_id=$this->session->userdata('group_id');
 		$this->load->model('authmodel');
@@ -42,6 +63,20 @@ class AuthController extends CI_Controller {
 		$request_id = $this->input->post('adduser');
 		$this->load->model('authmodel');
 		$data['centerContent']=$this->authmodel->AddUser($request_id);
+		$this->load->view('Skeleton',$data);
+
+	}
+	function AddUserAgain(){
+		$user_id = $this->input->post('adduseragain');
+		$this->load->model('authmodel');
+		$data['centerContent']=$this->authmodel->AddUserAgain($user_id);
+		$this->load->view('Skeleton',$data);
+
+	}
+	function RemoveUser(){
+		$user_id = $this->input->post('removeuser');
+		$this->load->model('authmodel');
+		$data['centerContent']=$this->authmodel->RemoveUser($user_id);
 		$this->load->view('Skeleton',$data);
 
 	}
@@ -64,13 +99,14 @@ class AuthController extends CI_Controller {
 			$this->load->model('authmodel');
 		    $user_name =$this->authmodel->getUserName($user_id);
 		    $group_id=$this->authmodel->getUserGroupId($user_id);
-		    
+		    $year_id=$this->authmodel->getUserYearId($user_id);
 
 			$sessionData = array(
 			'user_id'  => $user_id,
 			'logged_in' => TRUE,
 			'user_name' => $user_name,
-			'group_id' => $group_id
+			'group_id' => $group_id,
+		
 			);
 
             //jus like $_SESSION['someKey']='someValue';

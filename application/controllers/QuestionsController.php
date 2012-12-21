@@ -18,12 +18,30 @@ class QuestionsController extends CI_Controller {
 		$this->load->view('Skeleton',$this->data);
 		
 	}
+	function Topic($topic_id){
+       $this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->getTopicPage($topic_id);
+		$this->load->view('Skeleton',$this->data);
+		
+
+
+	}
 	function followQuestion($q_id){
 		
 		$redirectUrl=$this->input->get('redirectUrl');
-		$posted_by=$this->session->userdata('user_name');
+		$posted_by=$this->session->userdata('user_id');
 		$this->load->model('questionsmodel');
 		$this->questionsmodel->sqlCreateFollower($q_id,$posted_by);
+		//$this->load->view('Skeleton',$this->data);
+		redirect(urldecode($redirectUrl));
+	
+	}
+	function followTopic($topic_id){
+		
+		$redirectUrl=$this->input->get('redirectUrl');
+		$posted_by=$this->session->userdata('user_id');
+		$this->load->model('questionsmodel');
+		$this->questionsmodel->sqlCreateFollowerTopic($topic_id,$posted_by);
 		//$this->load->view('Skeleton',$this->data);
 		redirect(urldecode($redirectUrl));
 	
@@ -31,9 +49,19 @@ class QuestionsController extends CI_Controller {
 	function unfollowQuestion($q_id){
 		
 		$redirectUrl=$this->input->get('redirectUrl');
-		$posted_by=$this->session->userdata('user_name');
+		$posted_by=$this->session->userdata('user_id');
 		$this->load->model('questionsmodel');
 		$this->questionsmodel->sqlDeleteFollower($q_id,$posted_by);
+		//$this->load->view('Skeleton',$this->data);
+		redirect(urldecode($redirectUrl));
+	
+	}
+	function unfollowTopic($topic_id){
+		
+		$redirectUrl=$this->input->get('redirectUrl');
+		$posted_by=$this->session->userdata('user_id');
+		$this->load->model('questionsmodel');
+		$this->questionsmodel->sqlDeleteFollowerTopic($topic_id,$posted_by);
 		//$this->load->view('Skeleton',$this->data);
 		redirect(urldecode($redirectUrl));
 	
@@ -45,11 +73,24 @@ class QuestionsController extends CI_Controller {
 	    {
 	    	//redirect to some page if logged in
 	       // redirect('HomeController');
-	    }$this->load->model('questionsmodel');
+	    $this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions($category_id,$topic_id,$q_id);
 		$this->load->view('Skeleton',$this->data);
+	    }
 	}
-
+	function viewTopics($category_id=null){
+		
+		//equivalent to $_SESSION['logged_in']
+	    if ($this->session->userdata('logged_in') == TRUE)
+	    {
+	    	//redirect to some page if logged in
+	       // redirect('HomeController');
+	    $this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->sqlgetTopicsInCategory($category_id);
+		$this->load->view('Skeleton',$this->data);
+	    }
+	}
+	
 	function AskQuestion(){
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->getCenterContentAskQuestion();
@@ -57,11 +98,19 @@ class QuestionsController extends CI_Controller {
 		
 
 	}
+	
 
 	function AnswerQuestion(){
 
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions();
+		$this->load->view('Skeleton',$this->data);
+		
+	}
+	function DeleteQuestion($q_id){
+
+		$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->sqlDeleteQuestions($q_id);
 		$this->load->view('Skeleton',$this->data);
 		
 	}
@@ -122,17 +171,29 @@ class QuestionsController extends CI_Controller {
 		//load questions model
 
 		$this->load->model('questionsmodel');
-		$posted_by=$this->session->userdata('user_name');
+		$posted_by=$this->session->userdata('user_id');
 
 		//get all questions using a func in that model
 		$content = $this->questionsmodel->sqlCreateQuestion($questionObj,$posted_by);
 		echo $content;	
 	}
+    
+	function postTopicToDb(){
 
-	function getTopicsInCategory($category)
+		$topicObj=$this->input->post('topicObj');
+		//load questions model
+
+		$this->load->model('questionsmodel');
+		$posted_by=$this->session->userdata('user_id');
+
+		//get all questions using a func in that model
+		$content = $this->questionsmodel->sqlCreateTopic($topicObj,$posted_by);
+		echo $content;	
+	}
+	function getTopicsInCategory1($category)
 	{
 		$this->load->model('questionsmodel');
-		$content=$this->questionsmodel->sqlGetTopicsInCategory($category);
+		$content=$this->questionsmodel->sqlGetTopicsInCategory1($category);
 		echo $content;
 	} 
 }

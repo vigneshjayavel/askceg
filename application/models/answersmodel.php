@@ -26,7 +26,17 @@ function sqlGetUserName($user_id){
             return $user_id;
 
   }
-	function sqlReadAnswers($q_id=null,$curr_id){
+  function userMarkup($user_id){
+          $url=base_url()."assets/img/users/".$user_id.".jpg";
+
+    return '<img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
+                   
+                <a href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'"> <strong>'.$this->sqlGetUserName($user_id).'</strong> </a>
+                   ';
+
+  }
+  
+	function sqlReadAnswers($url=null,$curr_id){
 
 
 		//get question's markup from QuestionModel
@@ -36,10 +46,15 @@ function sqlGetUserName($user_id){
 		$CI =& get_instance();
     	$CI->load->Model('QuestionsModel');
 
-		$questionMarkup=$CI->QuestionsModel->sqlReadQuestions(null,null,$q_id);
+		$questionMarkup=$CI->QuestionsModel->sqlReadQuestions(null,null,$url);
 
 
 		$content=null;
+        $q="select q_id from QUESTION where url=?";
+        $query=$this->db->query($q,array($url));
+        $row=$query->row_array();
+        $q_id=$row['q_id'];
+		
 
 	
 		$sql = "SELECT 
@@ -55,18 +70,13 @@ function sqlGetUserName($user_id){
 		$i=0;
 
 		$previousAnswers='';
-		$url_curr=base_url()."assets/img/".$curr_id.".jpg";
+		$url_curr=base_url()."assets/img/users/".$curr_id.".jpg";
 		foreach($query->result() as $row ) {
-			$url=base_url()."assets/img/".$row->posted_by.".jpg";
 		     
 		     
 			$previousAnswers.='
 				<div id="answerDiv'.$row->a_id.'" class="well">
-					'.'	<div id="userDetailDiv">
-				           	<img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
-				           
-				          	<a class="answer" id="#" href="#">'.$this->sqlGetUserName($row->posted_by).'</a>
-				            <div id="answerVoteStats" style="float:right">
+					'.'	<div id="userDetailDiv">'.$this->userMarkup($row->posted_by).'				           	<div id="answerVoteStats" style="float:right">
 						
 							</div>
 						</div>
@@ -140,14 +150,14 @@ function sqlGetUserName($user_id){
         //return the newly added answer
         $CI =& get_instance();
         $posted_by_id=$CI->session->userdata('user_id');
-        $url=base_url()."assets/img/".$posted_by_id.".jpg";
+        $url=base_url()."assets/img/users/".$posted_by_id.".jpg";
 		
 				
         $answerMarkup='
         	<div id="answerDiv'.'dummy-id'.'" class="well">
 			'.'<div id="userDetailDiv">
 				   	<img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
-   				   	<a class="answer" id="#" href="#">'.$THIS->sqlGetUserName($answerArray['posted_by']).'</a>
+   				   	<a class="answer" id="#" href="#">'.$this->sqlGetUserName($posted_by).'</a>
     			</div>'.$answerArray['a_content'].'
     			<div id="answerStats" style="float:right">
     				<a href=#><i class="icon-circle-arrow-up"></i>Vote</a>

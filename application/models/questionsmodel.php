@@ -9,6 +9,38 @@ class QuestionsModel extends CI_Model{
 
 	}
 
+  function sqlIsUrlExists($url){
+
+    //check if the url is already present in the db
+    //if so return true else false
+    $query="select count(url) as cnt from QUESTION where url = ?";
+        $query=$this->db->query($query,array($url));
+        $row=$query->row_array();
+        if($row['cnt']==1)
+          return true;
+      else
+        return false;
+
+  }
+  function generateQuestionUrl($qs){
+    $url=$qs;
+    $url = preg_replace('/[^A-Za-z0-9]+/', '-', $url);
+    $url = trim($url, '-');
+    //append timestamp if url is redundant
+    if($this->sqlIsUrlExists($url)){
+      $url=$url.'-'.time();
+    }
+    return $url;
+  }
+  function convert(){
+    $sql='select * from QUESTION';
+    $query=$this->db->query($sql);
+    $result=$query->result_array();
+    foreach($result as $row){
+      $q="update QUESTION set url=? where q_id=?";
+      $query=$this->db->query($q,array($this->generateQuestionUrl($row['q_content']),$row['q_id']));
+    }
+  }
 	function getCenterContentAskQuestion(){
 
 		return '
@@ -66,11 +98,6 @@ class QuestionsModel extends CI_Model{
 
 	}
 
-	function getCenterContentAnswerQuestion(){
-
-		return "Content for AnswerQuestions page..";
-
-	}
 
 	function getCenterContentCreateDiscussion(){
 
@@ -112,24 +139,40 @@ class QuestionsModel extends CI_Model{
 
 	}
   function userMarkup($user_id){
-          $url=base_url()."assets/img/".$user_id.".jpg";
+          $url=base_url()."assets/img/users/".$user_id.".jpg";
 
     return '<img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
                    
-                  <strong>'.$this->sqlGetUserName($user_id).'</strong>
+                <a href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'"> <strong>'.$this->sqlGetUserName($user_id).'</strong> </a>
                    ';
 
   }
+  /*function getTopics($category_id)
+  {
+    $content='';
+    $sql="select * from TOPIC where category_id=?";
+    $query=$this->db->query($sql);
+    $result=$query->result_array();
+    foreach($result as $row){
+
+      $content.='<p> '.$row['topic_name'].' </p>';
+    }
+
+      $jsonObj=json_encode(array('content'=>$content
+              ));
+    return $content;
+
+  }*/
 
 
-	
-	function sqlReadQuestions($category_id=null,$topic_id=null,$q_id=null){
 
-		$content=null;
+	function sqlReadQuestions($category_id=null,$topic_id=null,$url=null){
+
 		
-	
-		$sql = "SELECT 
-          q.q_id,q.q_content,q.q_description,q.topic_id,
+		  
+      $content='';
+  		$sql = "SELECT 
+          q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
 					t.topic_name,c.category_name ,c.category_id,q.posted_by,
 					q.timestamp
 					FROM
@@ -145,25 +188,37 @@ class QuestionsModel extends CI_Model{
       $topic_id=mysql_real_escape_string($topic_id);
       $sql.=" and t.topic_id=".$topic_id;
     }
-		if($q_id!=null){
-      $q_id=mysql_real_escape_string($q_id);
-      $sql.=" and q.q_id=".$q_id;
+		if($url!=null){
+      //$q_id=mysql_real_escape_string($q_id);
+      $sql.=" and q.url=".'\''.$url.'\'';
     }
-			
-
 		$query=$this->db->query($sql);
-		$categoryUrl=base_url().'QuestionsController/viewQuestion/';
-		$questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
+    $deleteUrl=base_url().'QuestionsController/DeleteQuestion/';
+		$categoryUrl=base_url().'ProfileController/viewCategory/';
+		$topicUrl=base_url().'ProfileController/viewTopic/';
+    $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
 		$followUrl=	base_url().'QuestionsController/followQuestion/';
 		$unfollowUrl=	base_url().'QuestionsController/unfollowQuestion/';
-
 		$CI =& get_instance();
-		$currentUserName=$CI->session->userdata('user_name');
-		foreach($query->result_array() as $row ) {
-			$currentUrl=urlencode(current_url());
+		$currentUserId=$CI->session->userdata('user_id');
+		 ///$content.=$row['category_name'];
+     $result=$query->result_array(); 
+     
 
+
+    foreach($result as $row  ){
+			$currentUrl=urlencode(current_url());
+     //$content.=$row['category_name'];
 			$dynamicFollowOrUnfollowButton='';
-			if($this->sqlCheckUserFollowsQuestion($currentUserName,$row['q_id']))
+      $deleteButton='';
+      if($currentUserId==$row['posted_by'])
+        $deleteButton.='<i class="icon-remove-sign"> </i>
+                    <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
+                    href="'.$deleteUrl.$row['q_id'].'" class="label label-inverse">Delete
+                    </a>';
+      else
+        $deleteButton.='';
+			if($this->sqlCheckUserFollowsQuestion($currentUserId,$row['q_id']))
 				$dynamicFollowOrUnfollowButton='
 					<i class="icon-minus-sign"></i>
                		<a href="'.$unfollowUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
@@ -174,7 +229,7 @@ class QuestionsModel extends CI_Model{
                		<a href="'.$followUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
                     data-original-title="Click to follow the question!">Follow</a>';
 
-			$content.='
+			$content.=' 
 
 				<div id="questionPostDiv" class="well questionElement" style="background-color:white">
                   <div id="userDetailDiv">'.$this->userMarkup($row['posted_by']).'
@@ -182,7 +237,7 @@ class QuestionsModel extends CI_Model{
                   </div>
                   <div id="questionDetailsDiv">
                     <p id="questionContent">
-                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['q_id'].'">'.$row['q_content'].'</a>
+                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
                     </strong>
                     </p>
                     <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
@@ -193,8 +248,10 @@ class QuestionsModel extends CI_Model{
                     </a>
                     <i class="icon-arrow-right"></i>
                     <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$categoryUrl.$row['category_id'].'/'.$row['topic_id'].'" class="label label-info">'.$row['topic_name'].'
-                    </a>
+                    href="'.$topicUrl.$row['topic_id'].'" class="label label-info">'.$row['topic_name'].'
+                    </a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                     &nbsp &nbsp &nbsp &nbsp   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+                  '.$deleteButton.'
                     <p>      </p>
                   </div><!--/questionExtraDetailsDiv-->
                   <div id="questionStatsDiv">
@@ -237,8 +294,55 @@ class QuestionsModel extends CI_Model{
 		return $content;
 
 	}
+  function sqlDeleteQuestions($q_id){
+    $sql='delete from QUESTION where q_id=?';
+    if($query=$this->db->query($sql,array($q_id)))
+      return 'Question Removed successfully!';
+    else
+      return 'Sorry the Question could not be removed!';
+
+       
+
+
+
+
+
+
+
+  }
+  function getTopicPage($topic_id){
+  $sql="select * from topic where topic_id=?";
+  $query=$this->db->query($sql,array($topic_id));
+      $row=$query->row_array();
+      
+
+      return '<div class="well">
+              '.$row['topic_name'].'
+              </div>
+              <div class="well">
+              '.$row['topic_desc'].'
+              </div>
+              <div class="well">
+
+              '.$row['posted_by'].'
+              </div>
+              <div class="label-info">'
+              .$row['timestamp'].'
+              </div>
+               ';
+
+
+
+
+
+
+
+
+
+  }
+ 
   function getQuestionsAnswered($user_id){
-    $sql="select q.q_id ,q.q_content,q.posted_by,a.a_content,a.timestamp,a.a_id 
+    $sql="select q.q_id ,q.q_content,q.posted_by,a.a_content,a.timestamp,a.a_id,q.url
     from QUESTION q,ANSWER a 
     where a.posted_by=? and a.q_id=q.q_id 
     order by q.q_id desc limit 0,5";  
@@ -246,7 +350,7 @@ class QuestionsModel extends CI_Model{
     if( $result=$query->result_array()){
       
       $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
-      $content='<h2> Questions Answered:</h2>';
+      $content='<h3> Questions Answered:</h>';
       $url1=base_url()."assets/img/".$user_id.".jpg"; // for getting images of the user who posted the ans
 
       foreach($result as $row){
@@ -259,7 +363,7 @@ class QuestionsModel extends CI_Model{
                       </div><!--/userDetailDiv-->
                       <div id="questionDetailsDiv">
                         <p id="questionContent">
-                        <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['q_id'].'">'.$row['q_content'].'</a>
+                        <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
                         </strong>
                         </p>
                       </div><!--/questionDetailsDiv-->
@@ -277,16 +381,42 @@ class QuestionsModel extends CI_Model{
        return $content;
       }
       else{
-        return 'No questions answered  ';        
+        return 'No  Questions Answered yet! ';        
       }
     }
 
+  function getQuestionsAsked($user_id){
+    $sql="select q.q_id,q.url,q.q_content,q.posted_by from QUESTION q where q.posted_by=?";
+    $query=$this->db->query($sql,array($user_id));
+    if($result=$query->result_array()){
 
+      $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
+      $content='<h3> Questions Asked:</h3>';
+      foreach($result as $row){
 
-  
+        $content.='
+
+        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
+                  <div id="userDetailDiv">
+                  '.$this->userMarkup($row['posted_by']).' </div><!--/userDetailDiv-->
+                   <div id="questionDetailsDiv">
+                    <p id="questionContent">
+                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
+                    </strong>
+                    </p>
+                    </div><!--/questionDetailsDiv-->
+                  
+                </div><!--/questionPostDiv-->';
+      }
+      return $content;
+    }
+    else{
+      return 'No Questions asked yet! ';
+    }
+  }
   function getQuestionsFollowed($user_id){
-    $sql="select q.q_id ,q.q_content,q.posted_by from QUESTION q,FOLLOWERS f where f.user_name=? and f.q_id=q.q_id order by q.q_id desc limit 0,5 ";
-    $query=$this->db->query($sql,array($this->sqlGetUserName($user_id)));
+    $sql="select q.q_id ,q.url,q.q_content,q.posted_by from QUESTION q,FOLLOWERS f where f.user_id=? and f.q_id=q.q_id order by q.q_id desc limit 0,5 ";
+    $query=$this->db->query($sql,array($user_id));
     if($result=$query->result_array()){
 
       $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
@@ -300,7 +430,7 @@ class QuestionsModel extends CI_Model{
                   '.$this->userMarkup($row['posted_by']).' </div><!--/userDetailDiv-->
                    <div id="questionDetailsDiv">
                     <p id="questionContent">
-                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['q_id'].'">'.$row['q_content'].'</a>
+                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
                     </strong>
                     </p>
                     </div><!--/questionDetailsDiv-->
@@ -319,15 +449,14 @@ class QuestionsModel extends CI_Model{
         $query=$this->db->query($query,array($user_id));
            if($row=$query->row_array())
             return $row['user_name'];
-          else
-            return $user_id;
+          
 
   }
 	function getGroupScopeQuestions(){
 		$content=null;
     $CI =& get_instance();
     $groupId=$CI->session->userdata('group_id');
-    $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,
+    $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
 					t.topic_name,c.category_name ,c.category_id,q.posted_by,
 					q.timestamp
 				
@@ -342,6 +471,7 @@ class QuestionsModel extends CI_Model{
     
     // $row=$query->result_array();
     $categoryUrl=base_url().'QuestionsController/viewQuestion/';
+    $topicUrl=base_url().'ProfileController/viewTopic/';
 		$questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
 		$followUrl=	base_url().'QuestionsController/followQuestion/';
 		$unfollowUrl=	base_url().'QuestionsController/unfollowQuestion/';
@@ -375,7 +505,7 @@ class QuestionsModel extends CI_Model{
                   </div>
                   <div id="questionDetailsDiv">
                     <p id="questionContent">
-                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['q_id'].'">'.$row['q_content'].'</a>
+                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
                     </strong>
                     </p>
                     <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
@@ -386,7 +516,7 @@ class QuestionsModel extends CI_Model{
                     </a>
                     <i class="icon-arrow-right"></i>
                     <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$categoryUrl.$row['category_id'].'/'.$row['topic_id'].'" class="label label-info">'.$row['topic_name'].'
+                    href="'.$topicUrl.$row['topic_id'].'" class="label label-info">'.$row['topic_name'].'
                     </a>
                     <p>      </p>
                   </div><!--/questionExtraDetailsDiv-->
@@ -431,15 +561,174 @@ else
   return 'No Questions posted in the group yet ';
   }
 
+function getYearScopeQuestions(){
+    $content=null;
+    $CI =& get_instance();
+    $yearId=$CI->session->userdata('user_year');
+    $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
+          t.topic_name,c.category_name ,c.category_id,q.posted_by,
+          q.timestamp
+        
+        FROM
+          QUESTION q, TOPIC t, CATEGORY c 
+        where 
+          q.topic_id=t.topic_id and
+          t.category_id=c.category_id and q.scope='year' and q.scope_id='$yearId'"
+        ;
+
+    $query=$this->db->query($sql);
+    
+    // $row=$query->result_array();
+    $categoryUrl=base_url().'QuestionsController/viewQuestion/';
+    $topicUrl=base_url().'ProfileController/viewTopic/';
+    $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
+    $followUrl= base_url().'QuestionsController/followQuestion/';
+    $unfollowUrl= base_url().'QuestionsController/unfollowQuestion/';
+
+    $CI =& get_instance();
+    $currentUserName=$CI->session->userdata('user_name');
+    if($result=$query->result_array()){
 
 
+    foreach( $result as $row ) {
+      $url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
+      $currentUrl=urlencode(current_url());
 
-	function sqlCheckUserFollowsQuestion($user_name,$q_id){
+      $dynamicFollowOrUnfollowButton='';
+      if($this->sqlCheckUserFollowsQuestion($currentUserName,$row['q_id']))
+        $dynamicFollowOrUnfollowButton='
+          <i class="icon-minus-sign"></i>
+                  <a href="'.$unfollowUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
+                    data-original-title="Click to unfollow the question!">Unfollow</a>';
+      else
+        $dynamicFollowOrUnfollowButton='
+          <i class="icon-plus-sign"></i>
+                  <a href="'.$followUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
+                    data-original-title="Click to follow the question!">Follow</a>';
+
+      $content.='
+
+        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
+                  <div id="userDetailDiv">
+                  '.$this->userMarkup($row['posted_by']).' <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
+                  </div>
+                  <div id="questionDetailsDiv">
+                    <p id="questionContent">
+                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
+                    </strong>
+                    </p>
+                    <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
+                  </div><!--/questionDetailsDiv-->
+                  <div id="questionExtraDetailsDiv">    
+                    <a rel="tooltip" data-placement="top" data-original-title="Category"
+                    href="'.$categoryUrl.$row['category_id'].'" class="label label-warning">'.$row['category_name'].'
+                    </a>
+                    <i class="icon-arrow-right"></i>
+                    <a rel="tooltip" data-placement="top" data-original-title="Topic"
+                    href="'.$topicUrl.$row['topic_id'].'" class="label label-info">'.$row['topic_name'].'
+                    </a>
+                    <p>      </p>
+                  </div><!--/questionExtraDetailsDiv-->
+                  <div id="questionStatsDiv">
+                    <i class="icon-time"></i>
+                    <a>'.$row['timestamp'].'</a>
+                    <i class="icon-comment"></i>
+                    <a rel="tooltip popover" href="#" 
+                      data-placement="bottom" 
+                      data-original-title="Quick answer!" 
+                      data-content=\'<textarea placeholder="Enter answer here.."></textarea><br/>
+                                    <button class="postAnswerButton btn btn-success pull-right">
+                                    <i class="icon-share-alt icon-white"></i>
+                                    Answer!</button>\' 
+                      data-original-title="Post Answer"
+                      data-placement="bottom">
+                      '.$this->sqlGetAnswerCount($row['q_id']).' Answers
+                    </a>
+                    <i class="icon-eye-open"></i>
+                    <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
+                    <i class="icon-user"></i>
+                    <a rel="tooltip" data-placement="bottom" 
+                    data-original-title="'.
+                    $this->sqlGetFollowersForQuestion($row['q_id'])
+                    .'">
+                    '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
+                    Followers</a>
+                  <div style="float:right">
+                    FLike,Tweet                    
+                    </div>
+                  </div><!--/questionStatsDiv-->
+                  
+                </div><!--/questionPostDiv-->
+
+      ';
+    }
+
+return $content;
+  }
+else
+
+  return 'No Questions posted in the year scope yet ';
+  }
+function getGlobalScopeQuestions(){
+    $content=null;
+    $sql="SELECT *
+
+        FROM
+          QUESTION 
+        where 
+           scope='global'"
+        ;
+
+    $query=$this->db->query($sql);
+    
+    /// $row=$query->result_array();
+    //$categoryUrl=base_url().'QuestionsController/viewQuestion/';
+    $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
+    //$followUrl= base_url().'QuestionsController/followQuestion/';
+   // $unfollowUrl= base_url().'QuestionsController/unfollowQuestion/';
+
+    //$CI =& get_instance();
+   // $currentUserName=$CI->session->userdata('user_name');
+    if($result=$query->result_array())
+    {
+
+
+    foreach( $result as $row ) {
+      ///$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
+      //$currentUrl=urlencode(current_url());
+
+      $content.='
+
+        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
+                  <div id="userDetailDiv">
+                  '.$this->userMarkup($row['posted_by']).' <div style="float:right"></div>
+                  </div>
+                  <div id="questionDetailsDiv">
+                    <p id="questionContent">
+                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
+                    </strong>
+                    </p>
+                    <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
+                  </div><!--/questionDetailsDiv-->
+                 
+              
+      ';
+    }
+
+return $content;
+  }
+else
+
+  return 'No Questions posted in the global scope yet ';
+  }
+
+
+	function sqlCheckUserFollowsQuestion($user_id,$q_id){
 
 		
 	
-		$query="select user_name from FOLLOWERS where user_name=? and q_id=?";
-		$query=$this->db->query($query,array($user_name,$q_id));
+		$query="select user_id from FOLLOWERS where user_id=? and q_id=?";
+		$query=$this->db->query($query,array($user_id,$q_id));
 		if ($row=$query->row_array() ) {
 			return TRUE;
 		}
@@ -448,21 +737,57 @@ else
 
 	}
 
+  function sqlCheckUserFollowsTopic($user_id,$topic_id){
+
+    
+  
+    $sql="select * from TOPIC_FOLLOWERS where follower=? and topic_id=?";
+    $query=$this->db->query($sql,array($user_id,$topic_id));
+    if ($row=$query->row_array() ) {
+      return TRUE;
+    }
+    else
+      return FALSE;
+
+  }
+
 
 	function sqlGetFollowersForQuestion($q_id){
 
 	
-		$query="select user_name from FOLLOWERS where q_id=?";
+		$query="select user_id from FOLLOWERS where q_id=?";
 		$query=$this->db->query($query,array($q_id));
 		$followers='';
-		foreach($query->result_array() as $row ) {
-			$followers.=$row['user_name'].'</br>';
-		}
-		$followers.='also follow this..';
-		return $followers;		
+    if($result=$query->result_array()){
+        		foreach($result as $row ) {
+        			$followers.=$this->sqlGetUserName($row['user_id']).'</br>';
+        		}
+		        $followers.='also follow this..';
+		        return $followers;
+    }
+    else
+      return 'no one follows';
 
 
 	}
+  function sqlGetFollowersForTopic($topic_id){
+
+  
+    $query="select * from TOPIC_FOLLOWERS where topic_id=?";
+    $query=$this->db->query($query,array($topic_id));
+    $followers='';
+    if($result=$query->result_array()){
+            foreach($result as $row ) {
+              $followers.=$this->sqlGetUserName($row['follower']).'</br>';
+            }
+            $followers.='also follow this..';
+            return $followers;
+    }
+    else
+      return 'no one follows';
+
+
+  }
 
 	function sqlGetFollwersCountForQuestion($q_id){
 
@@ -473,6 +798,15 @@ else
 	    return $row['cnt'];		
 
 	}
+  function sqlGetFollwersCountForTopic($topic_id){
+
+  
+    $query="select count(*) as cnt from TOPIC_FOLLOWERS where topic_id=?";
+    $query=$this->db->query($query,array($topic_id));
+      $row=$query->row_array();
+      return $row['cnt'];   
+
+  }
 
 	function sqlGetUserid($user_name)
 	{
@@ -504,9 +838,9 @@ else
 
 
 		//actual question insert
-		$sql = "insert into QUESTION(q_content,q_description,topic_id,posted_by,timestamp) 
-				values(?,?,?,?,?)";
-		$status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp));
+		$sql = "insert into QUESTION(q_content,q_description,topic_id,posted_by,timestamp,url) 
+				values(?,?,?,?,?,?)";
+		$status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content'])));
 		
 
 
@@ -526,6 +860,38 @@ else
 		return $jsonObj;
 
 	}
+  function sqlCreateTopic($topicObj,$posted_by){
+
+    $topicArray=json_decode($topicObj,TRUE);
+
+    //current time
+
+    $timestamp=$this->getCurrentTime();
+
+
+    //actual question insert
+    $sql = "insert into TOPIC(topic_name,topic_description,posted_by,timestamp,category_id) 
+        values(?,?,?,?,?)";
+    $status=$this->db->query($sql,array($topicArray['topic_name'],$topicArray['topic_description'],$posted_by,$timestamp,$topicArray['category_id']));
+    
+
+
+    if($status==-1){
+      $status='success';
+      $msg='Topic'.$topicArray['topic_name'].' created successfully!!';
+    }
+    else{
+      $status='error';
+      $msg='topic is no created due to some problem :(';
+    }
+    
+
+    $jsonObj=json_encode(array('status'=>$status,
+                  'msg'=>$msg
+              ));
+    return $jsonObj;
+
+  }
 
 	function getCurrentTime(){//todo
 
@@ -548,18 +914,31 @@ else
     }
     function sqlCreateFollower($q_id,$posted_by){
     	
-		$sql = "insert into FOLLOWERS(q_id,user_name) values(?,?)";
+		$sql = "insert into FOLLOWERS(q_id,user_id) values(?,?)";
 		$status=$this->db->query($sql,array($q_id,$posted_by));
 
 		
     }
+    function sqlCreateFollowerTopic($topic_id,$follower){
+      
+    $sql = "insert into TOPIC_FOLLOWERS(topic_id,follower) values(?,?)";
+    $status=$this->db->query($sql,array($topic_id,$follower));
+
+    
+    }
     function sqlDeleteFollower($q_id,$posted_by){
     	 
-		// This assumes you followed the Getting Start guide...
-		$sql = "delete from FOLLOWERS where q_id =? and user_name =?";
+		$sql = "delete from FOLLOWERS where q_id =? and user_id =?";
 		$status=$this->db->query($sql,array($q_id,$posted_by));
 
 		
+    }
+    function sqlDeleteFollowerTopic($topic_id,$follower){
+       
+    $sql = "delete from TOPIC_FOLLOWERS where topic_id =? and follower =?";
+    $status=$this->db->query($sql,array($topic_id,$follower));
+
+    
     }
 
     function sqlReadViewCount($q_id){
@@ -572,32 +951,74 @@ else
 
 
 	}
-	
+	function sqlGetTopicsInCategory1($categoryId){
+
+    $content=null;
+
+    $sql = 
+    'SELECT 
+      T.TOPIC_ID,T.TOPIC_NAME FROM TOPIC T
+     WHERE 
+      T.CATEGORY_ID =?
+     ';
+     $query=$this->db->query($sql,array($categoryId));
+
+    foreach ($query->result_array() as $row) {
+      
+     
+    
+      $content.='<option value='.$row['TOPIC_ID'].'>'.$row['TOPIC_NAME'] .'</option>';
+    
+    }
+    if($content==null)
+      $content='no data';
+
+    $jsonObj=json_encode(array('topicsData'=>$content
+              ));
+    return $jsonObj;
+
+  }
+
+
 	function sqlGetTopicsInCategory($categoryId){
 
-		$content=null;
+		$content='<h2>Topics Under this Category are:</h2>';
+
 
 		$sql = 
-		'SELECT 
-			T.TOPIC_ID,T.TOPIC_NAME FROM TOPIC T
+		'select * FROM TOPIC 
 		 WHERE 
-		 	T.CATEGORY_ID =?
+		 	CATEGORY_ID =?
 		 ';
 		 $query=$this->db->query($sql,array($categoryId));
+     $result=$query->result_array();
+     $followUrl=  base_url().'QuestionsController/followTopic/';
+     $unfollowUrl= base_url().'QuestionsController/unfollowTopic/';
+     $CI =& get_instance();
+     $currentUserId=$CI->session->userdata('user_id');
+     $currentUrl=urlencode(current_url());
 
-		foreach ($query->result_array() as $row) {
+		  foreach ($result as $row) {
 		 	
-		 
+		 if($this->questionsmodel->sqlCheckUserFollowsTopic($currentUserId,$row['topic_id']))
+      $dynamicFollowOrUnfollowButton='
+          <i class="icon-minus-sign"></i>
+                  <a href="'.$unfollowUrl.$row['topic_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
+                    data-original-title="Click to unfollow the question!">Unfollow</a>';
+      else
+        $dynamicFollowOrUnfollowButton='
+          <i class="icon-plus-sign"></i>
+                  <a href="'.$followUrl.$row['topic_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
+                    data-original-title="Click to follow the question!">Follow</a>';
+
 		
-			$content.='<option value='.$row['TOPIC_ID'].'>'.$row['TOPIC_NAME'] .'</option>';
+			$content.='<div class=well> <a href="'.base_url().'ProfileController/ViewTopic/'.$row['topic_id'].'"> '.$row['topic_name'].'<div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div></a>';
 		
 		}
-		if($content==null)
-			$content='no data';
+		if($content=='<h2>Topics Under this Category are:</h2>')
+			$content.='No topics Under this Category yet!'; 
 
-		$jsonObj=json_encode(array('topicsData'=>$content
-							));
-		return $jsonObj;
+		return $content;
 
 	}
 

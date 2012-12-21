@@ -16,7 +16,7 @@ $(document).ready(function(){
 
 				
 			//cascade topicSelectBox
-			$.getJSON(CI.base_url+'QuestionsController/getTopicsInCategory/'+selectedCategoryId,
+			$.getJSON(CI.base_url+'QuestionsController/getTopicsInCategory1/'+selectedCategoryId,
 				function(jsonObj){
 					if(jsonObj.topicsData!='no data'){
 						$('#topicSelectBox').html('<option>Select a topic</option>'+jsonObj.topicsData);
@@ -108,7 +108,7 @@ $(document).ready(function(){
 	}
 function isValidTopicEntered(){
 		var TopicTextEntered=$.trim($('#topicnameText').val());
-		if(TopicTextEntered!=null && TopicTextEntered!='' && TopictextEntered.length>0)
+		if(TopicTextEntered!=null && TopictextEntered.length>0)
 			return true;	
 		return false;
 
@@ -122,7 +122,7 @@ function isValidTopicEntered(){
 	}
 function enableOrDisablepostTopicButton(){
 
-		if(isValidCategorySelected() && isValidTopicEntered()){
+		if(isValidCategorySelected()){
 			$('#postTopicButton')
 				.attr('disabled',false)
 				.removeClass('btn-danger')
@@ -159,8 +159,26 @@ function enableOrDisablepostTopicButton(){
     		'topic_description':$('#topicDescText').val(),
     		'category_id':$('#categorySelectBox').attr('value')
        };
-    })
+    
+    if(!$('#postTopicButton').attr('disabled')){
 
+			//post qs ajaxIly
+			$.post(CI.base_url+'QuestionsController/postTopicToDb',
+				{'topicObj':JSON.stringify(topicObj)},
+				function(jsonObj){
+					displayNotification(jsonObj.status,jsonObj.msg);				
+				},//callback ends
+				'json'
+			);//post ends
+			
+			resetFormFields();
+
+		}//if ends
+		else{
+			displayNotification('error','Make sure you have posted a valid topic!!');
+		}
+
+});
 	//change event listener for the postQuestionButton
 	$('#postQuestionButton').click(function(){
 

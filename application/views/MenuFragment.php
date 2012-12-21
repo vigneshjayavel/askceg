@@ -37,7 +37,7 @@
 <ul class="nav pull-right" id="main-menu-right">
 	<li class="dropdown" id="preview-menu"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php if ($this->session->userdata('logged_in') == TRUE)
       {
-$url=base_url()."assets/img/".$this->session->userdata('user_id').".jpg";
+$url=base_url()."assets/img/users/".$this->session->userdata('user_id').".jpg";
         //redirect to controller/function if there's no valid session
           echo '<img src="'.$url.'" alt="James" height="38px" width="20px" class="display-pic" />'.$this->session->userdata('user_name');
           //$this->load->view('login');

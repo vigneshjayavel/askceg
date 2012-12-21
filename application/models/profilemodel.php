@@ -29,6 +29,192 @@ class ProfileModel extends CI_Model{
     ';
 
 	}
+  function getTopicProfile($topic_id){
+
+    $sql="select * from TOPIC where topic_id=?";
+    $sql1="select count(*) from QUESTION where topic_id=?";
+    $query=$this->db->query($sql,array($topic_id));   
+    $query1=$this->db->query($sql1,array($topic_id));   
+    $row=$query->row_array();
+    $row1=$query1->row_array();
+    $followUrl=  base_url().'QuestionsController/followTopic/';
+     $unfollowUrl= base_url().'QuestionsController/unfollowTopic/';
+     $CI =& get_instance();
+     $currentUserId=$CI->session->userdata('user_id');
+     $currentUrl=urlencode(current_url());
+      if($this->questionsmodel->sqlCheckUserFollowsTopic($currentUserId,$row['topic_id']))
+
+  $dynamicFollowOrUnfollowButton='
+          <i class="icon-minus-sign"></i>
+                  <a href="'.$unfollowUrl.$row['topic_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
+                    data-original-title="Click to unfollow the question!">Unfollow</a>';
+      else
+        $dynamicFollowOrUnfollowButton='
+          <i class="icon-plus-sign"></i>
+                  <a href="'.$followUrl.$row['topic_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
+                    data-original-title="Click to follow the question!">Follow</a>';
+
+    if($row['topic_desc']){
+      $topicDescMarkup=$row['topic_desc'].'<br><a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Edit description</a>';
+    }
+    else{
+      $topicDescMarkup='No description yet!!!<a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Add description</a>';
+    }
+    return ' <div> <h2>'.$row['topic_name'].'</h3><div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
+        
+        <a href="#">
+        <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/topics/topic.jpg" alt="">
+        </a> </div> <div class="well" >About:'.$topicDescMarkup.'
+        <br> </div> <div class="well" >No Of Questions: '.$row1['count(*)'].' </div>
+
+         <div><a rel="tooltip" data-placement="bottom" 
+                    data-original-title="'.
+                    $this->questionsmodel->sqlGetFollowersForTopic($row['topic_id'])
+                    .'">
+                    '.$this->questionsmodel->sqlGetFollwersCountForTopic($row['topic_id']).'
+                    Followers</a>
+
+                  <div style="float:right"><br>
+                  
+        </div>
+        </div>
+        
+                '.$this->getTopicFollowersImage($row['topic_id']).'
+
+                <br>
+                <br>
+                <br>
+        
+      
+         ';
+
+    }
+    function getTopicFollowersImage($topic_id)
+    {
+      $sql="select * from TOPIC_FOLLOWERS where topic_id=?";
+       $query=$this->db->query($sql,array($topic_id)); 
+        $result=$query->result_array();
+        $content='';
+        foreach($result as $row){
+
+      $content.='<a href="'.base_url().'ProfileController/ViewUserProfile/'.($row['follower']).'">
+        <img class="thumbnail" height="25px" width="25px" align="left" src="'.base_url().'assets/img/users/'.$row['follower'].'.jpg" alt="">
+        </a>';
+      }
+      return $content;
+    }
+      function getGroupMembersImage($group_id)
+    {
+      $sql="select * from USERS where group_id=?";
+       $query=$this->db->query($sql,array($group_id)); 
+        $result=$query->result_array();
+        $content='';
+        foreach($result as $row){
+
+      $content.='<a href="'.base_url().'ProfileController/ViewUserProfile/'.($row['user_id']).'">
+     
+        <img class="thumbnail" height="25px" width="25px" align="left" src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg" alt="">
+        </a>';
+      }
+      $content.='<br> <br> <br>';
+        return $content;
+    
+
+  }
+   function EditTopicDesc($topic_id){
+
+    $sql="select topic_desc from TOPIC where topic_id=?";
+    $query=$this->db->query($sql,array($topic_id));
+    $row=$query->row_array();
+    return '
+     <h4>Please write the topic description <h4>
+     <form class="form-horizontal" id="editTopicDesc" method=\'post\' action=\''.base_url().'ProfileController/editTopicDescAgain/'.$topic_id.'\'>
+    <textarea id="EditTopicDesc" > '.$row['topic_desc'].'</textarea> <br>
+    <input type="Submit" id="TopicDesc" "" name="TopicDesc"> </input>'
+    ;
+
+}
+  function editTopicDescAgain($topic_desc,$topic_id)
+  {
+    $sql="update TOPIC set topic_desc='?' where topic_id=? ";
+    if($query=$this->db->query($sql,array($topic_desc,$topic_id)))
+     { return 'Topic Description Updated!';
+      $sql="insert into TOPIC_DESC_HISTORY values(?,?)";
+       $query=$this->db->query($sql,array($topic_desc,$topic_id));
+     }
+    else
+      return 'Cannot be updated!';
+}
+
+function EditCategoryDesc($category_id){
+
+    return '
+     <h4>Please write the category description <h4>
+     <form id="editCategoryDesc" >
+    <textarea id="EditCategoryDesc" > </textarea> <br>
+    <input type="Submit" id="editCategoryDesc" Value="Edit" > </input>'
+    ;
+
+}
+   function getCategoryProfile($category_id){
+
+    $sql="select * from CATEGORY where category_id=?";
+    $NoOfTopics="select count(*) from CATEGORY c,TOPIC t where c.category_id=t.category_id and c.category_id=?";
+    $NoOfQuestions="select count(*) FROM CATEGORY c, TOPIC t, QUESTION q WHERE c.category_id = t.category_id AND t.topic_id = q.topic_id AND c.category_id =?";
+    $query=$this->db->query($sql,array($category_id)); 
+    $query1=$this->db->query($NoOfTopics,array($category_id)); 
+    $query2=$this->db->query($NoOfQuestions,array($category_id));    
+    $row=$query->row_array();
+    $row1=$query1->row_array();
+      $row2=$query2->row_array();
+    if($row['category_desc']){
+      $CategoryDescMarkup=$row['category_desc'].'<br><a href='.base_url().'ProfileController/editCategoryDesc/'.$row['category_id'].'><br>Edit description</a>';
+    }
+    else{
+      $CategoryDescMarkup='No description yet!!!<a href='.base_url().'ProfileController/editCategoryDesc/'.$row['category_id'].'> <br>Add description</a>';
+    }
+    return '<h2>'.$row['category_name'].'</h3>
+     <div class="well">
+        
+        <a href="#">
+        <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/category/'.$row['category_id'].'.jpg" alt="">
+        </a> About:'.$CategoryDescMarkup.'
+        <br>
+        
+        </div>
+        <div class=well>
+        
+        No of Questions under this category: '.$row2['count(*)'].'<br> <br>
+
+        No of Topics under this category: '.$row1['count(*)'].'<br> <br>
+
+        <a href="'.base_url().'QuestionsController/ViewTopics/'.$row['category_id'].'" > Click here </a> to view all the topics list! 
+        </div>
+         ';
+
+    }
+function getInterimProfile(){       
+    return ' <div class="well">
+        
+        <a href="#">
+        <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/welcome.jpg" alt="">
+       </a>      
+<h3> Privileges of Interim Users are: </h3>
+<p>1) Can View (Not Answer) the global scope questions. </p>
+<p>2)As soon as the admin aprroves your account, you will be able to access all the facilities of AskCEG. :) </p>
+      <div class="well">
+        Questions posted  in the Global scope..
+        </div>
+         ';
+
+
+
+
+
+
+  } 
+
+
      function loginForm(){
          $base_url=base_url();
         return ' <form id="login" enctype="application/x-www-form-urlencoded" class="form-vertical login"
@@ -52,12 +238,183 @@ class ProfileModel extends CI_Model{
                 <button name="cancel" id="cancel" type="reset" data-dismiss="modal" class="btn">Cancel</button>
             </div>
         </form>
+        New User? <a href="'.base_url().'AuthController/RequestAccount">Click here to create your account.</a>
     ';
 
 
 
     }
+    function getGroupId($user_id){
+      echo $user_id;
+     $sql='select group_id from USERS where user_id=?';
+     $query=$this->db->query($sql,array($user_id));   
+       if($row=$query->row_array())
+        echo 'Yess';
+      else
+        echo 'No';
+       return $row['group_id'];
+     }
+     function getYearUserPhoto($year_id){//get the photos of users belonging to specified year
+          $sql="select user_id from USERS where user_year=?";
+           $query=$this->db->query($sql,array($year_id));
+           $result=$query->result_array();
+           $imageMarkup='<div class="well1">';
+           $i=0;
+           foreach($result as $row){
+            if($i%8==0&&$i!=0){
+              $imageMarkup.='</div><div class="well1">';
+              
+            }
+            $imageMarkup.='<a href="'.base_url().'ProfileController/ViewUserProfile/'.($row['user_id']).'">
+        <img class="thumbnail" height="75px" width="75px" align="left" src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg" alt="">
+        </a>';
+      
+           $i++;
+            }
+            $imageMarkup.='</div>';
+            
+            return $imageMarkup;
+      }
 
+
+      function getYearProfile($user_year){
+            $CI =& get_instance();
+    $currentUserId=$CI->session->userdata('user_id');
+    $yearId=$CI->session->userdata('user_year');
+   $sql='select * from USERS where user_year=?';
+      $query=$this->db->query($sql,array($user_year));
+      $row=$query->row_array();
+
+
+
+    return '       
+        <div class="well">
+        
+        
+        <img  height="200px" width="740px" src="'.base_url().'assets/img/year/year1.jpg" alt="">
+        <h3> Year '.$user_year.'</h3>
+        <br>
+        
+        </div>
+        
+        
+     
+    
+         '.$this->getYearUserPhoto($user_year).'
+        
+          
+
+         ';
+
+    }
+
+    function getGroupProfile($group_id){
+            $CI =& get_instance();
+            $currentUserId=$CI->session->userdata('user_id');
+            $sql='select user_level from USERS where user_id=?';
+
+            $query=$this->db->query($sql,array($currentUserId));   
+            $row=$query->row_array();
+            $AdminMarkup='';
+            if($row['user_level']>='1'&& $row['user_level']!='2'){
+            $AdminMarkup='<input type="button" value="Add/Remove users" onclick="window.location =\''.base_url().'AuthController/AddRemoveuser/'.'\';">
+            ';
+             }
+            $sql='select * from GROUPS where group_id=?';
+
+            $query=$this->db->query($sql,array($group_id));
+            $row=$query->row_array();
+
+
+
+        return '<div class="well">
+        
+        <a href="#">
+        <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/group/'.$row['group_id'].'.jpg" alt="">
+        </a>'.$row['group_name'].'
+        <br>
+        '.$AdminMarkup.'
+        </div>
+        <div class="well">
+        group_desc
+       '.$row['group_desc'].' 
+
+        
+        
+        </div>
+        
+     
+        <div class="well1">
+        Group members photo:
+        </div>
+        <div>'.$this->getGroupMembersImage($group_id).' </div>
+        <div class="well">
+        questions posted by the group members in the group scope
+        </div>
+         ';
+
+    }
+
+    
+    
+    function getUserProfile($user_id){
+
+    
+      $sql='select * from USERS where user_id=?';
+      $query=$this->db->query($sql,array($user_id));
+      $row=$query->row_array();
+
+      return'<div class="well">
+      <table>
+      <tr>
+            <td>Name:
+            </td>
+            <td>'.$row['user_name'].'
+            </td>
+     
+      </tr>
+      </table>
+      </div>
+      <div class="well">
+      <table>
+      <tr>
+           <td>Group/Batch :
+           </td>
+           <td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$row['group_id'].'">'.$this->getGroupName($row['group_id']).'</a>
+           </td>
+
+
+      </tr>
+      </table>
+      </div>
+      
+<div class="well">
+      <table>
+      <tr>
+          <td>Year:
+          </td>
+          <td><a href="'.base_url().'ProfileController/ViewYearProfile/'.$row['user_year'].'"> '.$row['user_year'].'</a>
+          </td>
+
+      </tr>
+      </table>
+      </div>
+      
+      <div class="well">
+      <table>
+      <tr>
+          <td>Degree and Course:
+          </td>
+          <td>'.$row['user_degree'].'-'.$row['user_course'].'
+          </td>
+
+      </tr>
+      </table>
+      </div>
+    ';
+    
+
+    }
     function getGroupName($group_id){
       $sql='select group_name from GROUPS where group_id=?';
       $query=$this->db->query($sql,array($group_id));
@@ -90,7 +447,8 @@ class ProfileModel extends CI_Model{
       <tr>
            <td>Group/Batch :
            </td>
-           <td>'.$this->getGroupName($row['group_id']).'
+           <td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$row['group_id'].'">'.$this->getGroupName($row['group_id']).'</a>
+           
            </td>
 
 
@@ -103,7 +461,7 @@ class ProfileModel extends CI_Model{
       <tr>
           <td>Year:
           </td>
-          <td>'.$row['user_year'].'
+          <td><a href="'.base_url().'ProfileController/ViewYearProfile/'.$row['user_year'].'">'.$row['user_year'].'</a>
           </td>
 
       </tr>
@@ -121,33 +479,10 @@ class ProfileModel extends CI_Model{
       </tr>
       </table>
       </div>
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ';
+    ';
 
     }
+    
   function getCenterContentMyProfileEdit(){
 
      return '<fieldset>
@@ -285,30 +620,34 @@ class ProfileModel extends CI_Model{
     $groupId=$CI->session->userdata('group_id');
     $sql='select user_level from USERS where user_id=?';
 
-$query=$this->db->query($sql,array( $currentUserId));
-       $row=$query->row_array();
-       $AdminMarkup='';
-       if($row['user_level']>='1'&& $row['user_level']!='2')
-        $AdminMarkup='<input type="button" value="Add/Remove users" onclick="window.location =\''.base_url().'AuthController/AddRemoveuser/'.'\';">
-';
-
+    $query=$this->db->query($sql,array( $currentUserId));
+     $row=$query->row_array();
+     $AdminMarkup='';
+     if($row['user_level']>='1'&& $row['user_level']!='2')
+     {
+        $AdminMarkup=' 
+        <div class="well"> <p>
+                      <a href="'.base_url().'ProfileController/ViewAdminPrivileges/'.'"> Click here </a> to see Admin Privileges!! 
+                       </p><p> </p> <p> </p>';
+        $AdminMarkup.='<p> <input type="button" value="Add/Remove users" onclick="window.location =\''.base_url().'AuthController/AddRemoveuser/'.'\';">
+        </p> </div>';
+      }
 
     
-    $sql='select g.group_name,g.group_desc from GROUPS g where g.group_id=?';
-
-$query=$this->db->query($sql,array($groupId));
-       $row=$query->row_array();
-      
-
-
+    $sql='select * from GROUPS  where group_id=?';
+    $query=$this->db->query($sql,array($groupId));
+    $row=$query->row_array();
+    
 		return '        <div class="well">
         
         <a href="#">
-        <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/group.jpg" alt="">
+        <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/group/'.$row['group_id'].'.jpg" alt="">
         </a>'.$row['group_name'].'
         <br>
-        '.$AdminMarkup.'
         </div>
+        '.$AdminMarkup.'
+        
+        
         <div class="well">
         group_desc
        '.$row['group_desc'].' 
@@ -321,12 +660,67 @@ $query=$this->db->query($sql,array($groupId));
         <div class="well">
         group members photo
         </div>
+        <div>'.$this->getGroupMembersImage($groupId).' </div>
         <div class="well">
         questions posted by the group members in the group scope
         </div>
+        
          ';
 
 	}
+
+  function getAdminPrivileges(){
+    return '
+           <h3> Welcome, Admin </h3>
+           <div class="well">
+           <h4> ADMIN PRIVILEGES ARE: </h4>
+           <p> In order to avoid duplicate profiles, the users of your batch cannot be addedd to the group without your permission </p>
+           <p> The students can register themselves and becomes INTERIM user (temperory). </p>
+           <p> It is you duty to add ONLY your batch people to your group. </p>
+           <p> You can do so by clicking on the Add/Remove people button that you see on your group profile page</p>
+           <p> Still not clear? Feel free to contact us. We are more than happy to be of help to you </p>
+           </div>
+           ';
+         }
+
+function getCenterContentMyYear(){
+
+     $CI =& get_instance();
+    $currentUserId=$CI->session->userdata('user_id');
+    $yearId=$CI->session->userdata('user_year');
+    echo "$yearId";
+   $sql='select * from USERS where user_year=?';
+      $query=$this->db->query($sql,array($yearId));
+      $row=$query->row_array();
+
+
+
+    return '        <div class="well">
+        
+        <a href="#">
+        <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/year.jpg" alt="">
+      </a> YEAR:'.$row['user_year'].'
+         <br>
+        
+        </div>
+        <div class="well">
+        Department:
+       '.$row['user_course'].' 
+
+        
+        
+        </div>
+        
+     
+        <div class="well">
+        Photo of members of this year..
+        </div>
+        <div class="well">
+        Questions posted by the group members in the Year scope..
+        </div>
+         ';
+
+  }
 
 
 
