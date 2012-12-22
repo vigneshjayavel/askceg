@@ -76,15 +76,15 @@ class ProfileController extends CI_Controller {
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($this->session->userdata('user_id'));
 		$this->load->view('Skeleton',$data);
 	}
-	function viewTopic($topic_name){
+	function viewTopic($topic_url){
 		
 		//equivalent to $_SESSION['logged_in']
 	    if ($this->session->userdata('logged_in') == TRUE)
 	    {
 	    $this->load->model('questionsmodel');
 	    $this->load->model('profilemodel');
-		$this->data['centerContent']=$this->profilemodel->getTopicProfile($topic_name);
-		$this->data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,$topic_name,null);
+		$this->data['centerContent']=$this->profilemodel->getTopicProfile($topic_url);
+		$this->data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,$topic_url,null);
 		$this->load->view('Skeleton',$this->data);
 	   }
 	}
