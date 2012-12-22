@@ -120,7 +120,7 @@ class QuestionsModel extends CI_Model{
           <div class="control-group">
             <label class="control-label" for="textarea">Topic </label>
             <div class="controls">
-              <textarea data-placement="top" data-original-title="create one!!!"  disabled="true" id="topicnameText" class="input-xlarge" rows="3"></textarea>
+              <textarea data-placement="top" data-original-title="create one!!!"  disabled="true" id="topicText" class="input-xlarge" rows="3"></textarea>
             </div>
           </div>
           <div class="control-group">
@@ -132,6 +132,7 @@ class QuestionsModel extends CI_Model{
                    
           <div class="form-actions">
             <a disabled=true id="postTopicButton" type="submit" class="btn btn-danger"><i class="icon-ok icon-white"></i>Create now</a>
+            <a id="resetQuestionButton" type="reset" class="btn btn-primary"><i class="icon-remove icon-white"></i>Reset</a>
             </div>
         </fieldset>
       </form>
@@ -862,6 +863,7 @@ else
 	}
   function sqlCreateTopic($topicObj,$posted_by){
 
+    //TODO  
     $topicArray=json_decode($topicObj,TRUE);
 
     //current time
@@ -870,24 +872,28 @@ else
 
 
     //actual question insert
-    $sql = "insert into TOPIC(topic_name,topic_description,posted_by,timestamp,category_id) 
+    $sql = "insert into TOPIC(topic_name,topic_desc,posted_by,timestamp,category_id) 
         values(?,?,?,?,?)";
-    $status=$this->db->query($sql,array($topicArray['topic_name'],$topicArray['topic_description'],$posted_by,$timestamp,$topicArray['category_id']));
+    $status=$this->db->query($sql,array($topicArray['topic_name'],$topicArray['topic_desc'],$posted_by,$timestamp,$topicArray['category_id']));
     
 
-
+    $topicUrl='';
     if($status==-1){
       $status='success';
-      $msg='Topic'.$topicArray['topic_name'].' created successfully!!';
+      $msg='Topic '.$topicArray['topic_name'].' created successfully!!';
     }
     else{
       $status='error';
-      $msg='topic is no created due to some problem :(';
+      $msg='Topic '.$topicArray['topic_name'].' already exists. Redirecting you...';
+      $sql="select topic_url from TOPIC where topic_name = ?";
+      $query=$this->db->query($sql,array($topicArray['topic_name']));
+      $row=$query->row_array();
+      $topicUrl=$row['topic_url'];
     }
     
 
     $jsonObj=json_encode(array('status'=>$status,
-                  'msg'=>$msg
+                  'msg'=>$msg,'topicUrl'=>$topicUrl
               ));
     return $jsonObj;
 

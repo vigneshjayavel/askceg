@@ -116,7 +116,7 @@ class QuestionsController extends CI_Controller {
 	}
 
 	function CreateDiscussion(){
-
+		$this->data['page']="createDiscussionPage";
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->getCenterContentCreateDiscussion();
 		$this->load->view('Skeleton',$this->data);
@@ -190,7 +190,7 @@ class QuestionsController extends CI_Controller {
 		$content = $this->questionsmodel->sqlCreateTopic($topicObj,$posted_by);
 		echo $content;	
 	}
-	function getTopicsInCategory1($category)
+	function getTopicsInCategory($category)
 	{
 		$this->load->model('questionsmodel');
 		$content=$this->questionsmodel->sqlGetTopicsInCategory1($category);
