@@ -63,12 +63,15 @@ $(document).ready(function(){
             
         },
         updater: function (item) {
+            var targetUrl;
             if(mapped[item]!=null){
-                url = mapped[item].targetURL;    
+                targetUrl = mapped[item].resultUrl;
+                var dynamicUri = mapped[item].resultType==='Question'?'AnswersController/viewAnswersForQuestion/':'ProfileController/viewTopic/';    
+                window.location=CI.base_url+dynamicUri+targetUrl;
             }
             else{
-                url='SearchController/search/'+searchQuery;
-                window.location=CI.base_url+url;
+                targetUrl='SearchController/search/'+searchQuery;
+                window.location=CI.base_url+targetUrl;
             }
             console.log('url : '+url);
             //document.location = "AjaxSearchController/getData?q=" + encodeURIComponent(item);

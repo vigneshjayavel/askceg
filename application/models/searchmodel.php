@@ -17,12 +17,12 @@ class SearchModel extends CI_Model{
 	function sqlReturnSearchResult($searchTerm){
 
 		//search questions
-		$sql="select q_content from QUESTION where q_content LIKE '%".$this->db->escape_like_str($searchTerm)."%'";
+		$sql="select q_content,url from QUESTION where q_content LIKE '%".$this->db->escape_like_str($searchTerm)."%'";
 		$query=$this->db->query($sql);
 		$searchResults=array();
 		$result=$query->result_array();
 		foreach($result as $row){
-			array_push($searchResults,array('resultData'=>$row['q_content'],'resultType'=>'Question'));
+			array_push($searchResults,array('resultData'=>$row['q_content'],'resultType'=>'Question','resultUrl'=>$row['url']));
 		}
 
 		//search topics
@@ -30,7 +30,7 @@ class SearchModel extends CI_Model{
 		$query=$this->db->query($sql);
 		$result=$query->result_array();
 		foreach($result as $row){
-			array_push($searchResults,array('resultData'=>$row['topic_name'],'resultType'=>'Topic'));
+			array_push($searchResults,array('resultData'=>$row['topic_name'],'resultType'=>'Topic','resultUrl'=>'dummyUrl'));
 		}
 
 		return json_encode($searchResults);
