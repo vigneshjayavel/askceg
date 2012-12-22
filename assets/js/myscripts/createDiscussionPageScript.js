@@ -99,7 +99,7 @@ $(document).ready(function(){
 						displayNotification(jsonObj.status,jsonObj.msg);					
 					}
 					else{
-						var redirectUrl=CI.base_url+'/ProfileController/viewTopic/'+jsonObj.topicUrl;
+						var redirectUrl=CI.base_url+'ProfileController/viewTopic/'+jsonObj.topicUrl;
 						displayNotificationAndRedirect(jsonObj.msg,redirectUrl)
 					}
 					
@@ -111,7 +111,7 @@ $(document).ready(function(){
 
 		}//if ends
 		else{
-			displayNotification('error','Make sure you have posted a valid question!!');
+			displayNotification('error','Make sure you have posted a valid topic!!');
 		}
 		
 	});//postTopicButton click ends

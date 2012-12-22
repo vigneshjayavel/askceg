@@ -43,8 +43,8 @@ class QuestionsModel extends CI_Model{
           return true;
       else
         return false;
-
   }
+
   function generateTopicUrl($t){
     $url=$t;
     $url = preg_replace('/[^A-Za-z0-9]+/', '-', $url);
@@ -894,26 +894,43 @@ else
 		return $jsonObj;
 
 	}
+
+  function sqlIsTopicExists($topic_name){
+
+    $query="select count(topic_name) as cnt from TOPIC where topic_name = ?";
+    $query=$this->db->query($query,array($topic_name));
+    $row=$query->row_array();
+    if($row['cnt']==1)
+      return true;
+    else
+      return false;
+  }
+
   function sqlCreateTopic($topicObj,$posted_by){
 
     //TODO  
     $topicArray=json_decode($topicObj,TRUE);
-
-    //current time
-
-    $timestamp=$this->getCurrentTime();
-
-
-    //actual question insert
-    $sql = "insert into TOPIC(topic_name,topic_desc,posted_by,timestamp,category_id) 
-        values(?,?,?,?,?)";
-    $status=$this->db->query($sql,array($topicArray['topic_name'],$topicArray['topic_desc'],$posted_by,$timestamp,$topicArray['category_id']));
-    
-
     $topicUrl='';
-    if($status==-1){
-      $status='success';
-      $msg='Topic '.$topicArray['topic_name'].' created successfully!!';
+    if(!$this->sqlIsTopicExists($topicArray['topic_name'])){
+
+      $timestamp=$this->getCurrentTime();
+      $topicUrl=$this->generateTopicUrl($topicArray['topic_name']);
+       //actual question insert
+      $sql = "insert into TOPIC(topic_name,topic_desc,posted_by,timestamp,category_id,topic_url) 
+          values(?,?,?,?,?,?)";
+      $status=$this->db->query($sql,array($topicArray['topic_name'],
+        $topicArray['topic_desc'],$posted_by,$timestamp,
+          $topicArray['category_id'],$topicUrl));
+      
+      if($status==-1){
+        $status='success';
+        $msg='Topic '.$topicArray['topic_name'].' created successfully!!';
+      }
+      else{
+        $status='success';
+        $msg='oops.. something went wrong!!';
+      }
+    
     }
     else{
       $status='error';
@@ -923,7 +940,8 @@ else
       $row=$query->row_array();
       $topicUrl=$row['topic_url'];
     }
-    
+
+
 
     $jsonObj=json_encode(array('status'=>$status,
                   'msg'=>$msg,'topicUrl'=>$topicUrl
