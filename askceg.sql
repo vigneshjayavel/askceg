@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 21, 2012 at 06:35 PM
+-- Generation Time: Dec 22, 2012 at 07:55 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -179,27 +179,29 @@ CREATE TABLE IF NOT EXISTS `QUESTION` (
   `followers` int(20) NOT NULL,
   `scope_id` int(20) NOT NULL,
   `url` varchar(400) NOT NULL,
+  `anonymous` int(20) NOT NULL,
   PRIMARY KEY (`q_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `QUESTION`
 --
 
-INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `timestamp`, `q_description`, `views`, `followers`, `scope_id`, `url`) VALUES
-(2, 'asdasd', 1, 2011103090, 'group', '10:53 pm 02 Dec-12 ', 'asdasdasd', 4, 0, 1, 'asdasd'),
-(3, 'who is obama?', 1, 2011103090, 'global', '11:12 pm 02 Dec-12 ', '', 27, 0, 0, 'who-is-obama'),
-(4, 'what is the rate of iphone 5?', 1, 2011103090, 'year', '09:08 PM 06-Dec-12', '', 4, 0, 0, 'what-is-the-rate-of-iphone-5'),
-(5, 'GJHGJ??', 1, 2011103090, '', '12:32 PM 11-Dec-12', 'DDDCD', 3, 0, 0, 'GJHGJ'),
-(6, 'What is Askceg?', 1, 2011103090, 'global', '12:36 PM 11-Dec-12', '', 0, 0, 0, 'What-is-Askceg'),
-(7, 'sdsdsdd', 1, 2011103090, '', '11:20 AM 15-Dec-12', '', 0, 0, 0, 'sdsdsdd'),
-(9, 'When is college reopening??', 1, 2011103090, '', '12:04 PM 17-Dec-12', 'I dont want it to reopen at all!!! :P', 3, 0, 0, 'When-is-college-reopening'),
-(10, 'How cool is AskCEG? :D', 1, 2011103053, '', '09:57 AM 18-Dec-12', '', 5, 0, 0, 'How-cool-is-AskCEG-D'),
-(11, 'ghikjfkjrf', 2, 2011103090, '', '05:18 PM 18-Dec-12', '', 0, 0, 0, 'ghikjfkjrf'),
-(12, 'hey boys ?', 2, 2011103090, '', '05:19 PM 18-Dec-12', '', 0, 0, 0, 'hey-boys'),
-(13, 'ddgdgg', 2, 2011103089, '', '11:01 PM 21-Dec-12', '', 0, 0, 0, ''),
-(14, 'who is obama?', 1, 2011103089, '', '11:03 PM 21-Dec-12', '', 0, 0, 0, 'who-is-obama-1356110311'),
-(15, 'who is obama?', 1, 2011103089, '', '11:05 PM 21-Dec-12', '', 0, 0, 0, 'who-is-obama-1356110408');
+INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `timestamp`, `q_description`, `views`, `followers`, `scope_id`, `url`, `anonymous`) VALUES
+(2, 'asdasd', 1, 2011103090, 'group', '10:53 pm 02 Dec-12 ', 'asdasdasd', 4, 0, 1, 'asdasd', 0),
+(3, 'who is obama?', 1, 2011103090, 'global', '11:12 pm 02 Dec-12 ', '', 27, 0, 0, 'who-is-obama', 0),
+(4, 'what is the rate of iphone 5?', 1, 2011103090, 'year', '09:08 PM 06-Dec-12', '', 4, 0, 0, 'what-is-the-rate-of-iphone-5', 0),
+(5, 'GJHGJ??', 1, 2011103090, '', '12:32 PM 11-Dec-12', 'DDDCD', 3, 0, 0, 'GJHGJ', 0),
+(6, 'What is Askceg?', 1, 2011103090, 'global', '12:36 PM 11-Dec-12', '', 0, 0, 0, 'What-is-Askceg', 0),
+(7, 'sdsdsdd', 1, 2011103090, '', '11:20 AM 15-Dec-12', '', 0, 0, 0, 'sdsdsdd', 0),
+(9, 'When is college reopening??', 1, 2011103090, '', '12:04 PM 17-Dec-12', 'I dont want it to reopen at all!!! :P', 3, 0, 0, 'When-is-college-reopening', 0),
+(10, 'How cool is AskCEG? :D', 1, 2011103053, '', '09:57 AM 18-Dec-12', '', 5, 0, 0, 'How-cool-is-AskCEG-D', 0),
+(11, 'ghikjfkjrf', 2, 2011103090, '', '05:18 PM 18-Dec-12', '', 0, 0, 0, 'ghikjfkjrf', 0),
+(12, 'hey boys ?', 2, 2011103090, '', '05:19 PM 18-Dec-12', '', 0, 0, 0, 'hey-boys', 0),
+(14, 'who is obama?', 1, 2011103089, '', '11:03 PM 21-Dec-12', '', 0, 0, 0, 'who-is-obama-1356110311', 0),
+(15, 'who is obama?', 1, 2011103089, '', '11:05 PM 21-Dec-12', '', 0, 0, 0, 'who-is-obama-1356110408', 0),
+(16, 'how u doing?', 3, 2011103089, '', '12:29 AM 23-Dec-12', '', 0, 0, 0, 'how-u-doing', 0),
+(17, 'when is k13?', 5, 2011103089, '', '12:32 AM 23-Dec-12', '', 0, 0, 0, 'when-is-k13', 0);
 
 -- --------------------------------------------------------
 
@@ -219,7 +221,14 @@ CREATE TABLE IF NOT EXISTS `REQUEST_USER` (
   `user_degree` varchar(20) NOT NULL,
   `user_course` varchar(20) NOT NULL,
   PRIMARY KEY (`request_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
+
+--
+-- Dumping data for table `REQUEST_USER`
+--
+
+INSERT INTO `REQUEST_USER` (`user_id`, `request_id`, `user_name`, `group_id`, `password`, `user_level`, `email_id`, `user_year`, `user_degree`, `user_course`) VALUES
+(0, 33, 'hjkhhk', 1, '', 0, '', 2, '', '');
 
 -- --------------------------------------------------------
 
@@ -234,19 +243,21 @@ CREATE TABLE IF NOT EXISTS `TOPIC` (
   `posted_by` int(50) NOT NULL,
   `category_id` int(20) NOT NULL,
   `timestamp` varchar(50) NOT NULL,
-  `scope` varchar(20) NOT NULL,
-  PRIMARY KEY (`topic_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  `topic_url` varchar(200) NOT NULL,
+  PRIMARY KEY (`topic_id`),
+  UNIQUE KEY `topic_id` (`topic_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `TOPIC`
 --
 
-INSERT INTO `TOPIC` (`topic_id`, `topic_name`, `topic_desc`, `posted_by`, `category_id`, `timestamp`, `scope`) VALUES
-(1, 'computer', '0', 2011103090, 1, '12-10-12', ''),
-(2, 'ibatch', '0', 0, 5, '', ''),
-(3, 'ibatch boys', '', 0, 1, '', ''),
-(4, 'Movies', 'Contains all questions about movies!', 2011103090, 2, '', '');
+INSERT INTO `TOPIC` (`topic_id`, `topic_name`, `topic_desc`, `posted_by`, `category_id`, `timestamp`, `topic_url`) VALUES
+(1, 'computer', '0', 2011103090, 1, '12-10-12', 'computer'),
+(2, 'ibatch', '0', 0, 5, '', 'ibatch'),
+(3, 'ibatch boys', '', 0, 1, '', 'ibatch-boys'),
+(4, 'Movies', 'Contains all questions about movies!', 2011103090, 2, '', 'Movies'),
+(5, 'battle of brains', '', 0, 3, '', 'battle-of-brains');
 
 -- --------------------------------------------------------
 
@@ -276,8 +287,10 @@ CREATE TABLE IF NOT EXISTS `TOPIC_FOLLOWERS` (
 
 INSERT INTO `TOPIC_FOLLOWERS` (`topic_id`, `follower`) VALUES
 (1, 2011103085),
+(1, 2011103090),
 (1, 2011103089),
-(1, 2011103090);
+(2, 2011103089),
+(3, 2011103089);
 
 -- --------------------------------------------------------
 
