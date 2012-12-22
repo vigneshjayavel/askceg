@@ -167,14 +167,15 @@ class QuestionsModel extends CI_Model{
 
 
 
-	function sqlReadQuestions($category_id=null,$topic_id=null,$url=null){
+
+	function sqlReadQuestions($category_id=null,$topic_name=null,$url=null){
 
 		
 		  
       $content='';
   		$sql = "SELECT 
           q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
-					t.topic_name,c.category_name ,c.category_id,q.posted_by,
+				  c.category_name ,c.category_id,q.posted_by,t.topic_name,
 					q.timestamp
 					FROM
 					QUESTION q, TOPIC t, CATEGORY c 
@@ -185,8 +186,8 @@ class QuestionsModel extends CI_Model{
       $category_id=mysql_real_escape_string($category_id);
       $sql.=" and c.category_id=".$category_id;
     }
-		if($topic_id!=null){
-      $topic_id=mysql_real_escape_string($topic_id);
+		if($topic_name!=null){
+      $topic_id=$this->sqlgetTopicId($topic_name);
       $sql.=" and t.topic_id=".$topic_id;
     }
 		if($url!=null){
@@ -249,7 +250,7 @@ class QuestionsModel extends CI_Model{
                     </a>
                     <i class="icon-arrow-right"></i>
                     <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$topicUrl.$row['topic_id'].'" class="label label-info">'.$row['topic_name'].'
+                    href="'.$topicUrl.$row['topic_name'].'" class="label label-info">'.$row['topic_name'].'
                     </a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                      &nbsp &nbsp &nbsp &nbsp   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
                   '.$deleteButton.'
@@ -453,6 +454,16 @@ class QuestionsModel extends CI_Model{
           
 
   }
+
+  function sqlGetTopicId($topic_name){
+  
+    $query="select topic_id from TOPIC where topic_name=?";
+        $query=$this->db->query($query,array($topic_name));
+           if($row=$query->row_array())
+            return $row['topic_id'];
+          
+
+  }
 	function getGroupScopeQuestions(){
 		$content=null;
     $CI =& get_instance();
@@ -517,7 +528,7 @@ class QuestionsModel extends CI_Model{
                     </a>
                     <i class="icon-arrow-right"></i>
                     <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$topicUrl.$row['topic_id'].'" class="label label-info">'.$row['topic_name'].'
+                    href="'.$topicUrl.$row['topic_name'].'" class="label label-info">'.$row['topic_name'].'
                     </a>
                     <p>      </p>
                   </div><!--/questionExtraDetailsDiv-->
@@ -626,7 +637,7 @@ function getYearScopeQuestions(){
                     </a>
                     <i class="icon-arrow-right"></i>
                     <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$topicUrl.$row['topic_id'].'" class="label label-info">'.$row['topic_name'].'
+                    href="'.$topicUrl.$row['topic_name'].'" class="label label-info">'.$row['topic_name'].'
                     </a>
                     <p>      </p>
                   </div><!--/questionExtraDetailsDiv-->

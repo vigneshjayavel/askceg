@@ -29,13 +29,15 @@ class ProfileModel extends CI_Model{
     ';
 
 	}
-  function getTopicProfile($topic_id){
+  function getTopicProfile($topic_name){
 
-    $sql="select * from TOPIC where topic_id=?";
+    $sql="select * from TOPIC where topic_name=?";
+    $query=$this->db->query($sql,array($topic_name)); 
+    $row=$query->row_array();  
     $sql1="select count(*) from QUESTION where topic_id=?";
-    $query=$this->db->query($sql,array($topic_id));   
-    $query1=$this->db->query($sql1,array($topic_id));   
-    $row=$query->row_array();
+    
+
+    $query1=$this->db->query($sql1,array($row['topic_id'])); 
     $row1=$query1->row_array();
     $followUrl=  base_url().'QuestionsController/followTopic/';
      $unfollowUrl= base_url().'QuestionsController/unfollowTopic/';
