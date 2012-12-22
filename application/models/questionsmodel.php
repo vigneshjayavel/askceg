@@ -9,7 +9,7 @@ class QuestionsModel extends CI_Model{
 
 	}
 
-  function sqlIsUrlExists($url){
+  function sqlIsUrlExists($url){//this is for question url
 
     //check if the url is already present in the db
     //if so return true else false
@@ -32,6 +32,31 @@ class QuestionsModel extends CI_Model{
     }
     return $url;
   }
+  function sqlIsTopicUrlExists($url){
+
+    //check if the url is already present in the db
+    //if so return true else false
+    $query="select count(topic_url) as cnt from TOPIC where topic_url = ?";
+        $query=$this->db->query($query,array($url));
+        $row=$query->row_array();
+        if($row['cnt']==1)
+          return true;
+      else
+        return false;
+
+  }
+  function generateTopicUrl($t){
+    $url=$t;
+    $url = preg_replace('/[^A-Za-z0-9]+/', '-', $url);
+    $url = trim($url, '-');
+    //append timestamp if url is redundant
+    if($this->sqlIsUrlExists($url)){
+      $url=$url.'-'.time();
+    }
+    return $url;
+  }
+  
+
   function convert(){
     $sql='select * from QUESTION';
     $query=$this->db->query($sql);
@@ -168,14 +193,11 @@ class QuestionsModel extends CI_Model{
 
 
 
-	function sqlReadQuestions($category_id=null,$topic_name=null,$url=null){
-
-		
-		  
-      $content='';
+	function sqlReadQuestions($category_id=null,$topic_url=null,$url=null){
+     $content='';
   		$sql = "SELECT 
-          q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
-				  c.category_name ,c.category_id,q.posted_by,t.topic_name,
+          q.q_id,q.q_content,q.q_description,q.topic_id,q.url,t.topic_name,
+				  c.category_name ,c.category_id,q.posted_by,t.topic_url,
 					q.timestamp
 					FROM
 					QUESTION q, TOPIC t, CATEGORY c 
@@ -186,8 +208,8 @@ class QuestionsModel extends CI_Model{
       $category_id=mysql_real_escape_string($category_id);
       $sql.=" and c.category_id=".$category_id;
     }
-		if($topic_name!=null){
-      $topic_id=$this->sqlgetTopicId($topic_name);
+		if($topic_url!=null){
+      $topic_id=$this->sqlgetTopicId($topic_url);
       $sql.=" and t.topic_id=".$topic_id;
     }
 		if($url!=null){
@@ -197,7 +219,7 @@ class QuestionsModel extends CI_Model{
 		$query=$this->db->query($sql);
     $deleteUrl=base_url().'QuestionsController/DeleteQuestion/';
 		$categoryUrl=base_url().'ProfileController/viewCategory/';
-		$topicUrl=base_url().'ProfileController/viewTopic/';
+		$topicUri=base_url().'ProfileController/viewTopic/';
     $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
 		$followUrl=	base_url().'QuestionsController/followQuestion/';
 		$unfollowUrl=	base_url().'QuestionsController/unfollowQuestion/';
@@ -250,7 +272,7 @@ class QuestionsModel extends CI_Model{
                     </a>
                     <i class="icon-arrow-right"></i>
                     <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$topicUrl.$row['topic_name'].'" class="label label-info">'.$row['topic_name'].'
+                    href="'.$topicUri.$row['topic_url'].'" class="label label-info">'.$row['topic_name'].'
                     </a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                      &nbsp &nbsp &nbsp &nbsp   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
                   '.$deleteButton.'
@@ -455,10 +477,10 @@ class QuestionsModel extends CI_Model{
 
   }
 
-  function sqlGetTopicId($topic_name){
+  function sqlGetTopicId($topic_url){
   
-    $query="select topic_id from TOPIC where topic_name=?";
-        $query=$this->db->query($query,array($topic_name));
+    $query="select topic_id from TOPIC where topic_url=?";
+        $query=$this->db->query($query,array($topic_url));
            if($row=$query->row_array())
             return $row['topic_id'];
           
@@ -469,7 +491,7 @@ class QuestionsModel extends CI_Model{
     $CI =& get_instance();
     $groupId=$CI->session->userdata('group_id');
     $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
-					t.topic_name,c.category_name ,c.category_id,q.posted_by,
+					t.topic_name,t.topic_url,c.category_name ,c.category_id,q.posted_by,
 					q.timestamp
 				
 				FROM
@@ -483,7 +505,7 @@ class QuestionsModel extends CI_Model{
     
     // $row=$query->result_array();
     $categoryUrl=base_url().'QuestionsController/viewQuestion/';
-    $topicUrl=base_url().'ProfileController/viewTopic/';
+    $topicUri=base_url().'ProfileController/viewTopic/';
 		$questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
 		$followUrl=	base_url().'QuestionsController/followQuestion/';
 		$unfollowUrl=	base_url().'QuestionsController/unfollowQuestion/';
@@ -528,7 +550,7 @@ class QuestionsModel extends CI_Model{
                     </a>
                     <i class="icon-arrow-right"></i>
                     <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$topicUrl.$row['topic_name'].'" class="label label-info">'.$row['topic_name'].'
+                    href="'.$topicUri.$row['topic_url'].'" class="label label-info">'.$row['topic_name'].'
                     </a>
                     <p>      </p>
                   </div><!--/questionExtraDetailsDiv-->
@@ -578,7 +600,7 @@ function getYearScopeQuestions(){
     $CI =& get_instance();
     $yearId=$CI->session->userdata('user_year');
     $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
-          t.topic_name,c.category_name ,c.category_id,q.posted_by,
+          t.topic_name,t.topic_url,c.category_name ,c.category_id,q.posted_by,
           q.timestamp
         
         FROM
@@ -592,7 +614,7 @@ function getYearScopeQuestions(){
     
     // $row=$query->result_array();
     $categoryUrl=base_url().'QuestionsController/viewQuestion/';
-    $topicUrl=base_url().'ProfileController/viewTopic/';
+    $topicUri=base_url().'ProfileController/viewTopic/';
     $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
     $followUrl= base_url().'QuestionsController/followQuestion/';
     $unfollowUrl= base_url().'QuestionsController/unfollowQuestion/';
@@ -637,7 +659,7 @@ function getYearScopeQuestions(){
                     </a>
                     <i class="icon-arrow-right"></i>
                     <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$topicUrl.$row['topic_name'].'" class="label label-info">'.$row['topic_name'].'
+                    href="'.$topicUri.$row['topic_url'].'" class="label label-info">'.$row['topic_name'].'
                     </a>
                     <p>      </p>
                   </div><!--/questionExtraDetailsDiv-->
@@ -1029,7 +1051,7 @@ else
                     data-original-title="Click to follow the question!">Follow</a>';
 
 		
-			$content.='<div class=well> <a href="'.base_url().'ProfileController/ViewTopic/'.$row['topic_id'].'"> '.$row['topic_name'].'<div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div></a>';
+			$content.='<div class=well> <a href="'.base_url().'ProfileController/ViewTopic/'.$row['topic_url'].'"> '.$row['topic_name'].'</a><div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div></div>';
 		
 		}
 		if($content=='<h2>Topics Under this Category are:</h2>')

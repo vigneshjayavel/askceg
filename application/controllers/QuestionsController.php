@@ -78,7 +78,7 @@ class QuestionsController extends CI_Controller {
 		$this->load->view('Skeleton',$this->data);
 	    }
 	}
-	function viewTopics($category_id=null){
+	function viewTopicsInCategory($category_id){
 		
 		//equivalent to $_SESSION['logged_in']
 	    if ($this->session->userdata('logged_in') == TRUE)

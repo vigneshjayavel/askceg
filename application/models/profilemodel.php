@@ -29,10 +29,10 @@ class ProfileModel extends CI_Model{
     ';
 
 	}
-  function getTopicProfile($topic_name){
+  function getTopicProfile($topic_url){
 
-    $sql="select * from TOPIC where topic_name=?";
-    $query=$this->db->query($sql,array($topic_name)); 
+    $sql="select * from TOPIC where topic_url=?";
+    $query=$this->db->query($sql,array($topic_url)); 
     $row=$query->row_array();  
     $sql1="select count(*) from QUESTION where topic_id=?";
     
@@ -190,7 +190,7 @@ function EditCategoryDesc($category_id){
 
         No of Topics under this category: '.$row1['count(*)'].'<br> <br>
 
-        <a href="'.base_url().'QuestionsController/ViewTopics/'.$row['category_id'].'" > Click here </a> to view all the topics list! 
+        <a href="'.base_url().'QuestionsController/ViewTopicsInCategory/'.$row['category_id'].'" > Click here </a> to view all the topics list! 
         </div>
          ';
 
