@@ -122,6 +122,13 @@ input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
+.ask-dp {
+width: 150px;
+height: 150px;
+background: #fff;
+border: #ccc 2px solid;
+
+}
 textarea {
   overflow: auto;
   vertical-align: top;

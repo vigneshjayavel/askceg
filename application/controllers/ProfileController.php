@@ -22,6 +22,12 @@ class ProfileController extends CI_Controller {
 		$this->load->view('Skeleton',$data);
 	
 		}
+		function EditMyProfile()
+	{   $user_id=$this->session->userdata('user_id');
+		$this->load->model('profilemodel');
+		$data['centerContent']=$this->profilemodel->getCenterContentMyProfileEdit($user_id);
+		$this->load->view('Skeleton',$data);
+	}
 		function ViewGroupProfile($group_id){
 			$this->load->model('profilemodel');
 			$this->load->model('questionsmodel');

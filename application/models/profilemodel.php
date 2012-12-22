@@ -371,6 +371,9 @@ function getInterimProfile(){
             </td>
             <td>'.$row['user_name'].'
             </td>
+             <div class="ask-dp pull-right">
+            <img src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg">
+            </div>
      
       </tr>
       </table>
@@ -409,6 +412,10 @@ function getInterimProfile(){
           </td>
 
       </tr>
+      <tr>
+
+         <a href=""
+      </tr>
       </table>
       </div>
     ';
@@ -438,6 +445,9 @@ function getInterimProfile(){
             </td>
             <td>'.$row['user_name'].'
             </td>
+            <div class="ask-dp pull-right">
+            <img src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg">
+            </div>
      
       </tr>
       </table>
@@ -477,6 +487,10 @@ function getInterimProfile(){
           </td>
 
       </tr>
+      <tr>
+      <a href="'.base_url().'ProfileController/EditMyProfile">Edit profile</a>
+      </tr>
+
       </table>
       </div>
     ';
