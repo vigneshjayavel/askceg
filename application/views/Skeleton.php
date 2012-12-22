@@ -59,7 +59,13 @@
         };
     -->
     </script>
+    <?php 
+      if(isset($page)){
+    ?>
     <script src="<?php echo base_url()?>assets/js/myscripts/<?php echo $page?>Script.js"></script>
+    <?php
+      }
+    ?>
     
     <!--style type="text/css" id="page-css">
       /* Styles specific to this particular page */
