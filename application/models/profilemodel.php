@@ -29,11 +29,101 @@ class ProfileModel extends CI_Model{
     ';
 
 	}
+  function isStudent($user_id){
+    $sql="select user_level from USERS where user_id=?";
+    $query=$this->db->query($sql,array($user_id)); 
+    $row=$query->row_array();  
+    if($row['user_level']!=2)
+      return true;
+    else
+      return false;
+    
+
+  }
+  function getTeacherProfile($user_id){
+      
+
+    
+      $sql='select t.user_id,u.user_name,u.user_degree,u.user_course,u.group_id,
+        t.graduated_at,t.field_of_interest
+        from USERS u,TEACHER_DETAILS t where t.user_id=u.user_id and u.user_id=?';
+      $query=$this->db->query($sql,array($user_id));
+      if($row=$query->row_array()){
+       if($row['graduated_at']){
+        $graduated_at='  <div class="well">
+      graduated in:'.$row['graduated_at'].'
+      </div>';
+
+       }
+       else{
+        $graduated_at='';
+       }
+       if($row['field_of_interest']){
+        $field=' <div class="well">
+      Field of interest:'.$row['field_of_interest'].'
+      </div>';
+       }else{
+        $field='';
+       }
+       $CI=&get_instance();
+       if($user_id==$CI->session->userdata('user_id')){
+          $edit='
+      <a href="'.base_url().'/ProfileController/EditTeacherProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
+       }
+       else
+         $edit='';
+
+
+
+      return '<div class="well">
+      <table>
+      <tr>
+            <td>Name:
+            </td>
+            <td>'.$row['user_name'].'
+            </td>
+     
+      </tr>
+      </table>
+      </div>
+      
+
+      <div class="well">
+          <div class="ask-dp pull-right">
+              <img src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg">
+          </div>
+           
+            Department:<a href="'.base_url().'ProfileController/ViewGroupProfile/'.$row['user_id'].'">'.$this->getGroupName($row['group_id']).'</a>
+     </div>
+        
+        
+
+
+          <div class="well">
+      classes handled:to be included soon
+      </div>
+      '.$graduated_at.$field.$edit.'
+     
+
+
+            
+      ';
+    }
+      else{
+
+        return 'sorry.this user doesnt exist ';
+
+    }
+  }
+
+
+
+
   function getTopicProfile($topic_url){
 
     $sql="select * from TOPIC where topic_url=?";
     $query=$this->db->query($sql,array($topic_url)); 
-    $row=$query->row_array();  
+    if($row=$query->row_array()){
     $sql1="select count(*) from QUESTION where topic_id=?";
     
 
@@ -88,9 +178,12 @@ class ProfileModel extends CI_Model{
                 <br>
         
       
-         ';
+         ';}
+         else{
+          return 'sorry this topic doesnt exist ';
 
     }
+  }
     function getTopicFollowersImage($topic_id)
     {
       $sql="select * from TOPIC_FOLLOWERS where topic_id=?";
@@ -352,6 +445,16 @@ function getInterimProfile(){
       $sql='select * from USERS where user_id=?';
       $query=$this->db->query($sql,array($user_id));
       $row=$query->row_array();
+      $CI=&get_instance();
+      if($user_id==$CI->session->userdata('user_id')){
+          $edit='
+      <a href="'.base_url().'/ProfileController/EditStudentProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
+       }
+       else
+         $edit='';
+
+
+
 
       return'<div class="well">
       <table>
@@ -402,8 +505,7 @@ function getInterimProfile(){
 
       </tr>
       <tr>
-
-         <a href=""
+        '.$edit.'
       </tr>
       </table>
       </div>
@@ -418,75 +520,7 @@ function getInterimProfile(){
        return $row['group_name'];
 
     }
-	 function getCenterContentMyProfile(){
-      $CI =& get_instance();
-    $currentUserId=$CI->session->userdata('user_id');
-
-    
-      $sql='select * from USERS where user_id=?';
-      $query=$this->db->query($sql,array($currentUserId));
-      $row=$query->row_array();
-
-      return'<div class="well">
-      <table>
-      <tr>
-            <td>Name:
-            </td>
-            <td>'.$row['user_name'].'
-            </td>
-            <div class="ask-dp pull-right">
-            <img src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg">
-            </div>
-     
-      </tr>
-      </table>
-      </div>
-      <div class="well">
-      <table>
-      <tr>
-           <td>Group/Batch :
-           </td>
-           <td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$row['group_id'].'">'.$this->getGroupName($row['group_id']).'</a>
-           
-           </td>
-
-
-      </tr>
-      </table>
-      </div>
-      
-<div class="well">
-      <table>
-      <tr>
-          <td>Year:
-          </td>
-          <td><a href="'.base_url().'ProfileController/ViewYearProfile/'.$row['user_year'].'">'.$row['user_year'].'</a>
-          </td>
-
-      </tr>
-      </table>
-      </div>
-      
-      <div class="well">
-      <table>
-      <tr>
-          <td>Degree and Course:
-          </td>
-          <td>'.$row['user_degree'].'-'.$row['user_course'].'
-          </td>
-
-      </tr>
-      <tr>
-      <a href="'.base_url().'ProfileController/EditMyProfile">Edit profile</a>
-      </tr>
-
-      </table>
-      </div>
-    ';
-
-    }
-    
-  function getCenterContentMyProfileEdit(){
+	 function getCenterContentMyProfileEdit(){
 
      return '<fieldset>
                  <label class="control-label" for="name">Your Name</label>

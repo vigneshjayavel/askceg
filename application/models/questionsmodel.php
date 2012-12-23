@@ -123,6 +123,45 @@ class QuestionsModel extends CI_Model{
 
 	}
 
+  
+function getQuestionsAskedToTeacher($user_id){
+    $sql='select q.q_id,q.q_content,q.anonymous, q.posted_by,q.url from  QUESTION q,QUESTION_POST_TO_TEACHER t
+     where q.q_id=t.q_id and t.user_id=?';
+    $query=$this->db->query($sql,array($user_id));
+    if($result=$query->result_array()){
+      $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
+      $content='<h2> Questions posted to '.$this->sqlGetUserName($user_id).' :</h2>';
+      foreach($result as $row){
+       if($row['anonymous']==1){
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+                  
+                 <strong>Anonymous</strong> 
+            ';
+          }
+          else{
+            $userMarkup=$this->userMarkup($user_id);
+          }
+          
+         
+
+        $content.='<div id="questionPostDiv" class="well questionElement" style="background-color:white">
+                  <div id="userDetailDiv">
+                  '.$this->userMarkup($row['posted_by']).' </div><!--/userDetailDiv-->
+                   <div id="questionDetailsDiv">
+                    <p id="questionContent">
+                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
+                    </strong>
+                    </p>
+                    </div><!--/questionDetailsDiv-->
+                  
+                </div><!--/questionPostDiv-->';
+      }
+      return $content;
+    }
+    else{
+      return 'No Questions Posted yet  ';
+    }
+  }
 
 	function getCenterContentCreateDiscussion(){
 

@@ -14,15 +14,27 @@ class ProfileController extends CI_Controller {
 	function ViewUserProfile($user_id){
 			$this->load->model('profilemodel');
 			$this->load->model('questionsmodel');
-	
+			if($this->profilemodel->isStudent($user_id)==true){
+	           
 		$data['centerContent']=$this->profilemodel->getUserProfile($user_id);
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAsked($user_id);
 		$data['centerContent'].=$this->questionsmodel->getQuestionsFollowed($user_id);
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($user_id);
 		$this->load->view('Skeleton',$data);
+	    }
+	    else{
+
+
+	    $data['centerContent']=$this->profilemodel->getTeacherProfile($user_id);
+	    $data['centerContent'].=$this->questionsmodel->getQuestionsAsked($user_id);
+	    $data['centerContent'].=$this->questionsmodel->getQuestionsFollowed($user_id);
+	    $data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($user_id);
+	    $data['centerContent'].=$this->questionsmodel->getQuestionsAskedToTeacher($user_id);
+	    $this->load->view('Skeleton',$data);
+	  }
 	
 		}
-		function EditMyProfile()
+		function EditStudentProfile()
 	{   $user_id=$this->session->userdata('user_id');
 		$this->load->model('profilemodel');
 		$data['centerContent']=$this->profilemodel->getCenterContentMyProfileEdit($user_id);
@@ -68,14 +80,24 @@ class ProfileController extends CI_Controller {
 	{
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
-	
+	    if($this->profilemodel->isStudent($this->session->userdata('user_id'))==true){
+	        
 		
-		$data['centerContent']=$this->profilemodel->getCenterContentMyProfile();
+		$data['centerContent']=$this->profilemodel->getUserProfile($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAsked($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsFollowed($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($this->session->userdata('user_id'));
-		$this->load->view('Skeleton',$data);
-	}
+		$this->load->view('Skeleton',$data);}
+		else{
+       $data['centerContent']=$this->profilemodel->getTeacherProfile($this->session->userdata('user_id'));
+		$data['centerContent'].=$this->questionsmodel->getQuestionsAsked($this->session->userdata('user_id'));
+		$data['centerContent'].=$this->questionsmodel->getQuestionsFollowed($this->session->userdata('user_id'));
+		$data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($this->session->userdata('user_id'));
+		$this->load->view('Skeleton',$data);}
+		
+
+
+		}
 	function viewTopic($topic_url){
 		
 		//equivalent to $_SESSION['logged_in']
