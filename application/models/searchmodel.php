@@ -26,11 +26,11 @@ class SearchModel extends CI_Model{
 		}
 
 		//search topics
-		$sql="select topic_name from TOPIC where topic_name LIKE '%".$this->db->escape_like_str($searchTerm)."%'";
+		$sql="select topic_name,topic_url from TOPIC where topic_name LIKE '%".$this->db->escape_like_str($searchTerm)."%'";
 		$query=$this->db->query($sql);
 		$result=$query->result_array();
 		foreach($result as $row){
-			array_push($searchResults,array('resultData'=>$row['topic_name'],'resultType'=>'Topic','resultUrl'=>'dummyUrl'));
+			array_push($searchResults,array('resultData'=>$row['topic_name'],'resultType'=>'Topic','resultUrl'=>$row['topic_url']));
 		}
 
 		return json_encode($searchResults);
