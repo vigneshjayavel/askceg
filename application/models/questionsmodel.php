@@ -191,13 +191,13 @@ class QuestionsModel extends CI_Model{
   }*/
 
 
-
+   
 
 	function sqlReadQuestions($category_id=null,$topic_url=null,$url=null){
      $content='';
   		$sql = "SELECT 
           q.q_id,q.q_content,q.q_description,q.topic_id,q.url,t.topic_name,
-				  c.category_name ,c.category_id,q.posted_by,t.topic_url,
+				  c.category_name ,c.category_id,q.posted_by,t.topic_url,q.anonymous,
 					q.timestamp
 					FROM
 					QUESTION q, TOPIC t, CATEGORY c 
@@ -232,6 +232,13 @@ class QuestionsModel extends CI_Model{
 
     foreach($result as $row  ){
 			$currentUrl=urlencode(current_url());
+      if($row['anonymous']==1)
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+                  
+                 <strong>Anonymous</strong> 
+            ';
+      else
+        $userMarkup=$this->userMarkup($row['posted_by']);
      //$content.=$row['category_name'];
 			$dynamicFollowOrUnfollowButton='';
       $deleteButton='';
@@ -256,7 +263,7 @@ class QuestionsModel extends CI_Model{
 			$content.=' 
 
 				<div id="questionPostDiv" class="well questionElement" style="background-color:white">
-                  <div id="userDetailDiv">'.$this->userMarkup($row['posted_by']).'
+                  <div id="userDetailDiv">'.$userMarkup.'
                     <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
                   </div>
                   <div id="questionDetailsDiv">
@@ -366,7 +373,7 @@ class QuestionsModel extends CI_Model{
   }
  
   function getQuestionsAnswered($user_id){
-    $sql="select q.q_id ,q.q_content,q.posted_by,a.a_content,a.timestamp,a.a_id,q.url
+    $sql="select q.q_id ,q.q_content,q.posted_by,a.a_content,a.timestamp,a.a_id,q.url,q.anonymous
     from QUESTION q,ANSWER a 
     where a.posted_by=? and a.q_id=q.q_id 
     order by q.q_id desc limit 0,5";  
@@ -378,12 +385,20 @@ class QuestionsModel extends CI_Model{
       $url1=base_url()."assets/img/".$user_id.".jpg"; // for getting images of the user who posted the ans
 
       foreach($result as $row){
+        if($row['anonymous']==1)
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+                  
+                 <strong>Anonymous</strong> 
+            ';
+      else
+        $userMarkup=$this->userMarkup($row['posted_by']);
+     
 
       $content.='
 
                   <div id="questionAnswerDiv" class="well" style="background-color:white">
                     <div id="questionDiv">
-                      <div id="userDetailDiv">'.$this->userMarkup($row['posted_by']).'
+                      <div id="userDetailDiv">'.$userMarkup.'
                       </div><!--/userDetailDiv-->
                       <div id="questionDetailsDiv">
                         <p id="questionContent">
@@ -410,8 +425,8 @@ class QuestionsModel extends CI_Model{
     }
 
   function getQuestionsAsked($user_id){
-    $sql="select q.q_id,q.url,q.q_content,q.posted_by from QUESTION q where q.posted_by=?";
-    $query=$this->db->query($sql,array($user_id));
+    $sql="select q.q_id,q.url,q.q_content,q.posted_by from QUESTION q where q.posted_by=? and q.anonymous=?";
+    $query=$this->db->query($sql,array($user_id,0));
     if($result=$query->result_array()){
 
       $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
@@ -439,19 +454,27 @@ class QuestionsModel extends CI_Model{
     }
   }
   function getQuestionsFollowed($user_id){
-    $sql="select q.q_id ,q.url,q.q_content,q.posted_by from QUESTION q,FOLLOWERS f where f.user_id=? and f.q_id=q.q_id order by q.q_id desc limit 0,5 ";
+    $sql="select q.q_id ,q.url,q.q_content,q.posted_by,q.anonymous from QUESTION q,FOLLOWERS f where f.user_id=? and f.q_id=q.q_id order by q.q_id desc limit 0,5 ";
     $query=$this->db->query($sql,array($user_id));
     if($result=$query->result_array()){
 
       $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
       $content='<h2> Questions Followed:</h2>';
       foreach($result as $row){
+        if($row['anonymous']==1)
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+                  
+                 <strong>Anonymous</strong> 
+            ';
+      else
+        $userMarkup=$this->userMarkup($row['posted_by']);
+     
 
         $content.='
 
         <div id="questionPostDiv" class="well questionElement" style="background-color:white">
                   <div id="userDetailDiv">
-                  '.$this->userMarkup($row['posted_by']).' </div><!--/userDetailDiv-->
+                  '.$userMarkup.' </div><!--/userDetailDiv-->
                    <div id="questionDetailsDiv">
                     <p id="questionContent">
                     <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
@@ -464,7 +487,7 @@ class QuestionsModel extends CI_Model{
       return $content;
     }
     else{
-      return 'No Questions Followed ';
+      return '</br>No Questions Followed ';
     }
   }
   function sqlGetUserName($user_id){
@@ -492,7 +515,7 @@ class QuestionsModel extends CI_Model{
     $groupId=$CI->session->userdata('group_id');
     $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
 					t.topic_name,t.topic_url,c.category_name ,c.category_id,q.posted_by,
-					q.timestamp
+					q.timestamp,q.anonymous
 				
 				FROM
 					QUESTION q, TOPIC t, CATEGORY c 
@@ -516,6 +539,14 @@ class QuestionsModel extends CI_Model{
 
 
 		foreach( $result as $row ) {
+      if($row['anonymous']==1)
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+                  
+                 <strong>Anonymous</strong> 
+            ';
+      else
+        $userMarkup=$this->userMarkup($row['posted_by']);
+     
 			$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
 			$currentUrl=urlencode(current_url());
 
@@ -535,7 +566,7 @@ class QuestionsModel extends CI_Model{
 
 				<div id="questionPostDiv" class="well questionElement" style="background-color:white">
                   <div id="userDetailDiv">
-                  '.$this->userMarkup($row['posted_by']).' <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
+                  '.$userMarkup.' <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
                   </div>
                   <div id="questionDetailsDiv">
                     <p id="questionContent">
@@ -601,7 +632,7 @@ function getYearScopeQuestions(){
     $yearId=$CI->session->userdata('user_year');
     $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
           t.topic_name,t.topic_url,c.category_name ,c.category_id,q.posted_by,
-          q.timestamp
+          q.timestamp,q.anonymous
         
         FROM
           QUESTION q, TOPIC t, CATEGORY c 
@@ -625,7 +656,14 @@ function getYearScopeQuestions(){
 
 
     foreach( $result as $row ) {
-      $url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
+      if($row['anonymous']==1)
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+                  
+                 <strong>Anonymous</strong> 
+            ';
+      else
+        $userMarkup=$this->userMarkup($row['posted_by']);
+     
       $currentUrl=urlencode(current_url());
 
       $dynamicFollowOrUnfollowButton='';
@@ -642,9 +680,10 @@ function getYearScopeQuestions(){
 
       $content.='
 
+
         <div id="questionPostDiv" class="well questionElement" style="background-color:white">
                   <div id="userDetailDiv">
-                  '.$this->userMarkup($row['posted_by']).' <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
+                  '.$userMarkup.' <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
                   </div>
                   <div id="questionDetailsDiv">
                     <p id="questionContent">
@@ -730,12 +769,20 @@ function getGlobalScopeQuestions(){
     foreach( $result as $row ) {
       ///$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
       //$currentUrl=urlencode(current_url());
+      if($row['anonymous']==1)
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+                  
+                 <strong>Anonymous</strong> 
+            ';
+      else
+        $userMarkup=$this->userMarkup($row['posted_by']);
+     
 
       $content.='
 
         <div id="questionPostDiv" class="well questionElement" style="background-color:white">
                   <div id="userDetailDiv">
-                  '.$this->userMarkup($row['posted_by']).' <div style="float:right"></div>
+                  '.$userMarkup.' <div style="float:right"></div>
                   </div>
                   <div id="questionDetailsDiv">
                     <p id="questionContent">
@@ -869,12 +916,15 @@ else
 		//current time
 
 		$timestamp=$this->getCurrentTime();
-
+    if($questionArray['anonymous'])
+      $anonymous=1;
+    else
+      $anonymous=0;
 
 		//actual question insert
-		$sql = "insert into QUESTION(q_content,q_description,topic_id,posted_by,timestamp,url) 
-				values(?,?,?,?,?,?)";
-		$status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content'])));
+		$sql = "insert into QUESTION(q_content,q_description,topic_id,posted_by,timestamp,url,anonymous) 
+				values(?,?,?,?,?,?,?)";
+		$status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content']),$anonymous));
 		
 
 

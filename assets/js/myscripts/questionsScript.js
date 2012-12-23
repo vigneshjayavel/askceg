@@ -131,12 +131,13 @@ $(document).ready(function(){
 		var questionObj={
 			'q_content':$('#questionText').val(),
 			'q_description':$('#questionDescText').val(),
-			'topic_id':$('#topicSelectBox').attr('value')
+			'topic_id':$('#topicSelectBox').attr('value'),
+			'anonymous':$('#anonymousCheckbox').is(':checked')
 
 		};
 
 		if(!$('#postQuestionButton').attr('disabled')){
-
+                console.log(questionObj);
 			//post qs ajaxIly
 			$.post(CI.base_url+'QuestionsController/postQuestionToDb',
 				{'questionObj':JSON.stringify(questionObj)},

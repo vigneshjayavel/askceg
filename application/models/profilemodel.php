@@ -62,12 +62,12 @@ class ProfileModel extends CI_Model{
     else{
       $topicDescMarkup='No description yet!!!<a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Add description</a>';
     }
-    return ' <div> <h2>'.$row['topic_name'].'</h3><div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
+    return ' <div class="ask-dp pull-right">
+              <img src="'.base_url().'assets/img/topics/'.$row['topic_id'].'.jpg">
+              </div>
+            <div> <h2>'.$row['topic_name'].'</h2><br>About:'.$topicDescMarkup.'<div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
         
-        <a href="#">
-        <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/topics/topic.jpg" alt="">
-        </a> </div> <div class="well" >About:'.$topicDescMarkup.'
-        <br> </div> <div class="well" >No Of Questions: '.$row1['count(*)'].' </div>
+              </div> <div class="well" >No Of Questions: '.$row1['count(*)'].' </div>
 
          <div><a rel="tooltip" data-placement="bottom" 
                     data-original-title="'.
@@ -148,16 +148,6 @@ class ProfileModel extends CI_Model{
       return 'Cannot be updated!';
 }
 
-function EditCategoryDesc($category_id){
-
-    return '
-     <h4>Please write the category description <h4>
-     <form id="editCategoryDesc" >
-    <textarea id="EditCategoryDesc" > </textarea> <br>
-    <input type="Submit" id="editCategoryDesc" Value="Edit" > </input>'
-    ;
-
-}
    function getCategoryProfile($category_id){
 
     $sql="select * from CATEGORY where category_id=?";
@@ -169,18 +159,14 @@ function EditCategoryDesc($category_id){
     $row=$query->row_array();
     $row1=$query1->row_array();
       $row2=$query2->row_array();
-    if($row['category_desc']){
-      $CategoryDescMarkup=$row['category_desc'].'<br><a href='.base_url().'ProfileController/editCategoryDesc/'.$row['category_id'].'><br>Edit description</a>';
-    }
-    else{
-      $CategoryDescMarkup='No description yet!!!<a href='.base_url().'ProfileController/editCategoryDesc/'.$row['category_id'].'> <br>Add description</a>';
-    }
+    
     return '<h2>'.$row['category_name'].'</h3>
+            <div class="ask-dp pull-right">
+            <img src="'.base_url().'assets/img/category/'.$row['category_id'].'.jpg">
+            </div>
      <div class="well">
         
-        <a href="#">
-        <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/category/'.$row['category_id'].'.jpg" alt="">
-        </a> About:'.$CategoryDescMarkup.'
+         About:'.$row['category_desc'].'
         <br>
         
         </div>
@@ -331,9 +317,10 @@ function getInterimProfile(){
 
         return '<div class="well">
         
-        <a href="#">
-        <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/group/'.$row['group_id'].'.jpg" alt="">
-        </a>'.$row['group_name'].'
+       '.$row['group_name'].'
+        <div class="ask-dp pull-right">
+            <img src="'.base_url().'assets/img/group/'.$row['group_id'].'.jpg">
+        </div>
         <br>
         '.$AdminMarkup.'
         </div>

@@ -31,7 +31,8 @@ class HomeModel extends CI_Model{
                 </div>
                 <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
                 <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
-              </div>';
+              </div>
+              ';
 		return $carousel;
 
 	}
