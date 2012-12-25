@@ -228,11 +228,12 @@ function getQuestionsAskedToTeacher($user_id){
     return $content;
 
   }*/
+  
 
 
    
 
-	function sqlReadQuestions($category_id=null,$topic_url=null,$url=null){
+	function sqlStudentReadQuestions($category_id=null,$topic_url=null,$url=null){
      $content='';
   		$sql = "SELECT 
           q.q_id,q.q_content,q.q_description,q.topic_id,q.url,t.topic_name,
@@ -255,6 +256,16 @@ function getQuestionsAskedToTeacher($user_id){
       //$q_id=mysql_real_escape_string($q_id);
       $sql.=" and q.url=".'\''.$url.'\'';
     }
+    $CI =& get_instance();
+    $currentUserId=$CI->session->userdata('user_id');
+
+     $CurrentuserGroup=$CI->session->userdata('group_id');
+
+     $CurrentUserYear=$this->sqlgetUserYear($currentUserId);
+
+    
+    $sql.=" and (q.scope='global' or( q.scope='year' and q.scope_id=".$CurrentUserYear.") or( q.scope='group' and 
+      q.scope_id=".$CurrentuserGroup.") ) "; 
 		$query=$this->db->query($sql);
     $deleteUrl=base_url().'QuestionsController/DeleteQuestion/';
 		$categoryUrl=base_url().'ProfileController/viewCategory/';
@@ -262,14 +273,11 @@ function getQuestionsAskedToTeacher($user_id){
     $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
 		$followUrl=	base_url().'QuestionsController/followQuestion/';
 		$unfollowUrl=	base_url().'QuestionsController/unfollowQuestion/';
-		$CI =& get_instance();
-		$currentUserId=$CI->session->userdata('user_id');
 		 ///$content.=$row['category_name'];
-     $result=$query->result_array(); 
-     
-
-
-    foreach($result as $row  ){
+     if($result=$query->result_array()){
+    
+     foreach($result as $row){
+      
 			$currentUrl=urlencode(current_url());
       if($row['anonymous']==1)
         $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
@@ -355,6 +363,9 @@ function getQuestionsAskedToTeacher($user_id){
                 </div><!--/questionPostDiv-->
 
 			';
+    
+    }
+    
 		
 		}
 
@@ -518,6 +529,16 @@ function getQuestionsAskedToTeacher($user_id){
         $query=$this->db->query($query,array($user_id));
            if($row=$query->row_array())
             return $row['user_name'];
+          
+
+  }
+
+  function sqlGetUserYear($user_id){
+  
+    $query="select user_year from USERS u where u.user_id=?";
+        $query=$this->db->query($query,array($user_id));
+           if($row=$query->row_array())
+            return $row['user_year'];
           
 
   }
