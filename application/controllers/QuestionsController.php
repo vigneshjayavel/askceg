@@ -28,12 +28,9 @@ class QuestionsController extends CI_Controller {
 	}
 	function followQuestion($q_id){
 		
-		$redirectUrl=$this->input->get('redirectUrl');
 		$posted_by=$this->session->userdata('user_id');
 		$this->load->model('questionsmodel');
-		$this->questionsmodel->sqlCreateFollower($q_id,$posted_by);
-		//$this->load->view('Skeleton',$this->data);
-		redirect(urldecode($redirectUrl));
+		echo $this->questionsmodel->sqlCreateFollower($q_id,$posted_by);
 	
 	}
 	function followTopic($topic_id){
@@ -48,12 +45,9 @@ class QuestionsController extends CI_Controller {
 	}
 	function unfollowQuestion($q_id){
 		
-		$redirectUrl=$this->input->get('redirectUrl');
 		$posted_by=$this->session->userdata('user_id');
 		$this->load->model('questionsmodel');
-		$this->questionsmodel->sqlDeleteFollower($q_id,$posted_by);
-		//$this->load->view('Skeleton',$this->data);
-		redirect(urldecode($redirectUrl));
+		echo $this->questionsmodel->sqlDeleteFollower($q_id,$posted_by);
 	
 	}
 	function unfollowTopic($topic_id){

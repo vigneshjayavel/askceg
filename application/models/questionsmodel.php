@@ -230,8 +230,8 @@ function getQuestionsAskedToTeacher($user_id){
   }*/
   
   function sqlReadQuestions($category_id=null,$topic_url=null,$url=null){
-     $content='';
-      $sql = "SELECT 
+    $content='';
+    $sql = "SELECT 
           q.q_id,q.q_content,q.q_description,q.topic_id,q.url,t.topic_name,
           c.category_name ,c.category_id,q.posted_by,t.topic_url,q.anonymous,
           q.timestamp
@@ -255,11 +255,8 @@ function getQuestionsAskedToTeacher($user_id){
     $CI =& get_instance();
     $currentUserId=$CI->session->userdata('user_id');
 
-     $CurrentuserGroup=$CI->session->userdata('group_id');
-
-     $CurrentUserYear=$this->sqlgetUserYear($currentUserId);
-
-    
+    $CurrentuserGroup=$CI->session->userdata('group_id');
+    $CurrentUserYear=$this->sqlgetUserYear($currentUserId);
     $sql.=" and (q.scope='global' or( q.scope='year' and q.scope_id=".$CurrentUserYear.") or( q.scope='group' and 
       q.scope_id=".$CurrentuserGroup.") ) "; 
     $query=$this->db->query($sql);
@@ -269,100 +266,103 @@ function getQuestionsAskedToTeacher($user_id){
     $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
     $followUrl= base_url().'QuestionsController/followQuestion/';
     $unfollowUrl= base_url().'QuestionsController/unfollowQuestion/';
-     ///$content.=$row['category_name'];
-     if($result=$query->result_array()){
+    //$content.=$row['category_name'];
+    if($result=$query->result_array()){
     
-     foreach($result as $row){
-      
-      $currentUrl=urlencode(current_url());
-      if($row['anonymous']==1)
-        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
-                  
-                 <strong>Anonymous</strong> 
-            ';
-      else
-        $userMarkup=$this->userMarkup($row['posted_by']);
-     //$content.=$row['category_name'];
-      $dynamicFollowOrUnfollowButton='';
-      $deleteButton='';
-      if($currentUserId==$row['posted_by'])
-        $deleteButton.='<i class="icon-remove-sign"> </i>
-                    <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
-                    href="'.$deleteUrl.$row['q_id'].'" class="label label-inverse">Delete
-                    </a>';
-      else
-        $deleteButton.='';
-      if($this->sqlCheckUserFollowsQuestion($currentUserId,$row['q_id']))
-        $dynamicFollowOrUnfollowButton='
-          <i class="icon-minus-sign"></i>
-                  <a href="'.$unfollowUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
-                    data-original-title="Click to unfollow the question!">Unfollow</a>';
-      else
-        $dynamicFollowOrUnfollowButton='
-          <i class="icon-plus-sign"></i>
-                  <a href="'.$followUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
-                    data-original-title="Click to follow the question!">Follow</a>';
+      foreach($result as $row){
+        $currentUrl=urlencode(current_url());
+        if($row['anonymous']==1)
+          $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+                    
+                   <strong>Anonymous</strong> 
+              ';
+        else
+          $userMarkup=$this->userMarkup($row['posted_by']);
+       //$content.=$row['category_name'];
+        $dynamicFollowOrUnfollowButton='';
+        $deleteButton='';
+        if($currentUserId==$row['posted_by'])
+          $deleteButton.='<i class="icon-remove-sign"> </i>
+                      <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
+                      href="'.$deleteUrl.$row['q_id'].'" class="label label-inverse">Delete
+                      </a>';
+        else
+          $deleteButton.='';
+        if($this->sqlCheckUserFollowsQuestion($currentUserId,$row['q_id'])){
+          $dynamicFollowOrUnfollowButton='
+            <a href="#" class="qsFollowButton" data-follow_status="yes" data-q_id="'.$row['q_id'].'" rel="tooltip" data-placement="top" 
+            data-original-title="Click to unfollow the question!">
+            <i class="icon-minus-sign"></i>
+            Unfollow</a>';
+        }
+        else{
+          $dynamicFollowOrUnfollowButton='
+            <a href="#" class="qsFollowButton" data-follow_status="no" data-q_id="'.$row['q_id'].'" rel="tooltip" data-placement="top" 
+            data-original-title="Click to follow the question!">
+            <i class="icon-plus-sign"></i>
+            Follow</a>';
+        }
+          
+        $content.=' 
 
-      $content.=' 
-
-        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
-                  <div id="userDetailDiv">'.$userMarkup.'
-                    <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
-                  </div>
-                  <div id="questionDetailsDiv">
-                    <p id="questionContent">
-                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
-                    </strong>
-                    </p>
-                    <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
-                  </div><!--/questionDetailsDiv-->
-                  <div id="questionExtraDetailsDiv">    
-                    <a rel="tooltip" data-placement="top" data-original-title="Category"
-                    href="'.$categoryUrl.$row['category_id'].'" class="label label-warning">'.$row['category_name'].'
-                    </a>
-                    <i class="icon-arrow-right"></i>
-                    <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$topicUri.$row['topic_url'].'" class="label label-info">'.$row['topic_name'].'
-                    </a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                     &nbsp &nbsp &nbsp &nbsp   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
-                  '.$deleteButton.'
-                    <p>      </p>
-                  </div><!--/questionExtraDetailsDiv-->
-                  <div id="questionStatsDiv">
-                    <i class="icon-time"></i>
-                    <a>'.$row['timestamp'].'</a>
-                    <i class="icon-comment"></i>
-                    <a rel="tooltip popover" href="#" 
-                      data-placement="bottom" 
-                      data-original-title="Quick answer!" 
-                      data-content=\'<textarea placeholder="Enter answer here.."></textarea><br/>
-                                    <button class="postAnswerButton btn btn-success pull-right">
-                                    <i class="icon-share-alt icon-white"></i>
-                                    Answer!</button>\' 
-                      data-original-title="Post Answer"
-                      data-placement="bottom">
-                      '.$this->sqlGetAnswerCount($row['q_id']).' Answers
-                    </a>
-                    <i class="icon-eye-open"></i>
-                    <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
-                    <i class="icon-user"></i>
-                    <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" 
-                    data-poload="'.base_url().'QuestionsController/getFollowersForQuestion/'.$row['q_id']
-                    .'">
-                    '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
-                    Followers</a>
-                  <div style="float:right">
-                    FLike,Tweet                    
+          <div id="questionPostDiv" class="well questionElement" style="background-color:white">
+                    <div id="userDetailDiv">'.$userMarkup.'
+                      <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
                     </div>
-                  </div><!--/questionStatsDiv-->
-                  
-                </div><!--/questionPostDiv-->
+                    <div id="questionDetailsDiv">
+                      <p id="questionContent">
+                      <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
+                      </strong>
+                      </p>
+                      <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
+                    </div><!--/questionDetailsDiv-->
+                    <div id="questionExtraDetailsDiv">    
+                      <a rel="tooltip" data-placement="top" data-original-title="Category"
+                      href="'.$categoryUrl.$row['category_id'].'" class="label label-warning">'.$row['category_name'].'
+                      </a>
+                      <i class="icon-arrow-right"></i>
+                      <a rel="tooltip" data-placement="top" data-original-title="Topic"
+                      href="'.$topicUri.$row['topic_url'].'" class="label label-info">'.$row['topic_name'].'
+                      </a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                       &nbsp &nbsp &nbsp &nbsp   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+                    '.$deleteButton.'
+                      <p>      </p>
+                    </div><!--/questionExtraDetailsDiv-->
+                    <div id="questionStatsDiv">
+                      <i class="icon-time"></i>
+                      <a>'.$row['timestamp'].'</a>
+                      <i class="icon-comment"></i>
+                      <a rel="tooltip popover" href="#" 
+                        data-placement="bottom" 
+                        data-original-title="Quick answer!" 
+                        data-content=\'<textarea placeholder="Enter answer here.."></textarea><br/>
+                                      <button class="postAnswerButton btn btn-success pull-right">
+                                      <i class="icon-share-alt icon-white"></i>
+                                      Answer!</button>\' 
+                        data-original-title="Post Answer"
+                        data-placement="bottom">
+                        '.$this->sqlGetAnswerCount($row['q_id']).' Answers
+                      </a>
+                      <i class="icon-eye-open"></i>
+                      <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
+                      <i class="icon-user"></i>
+                      <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" 
+                      data-poload="'.$row['q_id']
+                      .'">
+                      '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
+                      Followers</a>
+                    <div style="float:right">
+                      FLike,Tweet                    
+                      </div>
+                    </div><!--/questionStatsDiv-->
+                    
+                  </div><!--/questionPostDiv-->
 
-      ';
-    
-    }
-    
-    
+        ';
+      
+      }
+      
+      
     }
 
     $jsonObj=json_encode(array('content'=>$content
@@ -1224,7 +1224,9 @@ else
   	
   	$sql = "insert into FOLLOWERS(q_id,user_id) values(?,?)";
   	$status=$this->db->query($sql,array($q_id,$posted_by));
-
+    if($status==-1){
+      return "success";
+    }
   }
 
   function sqlCreateFollowerTopic($topic_id,$follower){
@@ -1237,7 +1239,9 @@ else
   	 
   	$sql = "delete from FOLLOWERS where q_id =? and user_id =?";
   	$status=$this->db->query($sql,array($q_id,$posted_by));
-
+    if($status==-1){
+      return "success";
+    }
   }
   function sqlDeleteFollowerTopic($topic_id,$follower){
      

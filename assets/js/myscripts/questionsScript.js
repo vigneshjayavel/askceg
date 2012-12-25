@@ -255,18 +255,53 @@ $(document).ready(function(){
 
 	/* script for Ajaxifying listing of followers on hovering on followers link */
 	$('.followersInfoTooltip').bind('mouseover',function(){
-      var tooltipElement=$(this);
-      tooltipElement.attr('data-original-title','loading..')
-      $.get(tooltipElement.data('poload'),function(data){
-          tooltipElement.tooltip('hide')
-          .attr('data-original-title', data)
-          .tooltip('fixTitle')
-          .tooltip('show');
-      });
-
-      
-
+		var tooltipElement=$(this);
+		tooltipElement.attr('data-original-title','loading..')
+		$.get(CI.base_url+'QuestionsController/getFollowersForQuestion/'+tooltipElement.data('poload'),
+			function(data){
+		  tooltipElement.tooltip('hide')
+		  .attr('data-original-title', data)
+		  .tooltip('fixTitle')
+		  .tooltip('show');
+		});
     });
 
+	/* script for Ajaxifying follow/unfollow of qs*/
+	$('.qsFollowButton').bind('click',function(e){
+	
+		var qsFollowButtonElement=$(this);
+		var followStatus=qsFollowButtonElement.data('follow_status');
+		qsFollowButtonElement.empty().append('loading..');
+		var followUrl= CI.base_url+'QuestionsController/followQuestion/';
+	    var unfollowUrl= CI.base_url+'QuestionsController/unfollowQuestion/';
+	    var tooltipText='';
+	    var url='';
+	    url=followStatus=='yes'?unfollowUrl+qsFollowButtonElement.data('q_id'):followUrl+qsFollowButtonElement.data('q_id');
+		$.get(url,function(data){
+			if(followStatus=='yes'){
+		    	tooltipText='Click to unfollow the question!';
+		    	qsFollowButtonElement.empty()
+		    	qsFollowButtonElement.data('follow_status','no')
+		    	qsFollowButtonElement.prepend('<i class="icon-minus-sign"></i> ')
+		    	qsFollowButtonElement.append('Unfollow')
+		    	qsFollowButtonElement.tooltip('hide')
+				qsFollowButtonElement.attr('data-original-title', tooltipText)
+				displayNotification('success','Thanks! We will keep you updated with that!')
+			}
+			else if(followStatus=='no'){
+				tooltipText='Click to follow the question!';
+		    	qsFollowButtonElement.empty()
+		    	qsFollowButtonElement.data('follow_status','yes')
+		    	qsFollowButtonElement.prepend('<i class="icon-plus-sign"></i> ')
+		    	qsFollowButtonElement.append('Follow')
+		    	qsFollowButtonElement.tooltip('hide')
+				qsFollowButtonElement.attr('data-original-title', tooltipText)
+				displayNotification('success','Thanks! We will keep you updated with that!')
+			}
+
+		});
+		
+    });
+    
 
 });
