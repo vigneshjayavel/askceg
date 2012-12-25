@@ -106,7 +106,7 @@ class ProfileController extends CI_Controller {
 	    $this->load->model('questionsmodel');
 	    $this->load->model('profilemodel');
 		$this->data['centerContent']=$this->profilemodel->getTopicProfile($topic_url);
-		$this->data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,$topic_url,null);
+		$this->data['centerContent'].=$this->questionsmodel->sqlStudentReadQuestions(null,$topic_url,null);
 		$this->load->view('Skeleton',$this->data);
 	   }
 	}
@@ -118,7 +118,7 @@ class ProfileController extends CI_Controller {
 	    $this->load->model('questionsmodel');
 	    $this->load->model('profilemodel');
 		$this->data['centerContent']=$this->profilemodel->getCategoryProfile($category_id);
-		$this->data['centerContent'].=$this->questionsmodel->sqlReadQuestions($category_id,null,null);
+		$this->data['centerContent'].=$this->questionsmodel->sqlStudentReadQuestions($category_id,null,null);
 		$this->load->view('Skeleton',$this->data);
 	   }
 	}
