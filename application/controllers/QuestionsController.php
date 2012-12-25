@@ -202,4 +202,10 @@ class QuestionsController extends CI_Controller {
 		$content=$this->questionsmodel->sqlGetFollowersForQuestion($q_id);
 		echo $content;
 	}
+
+	function checkQuestionExistenceAndRedirect($qs){
+		$this->load->model('questionsmodel');
+		$content=$this->questionsmodel->sqlGetFollowersForQuestion($q_id);
+		echo $content;
+	}
 }

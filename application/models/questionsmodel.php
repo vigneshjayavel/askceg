@@ -229,7 +229,147 @@ function getQuestionsAskedToTeacher($user_id){
 
   }*/
   
+  function sqlReadQuestions($category_id=null,$topic_url=null,$url=null){
+     $content='';
+      $sql = "SELECT 
+          q.q_id,q.q_content,q.q_description,q.topic_id,q.url,t.topic_name,
+          c.category_name ,c.category_id,q.posted_by,t.topic_url,q.anonymous,
+          q.timestamp
+          FROM
+          QUESTION q, TOPIC t, CATEGORY c 
+          where 
+            q.topic_id=t.topic_id and
+            t.category_id=c.category_id";
+    if($category_id!=null){
+      $category_id=mysql_real_escape_string($category_id);
+      $sql.=" and c.category_id=".$category_id;
+    }
+    if($topic_url!=null){
+      $topic_id=$this->sqlgetTopicId($topic_url);
+      $sql.=" and t.topic_id=".$topic_id;
+    }
+    if($url!=null){
+      //$q_id=mysql_real_escape_string($q_id);
+      $sql.=" and q.url=".'\''.$url.'\'';
+    }
+    $CI =& get_instance();
+    $currentUserId=$CI->session->userdata('user_id');
 
+     $CurrentuserGroup=$CI->session->userdata('group_id');
+
+     $CurrentUserYear=$this->sqlgetUserYear($currentUserId);
+
+    
+    $sql.=" and (q.scope='global' or( q.scope='year' and q.scope_id=".$CurrentUserYear.") or( q.scope='group' and 
+      q.scope_id=".$CurrentuserGroup.") ) "; 
+    $query=$this->db->query($sql);
+    $deleteUrl=base_url().'QuestionsController/DeleteQuestion/';
+    $categoryUrl=base_url().'ProfileController/viewCategory/';
+    $topicUri=base_url().'ProfileController/viewTopic/';
+    $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
+    $followUrl= base_url().'QuestionsController/followQuestion/';
+    $unfollowUrl= base_url().'QuestionsController/unfollowQuestion/';
+     ///$content.=$row['category_name'];
+     if($result=$query->result_array()){
+    
+     foreach($result as $row){
+      
+      $currentUrl=urlencode(current_url());
+      if($row['anonymous']==1)
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+                  
+                 <strong>Anonymous</strong> 
+            ';
+      else
+        $userMarkup=$this->userMarkup($row['posted_by']);
+     //$content.=$row['category_name'];
+      $dynamicFollowOrUnfollowButton='';
+      $deleteButton='';
+      if($currentUserId==$row['posted_by'])
+        $deleteButton.='<i class="icon-remove-sign"> </i>
+                    <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
+                    href="'.$deleteUrl.$row['q_id'].'" class="label label-inverse">Delete
+                    </a>';
+      else
+        $deleteButton.='';
+      if($this->sqlCheckUserFollowsQuestion($currentUserId,$row['q_id']))
+        $dynamicFollowOrUnfollowButton='
+          <i class="icon-minus-sign"></i>
+                  <a href="'.$unfollowUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
+                    data-original-title="Click to unfollow the question!">Unfollow</a>';
+      else
+        $dynamicFollowOrUnfollowButton='
+          <i class="icon-plus-sign"></i>
+                  <a href="'.$followUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
+                    data-original-title="Click to follow the question!">Follow</a>';
+
+      $content.=' 
+
+        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
+                  <div id="userDetailDiv">'.$userMarkup.'
+                    <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
+                  </div>
+                  <div id="questionDetailsDiv">
+                    <p id="questionContent">
+                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
+                    </strong>
+                    </p>
+                    <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
+                  </div><!--/questionDetailsDiv-->
+                  <div id="questionExtraDetailsDiv">    
+                    <a rel="tooltip" data-placement="top" data-original-title="Category"
+                    href="'.$categoryUrl.$row['category_id'].'" class="label label-warning">'.$row['category_name'].'
+                    </a>
+                    <i class="icon-arrow-right"></i>
+                    <a rel="tooltip" data-placement="top" data-original-title="Topic"
+                    href="'.$topicUri.$row['topic_url'].'" class="label label-info">'.$row['topic_name'].'
+                    </a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                     &nbsp &nbsp &nbsp &nbsp   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+                  '.$deleteButton.'
+                    <p>      </p>
+                  </div><!--/questionExtraDetailsDiv-->
+                  <div id="questionStatsDiv">
+                    <i class="icon-time"></i>
+                    <a>'.$row['timestamp'].'</a>
+                    <i class="icon-comment"></i>
+                    <a rel="tooltip popover" href="#" 
+                      data-placement="bottom" 
+                      data-original-title="Quick answer!" 
+                      data-content=\'<textarea placeholder="Enter answer here.."></textarea><br/>
+                                    <button class="postAnswerButton btn btn-success pull-right">
+                                    <i class="icon-share-alt icon-white"></i>
+                                    Answer!</button>\' 
+                      data-original-title="Post Answer"
+                      data-placement="bottom">
+                      '.$this->sqlGetAnswerCount($row['q_id']).' Answers
+                    </a>
+                    <i class="icon-eye-open"></i>
+                    <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
+                    <i class="icon-user"></i>
+                    <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" 
+                    data-poload="'.base_url().'QuestionsController/getFollowersForQuestion/'.$row['q_id']
+                    .'">
+                    '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
+                    Followers</a>
+                  <div style="float:right">
+                    FLike,Tweet                    
+                    </div>
+                  </div><!--/questionStatsDiv-->
+                  
+                </div><!--/questionPostDiv-->
+
+      ';
+    
+    }
+    
+    
+    }
+
+    $jsonObj=json_encode(array('content'=>$content
+              ));
+    return $content;
+
+  }
 
    
 
@@ -785,31 +925,29 @@ else
 
   return 'No Questions posted in the year scope yet ';
   }
-function getGlobalScopeQuestions(){
+  function getGlobalScopeQuestions(){
     $content=null;
     $sql="SELECT *
 
-        FROM
-          QUESTION 
-        where 
-           scope='global'"
-        ;
+      FROM
+        QUESTION 
+      where 
+         scope='global'"
+      ;
 
     $query=$this->db->query($sql);
-    
+
     /// $row=$query->result_array();
     //$categoryUrl=base_url().'QuestionsController/viewQuestion/';
     $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
     //$followUrl= base_url().'QuestionsController/followQuestion/';
-   // $unfollowUrl= base_url().'QuestionsController/unfollowQuestion/';
+    // $unfollowUrl= base_url().'QuestionsController/unfollowQuestion/';
 
     //$CI =& get_instance();
-   // $currentUserName=$CI->session->userdata('user_name');
+    // $currentUserName=$CI->session->userdata('user_name');
     if($result=$query->result_array())
     {
-
-
-    foreach( $result as $row ) {
+      foreach( $result as $row ) {
       ///$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
       //$currentUrl=urlencode(current_url());
       if($row['anonymous']==1)
@@ -819,10 +957,9 @@ function getGlobalScopeQuestions(){
             ';
       else
         $userMarkup=$this->userMarkup($row['posted_by']);
-     
+
 
       $content.='
-
         <div id="questionPostDiv" class="well questionElement" style="background-color:white">
                   <div id="userDetailDiv">
                   '.$userMarkup.' <div style="float:right"></div>
@@ -837,13 +974,13 @@ function getGlobalScopeQuestions(){
                  
               
       ';
-    }
+      }
 
-return $content;
-  }
-else
+      return $content;
+      }
+      else
 
-  return 'No Questions posted in the global scope yet ';
+    return 'No Questions posted in the global scope yet ';
   }
 
 
@@ -963,26 +1100,29 @@ else
       $anonymous=1;
     else
       $anonymous=0;
-
-		//actual question insert
-		$sql = "insert into QUESTION(q_content,q_description,topic_id,posted_by,timestamp,url,anonymous) 
-				values(?,?,?,?,?,?,?)";
-		$status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content']),$anonymous));
-		
-
-
-		if($status==-1){
-			$status='success';
-			$msg='Question posted successfully!!';
-		}
-		else{
-			$status='error';
-			$msg='Question cannot be posted due to technical reasons!';
-		}
-		
-
+    $qsUrl='';
+    $qsResult=$this->sqlIsQuestionExists($questionArray['q_content']);
+    if(!$qsResult['exists']){
+      //actual question insert
+      $sql = "insert into QUESTION(q_content,q_description,topic_id,posted_by,timestamp,url,anonymous) 
+          values(?,?,?,?,?,?,?)";
+      $status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content']),$anonymous));
+      if($status==-1){
+        $status='success';
+        $msg='Question posted successfully!!';
+      }
+      else{
+        $status='error';
+        $msg='Question cannot be posted due to technical reasons!';
+      }
+    }
+    else{
+      $status='warning';
+      $msg='Question already exists!!...Redirecting you..';
+      $qsUrl=$qsResult['url'];
+    }
 		$jsonObj=json_encode(array('status'=>$status,
-									'msg'=>$msg
+									'msg'=>$msg,'qsUrl'=>$qsUrl
 							));
 		return $jsonObj;
 
@@ -990,13 +1130,18 @@ else
 
   function sqlIsTopicExists($topic_name){
 
-    $query="select count(topic_name) as cnt from TOPIC where topic_name = ?";
+    $query="select count(topic_name) as cnt,topic_url from TOPIC where topic_name = ?";
     $query=$this->db->query($query,array($topic_name));
     $row=$query->row_array();
-    if($row['cnt']==1)
-      return true;
-    else
-      return false;
+    $result=array();
+    if($row['cnt']!=0){
+      $result['exists']=true;
+      $result['topicUrl']=$row['topic_url'];
+    }
+    else{
+      $result['exists']=false;
+    }
+    return $result;
   }
 
   function sqlCreateTopic($topicObj,$posted_by){
@@ -1004,7 +1149,8 @@ else
     //TODO  
     $topicArray=json_decode($topicObj,TRUE);
     $topicUrl='';
-    if(!$this->sqlIsTopicExists($topicArray['topic_name'])){
+    $topicResult=$this->sqlIsTopicExists($topicArray['topic_name']);
+    if(!$topicResult['exists']){
 
       $timestamp=$this->getCurrentTime();
       $topicUrl=$this->generateTopicUrl($topicArray['topic_name']);
@@ -1028,10 +1174,7 @@ else
     else{
       $status='error';
       $msg='Topic '.$topicArray['topic_name'].' already exists. Redirecting you...';
-      $sql="select topic_url from TOPIC where topic_name = ?";
-      $query=$this->db->query($sql,array($topicArray['topic_name']));
-      $row=$query->row_array();
-      $topicUrl=$row['topic_url'];
+      $topicUrl=$topicResult['topicUrl'];
     }
 
 
@@ -1055,52 +1198,48 @@ else
 
 	}
 
-    function sqlUpdateViewCount($q_id){
-		$sql = "update QUESTION set views = views + 1 where q_id=?"; 
-		$status=$this->db->query($sql,array($q_id));
+  function sqlUpdateViewCount($q_id){
+  	$sql = "update QUESTION set views = views + 1 where q_id=?"; 
+  	$status=$this->db->query($sql,array($q_id));
 
+  }
 
-		
-    }
-    function sqlCreateFollower($q_id,$posted_by){
-    	
-		$sql = "insert into FOLLOWERS(q_id,user_id) values(?,?)";
-		$status=$this->db->query($sql,array($q_id,$posted_by));
+  function sqlCreateFollower($q_id,$posted_by){
+  	
+  	$sql = "insert into FOLLOWERS(q_id,user_id) values(?,?)";
+  	$status=$this->db->query($sql,array($q_id,$posted_by));
 
-		
-    }
-    function sqlCreateFollowerTopic($topic_id,$follower){
-      
+  }
+
+  function sqlCreateFollowerTopic($topic_id,$follower){
+    
     $sql = "insert into TOPIC_FOLLOWERS(topic_id,follower) values(?,?)";
     $status=$this->db->query($sql,array($topic_id,$follower));
 
-    
-    }
-    function sqlDeleteFollower($q_id,$posted_by){
-    	 
-		$sql = "delete from FOLLOWERS where q_id =? and user_id =?";
-		$status=$this->db->query($sql,array($q_id,$posted_by));
+  }
+  function sqlDeleteFollower($q_id,$posted_by){
+  	 
+  	$sql = "delete from FOLLOWERS where q_id =? and user_id =?";
+  	$status=$this->db->query($sql,array($q_id,$posted_by));
 
-		
-    }
-    function sqlDeleteFollowerTopic($topic_id,$follower){
-       
+  }
+  function sqlDeleteFollowerTopic($topic_id,$follower){
+     
     $sql = "delete from TOPIC_FOLLOWERS where topic_id =? and follower =?";
     $status=$this->db->query($sql,array($topic_id,$follower));
 
     
-    }
+  }
 
-    function sqlReadViewCount($q_id){
- 
-	
-		$sql="select views from QUESTION a where a.q_id=?";
-			$query=$this->db->query($sql,array($q_id));
-			$row=$query->row_array();
-				    return $row['views'];
+  function sqlReadViewCount($q_id){
 
+    $sql="select views from QUESTION a where a.q_id=?";
+    $query=$this->db->query($sql,array($q_id));
+    $row=$query->row_array();
+    return $row['views'];
 
 	}
+
 	function sqlGetTopicsInCategory1($categoryId){
 
     $content=null;
@@ -1172,5 +1311,19 @@ else
 
 	}
 
+  function sqlIsQuestionExists($qs){
+    $query="select count(q_content) as cnt,url from QUESTION where q_content = ?";
+    $query=$this->db->query($query,array($qs));
+    $row=$query->row_array();
+    $result=array();
+    if($row['cnt']!=0){
+      $result['exists']=true;
+      $result['url']=$row['url'];
+    }
+    else{
+      $result['exists']=false;
+    }
+    return $result;
+  }
 
 }

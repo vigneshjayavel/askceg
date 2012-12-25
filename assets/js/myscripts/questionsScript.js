@@ -142,7 +142,13 @@ $(document).ready(function(){
 			$.post(CI.base_url+'QuestionsController/postQuestionToDb',
 				{'questionObj':JSON.stringify(questionObj)},
 				function(jsonObj){
-					displayNotification(jsonObj.status,jsonObj.msg);				
+					if(jsonObj.status==='warning'){
+						var redirectUrl=CI.base_url+'AnswersController/viewAnswersForQuestion/'+jsonObj.qsUrl;
+						displayNotificationAndRedirect(jsonObj.msg,redirectUrl);
+					}
+					else{
+						displayNotification(jsonObj.status,jsonObj.msg);				
+					}
 				},//callback ends
 				'json'
 			);//post ends
