@@ -241,4 +241,21 @@ $(document).ready(function(){
 
 	}
 
+
+	/* script for Ajaxifying listing of followers on hovering on followers link */
+	$('.followersInfoTooltip').bind('mouseover',function(){
+      var tooltipElement=$(this);
+      tooltipElement.attr('data-original-title','loading..')
+      $.get(tooltipElement.data('poload'),function(data){
+          tooltipElement.tooltip('hide')
+          .attr('data-original-title', data)
+          .tooltip('fixTitle')
+          .tooltip('show');
+      });
+
+      
+
+    });
+
+
 });

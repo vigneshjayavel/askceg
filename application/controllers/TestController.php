@@ -16,14 +16,16 @@ class TestController extends CI_Controller {
 	function test(){
 		$this->load->view('TestView');
 	}
-   function convert(){
-   	$this->load->model('questionsmodel');
-   	$data['centerContent']=$this->questionsmodel->convert();
-   	$this->load->view('Skeleton',$this->data);
-		
+   	
+   	function convert(){
+		$this->load->model('questionsmodel');
+		$data['centerContent']=$this->questionsmodel->convert();
+		$this->load->view('Skeleton',$this->data);
+	}
 
-   }
-
+	function testData($q_id){
+		echo "This is test!! ".$q_id;
+	}
 
 
 }

@@ -196,4 +196,10 @@ class QuestionsController extends CI_Controller {
 		$content=$this->questionsmodel->sqlGetTopicsInCategory1($category);
 		echo $content;
 	} 
+
+	function getFollowersForQuestion($q_id){
+		$this->load->model('questionsmodel');
+		$content=$this->questionsmodel->sqlGetFollowersForQuestion($q_id);
+		echo $content;
+	}
 }

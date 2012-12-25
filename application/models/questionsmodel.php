@@ -342,9 +342,8 @@ function getQuestionsAskedToTeacher($user_id){
                     <i class="icon-eye-open"></i>
                     <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
                     <i class="icon-user"></i>
-                    <a rel="tooltip" data-placement="bottom" 
-                    data-original-title="'.
-                    $this->sqlGetFollowersForQuestion($row['q_id'])
+                    <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" 
+                    data-poload="'.base_url().'QuestionsController/getFollowersForQuestion/'.$row['q_id']
                     .'">
                     '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
                     Followers</a>
@@ -371,14 +370,6 @@ function getQuestionsAskedToTeacher($user_id){
     else
       return 'Sorry the Question could not be removed!';
 
-       
-
-
-
-
-
-
-
   }
   function getTopicPage($topic_id){
   $sql="select * from topic where topic_id=?";
@@ -400,14 +391,6 @@ function getQuestionsAskedToTeacher($user_id){
               .$row['timestamp'].'
               </div>
                ';
-
-
-
-
-
-
-
-
 
   }
  
