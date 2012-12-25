@@ -95,12 +95,17 @@ $(document).ready(function(){
 			$.post(CI.base_url+'QuestionsController/postTopicToDb',
 				{'topicObj':JSON.stringify(topicObj)},
 				function(jsonObj){
+					var redirectUrl=CI.base_url+'ProfileController/viewTopic/';
 					if(jsonObj.status=='success'){
-						displayNotification(jsonObj.status,jsonObj.msg);					
+						redirectUrl+=jsonObj.topicUrl;
+						displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);					
+					}
+					else if(jsonObj.status=='warning'){
+						redirectUrl+=jsonObj.topicUrl;
+						displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);
 					}
 					else{
-						var redirectUrl=CI.base_url+'ProfileController/viewTopic/'+jsonObj.topicUrl;
-						displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);
+						displayNotification(jsonObj.status,jsonObj.msg);
 					}
 					
 				},//callback ends

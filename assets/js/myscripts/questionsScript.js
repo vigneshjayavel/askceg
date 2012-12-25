@@ -142,12 +142,17 @@ $(document).ready(function(){
 			$.post(CI.base_url+'QuestionsController/postQuestionToDb',
 				{'questionObj':JSON.stringify(questionObj)},
 				function(jsonObj){
-					if(jsonObj.status==='warning'){
-						var redirectUrl=CI.base_url+'AnswersController/viewAnswersForQuestion/'+jsonObj.qsUrl;
+					var redirectUrl=CI.base_url+'AnswersController/viewAnswersForQuestion/';
+					if(jsonObj.status=='success'){
+						redirectUrl+=jsonObj.qsUrl;
+						displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);					
+					}
+					else if(jsonObj.status=='warning'){
+						redirectUrl+=jsonObj.qsUrl;
 						displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);
 					}
 					else{
-						displayNotification(jsonObj.status,jsonObj.msg);				
+						displayNotification(jsonObj.status,jsonObj.msg);
 					}
 				},//callback ends
 				'json'

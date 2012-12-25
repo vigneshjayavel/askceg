@@ -1109,7 +1109,8 @@ else
       $status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content']),$anonymous));
       if($status==-1){
         $status='success';
-        $msg='Question posted successfully!!';
+        $msg='Question posted successfully!!.. Redirecting you';
+        $qsUrl=$this->sqlGetQuestionUrlForQuestion($questionArray['q_content']);
       }
       else{
         $status='error';
@@ -1163,7 +1164,8 @@ else
       
       if($status==-1){
         $status='success';
-        $msg='Topic '.$topicArray['topic_name'].' created successfully!!';
+        $msg='Topic '.$topicArray['topic_name'].' created successfully!! Redirecting you...';
+        $topicUrl=$this->sqlGetTopicUrlForTopic($topicArray['topic_name']);
       }
       else{
         $status='error';
@@ -1184,6 +1186,20 @@ else
               ));
     return $jsonObj;
 
+  }
+
+  function sqlGetTopicUrlForTopic($topic_name){
+    $sql="select topic_url from TOPIC where topic_name=?";
+    $query=$this->db->query($sql,array($topic_name));
+    $row=$query->row_array();
+    return $row['topic_url'];
+  }
+
+  function sqlGetQuestionUrlForQuestion($q_content){
+    $sql="select url from QUESTION where q_content=?";
+    $query=$this->db->query($sql,array($q_content));
+    $row=$query->row_array();
+    return $row['url'];
   }
 
 	function getCurrentTime(){//todo
