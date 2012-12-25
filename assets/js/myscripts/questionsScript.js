@@ -144,7 +144,7 @@ $(document).ready(function(){
 				function(jsonObj){
 					if(jsonObj.status==='warning'){
 						var redirectUrl=CI.base_url+'AnswersController/viewAnswersForQuestion/'+jsonObj.qsUrl;
-						displayNotificationAndRedirect(jsonObj.msg,redirectUrl);
+						displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);
 					}
 					else{
 						displayNotification(jsonObj.status,jsonObj.msg);				

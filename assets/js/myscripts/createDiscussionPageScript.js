@@ -100,7 +100,7 @@ $(document).ready(function(){
 					}
 					else{
 						var redirectUrl=CI.base_url+'ProfileController/viewTopic/'+jsonObj.topicUrl;
-						displayNotificationAndRedirect(jsonObj.msg,redirectUrl);
+						displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);
 					}
 					
 				},//callback ends

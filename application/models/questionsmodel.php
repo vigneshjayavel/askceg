@@ -1166,13 +1166,13 @@ else
         $msg='Topic '.$topicArray['topic_name'].' created successfully!!';
       }
       else{
-        $status='success';
+        $status='error';
         $msg='oops.. something went wrong!!';
       }
     
     }
     else{
-      $status='error';
+      $status='warning';
       $msg='Topic '.$topicArray['topic_name'].' already exists. Redirecting you...';
       $topicUrl=$topicResult['topicUrl'];
     }

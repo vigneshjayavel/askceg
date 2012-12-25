@@ -1,35 +1,21 @@
-    function displayNotification(type,msg){
+function displayNotification(type,msg,redirectUrl){
 
-        //display an alert msg
-        $('<div class="alert alert-block alert-'+type+' fade in">' +
-                                '<button type="button" class="close" data-dismiss="alert">x</button>'+
-                                '<h4 class="alert-heading">'+msg+'</h4>'+
-                            '</div>').hide().prependTo('#center').fadeIn('slow');
-        //exec aftr 4s to remove alert 
-        setTimeout(function() {   
-           $('.alert').slideUp().fadeOut('slow');
-           $('#alert').remove();
-           console.log('alert removed!!')
-        }, 4000);
+    //display an alert msg
+    $('<div class="alert alert-block alert-'+type+' fade in">' +
+                            '<button type="button" class="close" data-dismiss="alert">x</button>'+
+                            '<h4 class="alert-heading">'+msg+'</h4>'+
+                        '</div>').hide().prependTo('#center').fadeIn('slow');
+    //exec aftr 4s to remove alert 
+    setTimeout(function() {   
+       $('.alert').slideUp().fadeOut('slow');
+       $('#alert').remove();
+       if(redirectUrl!=null){
+        location.href=redirectUrl;
+       }
+    }, 4000);
 
-    }
+}
 
-    function displayNotificationAndRedirect(msg,url){
-
-        //display an alert msg
-        $('<div class="alert alert-block alert-warning fade in">' +
-            '<button type="button" class="close" data-dismiss="alert">x</button>'+
-            '<h4 class="alert-heading">'+msg+'</h4>'+
-        '</div>').hide().prependTo('#center').fadeIn('slow');
-        //exec aftr 4s to remove alert 
-        setTimeout(function() {   
-           $('.alert').slideUp().fadeOut('slow');
-           $('#alert').remove();
-           console.log('alert removed!!')
-           location.href=url;
-        }, 4000);
-
-    }
 
 $(window).load(function(){
 
