@@ -41,7 +41,9 @@
     <script src="<?php echo base_url()?>assets/js/jquery.js"></script>
     <script src="<?php echo base_url()?>assets/js/bootstrap.js"></script>
     <script src="<?php echo base_url()?>assets/js/myscripts/myReusableGlobalScript.js"></script>
-
+      
+    <script src="<?php echo base_url()?>assets/js/underscore.js"></script>
+    <script src="<?php echo base_url()?>assets/js/backbone.js"></script>
     
     <script type="text/javascript">
     <!--
