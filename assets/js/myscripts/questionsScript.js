@@ -257,7 +257,7 @@ $(document).ready(function(){
 	$('.followersInfoTooltip').bind('mouseover',function(){
 		var tooltipElement=$(this);
 		tooltipElement.attr('data-original-title','loading..')
-		$.get(CI.base_url+'QuestionsController/getFollowersForQuestion/'+tooltipElement.data('poload'),
+		$.get(CI.base_url+'QuestionsController/getFollowersForQuestion/'+tooltipElement.data('q_id'),
 			function(data){
 		  tooltipElement.tooltip('hide')
 		  .attr('data-original-title', data)

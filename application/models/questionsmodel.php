@@ -304,59 +304,59 @@ function getQuestionsAskedToTeacher($user_id){
         }
           
         $content.=' 
-
+        
           <div id="questionPostDiv" class="well questionElement" style="background-color:white">
-                    <div id="userDetailDiv">'.$userMarkup.'
-                      <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
-                    </div>
-                    <div id="questionDetailsDiv">
-                      <p id="questionContent">
-                      <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
-                      </strong>
-                      </p>
-                      <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
-                    </div><!--/questionDetailsDiv-->
-                    <div id="questionExtraDetailsDiv">    
-                      <a rel="tooltip" data-placement="top" data-original-title="Category"
-                      href="'.$categoryUrl.$row['category_id'].'" class="label label-warning">'.$row['category_name'].'
-                      </a>
-                      <i class="icon-arrow-right"></i>
-                      <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                      href="'.$topicUri.$row['topic_url'].'" class="label label-info">'.$row['topic_name'].'
-                      </a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-                       &nbsp &nbsp &nbsp &nbsp   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
-                    '.$deleteButton.'
-                      <p>      </p>
-                    </div><!--/questionExtraDetailsDiv-->
-                    <div id="questionStatsDiv">
-                      <i class="icon-time"></i>
-                      <a>'.$row['timestamp'].'</a>
-                      <i class="icon-comment"></i>
-                      <a rel="tooltip popover" href="#" 
-                        data-placement="bottom" 
-                        data-original-title="Quick answer!" 
-                        data-content=\'<textarea placeholder="Enter answer here.."></textarea><br/>
-                                      <button class="postAnswerButton btn btn-success pull-right">
-                                      <i class="icon-share-alt icon-white"></i>
-                                      Answer!</button>\' 
-                        data-original-title="Post Answer"
-                        data-placement="bottom">
-                        '.$this->sqlGetAnswerCount($row['q_id']).' Answers
-                      </a>
-                      <i class="icon-eye-open"></i>
-                      <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
-                      <i class="icon-user"></i>
-                      <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" 
-                      data-poload="'.$row['q_id']
-                      .'">
-                      '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
-                      Followers</a>
-                    <div style="float:right">
-                      FLike,Tweet                    
-                      </div>
-                    </div><!--/questionStatsDiv-->
-                    
-                  </div><!--/questionPostDiv-->
+            <div id="userDetailDiv">'.$userMarkup.'
+              <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
+            </div>
+            <div id="questionDetailsDiv">
+              <p id="questionContent">
+              <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
+              </strong>
+              </p>
+              <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
+            </div><!--/questionDetailsDiv-->
+            <div id="questionExtraDetailsDiv">    
+              <a rel="tooltip" data-placement="top" data-original-title="Category"
+              href="'.$categoryUrl.$row['category_id'].'" class="label label-warning">'.$row['category_name'].'
+              </a>
+              <i class="icon-arrow-right"></i>
+              <a rel="tooltip" data-placement="top" data-original-title="Topic"
+              href="'.$topicUri.$row['topic_url'].'" class="label label-info">'.$row['topic_name'].'
+              </a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+               &nbsp &nbsp &nbsp &nbsp   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+            '.$deleteButton.'
+              <p>      </p>
+            </div><!--/questionExtraDetailsDiv-->
+            <div id="questionStatsDiv">
+              <i class="icon-time"></i>
+              <a>'.$row['timestamp'].'</a>
+              <i class="icon-comment"></i>
+              <a rel="tooltip popover" href="#" 
+                data-placement="bottom" 
+                data-original-title="Quick answer!" 
+                data-content=\'<textarea placeholder="Enter answer here.."></textarea><br/>
+                              <button class="postAnswerButton btn btn-success pull-right">
+                              <i class="icon-share-alt icon-white"></i>
+                              Answer!</button>\' 
+                data-original-title="Post Answer"
+                data-placement="bottom">
+                '.$this->sqlGetAnswerCount($row['q_id']).' Answers
+              </a>
+              <i class="icon-eye-open"></i>
+              <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
+              <i class="icon-user"></i>
+              <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" 
+              data-q_id="'.$row['q_id']
+              .'">
+              '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
+              Followers</a>
+            <div style="float:right">
+              FLike,Tweet                    
+              </div>
+            </div><!--/questionStatsDiv-->
+            
+          </div><!--/questionPostDiv-->
 
         ';
       
@@ -491,7 +491,7 @@ function getQuestionsAskedToTeacher($user_id){
                     <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
                     <i class="icon-user"></i>
                     <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" 
-                    data-poload="'.base_url().'QuestionsController/getFollowersForQuestion/'.$row['q_id']
+                    data-q_id="'.$row['q_id']
                     .'">
                     '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
                     Followers</a>
