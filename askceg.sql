@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 26, 2012 at 01:41 PM
+-- Generation Time: Dec 26, 2012 at 10:44 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `ANSWER` (
   `vote` int(20) NOT NULL,
   `timestamp` varchar(50) NOT NULL,
   PRIMARY KEY (`a_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `ANSWER`
@@ -62,7 +62,9 @@ INSERT INTO `ANSWER` (`a_id`, `a_content`, `q_id`, `posted_by`, `scope`, `vote`,
 (19, 'sfsfff\n', 3, 2011103089, '', 0, '05:00 PM 21-Dec-12'),
 (20, 'donno', 4, 2011103089, '', 0, '07:48 PM 21-Dec-12'),
 (21, 'dgdgd', 4, 2011103089, '', 0, '09:39 PM 21-Dec-12'),
-(22, 'dgdgg\n', 2, 2011103089, '', 0, '10:08 PM 21-Dec-12');
+(22, 'dgdgg\n', 2, 2011103089, '', 0, '10:08 PM 21-Dec-12'),
+(23, 'i didnt even start yet...pls if anyone does complete..\nsend me a link to the h.w!!!', 31, 2011103089, '', 0, '02:21 AM 27-Dec-12'),
+(25, 'here is the link to the program solutions\nhttps://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=http://mail.google.com/mail/&scc=1&ltmpl=default&ltmplcache=2\n', 31, 2011103085, '', 0, '02:23 AM 27-Dec-12');
 
 -- --------------------------------------------------------
 
@@ -83,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `CATEGORY` (
 --
 
 INSERT INTO `CATEGORY` (`category_id`, `category_name`, `category_desc`, `category_url`) VALUES
-(1, 'cse', '', 'cse'),
+(1, 'cse', 'this is the official askceg page for CSE department.post your questions here for cse teachers to answer', 'cse'),
 (2, 'ece', 'all about Entertainment', 'ece'),
 (3, 'mechanical engineering', '', 'mechanical-engineering'),
 (4, 'civil engineering', '', 'civil-engineering'),
@@ -134,6 +136,7 @@ INSERT INTO `FOLLOWERS` (`q_id`, `user_id`) VALUES
 (2, 2011103051),
 (2, 2011103090),
 (1, 2011103089),
+(31, 2011103085),
 (1, 2011103089),
 (15, 2011103089),
 (4, 2011103085),
@@ -208,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `QUESTION` (
   `url` varchar(400) NOT NULL,
   `anonymous` int(20) NOT NULL,
   PRIMARY KEY (`q_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
 
 --
 -- Dumping data for table `QUESTION`
@@ -240,9 +243,15 @@ INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `
 (27, 'qwert!', 5, 2011103089, 0, '01:30 PM 26-Dec-12', '', 0, 0, 'qwert', 0),
 (28, 'svfvzsvzc', 6, 2011103089, 0, '01:33 PM 26-Dec-12', '', 0, 0, 'svfvzsvzc', 0),
 (29, 'sss', 6, 2011103089, 0, '01:34 PM 26-Dec-12', '', 0, 0, 'sss', 0),
-(30, 'is 4th sem easy?', 5, 2011103089, 0, '01:35 PM 26-Dec-12', '', 0, 0, 'is-4th-sem-easy', 0),
-(31, 'checking group scope', 5, 2011103089, 1, '04:46 PM 26-Dec-12', '', 0, 0, 'checking-group-scope', 0),
-(32, 'dsdggg', 1, 2011103089, 1, '04:46 PM 26-Dec-12', '', 0, 0, 'dsdggg', 0);
+(30, 'is 4th sem easy?', 1, 2011103090, 1, '01:35 PM 26-Dec-12', '', 0, 0, 'is-4th-sem-easy', 0),
+(31, 'did anyone complete the lab work?', 9, 2011103002, 1, '04:46 PM 26-Dec-12', '', 0, 0, 'checking-group-scope', 0),
+(32, 'dsdggg', 1, 2011103089, 1, '04:46 PM 26-Dec-12', '', 0, 0, 'dsdggg', 0),
+(33, 'fsfssfsf', 6, 2011103089, 0, '01:39 AM 27-Dec-12', '', 0, 0, 'fsfssfsf', 0),
+(34, 'hello', 4, 2011103089, 0, '01:40 AM 27-Dec-12', '', 0, 0, 'hello', 0),
+(35, 'from a fourth semester perspective,what are the subjects that we should be conceptually strong at for better future prospects or for future studies?\n', 7, 2011103089, 0, '01:46 AM 27-Dec-12', '', 0, 0, 'from-a-fourth-semester-perspective-what-are-the-subjects-that-we-should-be-conceptually-strong-at-for-better-future-prospects-or-for-future-studies', 0),
+(36, 'why is CodeIgnitor framework faster than cakephp?', 8, 2011103089, 0, '01:54 AM 27-Dec-12', '', 0, 0, 'why-is-CodeIgnitor-framework-faster-than-cakephp', 0),
+(37, ' How to handle StackOverflowError in Java?', 9, 2011103089, 0, '02:11 AM 27-Dec-12', '', 0, 0, 'How-to-handle-StackOverflowError-in-Java', 0),
+(38, '\nObjective-C/iOS vs Java - Career Prospects ? (A non-technical queries, well mostly)', 9, 2011103089, 0, '02:14 AM 27-Dec-12', '', 0, 0, '0-votes-0answers-18-views-Objective-C-iOS-vs-Java-Career-Prospects-A-non-technical-queries-well-mostly', 0);
 
 -- --------------------------------------------------------
 
@@ -317,7 +326,7 @@ CREATE TABLE IF NOT EXISTS `TOPIC` (
   `topic_url` varchar(200) NOT NULL,
   PRIMARY KEY (`topic_id`),
   UNIQUE KEY `topic_id` (`topic_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `TOPIC`
@@ -329,7 +338,10 @@ INSERT INTO `TOPIC` (`topic_id`, `topic_name`, `topic_desc`, `posted_by`, `categ
 (3, 'ibatch boys', '', 0, 1, '', 'ibatch-boys'),
 (4, 'Movies', 'Contains all questions about movies!', 2011103090, 2, '', 'Movies'),
 (5, 'battle of brains', '', 0, 3, '', 'battle-of-brains'),
-(6, 'iphone is cool', '', 604, 4, '09:11 PM 23-Dec-12', 'iphone-is-cool');
+(6, 'iphone is cool', '', 604, 4, '09:11 PM 23-Dec-12', 'iphone-is-cool'),
+(7, 'placement', '', 2011103089, 3, '01:46 AM 27-Dec-12', 'placement'),
+(8, 'programming', '', 2011103089, 1, '01:47 AM 27-Dec-12', 'programming'),
+(9, 'JAVA labwork-4th sem', 'this is a askceg page where anyone can post questions related java lab and also post answer', 2011103089, 1, '02:09 AM 27-Dec-12', 'JAVA-labwork-4th-sem');
 
 -- --------------------------------------------------------
 
@@ -361,8 +373,14 @@ INSERT INTO `TOPIC_FOLLOWERS` (`topic_id`, `follower`) VALUES
 (1, 2011103085),
 (1, 2011103090),
 (1, 2011103089),
-(3, 2011103089),
-(2, 2011103089);
+(8, 2011103053),
+(8, 2011103090),
+(8, 2011103089),
+(9, 2011103089),
+(9, 2011103051),
+(9, 2011103052),
+(9, 2011103053),
+(9, 2011103054);
 
 -- --------------------------------------------------------
 
@@ -431,6 +449,19 @@ CREATE TABLE IF NOT EXISTS `USER_HISTORY_LOG` (
   `group_id` int(20) NOT NULL,
   `password` varchar(20) NOT NULL,
   PRIMARY KEY (`user_id`,`user_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `VOTE`
+--
+
+CREATE TABLE IF NOT EXISTS `VOTE` (
+  `a_id` int(20) NOT NULL,
+  `user_id` int(20) NOT NULL,
+  `vote` int(20) NOT NULL,
+  `timestamp` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

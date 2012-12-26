@@ -69,8 +69,22 @@ class QuestionsModel extends CI_Model{
       $query=$this->db->query($q,array($this->generateQuestionUrl($row['q_content']),$row['q_id']));
     }
   }
-	function getCenterContentAskQuestion(){
+  function getCategoryOptions(){
 
+    $sql="select category_id,category_name from  CATEGORY ";
+    $query=$this->db->query($sql,array());
+    $result=$query->result_array();
+    $optionMarkup='<option>Select a category</option>';
+                
+    foreach($result as $row){
+      $optionMarkup.=' <option value="'.$row['category_id'].'">'.$row['category_name'].'</option>';
+               
+    }
+    return $optionMarkup;
+
+  }
+	function getCenterContentAskQuestion(){
+    
 		return '
 		<form class="form-horizontal well">
         <fieldset>
@@ -79,12 +93,8 @@ class QuestionsModel extends CI_Model{
             <label class="control-label" for="categorySelectBox">Select Category</label>
             <div class="controls">
               <select rel="tooltip" data-placement="top" data-original-title="Category of your question" id="categorySelectBox">
-                <option>Select a category</option>
-                <option value="1">Education</option>
-                <option value="2">Entertainment</option>
-                <option value="3">Sports</option>
-                <option value="4">Technology</option>
-                <option value="5">Miscellaneous</option>
+                
+                '.$this->getCategoryOptions().'
               </select>
             </div>
           </div>
@@ -190,14 +200,8 @@ function getQuestionsAskedToTeacher($user_id){
           <div class="control-group">
             <label class="control-label" for="categorySelectBox">Select Category</label>
             <div class="controls">
-              <select rel="tooltip" data-placement="top" data-original-title="Category of your question" id="categorySelectBox">
-                <option>Select a category</option>
-                <option value="1">Education</option>
-                <option value="2">Entertainment</option>
-                <option value="3">Sports</option>
-                <option value="4">Technology</option>
-                <option value="5">Miscellaneous</option>
-              </select>
+              <select rel="tooltip" data-placement="top" data-original-title="Category to which the  topic belongs" id="categorySelectBox">
+               '.$this->getCategoryOptions().'</select>
             </div>
           </div>
           <div class="control-group">
@@ -419,7 +423,7 @@ function getQuestionsAskedToTeacher($user_id){
     $currentUserId=$CI->session->userdata('user_id');
 
     $CurrentuserGroup=$CI->session->userdata('group_id');
-    $sql.=" and (q.scope=0 or q.scope=".$CurrentuserGroup.")";
+    $sql.=" and (q.scope=0 or q.scope=".$CurrentuserGroup.") order by q_id desc";
     $query=$this->db->query($sql);
     $deleteUrl=base_url().'QuestionsController/DeleteQuestion/';
     $categoryUrl=base_url().'ProfileController/viewCategory/';
@@ -1043,7 +1047,7 @@ else
       //actual question insert
       $sql = "insert into QUESTION(q_content,q_description,topic_id,posted_by,timestamp,url,anonymous,scope) 
           values(?,?,?,?,?,?,?,?)";
-      $status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content']),$anonymous,$scope,$scope_id));
+      $status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content']),$anonymous,$scope));
       if($status==-1){
         $status='success';
         $msg='Question posted successfully!!.. Redirecting you';

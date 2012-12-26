@@ -15,6 +15,26 @@ class AnswersController extends CI_Controller {
 		$this->load->view('AnswerQuestionView');
 		
 	}
+	function voteUp($a_id){
+		
+		$redirectUrl=$this->input->get('redirectUrl');
+		$this->load->model('answermodel');
+		$this->answermodel->sqlUpdateVote($a_id,1);
+		redirect(urldecode($redirectUrl));
+	}
+	function voteDown($a_id){
+		
+		$redirectUrl=$this->input->get('redirectUrl');
+		$this->load->model('answermodel');
+		$this->answermodel->sqlUpdateVote($a_id,-1);
+		redirect(urldecode($redirectUrl));
+	}
+	function getVoteCount($a_id){
+		$this->load->model('answermodel');
+		$this->data['centerContent']=$this->answermodel->sqlgetVoteCount($a_id);
+
+		
+	}
 
 	function viewAnswersForQuestion($url){
 
