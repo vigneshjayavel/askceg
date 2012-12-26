@@ -39,8 +39,6 @@ class QuestionsController extends CI_Controller {
 		$posted_by=$this->session->userdata('user_id');
 		$this->load->model('questionsmodel');
 		$this->questionsmodel->sqlCreateFollowerTopic($topic_id,$posted_by);
-		//$this->load->view('Skeleton',$this->data);
-		redirect(urldecode($redirectUrl));
 	
 	}
 	function unfollowQuestion($q_id){
@@ -56,8 +54,6 @@ class QuestionsController extends CI_Controller {
 		$posted_by=$this->session->userdata('user_id');
 		$this->load->model('questionsmodel');
 		$this->questionsmodel->sqlDeleteFollowerTopic($topic_id,$posted_by);
-		//$this->load->view('Skeleton',$this->data);
-		redirect(urldecode($redirectUrl));
 	
 	}
 	function viewQuestion($category_id=null,$topic_id=null,$q_id=null){
@@ -74,14 +70,11 @@ class QuestionsController extends CI_Controller {
 	}
 	function viewTopicsInCategory($category_id){
 		
-		//equivalent to $_SESSION['logged_in']
-	    if ($this->session->userdata('logged_in') == TRUE)
+		if ($this->session->userdata('logged_in') == TRUE)
 	    {
-	    	//redirect to some page if logged in
-	       // redirect('HomeController');
-	    $this->load->model('questionsmodel');
-		$this->data['centerContent']=$this->questionsmodel->sqlgetTopicsInCategory($category_id);
-		$this->load->view('Skeleton',$this->data);
+		    $this->load->model('questionsmodel');
+			$this->data['centerContent']=$this->questionsmodel->sqlgetTopicsInCategory($category_id);
+			$this->load->view('Skeleton',$this->data);
 	    }
 	}
 	

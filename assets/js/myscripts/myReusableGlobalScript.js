@@ -200,11 +200,14 @@ $(document).ready(function(){
             
         },
         events: {
-          "click a.qsFollowButton":  "followOrUnfollowTopic",
-          "mouseover a.followersInfoTooltip" : "displayFollowersTooltip"
+          "click a.qsFollowButton" :  "followOrUnfollowQs",
+          "click a.topicFollowButton" : "followOrUnfollowTopic",
+          "mouseover a.followersInfoTooltip" : "displayFollowersTooltip",
+          "click #postAnswerButton" : "addAnswerToQuestion",
+          "keyup #answerText" : "trackTypedAnswer" 
         },
         /* method for Ajaxifying follow/unfollow of qs*/
-        followOrUnfollowTopic: function (ev) {
+        followOrUnfollowQs: function (ev) {
             var qsFollowButtonElement=ev.currentTarget;
             var q_id=$(qsFollowButtonElement).data('q_id');
             var follow_status=$(qsFollowButtonElement).data('follow_status');
@@ -231,7 +234,7 @@ $(document).ready(function(){
                     follow_status : 'yes',
                     tooltipText : 'Click to unfollow the question!',
                     icon : 'icon-minus-sign',
-                    followUnfollowText : 'Unfollow',
+                    followUnfollowText : 'Followed',
                     notificationStatus : 'success',
                     notificationMsg : 'You have followed the question successfully!'
                 };
@@ -252,7 +255,7 @@ $(document).ready(function(){
 
             //determining whether to inc/dec the followerscount
             var updationType;
-            if(qsFollowButtonMarkupObj.followUnfollowText=='Unfollow'){
+            if(qsFollowButtonMarkupObj.followUnfollowText=='Followed'){
                 updationType='increment';
             }
             else{
@@ -292,6 +295,131 @@ $(document).ready(function(){
             count=updationType=='increment'?count+1:count-1;
             followersCountSpanElement.text(count+' ');
 
+        },
+
+        addAnswerToQuestion: function(){
+            $('#submit').val('Please wait..');
+            $('span.error').remove();
+
+            //get the question id from 'id' attr of the question <a> element
+            //all question links willl be in <a class="question"></a> element
+            //in a particular question's page i.e AnswersController/ViewAnswerForQuestion/q_id
+            //there will be only 1 qs <a> element with class "question"
+
+            var q_id=$('.question').attr('id');
+            var a_content=$('#answerText').val();
+            var answerObj={
+                'a_content':a_content,
+                'q_id':q_id
+
+            };
+
+            var that=this;
+            $.post(CI.base_url+'AnswersController/postAnswerForQuestionToDb',
+                {'answerObj':JSON.stringify(answerObj)},
+                function(jsonObj){
+
+                working = false;
+                $('#submit').val('Submit');
+                
+                if(jsonObj.status=='success'){
+
+                    var answerMarkup=jsonObj.answerMarkup;
+
+                    $(answerMarkup).hide().prependTo('#previousAnswersDiv').slideDown();
+                    $('#body').val('');
+                    displayNotification('success','thanks for ur post! :)');
+                    $('#answerText').val('');
+                    that.enableOrDisablepostAnswerButton();
+                    that.updateAnswersCount(q_id);
+                }
+                else {
+
+                    displayNotification('error','oops something went wrong :(');
+                }
+            },'json');//post ends
+        },
+
+        enableOrDisablepostAnswerButton : function(answerLength){
+            if(answerLength>0){
+                $('#postAnswerButton')
+                    .attr('disabled',false)
+                    .removeClass('btn-danger')
+                    .addClass('btn-success');
+            }           
+            else{
+                $('#postAnswerButton')
+                    .attr('disabled',true)
+                    .addClass('btn-danger')
+                    .removeClass('btn-success');
+            }
+        },
+
+        trackTypedAnswer : function(){
+            var answerLength=$('#answerText').val().length;
+            this.enableOrDisablepostAnswerButton(answerLength);  
+        },
+
+        updateAnswersCount: function(q_id){
+            var followersCountSpanElement=$('span.answersCountSpan[data-q_id='+q_id+']');
+            var count=parseInt(followersCountSpanElement.text());
+            count++;
+            followersCountSpanElement.text(count+' ');
+        },
+
+        followOrUnfollowTopic : function(ev){
+            var topicFollowButtonElement=ev.currentTarget;
+            var topic_id=$(topicFollowButtonElement).data('topic_id');
+            var follow_status=$(topicFollowButtonElement).data('follow_status');
+            var follow_text='';
+            var topicFollowButtonMarkupObj={};
+            $(topicFollowButtonElement).empty().append('loading..');
+            var followUrl= CI.base_url+'QuestionsController/followTopic/';
+            var unfollowUrl= CI.base_url+'QuestionsController/unfollowTopic/';
+            var url=follow_status=='yes'?unfollowUrl+topic_id:followUrl+topic_id;
+            console.log('existing follow_status='+follow_status);
+            if(follow_status=='yes'){
+                topicFollowButtonMarkupObj={
+                follow_status : 'no',
+                tooltipText : 'Click to follow the topic!',
+                icon : 'icon-plus-sign',
+                followUnfollowText : 'Follow',
+                notificationStatus : 'success',
+                notificationMsg : 'You have unfollowed the topic successfully!'
+                };
+
+            }
+            else{
+                topicFollowButtonMarkupObj={
+                    follow_status : 'yes',
+                    tooltipText : 'Click to unfollow the topic!',
+                    icon : 'icon-minus-sign',
+                    followUnfollowText : 'Followed',
+                    notificationStatus : 'success',
+                    notificationMsg : 'You have followed the topic successfully!'
+                };
+            }
+            this.updateTopicFollowStatus(url,topicFollowButtonElement,topicFollowButtonMarkupObj);
+        },
+        /*after following/unfollowing update the markup of the button*/
+        convertMarkupOfTopicFollowButtonElement:function(topicFollowButtonElement,topicFollowButtonMarkupObj){
+            
+            $(topicFollowButtonElement).empty()
+            $(topicFollowButtonElement).data('follow_status',topicFollowButtonMarkupObj.follow_status)
+            $(topicFollowButtonElement).prepend('<i class="'+topicFollowButtonMarkupObj.icon+'"></i> ')
+            $(topicFollowButtonElement).append(topicFollowButtonMarkupObj.followUnfollowText)
+            $(topicFollowButtonElement).tooltip('hide')
+            $(topicFollowButtonElement).attr('data-original-title', topicFollowButtonMarkupObj.tooltipText)
+            displayNotification(topicFollowButtonMarkupObj.notificationStatus,topicFollowButtonMarkupObj.notificationMsg)
+        },
+        /*after following/unfollowing update db */
+        updateTopicFollowStatus:function(url,topicFollowButtonElement,topicFollowButtonMarkupObj){
+            var that=this;
+            $.get(url,function(data){
+                that.convertMarkupOfTopicFollowButtonElement(topicFollowButtonElement,topicFollowButtonMarkupObj);
+            
+            });
+            
         }
 
 

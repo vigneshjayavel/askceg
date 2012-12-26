@@ -454,7 +454,7 @@ function getQuestionsAskedToTeacher($user_id){
             <a href="#" class="qsFollowButton" data-follow_status="yes" data-q_id="'.$row['q_id'].'" rel="tooltip" data-placement="top" 
             data-original-title="Click to unfollow the question!">
             <i class="icon-minus-sign"></i>
-            Unfollow</a>';
+            Followed</a>';
         }
         else{
           $dynamicFollowOrUnfollowButton='
@@ -502,7 +502,7 @@ function getQuestionsAskedToTeacher($user_id){
                               Answer!</button>\' 
                 data-original-title="Post Answer"
                 data-placement="bottom">
-                <span class="answersCountSpan" '.$this->sqlGetAnswerCount($row['q_id']).'</span> Answers
+                <span class="answersCountSpan" data-q_id="'.$row['q_id'].'" >'.$this->sqlGetAnswerCount($row['q_id']).'</span> Answers
               </a>
               <i class="icon-eye-open"></i>
               <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
@@ -850,122 +850,7 @@ else
   return 'No Questions posted in the group yet ';
   }
 
-/*function getYearScopeQuestions(){
-    $content=null;
-    $CI =& get_instance();
-    $yearId=$this->sqlGetUserYear($CI->session->userdata('user_id'));
-    $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
-          t.topic_name,t.topic_url,c.category_name ,c.category_id,q.posted_by,
-          q.timestamp,q.anonymous
-        
-        FROM
-          QUESTION q, TOPIC t, CATEGORY c 
-        where 
-          q.topic_id=t.topic_id and
-          t.category_id=c.category_id and q.scope='year' and q.scope_id='$yearId'"
-        ;
 
-    $query=$this->db->query($sql);
-    
-    // $row=$query->result_array();
-    $categoryUrl=base_url().'QuestionsController/viewQuestion/';
-    $topicUri=base_url().'ProfileController/viewTopic/';
-    $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
-    $followUrl= base_url().'QuestionsController/followQuestion/';
-    $unfollowUrl= base_url().'QuestionsController/unfollowQuestion/';
-
-    $CI =& get_instance();
-    $currentUserName=$CI->session->userdata('user_name');
-    if($result=$query->result_array()){
-
-
-    foreach( $result as $row ) {
-      if($row['anonymous']==1)
-        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
-                  
-                 <strong>Anonymous</strong> 
-            ';
-      else
-        $userMarkup=$this->userMarkup($row['posted_by']);
-     
-      $currentUrl=urlencode(current_url());
-
-      $dynamicFollowOrUnfollowButton='';
-      if($this->sqlCheckUserFollowsQuestion($currentUserName,$row['q_id']))
-        $dynamicFollowOrUnfollowButton='
-          <i class="icon-minus-sign"></i>
-                  <a href="'.$unfollowUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
-                    data-original-title="Click to unfollow the question!">Unfollow</a>';
-      else
-        $dynamicFollowOrUnfollowButton='
-          <i class="icon-plus-sign"></i>
-                  <a href="'.$followUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
-                    data-original-title="Click to follow the question!">Follow</a>';
-
-      $content.='
-
-
-        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
-                  <div id="userDetailDiv">
-                  '.$userMarkup.' <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
-                  </div>
-                  <div id="questionDetailsDiv">
-                    <p id="questionContent">
-                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
-                    </strong>
-                    </p>
-                    <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
-                  </div><!--/questionDetailsDiv-->
-                  <div id="questionExtraDetailsDiv">    
-                    <a rel="tooltip" data-placement="top" data-original-title="Category"
-                    href="'.$categoryUrl.$row['category_id'].'" class="label label-warning">'.$row['category_name'].'
-                    </a>
-                    <i class="icon-arrow-right"></i>
-                    <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$topicUri.$row['topic_url'].'" class="label label-info">'.$row['topic_name'].'
-                    </a>
-                    <p>      </p>
-                  </div><!--/questionExtraDetailsDiv-->
-                  <div id="questionStatsDiv">
-                    <i class="icon-time"></i>
-                    <a>'.$row['timestamp'].'</a>
-                    <i class="icon-comment"></i>
-                    <a rel="tooltip popover" href="#" 
-                      data-placement="bottom" 
-                      data-original-title="Quick answer!" 
-                      data-content=\'<textarea placeholder="Enter answer here.."></textarea><br/>
-                                    <button class="postAnswerButton btn btn-success pull-right">
-                                    <i class="icon-share-alt icon-white"></i>
-                                    Answer!</button>\' 
-                      data-original-title="Post Answer"
-                      data-placement="bottom">
-                      '.$this->sqlGetAnswerCount($row['q_id']).' Answers
-                    </a>
-                    <i class="icon-eye-open"></i>
-                    <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
-                    <i class="icon-user"></i>
-                    <a rel="tooltip" data-placement="bottom" 
-                    data-original-title="'.
-                    $this->sqlGetFollowersForQuestion($row['q_id'])
-                    .'">
-                    '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
-                    Followers</a>
-                  <div style="float:right">
-                    FLike,Tweet                    
-                    </div>
-                  </div><!--/questionStatsDiv-->
-                  
-                </div><!--/questionPostDiv-->
-
-      ';
-    }
-
-return $content;
-  }
-else
-
-  return 'No Questions posted in the year scope yet ';
-  }*/
   function getGlobalScopeQuestions(){
     $content=null;
     $sql="SELECT *
@@ -1285,7 +1170,9 @@ else
     
     $sql = "insert into TOPIC_FOLLOWERS(topic_id,follower) values(?,?)";
     $status=$this->db->query($sql,array($topic_id,$follower));
-
+    if($status==-1){
+      return "success";
+    }
   }
   function sqlDeleteFollower($q_id,$posted_by){
   	 
@@ -1299,7 +1186,9 @@ else
      
     $sql = "delete from TOPIC_FOLLOWERS where topic_id =? and follower =?";
     $status=$this->db->query($sql,array($topic_id,$follower));
-
+    if($status==-1){
+      return "success";
+    }
     
   }
 
@@ -1344,42 +1233,48 @@ else
 	function sqlGetTopicsInCategory($categoryId){
 
 		$content='<h2>Topics Under this Category are:</h2>';
+    $sql = 
+    'select * FROM TOPIC 
+    WHERE 
+    	CATEGORY_ID =?
+    ';
+    $query=$this->db->query($sql,array($categoryId));
+    $result=$query->result_array();
+    $followUrl=  base_url().'QuestionsController/followTopic/';
+    $unfollowUrl= base_url().'QuestionsController/unfollowTopic/';
+    $CI =& get_instance();
+    $currentUserId=$CI->session->userdata('user_id');
+    $currentUrl=urlencode(current_url());
 
-
-		$sql = 
-		'select * FROM TOPIC 
-		 WHERE 
-		 	CATEGORY_ID =?
-		 ';
-		 $query=$this->db->query($sql,array($categoryId));
-     $result=$query->result_array();
-     $followUrl=  base_url().'QuestionsController/followTopic/';
-     $unfollowUrl= base_url().'QuestionsController/unfollowTopic/';
-     $CI =& get_instance();
-     $currentUserId=$CI->session->userdata('user_id');
-     $currentUrl=urlencode(current_url());
-
-		  foreach ($result as $row) {
-		 	
-		 if($this->questionsmodel->sqlCheckUserFollowsTopic($currentUserId,$row['topic_id']))
-      $dynamicFollowOrUnfollowButton='
-          <i class="icon-minus-sign"></i>
-                  <a href="'.$unfollowUrl.$row['topic_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
-                    data-original-title="Click to unfollow the question!">Unfollow</a>';
-      else
+    foreach ($result as $row) {
+    	
+      if($this->questionsmodel->sqlCheckUserFollowsTopic($currentUserId,$row['topic_id'])){
         $dynamicFollowOrUnfollowButton='
-          <i class="icon-plus-sign"></i>
-                  <a href="'.$followUrl.$row['topic_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
-                    data-original-title="Click to follow the question!">Follow</a>';
+        <a href="#" class="topicFollowButton" data-follow_status="yes" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
+        data-original-title="Click to unfollow the topic!">
+        <i class="icon-minus-sign"></i>
+        Followed</a>';
 
-		
-			$content.='<div class=well> <a href="'.base_url().'ProfileController/ViewTopic/'.$row['topic_url'].'"> '.$row['topic_name'].'</a><div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div></div>';
-		
-		}
-		if($content=='<h2>Topics Under this Category are:</h2>')
-			$content.='No topics Under this Category yet!'; 
+      }
+      else{
+        $dynamicFollowOrUnfollowButton='
+        <a href="#" class="topicFollowButton" data-follow_status="no" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
+        data-original-title="Click to Follow the topic!">
+        <i class="icon-plus-sign"></i>
+        Follow</a>';
 
-		return $content;
+      }
+        
+
+      $content.='<div class=well> <a href="'.base_url().'ProfileController/ViewTopic/'.$row['topic_url'].'"> '.$row['topic_name'].'</a><div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div></div>';
+
+    }
+
+    if($content=='<h2>Topics Under this Category are:</h2>'){
+      $content.='No topics Under this Category yet!'; 
+    }
+    
+    return $content;
 
 	}
 
