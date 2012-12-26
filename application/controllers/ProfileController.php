@@ -58,7 +58,7 @@ class ProfileController extends CI_Controller {
 			$this->load->model('profilemodel');
 			$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getYearProfile($year_id);
-        $data['centerContent'].=$this->questionsmodel->getYearScopeQuestions($year_id);
+       // $data['centerContent'].=$this->questionsmodel->getYearScopeQuestions($year_id);
 		$this->load->view('Skeleton',$data);
 	
 		}
@@ -106,7 +106,7 @@ class ProfileController extends CI_Controller {
 	    $this->load->model('questionsmodel');
 	    $this->load->model('profilemodel');
 		$this->data['centerContent']=$this->profilemodel->getTopicProfile($topic_url);
-		$this->data['centerContent'].=$this->questionsmodel->sqlStudentReadQuestions(null,$topic_url,null);
+		$this->data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,$topic_url,null);
 		$this->load->view('Skeleton',$this->data);
 	   }
 	}
@@ -163,7 +163,7 @@ class ProfileController extends CI_Controller {
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getCenterContentMyYear();
-			$data['centerContent'].=$this->questionsmodel->getYearScopeQuestions();
+			//$data['centerContent'].=$this->questionsmodel->getYearScopeQuestions();
 		$this->load->view('Skeleton',$data);
 	}
 	function AccountSettings()

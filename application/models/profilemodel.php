@@ -659,10 +659,10 @@ function getInterimProfile(){
     $row=$query->row_array();
     
 		return '        <div class="well">
-        
-        <a href="#">
-        <img class="thumbnail" height="200px" width="140px" src="'.base_url().'assets/img/group/'.$row['group_id'].'.jpg" alt="">
-        </a>'.$row['group_name'].'
+        <div class="ask-dp pull-right">
+              <img src="'.base_url().'assets/img/groups/1.jpg">
+          </div>
+        <h3>'.$row['group_name'].'</h3>
         <br>
         </div>
         '.$AdminMarkup.'

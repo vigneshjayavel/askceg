@@ -35,7 +35,21 @@ function sqlGetUserName($user_id){
                    ';
 
   }
-  
+  function sqlUpdateVoteUp($a_id,$vote){
+  	$CI=&get_instance();
+  	$user_id=$CI->session->userdata('user_id');
+  	$sql="insert into VOTE(a_id,user_id,vote,timestamp) values(?,?,?,?)";
+  	$query=$this->db->query($sql,array($a_id,$user_id,$vote,$this->getCurrentTime()));
+
+  }
+  function sqlgetVoteCount($a_id){
+		$this->load->model('answermodel');
+		$this->data['centerContent']=$this->answermodel->sqlgetVoteCount($a_id);
+
+		
+	}
+
+
 	function sqlReadAnswers($url=null,$curr_id){
 
 
