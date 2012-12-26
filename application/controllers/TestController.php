@@ -8,9 +8,32 @@ class TestController extends CI_Controller {
 
 	}
 
-	function dbTest(){
+	function dbTest($startIndex=null,$endIndex=null){
 
-		echo '';
+		if($startIndex==null && $endIndex==null){
+			$sql = "SELECT 
+			q.q_id,q.q_content
+			FROM
+			QUESTION q
+			LIMIT 0,20";
+		}
+		else{
+			$sql = "SELECT 
+			q.q_id,q.q_content
+			FROM
+			QUESTION q
+			LIMIT $startIndex,$endIndex ";
+		}
+
+
+		$query=$this->db->query($sql);
+		$result='';
+		$resultSet=$query->result_array();
+		foreach($resultSet as $row){
+			$result.='<div>'.$row['q_content'].'</div>';
+		}
+		echo $result;
+
 	}
 
 	function test(){

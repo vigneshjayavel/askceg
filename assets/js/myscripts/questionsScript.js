@@ -239,20 +239,4 @@ $(document).ready(function(){
 	});
 
 
-	function postAnswer(q_id,answer){
-
-		if(answer.length>0){
-
-
-			displayNotification('success','Answer posted!!');
-		}
-		else{
-
-			displayNotification('warning','Please enter a valid answer!!');
-		}
-
-	}
-
-	
-
 });

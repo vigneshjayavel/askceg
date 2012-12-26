@@ -465,19 +465,19 @@ function getQuestionsAskedToTeacher($user_id){
         }
           
         $content.=' 
-        
-          <div id="questionPostDiv" class="well questionElement" style="background-color:white">
-            <div id="userDetailDiv">'.$userMarkup.'
+        <div class="questionElementDiv">
+          <div class="questionPostDiv" class="well questionElement" style="background-color:white">
+            <div class="userDetailDiv">'.$userMarkup.'
               <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
             </div>
-            <div id="questionDetailsDiv">
+            <div class="questionDetailsDiv">
               <p id="questionContent">
               <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
               </strong>
               </p>
               <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
             </div><!--/questionDetailsDiv-->
-            <div id="questionExtraDetailsDiv">    
+            <div class="questionExtraDetailsDiv">    
               <a rel="tooltip" data-placement="top" data-original-title="Category"
               href="'.$categoryUrl.$row['category_name'].'" class="label label-warning">'.$row['category_name'].'
               </a>
@@ -489,7 +489,7 @@ function getQuestionsAskedToTeacher($user_id){
             '.$deleteButton.'
               <p>      </p>
             </div><!--/questionExtraDetailsDiv-->
-            <div id="questionStatsDiv">
+            <div class="questionStatsDiv">
               <i class="icon-time"></i>
               <a>'.$row['timestamp'].'</a>
               <i class="icon-comment"></i>
@@ -518,7 +518,7 @@ function getQuestionsAskedToTeacher($user_id){
             </div><!--/questionStatsDiv-->
             
           </div><!--/questionPostDiv-->
-
+        </div><!--/questionElementDiv-->
         ';
       
       }
@@ -1043,7 +1043,7 @@ else
       //actual question insert
       $sql = "insert into QUESTION(q_content,q_description,topic_id,posted_by,timestamp,url,anonymous,scope) 
           values(?,?,?,?,?,?,?,?)";
-      $status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content']),$anonymous,$scope,$scope_id));
+      $status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content']),$anonymous,$scope));
       if($status==-1){
         $status='success';
         $msg='Question posted successfully!!.. Redirecting you';

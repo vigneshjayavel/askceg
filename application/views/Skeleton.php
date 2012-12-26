@@ -83,7 +83,12 @@
   </head>
 
   <body>
-
+    <div class="background-holder"></div>
+    <div id="alertBox" style="display:none; padding-top: 60px;">
+      <div class="alertMessage">
+          Some Msg!!
+      </div>
+    </div>
     <?php include "MenuFragment.php"; ?>
     <div class="container-fluid">
       <div class="row-fluid">

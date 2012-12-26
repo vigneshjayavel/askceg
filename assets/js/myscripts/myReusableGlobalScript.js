@@ -1,5 +1,5 @@
 function displayNotification(type,msg,redirectUrl){
-
+    /*
     //display an alert msg
     $('<div class="alert alert-block alert-'+type+' fade in">' +
                             '<button type="button" class="close" data-dismiss="alert">x</button>'+
@@ -13,7 +13,15 @@ function displayNotification(type,msg,redirectUrl){
         location.href=redirectUrl;
        }
     }, 4000);
-
+    */
+    $('#alertBox .alertMessage').html(msg);
+    $('#alertBox').fadeIn('slow');
+    setTimeout(function() {   
+       $('#alertBox').fadeOut('slow');
+       if(redirectUrl!=null){
+        location.href=redirectUrl;
+       }
+    }, 3000);
 }
 
 
