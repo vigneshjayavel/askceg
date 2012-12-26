@@ -240,6 +240,15 @@ class ProfileModel extends CI_Model{
     else
       return 'Cannot be updated!';
 }
+function sqlgetCategoryId($category_url){
+  $sql="select category_id from CATEGORY where category_url=?";
+   $query=$this->db->query($sql,array($category_url)); 
+   if($row=$query->row_array())
+   return $row['category_id'];
+ else
+  return 0;
+   
+}
 
    function getCategoryProfile($category_id){
 
@@ -253,7 +262,7 @@ class ProfileModel extends CI_Model{
     $row1=$query1->row_array();
       $row2=$query2->row_array();
     
-    return '<h2>'.$row['category_name'].'</h3>
+    return '<h2>'.$row['category_name'].'</h2>
             <div class="ask-dp pull-right">
             <img src="'.base_url().'assets/img/category/'.$row['category_id'].'.jpg">
             </div>
@@ -543,10 +552,6 @@ function getInterimProfile(){
                     Female
                   </label>
                   
-                  <label class="radio">
-                    <input type="radio" name="sex" id="sexRadios3" value="3">
-                    Other
-                  </label>
                   
                   
                   </div>
@@ -559,29 +564,7 @@ function getInterimProfile(){
                     <input id="shareemail" type="checkbox" checked="checked"> Show email to others
                   </label> 
                   
-                <br>
-                 <label class="control-label" for="phone">Phone Number</label>
-                  <div class="controls">
-                  <input type="text" class="input-xlarge" name="phone" id="phone" value="8220557222">
                    
-                  </div>
-                 <br>
-                
-                <label class="control-label" for="acctype">Account Type</label>
-                  <div class="controls">
-                  <select class="span3" id="acctype" onchange="changeform();">
-                   <option value="coll" selected="selected">College Student</option>
-                   <option value="school">School Student</option>
-                   <option value="fac">Faculty</option>
-                   <option value="corp">Corporate</option>
-                  </select>   
-                  
-                   
-                  </div>
-                <br>
-                  <div id="dynamic"><label class="control-label" for="institution">Your Institution</label>
-                  <div class="controls">
-                  
                   </div>
                 <br>
 

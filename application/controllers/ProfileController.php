@@ -110,15 +110,17 @@ class ProfileController extends CI_Controller {
 		$this->load->view('Skeleton',$this->data);
 	   }
 	}
-	function viewCategory($category_id){
+	function viewCategory($category_url){
 		
 		//equivalent to $_SESSION['logged_in']
 	    if ($this->session->userdata('logged_in') == TRUE)
 	    {
 	    $this->load->model('questionsmodel');
 	    $this->load->model('profilemodel');
+	    $category_id=$this->profilemodel->sqlgetCategoryId($category_url);
+	
 		$this->data['centerContent']=$this->profilemodel->getCategoryProfile($category_id);
-		$this->data['centerContent'].=$this->questionsmodel->sqlStudentReadQuestions($category_id,null,null);
+		$this->data['centerContent'].=$this->questionsmodel->sqlgetPromotedQuestions($category_id);
 		$this->load->view('Skeleton',$this->data);
 	   }
 	}

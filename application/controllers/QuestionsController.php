@@ -117,34 +117,41 @@ class QuestionsController extends CI_Controller {
 
 	}
 
-	function Education($topic_id=null)
+	function cse($topic_id=null)
 	{
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('1',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
 	}
-	function Entertainment($topic_id=null)
+	function ece($topic_id=null)
 	{
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('2',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
 	}
-	function Sports($topic_id=null)
+	function mechanical($topic_id=null)
 	{
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('3',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
 	}
-	function Technology($topic_id=null)
+	function civil($topic_id=null)
 	{
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('4',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
 	}
-	function Miscellaneous($topic_id=null)
+	function eee($topic_id=null)
 	{
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('5',$topic_id,null);
+		$this->load->view('Skeleton',$this->data);
+	}
+
+	function miscellaneous($topic_id=null)
+	{
+		$this->load->model('questionsmodel');
+		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('6',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
 	}
 

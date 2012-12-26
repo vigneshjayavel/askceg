@@ -132,7 +132,8 @@ $(document).ready(function(){
 			'q_content':$('#questionText').val(),
 			'q_description':$('#questionDescText').val(),
 			'topic_id':$('#topicSelectBox').attr('value'),
-			'anonymous':$('#anonymousCheckbox').is(':checked')
+			'anonymous':$('#anonymousCheckbox').is(':checked'),
+			'scope':$('input:radio[name=scope]:checked').val()
 
 		};
 
