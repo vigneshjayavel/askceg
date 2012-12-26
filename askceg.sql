@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 22, 2012 at 07:55 PM
+-- Generation Time: Dec 26, 2012 at 01:41 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `CATEGORY` (
   `category_id` int(20) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(50) NOT NULL,
   `category_desc` varchar(500) NOT NULL,
+  `category_url` varchar(50) NOT NULL,
   PRIMARY KEY (`category_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
@@ -81,12 +82,13 @@ CREATE TABLE IF NOT EXISTS `CATEGORY` (
 -- Dumping data for table `CATEGORY`
 --
 
-INSERT INTO `CATEGORY` (`category_id`, `category_name`, `category_desc`) VALUES
-(1, 'education', ''),
-(2, 'Entertainment', 'all about Entertainment'),
-(3, 'Sports', ''),
-(4, 'Technology', ''),
-(5, 'Miscellaneous', '');
+INSERT INTO `CATEGORY` (`category_id`, `category_name`, `category_desc`, `category_url`) VALUES
+(1, 'cse', '', 'cse'),
+(2, 'ece', 'all about Entertainment', 'ece'),
+(3, 'mechanical engineering', '', 'mechanical-engineering'),
+(4, 'civil engineering', '', 'civil-engineering'),
+(5, 'eee', '', 'eee'),
+(6, 'miscellaneous', '', 'miscellaneous');
 
 -- --------------------------------------------------------
 
@@ -132,12 +134,13 @@ INSERT INTO `FOLLOWERS` (`q_id`, `user_id`) VALUES
 (2, 2011103051),
 (2, 2011103090),
 (1, 2011103089),
-(2, 2011103089),
 (1, 2011103089),
 (15, 2011103089),
 (4, 2011103085),
 (11, 2011103090),
-(10, 2011103090);
+(10, 2011103090),
+(3, 2011103089),
+(4, 2011103089);
 
 -- --------------------------------------------------------
 
@@ -149,17 +152,42 @@ CREATE TABLE IF NOT EXISTS `GROUPS` (
   `group_id` int(20) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(50) NOT NULL,
   `group_desc` text NOT NULL,
-  `group_level` int(20) NOT NULL,
+  `group_level` varchar(20) NOT NULL,
+  `department_id` int(20) NOT NULL,
   PRIMARY KEY (`group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `GROUPS`
 --
 
-INSERT INTO `GROUPS` (`group_id`, `group_name`, `group_desc`, `group_level`) VALUES
-(1, 'cse ibatch 2nd year', 'After the iPod, came the iPhone... then the iPad, and now it is our very own iBatch! :D\nThis page is a forum on all discussions relating to iBatch. :)', 0),
-(2, 'CSE h batch 2nd year', 'dsadwsadfsada\r\nsasadsafdasd\r\nsdfasdsadad', 0);
+INSERT INTO `GROUPS` (`group_id`, `group_name`, `group_desc`, `group_level`, `department_id`) VALUES
+(1, 'cse ibatch 2nd year', 'After the iPod, came the iPhone... then the iPad, and now it is our very own iBatch! :D\nThis page is a forum on all discussions relating to iBatch. :)', '0', 0),
+(2, 'CSE h batch 2nd year', 'dsadwsadfsada\r\nsasadsafdasd\r\nsdfasdsadad', '0', 0),
+(7, 'DEPARTMENT OF COMPUTERSCIENCE ', '', '2', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `GROUPS_HANDLED`
+--
+
+CREATE TABLE IF NOT EXISTS `GROUPS_HANDLED` (
+  `user_id` int(20) NOT NULL,
+  `group_id` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PROMOTE`
+--
+
+CREATE TABLE IF NOT EXISTS `PROMOTE` (
+  `q_id` int(20) NOT NULL,
+  `category_id` int(20) NOT NULL,
+  `timestamp` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -172,36 +200,60 @@ CREATE TABLE IF NOT EXISTS `QUESTION` (
   `q_content` varchar(500) NOT NULL,
   `topic_id` int(10) NOT NULL,
   `posted_by` int(20) NOT NULL,
-  `scope` varchar(20) NOT NULL,
+  `scope` int(20) NOT NULL,
   `timestamp` varchar(20) NOT NULL,
   `q_description` text NOT NULL,
   `views` int(20) NOT NULL,
   `followers` int(20) NOT NULL,
-  `scope_id` int(20) NOT NULL,
   `url` varchar(400) NOT NULL,
   `anonymous` int(20) NOT NULL,
   PRIMARY KEY (`q_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
 
 --
 -- Dumping data for table `QUESTION`
 --
 
-INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `timestamp`, `q_description`, `views`, `followers`, `scope_id`, `url`, `anonymous`) VALUES
-(2, 'asdasd', 1, 2011103090, 'group', '10:53 pm 02 Dec-12 ', 'asdasdasd', 4, 0, 1, 'asdasd', 0),
-(3, 'who is obama?', 1, 2011103090, 'global', '11:12 pm 02 Dec-12 ', '', 27, 0, 0, 'who-is-obama', 0),
-(4, 'what is the rate of iphone 5?', 1, 2011103090, 'year', '09:08 PM 06-Dec-12', '', 4, 0, 0, 'what-is-the-rate-of-iphone-5', 0),
-(5, 'GJHGJ??', 1, 2011103090, '', '12:32 PM 11-Dec-12', 'DDDCD', 3, 0, 0, 'GJHGJ', 0),
-(6, 'What is Askceg?', 1, 2011103090, 'global', '12:36 PM 11-Dec-12', '', 0, 0, 0, 'What-is-Askceg', 0),
-(7, 'sdsdsdd', 1, 2011103090, '', '11:20 AM 15-Dec-12', '', 0, 0, 0, 'sdsdsdd', 0),
-(9, 'When is college reopening??', 1, 2011103090, '', '12:04 PM 17-Dec-12', 'I dont want it to reopen at all!!! :P', 3, 0, 0, 'When-is-college-reopening', 0),
-(10, 'How cool is AskCEG? :D', 1, 2011103053, '', '09:57 AM 18-Dec-12', '', 5, 0, 0, 'How-cool-is-AskCEG-D', 0),
-(11, 'ghikjfkjrf', 2, 2011103090, '', '05:18 PM 18-Dec-12', '', 0, 0, 0, 'ghikjfkjrf', 0),
-(12, 'hey boys ?', 2, 2011103090, '', '05:19 PM 18-Dec-12', '', 0, 0, 0, 'hey-boys', 0),
-(14, 'who is obama?', 1, 2011103089, '', '11:03 PM 21-Dec-12', '', 0, 0, 0, 'who-is-obama-1356110311', 0),
-(15, 'who is obama?', 1, 2011103089, '', '11:05 PM 21-Dec-12', '', 0, 0, 0, 'who-is-obama-1356110408', 0),
-(16, 'how u doing?', 3, 2011103089, '', '12:29 AM 23-Dec-12', '', 0, 0, 0, 'how-u-doing', 0),
-(17, 'when is k13?', 5, 2011103089, '', '12:32 AM 23-Dec-12', '', 0, 0, 0, 'when-is-k13', 0);
+INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `timestamp`, `q_description`, `views`, `followers`, `url`, `anonymous`) VALUES
+(2, 'asdasd', 1, 2011103089, 0, '10:53 pm 02 Dec-12 ', 'asdasdasd', 4, 0, 'asdasd', 0),
+(3, 'who is obama?', 1, 2011103090, 0, '11:12 pm 02 Dec-12 ', '', 27, 0, 'who-is-obama', 0),
+(4, 'what is the rate of iphone 5?', 1, 2011103090, 0, '09:08 PM 06-Dec-12', '', 4, 0, 'what-is-the-rate-of-iphone-5', 0),
+(5, 'GJHGJ??', 1, 2011103090, 0, '12:32 PM 11-Dec-12', 'DDDCD', 3, 0, 'GJHGJ', 0),
+(6, 'What is Askceg?', 1, 2011103090, 0, '12:36 PM 11-Dec-12', '', 0, 0, 'What-is-Askceg', 0),
+(7, 'sdsdsdd', 1, 2011103090, 0, '11:20 AM 15-Dec-12', '', 0, 0, 'sdsdsdd', 0),
+(9, 'When is college reopening??', 1, 2011103089, 0, '12:04 PM 17-Dec-12', 'I dont want it to reopen at all!!! :P', 3, 0, 'When-is-college-reopening', 0),
+(10, 'How cool is AskCEG? :D', 1, 2011103053, 0, '09:57 AM 18-Dec-12', '', 5, 0, 'How-cool-is-AskCEG-D', 0),
+(11, 'ghikjfkjrf', 2, 2011103090, 0, '05:18 PM 18-Dec-12', '', 0, 0, 'ghikjfkjrf', 0),
+(12, 'hey boys ?', 2, 2011103090, 0, '05:19 PM 18-Dec-12', '', 0, 0, 'hey-boys', 0),
+(14, 'who is obama?', 1, 2011103089, 0, '11:03 PM 21-Dec-12', '', 0, 0, 'who-is-obama-1356110311', 0),
+(15, 'who is obama?', 1, 2011103089, 0, '11:05 PM 21-Dec-12', '', 0, 0, 'who-is-obama-1356110408', 0),
+(16, 'how u doing?', 3, 2011103089, 0, '12:29 AM 23-Dec-12', '', 0, 0, 'how-u-doing', 0),
+(17, 'when is k13?', 5, 2011103089, 0, '12:32 AM 23-Dec-12', '', 0, 0, 'when-is-k13', 0),
+(18, 'sfsfsff', 1, 2011103085, 0, '04:33 PM 23-Dec-12', '', 0, 0, 'sfsfsff', 0),
+(20, 'dgdgg', 4, 2011103085, 0, '04:36 PM 23-Dec-12', '', 0, 0, 'dgdgg', 0),
+(21, 'who is going to take webtech?', 2, 0, 0, '04:39 PM 23-Dec-12', '', 0, 0, 'who-is-going-to-take-webtech', 1),
+(22, 'why is acoe website slow?', 3, 2011103089, 0, '05:17 PM 23-Dec-12', '', 0, 0, 'why-is-acoe-website-slow', 1),
+(23, 'heeeeeey!!', 5, 604, 0, '08:50 PM 23-Dec-12', '', 0, 0, 'heeeeeey', 0),
+(24, 'testing :D ????', 1, 2011103051, 0, '', '', 0, 0, 'testing', 0),
+(25, 'testing radio button', 6, 2011103089, 0, '01:06 PM 26-Dec-12', '', 0, 0, 'testing-radio-button', 0),
+(26, 'harry potter?', 4, 2011103089, 0, '01:07 PM 26-Dec-12', '', 0, 0, 'harry-potter', 0),
+(27, 'qwert!', 5, 2011103089, 0, '01:30 PM 26-Dec-12', '', 0, 0, 'qwert', 0),
+(28, 'svfvzsvzc', 6, 2011103089, 0, '01:33 PM 26-Dec-12', '', 0, 0, 'svfvzsvzc', 0),
+(29, 'sss', 6, 2011103089, 0, '01:34 PM 26-Dec-12', '', 0, 0, 'sss', 0),
+(30, 'is 4th sem easy?', 5, 2011103089, 0, '01:35 PM 26-Dec-12', '', 0, 0, 'is-4th-sem-easy', 0),
+(31, 'checking group scope', 5, 2011103089, 1, '04:46 PM 26-Dec-12', '', 0, 0, 'checking-group-scope', 0),
+(32, 'dsdggg', 1, 2011103089, 1, '04:46 PM 26-Dec-12', '', 0, 0, 'dsdggg', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `QUESTION_POST_TO_TEACHER`
+--
+
+CREATE TABLE IF NOT EXISTS `QUESTION_POST_TO_TEACHER` (
+  `q_id` int(20) NOT NULL,
+  `user_id` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -233,6 +285,25 @@ INSERT INTO `REQUEST_USER` (`user_id`, `request_id`, `user_name`, `group_id`, `p
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `TEACHER_DETAILS`
+--
+
+CREATE TABLE IF NOT EXISTS `TEACHER_DETAILS` (
+  `user_id` int(20) NOT NULL,
+  `graduated_at` varchar(200) NOT NULL,
+  `field_of_interest` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `TEACHER_DETAILS`
+--
+
+INSERT INTO `TEACHER_DETAILS` (`user_id`, `graduated_at`, `field_of_interest`) VALUES
+(604, 'MTF college', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `TOPIC`
 --
 
@@ -246,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `TOPIC` (
   `topic_url` varchar(200) NOT NULL,
   PRIMARY KEY (`topic_id`),
   UNIQUE KEY `topic_id` (`topic_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `TOPIC`
@@ -257,7 +328,8 @@ INSERT INTO `TOPIC` (`topic_id`, `topic_name`, `topic_desc`, `posted_by`, `categ
 (2, 'ibatch', '0', 0, 5, '', 'ibatch'),
 (3, 'ibatch boys', '', 0, 1, '', 'ibatch-boys'),
 (4, 'Movies', 'Contains all questions about movies!', 2011103090, 2, '', 'Movies'),
-(5, 'battle of brains', '', 0, 3, '', 'battle-of-brains');
+(5, 'battle of brains', '', 0, 3, '', 'battle-of-brains'),
+(6, 'iphone is cool', '', 604, 4, '09:11 PM 23-Dec-12', 'iphone-is-cool');
 
 -- --------------------------------------------------------
 
@@ -289,8 +361,8 @@ INSERT INTO `TOPIC_FOLLOWERS` (`topic_id`, `follower`) VALUES
 (1, 2011103085),
 (1, 2011103090),
 (1, 2011103089),
-(2, 2011103089),
-(3, 2011103089);
+(3, 2011103089),
+(2, 2011103089);
 
 -- --------------------------------------------------------
 
@@ -330,7 +402,8 @@ INSERT INTO `USERS` (`user_id`, `user_name`, `group_id`, `password`, `user_level
 (2011103052, 'Harinikesh Suresh', 2, '123123', 0, '', '', 2, 'BE', 'CSE'),
 (2011103055, 'Jayasri ', 2, '123123', 0, '', '', 2, 'BE', 'CSE'),
 (2011103060, 'Vinay Srinivas', 2, '123123', 0, '', '', 2, 'BE', 'CSE'),
-(2011103058, 'Prashanth Anantharam', 2, '123123', 0, '', '', 2, 'BE', 'CSE');
+(2011103058, 'Prashanth Anantharam', 2, '123123', 0, '', '', 2, 'BE', 'CSE'),
+(604, 'Annie Benet', 7, '123123', 2, 'annie@gmail.com', '', 0, 'M.E', 'CSE');
 
 -- --------------------------------------------------------
 

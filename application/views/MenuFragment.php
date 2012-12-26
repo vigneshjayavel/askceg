@@ -13,18 +13,19 @@
 		<a class="dropdown-toggle" data-toggle="dropdown" href="#">Category <b class="caret"></b></a>
 		<ul class="dropdown-menu" id="swatch-menu">
 		
-			<li><a href="<?php echo base_url() ?>QuestionsController/Education">Education</a></li>
-              <li><a href="<?php echo base_url() ?>QuestionsController/Entertainment">Entertainment</a></li>
-              <li><a href="<?php echo base_url() ?>QuestionsController/Sports">Sports</a></li>
-              <li><a href="<?php echo base_url() ?>QuestionsController/Technology">Technology</a></li>
-              <li><a href="<?php echo base_url() ?>QuestionsController/Miscellaneous">Miscellaneous</a></li>
+			<li><a href="<?php echo base_url() ?>ProfileController/viewCategory/cse">CSE</a></li>
+              <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/ece">ECE</a></li>
+              <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/mechanical-engineering">MECHANICAL</a></li>
+              <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/civil-engineering">CIVIL</a></li>
+              <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/eee">EEE</a></li>
+              <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/miscellaneous ">miscellaneous </a></li>
               
 		</ul>
 	</li>
 <li class="dropdown" id="preview-menu"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Post<b class="caret"></b></a>
 <ul class="dropdown-menu">
-	<li><a href="<?php echo base_url() ?>QuestionsController/AskQuestion">question</a></li>
-	<li><a href="<?php echo base_url() ?>QuestionsController/AnswerQuestion">answer</a></li>
+	<li><a href="<?php echo base_url() ?>ProfileController/viewCategory/AskQuestion">question</a></li>
+	<li><a href="<?php echo base_url() ?>ProfileController/viewCategory/AnswerQuestion">answer</a></li>
 	
 </ul></li></ul>
 <form class="navbar-search pull-left" action="">
