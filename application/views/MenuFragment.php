@@ -6,7 +6,8 @@
          <span class="icon-bar"></span>
          <span class="icon-bar"></span>
        </a>
-       <a class="brand" href="<?php echo base_url() ?>HomeController"><img width="100px" height="60px" src="<?php echo base_url() ?>assets/img/askceglogo.jpg"></a>
+       <a class="brand" href="<?php echo base_url() ?>HomeController">
+        AskCEG</a>
        <div class="nav-collapse" id="main-menu"><ul class="nav" id="main-menu-left">
 	<li><a id="swatch-link" href="<?php echo base_url() ?>HomeController">Home</a></li>
 	<li class="dropdown">
@@ -24,8 +25,8 @@
 	</li>
 <li class="dropdown" id="preview-menu"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Post<b class="caret"></b></a>
 <ul class="dropdown-menu">
-	<li><a href="<?php echo base_url() ?>QuestionsController/AskQuestion">AskQuestion</a></li>
-  <li><a href="<?php echo base_url() ?>QuestionsController/AnswerQuestion">AnswerQuestion</a></li>
+	<li><a href="<?php echo base_url() ?>QuestionsController/AskQuestion">Question</a></li>
+  <li><a href="<?php echo base_url() ?>QuestionsController/AnswerQuestion">Answer</a></li>
               
 </ul></li></ul>
 <form class="navbar-search pull-left" action="">

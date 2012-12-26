@@ -128,18 +128,17 @@ class QuestionsModel extends CI_Model{
           </div> 
           <label class="control-label" for="scope">Scope</label>
                   <div class="controls">
+                   <div class="btn-group" data-toggle="buttons-radio" data-toggle-name="scope" id="scopegroup">
+          
+                      <button class="btn active " type="button" rel="tooltip" data-placement="top" data-original-title="visible to all"  name="scope" id="scope1" value="1" checked="">
+                      public</button>
                   
-                  <label class="radio">
-                    <input rel="tooltip" data-placement="top" data-original-title="visible to all"  type="radio" name="scope" id="scope1" value="1" checked="">
-                    public
-                  </label>
+                      <button class="btn  " type="button" rel="tooltip" data-placement="top" data-original-title="visible only to your group people"  name="scope" id="scope3" value="2">
+                      private(your group)</button>
+                  </div> 
+                 
+                 
                   
-                  
-                  
-                  <label class="radio">
-                    <input rel="tooltip" data-placement="top" data-original-title="visible to only to your group people"  type="radio" name="scope" id="scope3" value="2">
-                    private(your group)
-                  </label>
                   </div>
                         
           <div class="form-actions">

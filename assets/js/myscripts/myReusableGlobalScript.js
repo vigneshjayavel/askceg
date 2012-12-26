@@ -14,7 +14,7 @@ function displayNotification(type,msg,redirectUrl){
        }
     }, 4000);
     */
-    $('#alertBox .alertMessage').html(msg);
+    $('#alertBox .alertMessage').html('<span class="label label-'+type+'">'+msg+'</span>');
     $('#alertBox').fadeIn('slow');
     setTimeout(function() {   
        $('#alertBox').fadeOut('slow');

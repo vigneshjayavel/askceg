@@ -133,7 +133,7 @@ $(document).ready(function(){
 			'q_description':$('#questionDescText').val(),
 			'topic_id':$('#topicSelectBox').attr('value'),
 			'anonymous':$('#anonymousCheckbox').is(':checked'),
-			'scope':$('input:radio[name=scope]:checked').val()
+			'scope':$('button.active[name=scope]').val()
 
 		};
 
