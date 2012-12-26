@@ -191,7 +191,7 @@ function textRotate() {
 //TODO
 $(document).ready(function(){
 
-    
+
     /* BackboneJs Implementation */
 
     ScrollableContentDivView = Backbone.View.extend({
@@ -241,7 +241,7 @@ $(document).ready(function(){
         },
         /*after following/unfollowing update the markup of the button*/
         convertMarkupOfQsFollowButtonElement:function(qsFollowButtonElement,qsFollowButtonMarkupObj){
-    
+            
             $(qsFollowButtonElement).empty()
             $(qsFollowButtonElement).data('follow_status',qsFollowButtonMarkupObj.follow_status)
             $(qsFollowButtonElement).prepend('<i class="'+qsFollowButtonMarkupObj.icon+'"></i> ')
@@ -250,6 +250,17 @@ $(document).ready(function(){
             $(qsFollowButtonElement).attr('data-original-title', qsFollowButtonMarkupObj.tooltipText)
             displayNotification(qsFollowButtonMarkupObj.notificationStatus,qsFollowButtonMarkupObj.notificationMsg)
 
+            //determining whether to inc/dec the followerscount
+            var updationType;
+            if(qsFollowButtonMarkupObj.followUnfollowText=='Unfollow'){
+                updationType='increment';
+            }
+            else{
+                updationType='decrement';
+            }
+            //updating the followers count
+            this.updateFollowersCount($(qsFollowButtonElement).data('q_id'),updationType);
+            
         },
         /*after following/unfollowing update db */
         updateQsFollowStatus:function(url,qsFollowButtonElement,qsFollowButtonMarkupObj){
@@ -269,7 +280,18 @@ $(document).ready(function(){
               .attr('data-original-title', data)
               .tooltip('fixTitle')
               .tooltip('show');
-        });
+            });
+        },
+
+        updateFollowersCount: function(q_id,updationType){
+            
+            //get the q_id of the qs that was followed/unfollowed
+            //get the target span element to be updated based on q_id
+            var followersCountSpanElement=$('span.followersCountSpan[data-q_id='+q_id+']');
+            var count=parseInt(followersCountSpanElement.text());
+            count=updationType=='increment'?count+1:count-1;
+            followersCountSpanElement.text(count+' ');
+
         }
 
 

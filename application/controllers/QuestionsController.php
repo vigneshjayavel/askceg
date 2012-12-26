@@ -97,7 +97,7 @@ class QuestionsController extends CI_Controller {
 	function AnswerQuestion(){
 
 		$this->load->model('questionsmodel');
-		$this->data['centerContent']=$this->questionsmodel->sqlStudentReadQuestions();
+		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions();
 		$this->load->view('Skeleton',$this->data);
 		
 	}
