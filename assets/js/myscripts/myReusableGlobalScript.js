@@ -191,39 +191,91 @@ function textRotate() {
 //TODO
 $(document).ready(function(){
 
-    //TODO make the function synchronous
-    function checkIfDataExists(content,type){
+    
+    /* BackboneJs Implementation */
 
-        var dataObj={
-            'content':content,
-            'type':type
-        };
-        var result=0;
-        $.post(CI.base_url+'ValidationController/checkExistence', 
-            { 'dataObj':JSON.stringify(dataObj) }, 
-            function (jsonObj) {
-                if(jsonObj.result==="yes"){
-                    result= true;
-                }else{
-                    result= false;
-                }
-                console.log('inside $.post callback, result='+result)
+    ScrollableContentDivView = Backbone.View.extend({
+        el: $("#scrollableContentDiv"),
+        initialize: function () {
+            
+        },
+        events: {
+          "click a.qsFollowButton":  "followOrUnfollowTopic",
+          "mouseover a.followersInfoTooltip" : "displayFollowersTooltip"
+        },
+        /* method for Ajaxifying follow/unfollow of qs*/
+        followOrUnfollowTopic: function (ev) {
+            var qsFollowButtonElement=ev.currentTarget;
+            var q_id=$(qsFollowButtonElement).data('q_id');
+            var follow_status=$(qsFollowButtonElement).data('follow_status');
+            var follow_text='';
+            var qsFollowButtonMarkupObj={};
+            $(qsFollowButtonElement).empty().append('loading..');
+            var followUrl= CI.base_url+'QuestionsController/followQuestion/';
+            var unfollowUrl= CI.base_url+'QuestionsController/unfollowQuestion/';
+            var url=follow_status=='yes'?unfollowUrl+q_id:followUrl+q_id;
+            console.log('existing follow_status='+follow_status);
+            if(follow_status=='yes'){
+                qsFollowButtonMarkupObj={
+                follow_status : 'no',
+                tooltipText : 'Click to follow the question!',
+                icon : 'icon-plus-sign',
+                followUnfollowText : 'Follow',
+                notificationStatus : 'success',
+                notificationMsg : 'You have unfollowed the question successfully!'
+                };
+
             }
-            ,'json'
-        );
-        return result;
-        
-    }
+            else{
+                qsFollowButtonMarkupObj={
+                    follow_status : 'yes',
+                    tooltipText : 'Click to unfollow the question!',
+                    icon : 'icon-minus-sign',
+                    followUnfollowText : 'Unfollow',
+                    notificationStatus : 'success',
+                    notificationMsg : 'You have followed the question successfully!'
+                };
+            }
+            this.updateQsFollowStatus(url,qsFollowButtonElement,qsFollowButtonMarkupObj);
+            console.log('new follow_status='+follow_status);
+        },
+        /*after following/unfollowing update the markup of the button*/
+        convertMarkupOfQsFollowButtonElement:function(qsFollowButtonElement,qsFollowButtonMarkupObj){
+    
+            $(qsFollowButtonElement).empty()
+            $(qsFollowButtonElement).data('follow_status',qsFollowButtonMarkupObj.follow_status)
+            $(qsFollowButtonElement).prepend('<i class="'+qsFollowButtonMarkupObj.icon+'"></i> ')
+            $(qsFollowButtonElement).append(qsFollowButtonMarkupObj.followUnfollowText)
+            $(qsFollowButtonElement).tooltip('hide')
+            $(qsFollowButtonElement).attr('data-original-title', qsFollowButtonMarkupObj.tooltipText)
+            displayNotification(qsFollowButtonMarkupObj.notificationStatus,qsFollowButtonMarkupObj.notificationMsg)
 
+        },
+        /*after following/unfollowing update db */
+        updateQsFollowStatus:function(url,qsFollowButtonElement,qsFollowButtonMarkupObj){
+            var that=this;
+            $.get(url,function(data){
+                that.convertMarkupOfQsFollowButtonElement(qsFollowButtonElement,qsFollowButtonMarkupObj);
+            });
+        },
 
-    $('#testerButton').click(function(){
+        /* script for Ajaxifying listing of followers on hovering on followers link */
+        displayFollowersTooltip:function(ev){
+            var tooltipElement=$(ev.currentTarget);
+            $(tooltipElement).attr('data-original-title','loading..')
+            $.get(CI.base_url+'QuestionsController/getFollowersForQuestion/'+$(tooltipElement).data('q_id'),
+                function(data){
+              $(tooltipElement).tooltip('hide')
+              .attr('data-original-title', data)
+              .tooltip('fixTitle')
+              .tooltip('show');
+        });
+        }
 
-        var content='What is Askceg?';
-        var type='question';
-        var temp=checkIfDataExists(content,type);
-        console.log('actual data returned, result='+temp);
 
     });
+    var scrollableContentDivView = new ScrollableContentDivView();
+
 
 });
 
