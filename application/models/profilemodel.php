@@ -121,7 +121,9 @@ class ProfileModel extends CI_Model{
 
   function getTopicProfile($topic_url){
 
-    $sql="select * from TOPIC where topic_url=?";
+    $sql="select t.topic_url,t.topic_id,t.topic_name,t.topic_desc, c.category_id,c.category_name
+     from TOPIC t,CATEGORY c 
+    where t.category_id=c.category_id and t.topic_url=?";
     $query=$this->db->query($sql,array($topic_url)); 
     if($row=$query->row_array()){
     $sql1="select count(*) from QUESTION where topic_id=?";
@@ -129,22 +131,25 @@ class ProfileModel extends CI_Model{
 
     $query1=$this->db->query($sql1,array($row['topic_id'])); 
     $row1=$query1->row_array();
-    $followUrl=  base_url().'QuestionsController/followTopic/';
-     $unfollowUrl= base_url().'QuestionsController/unfollowTopic/';
      $CI =& get_instance();
      $currentUserId=$CI->session->userdata('user_id');
-     $currentUrl=urlencode(current_url());
-      if($this->questionsmodel->sqlCheckUserFollowsTopic($currentUserId,$row['topic_id']))
+      if($this->questionsmodel->sqlCheckUserFollowsTopic($currentUserId,$row['topic_id'])){
 
-  $dynamicFollowOrUnfollowButton='
-          <i class="icon-minus-sign"></i>
-                  <a href="'.$unfollowUrl.$row['topic_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
-                    data-original-title="Click to unfollow the question!">Unfollow</a>';
-      else
         $dynamicFollowOrUnfollowButton='
-          <i class="icon-plus-sign"></i>
-                  <a href="'.$followUrl.$row['topic_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
-                    data-original-title="Click to follow the question!">Follow</a>';
+          <a href="#" class="topicFollowButton" data-follow_status="yes" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
+          data-original-title="Click to unfollow the topic!">
+          <i class="icon-minus-sign"></i>
+          Followed</a>';
+
+      }
+      else{
+        $dynamicFollowOrUnfollowButton='
+        <a href="#" class="topicFollowButton" data-follow_status="no" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
+        data-original-title="Click to Follow the topic!">
+        <i class="icon-plus-sign"></i>
+        Follow</a>';
+
+      }
 
     if($row['topic_desc']){
       $topicDescMarkup=$row['topic_desc'].'<br><a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Edit description</a>';
@@ -152,33 +157,108 @@ class ProfileModel extends CI_Model{
     else{
       $topicDescMarkup='No description yet!!!<a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Add description</a>';
     }
-    return ' <div class="ask-dp pull-right">
-              <img src="'.base_url().'assets/img/topics/'.$row['topic_id'].'.jpg">
-              </div>
-            <div> <h2>'.$row['topic_name'].'</h2><br>About:'.$topicDescMarkup.'<div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
-        
-              </div> <div class="well" >No Of Questions: '.$row1['count(*)'].' </div>
+    return ' 
+    <div class="profileContainer">
+      <div class="profileHolder">
+        <div class="span6 pull-left style="min-height: 200px;">      
+          <div class="profilePicHolder">
+            <img src="'.base_url().'assets/img/topics/'.$row['topic_id'].'.jpg" alt="300x200" style="width: 300px; height: 200px;">
+          </div>
+          <div class="profileTitle caption">
+            <h3>'.$row['topic_name'].'</h3>
+          </div>
+          <div class="profileDesc">
+              '.$topicDescMarkup.'
+          </div>
+        </div><!--/span6-->
+        <div class="span6 pull-left">
+          <div class="profileFollowersHolder">
+            '.$this->getTopicFollowersImage($row['topic_id']).'
+          </div>
+          <div class="profileFollowButtonHolder">
+            '.$dynamicFollowOrUnfollowButton.'
+          </div>
+          <div class="profileStatsHolder">
+            No Of Questions: '.$row1['count(*)'].' 
+            <a rel="tooltip" data-placement="bottom" 
+            data-original-title="'.
+            $this->questionsmodel->sqlGetFollowersForTopic($row['topic_id'])
+            .'">
+            '.$this->questionsmodel->sqlGetFollwersCountForTopic($row['topic_id']).'
+            Followers
+            </a>
+          </div>
+        </div><!--/span6-->
+      </div>
+    </div>
 
-         <div><a rel="tooltip" data-placement="bottom" 
-                    data-original-title="'.
-                    $this->questionsmodel->sqlGetFollowersForTopic($row['topic_id'])
-                    .'">
-                    '.$this->questionsmodel->sqlGetFollwersCountForTopic($row['topic_id']).'
-                    Followers</a>
+    <div class="postQsButtonHolder well">
+      Do you want to ask something here ?
+      <a class="privateQsPostButton btn btn-primary">Post Question</a>
+    </div> 
 
-                  <div style="float:right"><br>
-                  
-        </div>
-        </div>
-        
-                '.$this->getTopicFollowersImage($row['topic_id']).'
+    <!--Modal to post private qs -->
+    <div id="postPrivateQsModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Post a new question in '.$row['topic_name'].'</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal well">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label" for="categorySelectBox">Category</label>
+            <div class="controls">
+              <select id="categorySelectBox" data-qs_type="popup">
+                <option value="'.$row['category_id'].'">'.$row['category_name'].'</option> 
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="topicSelectBox">Topic</label>
+            <div class="controls">
+              <select id="topicSelectBox" data-qs_type="popup" >
+                <option value="'.$row['topic_id'].'">'.$row['topic_name'].'</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="textarea">Question</label>
+            <div class="controls">
+              <textarea  id="questionText" class="input-xlarge" data-qs_type="popup" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="textarea">Question Description (Optional)</label>
+            <div class="controls">
+              <textarea  id="questionDescText"  data-qs_type="popup" class="input-xlarge" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <label class="checkbox">
+                <input id="anonymousCheckbox"  data-qs_type="popup" type="checkbox" value="true">
+                Post Anonymously
+              </label>
+            </div>
+          </div>                         
+          <div class="form-actions">
+            <a disabled=true id="postQuestionButton" data-qs_type="popup" type="submit" 
+            class="btn btn-danger">
+              <i class="icon-ok icon-white"></i>Post It
+            </a>
+            <a id="resetQuestionButton" type="reset" data-qs_type="popup" class="btn btn-primary">
+              <i class="icon-remove icon-white"></i>Reset
+            </a>
+          </div>
+        </fieldset>
+      </form>
+      </div>
+    </div>
+    <!--/modal -->
 
-                <br>
-                <br>
-                <br>
-        
-      
-         ';}
+    ';
+  }
          else{
           return 'sorry this topic doesnt exist ';
 

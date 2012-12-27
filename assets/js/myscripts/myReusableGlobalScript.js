@@ -212,7 +212,8 @@ $(document).ready(function(){
           "click a.topicFollowButton" : "followOrUnfollowTopic",
           "mouseover a.followersInfoTooltip" : "displayFollowersTooltip",
           "click #postAnswerButton" : "addAnswerToQuestion",
-          "keyup #answerText" : "trackTypedAnswer" 
+          "keyup #answerText" : "trackTypedAnswer",
+          "click a.privateQsPostButton" : "showPostPrivateQsModal" 
         },
         /* method for Ajaxifying follow/unfollow of qs*/
         followOrUnfollowQs: function (ev) {
@@ -428,6 +429,10 @@ $(document).ready(function(){
             
             });
             
+        },
+
+        showPostPrivateQsModal: function(){
+            $('#postPrivateQsModal').modal('show');
         }
 
 
