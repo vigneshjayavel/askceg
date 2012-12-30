@@ -43,8 +43,7 @@ function sqlGetUserName($user_id){
 
   }
   function sqlgetVoteCount($a_id){
-		$this->load->model('answermodel');
-		$this->data['centerContent']=$this->answermodel->sqlgetVoteCount($a_id);
+  	$sql="select sum(vote) from VOTE";
 
 		
 	}
