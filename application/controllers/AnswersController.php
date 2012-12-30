@@ -29,13 +29,7 @@ class AnswersController extends CI_Controller {
 		$this->answermodel->sqlUpdateVote($a_id,-1);
 		redirect(urldecode($redirectUrl));
 	}
-	function getVoteCount($a_id){
-		$this->load->model('answermodel');
-		$this->data['centerContent']=$this->answermodel->sqlgetVoteCount($a_id);
-
-		
-	}
-
+	
 	function viewAnswersForQuestion($url){
 
 		$this->load->model('answersmodel');
