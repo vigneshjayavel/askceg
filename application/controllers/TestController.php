@@ -49,6 +49,12 @@ class TestController extends CI_Controller {
 	function testData($q_id){
 		echo "This is test!! ".$q_id;
 	}
+	function time(){
+		 $date = new DateTime(date('Y-m-d H:i:s AM'), new DateTimeZone('GMT'));
+$date->setTimezone(new DateTimeZone('IST'));
+
+echo $date->format('Y-m-d H:i:s');
+}
 
 
 }
