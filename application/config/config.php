@@ -14,7 +14,19 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/ask/';
+
+//set mode.. either "local" or "cloud"
+
+$mode=ENVIRONMENT;
+
+if($mode=='local'){
+	$base_url='http://localhost/ask/';
+}
+else if($mode=='cloud'){
+	$base_url='http://askceg.ap01.aws.af.cm/';
+}
+
+$config['base_url']	= $base_url;
 
 /*
 |--------------------------------------------------------------------------
