@@ -1,0 +1,19 @@
+---
+applications:
+  .:
+    name: askceg
+    framework:
+      name: php
+      info:
+        mem: 128M
+        description: PHP Application
+        exec: 
+    infra: ap-aws
+    url: ${name}.${target-base}
+    mem: 128M
+    instances: 1
+    services:
+      askceg-mysql:
+        type: mysql
+      mysql-a7848:
+        type: mysql
