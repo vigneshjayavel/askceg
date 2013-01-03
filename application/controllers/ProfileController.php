@@ -34,12 +34,19 @@ class ProfileController extends CI_Controller {
 	  }
 	
 		}
-		function EditStudentProfile()
-	{   $user_id=$this->session->userdata('user_id');
-		$this->load->model('profilemodel');
-		$data['centerContent']=$this->profilemodel->getCenterContentMyProfileEdit($user_id);
+		function EditProfile(){
+	    $this->load->model('profilemodel');
+	    $user_id=$this->session->userdata('user_id');
+	if($this->profilemodel->isStudent($user_id)){
+	
+		$data['centerContent']=$this->profilemodel->getStudentProfileEdit($user_id);
 		$this->load->view('Skeleton',$data);
 	}
+	else{
+		$data['centerContent']=$this->profilemodel->getTeacherProfileEdit($user_id);
+		$this->load->view('Skeleton',$data);
+	}
+}
 		function ViewGroupProfile($group_id){
 			$this->load->model('profilemodel');
 			$this->load->model('questionsmodel');

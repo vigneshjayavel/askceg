@@ -68,7 +68,7 @@ class ProfileModel extends CI_Model{
        $CI=&get_instance();
        if($user_id==$CI->session->userdata('user_id')){
           $edit='
-      <a href="'.base_url().'/ProfileController/EditTeacherProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
+      <a href="'.base_url().'ProfileController/EditTeacherProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
        }
        else
          $edit='';
@@ -537,7 +537,7 @@ function getInterimProfile(){
       $CI=&get_instance();
       if($user_id==$CI->session->userdata('user_id')){
           $edit='
-      <a href="'.base_url().'/ProfileController/EditStudentProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
+      <a href="'.base_url().'/ProfileController/EditProfile" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
        }
        else
          $edit='';
@@ -609,36 +609,24 @@ function getInterimProfile(){
        return $row['group_name'];
 
     }
-	 function getCenterContentMyProfileEdit(){
+	 function getStudentProfileEdit($user_id){
+    $sql="select * from USERS where user_id=?";
+    $query=$this->db->query($sql,array($user_id));
+    $row=$query->row_array();
 
-     return '<fieldset>
+     return '<h2>Edit Profile</h2>
+                 <fieldset>
                  <label class="control-label" for="name">Your Name</label>
                   <div class="controls">
-                  <input type="text" class="input-xlarge" name="name" id="name" value="vishnu jayvel">
+                  <input type="text" class="input-xlarge" name="name" id="name" value="'.$row['user_name'].'">
                   
                   </div>
                   <br>
                  
-                <label class="control-label" for="sex">Sex</label>
-                  <div class="controls">
-                  
-                  <label class="radio">
-                    <input type="radio" name="sex" id="sexRadios1" value="1" checked="">
-                    Male
-                  </label>
-                  
-                  <label class="radio">
-                    <input type="radio" name="sex" id="sexRadios2" value="2">
-                    Female
-                  </label>
-                  
-                  
-                  
-                  </div>
                  <br> 
                   <label class="control-label" for="email">Email Address</label>
                   <div class="controls">
-                  <input type="text" class="input-xlarge" name="email" id="email" disabled="readonly" value="vishnuj81093@gmail.com">
+                  <input type="text" class="input-xlarge" name="email" id="email"  value="'.$row['email_id'].'">
                   </div>
                   <label class="controls checkbox">
                     <input id="shareemail" type="checkbox" checked="checked"> Show email to others
@@ -646,26 +634,22 @@ function getInterimProfile(){
                   
                    
                   </div>
-                <br>
+                
+                 <label class="control-label" for="name">degree</label>
+                <div class="controls">
+                  <input type="text" class="input-xlarge" name="degree" id="name" value="'.$row['user_degree'].'">
+                  
+                  </div>
+                  
 
-                  <label class="control-label" for="degree">Your degree</label>
+                  <label class="control-label" for="degree">course</label>
                   <div class="controls">
-                  <select class="span3" id="degree">
-                   <option value="1" selected="selected"> B.E </option><option value="2">B.A</option><option value="3">B.Arch</option><option value="4">B.Com</option><option value="5">B.Sc</option><option value="6">B.Tech</option><option value="7">BBA</option><option value="8">BCA</option><option value="9">DEEE</option><option value="10">Diploma</option><option value="11">Dual Degree</option><option value="12">Intermediate</option><option value="13">M.A</option><option value="14">M.E</option><option value="15">M.Sc</option><option value="16">M.Sc(Integrated)</option><option value="17">M.Tech</option><option value="18">MBA</option><option value="19">MCA</option><option value="20">MS</option><option value="21">Ph.D</option><option value="22">Other</option>   
-                  </select>
-                   
+                   <input type="text" class="input-xlarge" name="course" id="name" value="'.$row['user_course'].'">
+                  
                   </div>
                  <br>
 
-                  <label class="control-label" for="branch">Your Course</label>
-                  <div class="controls">
-                  <select class="span3" id="course">
-                    <option value="1">Aeronautical Engineering</option><option value="2">Aerospace Engineering</option><option value="3">Agricultural &amp; Irrigation Engineering</option><option value="4">Aircraft Maintenance Engineering</option><option value="5">Animation</option><option value="6">Apparel technology</option><option value="7">Applied electronics</option><option value="8">Applied Mathematics</option><option value="9">Architecture</option><option value="10">Automobile Engineering</option><option value="11">Avionics</option><option value="12">Bio Informatics</option><option value="13">Bio Medical Engineering</option><option value="14">Biotechnology</option><option value="15">Ceramic Technology</option><option value="16">Charted Accountancy</option><option value="17">Chemical Engineering</option><option value="18">Chemistry</option><option value="19">Civil Engineering</option><option value="20">Communication Systems</option><option value="21" selected="selected">Computer Science &amp; Engineering</option><option value="22">Cryogenic Engineering</option><option value="23">Elecrical Engineering</option><option value="24">Electrical &amp; Electronics Engineering</option><option value="25">Electronic media</option><option value="26">Electronics &amp; Communication Engineering</option><option value="27">Electronics &amp; Instrumentation</option><option value="28">Embedded Systems</option><option value="29">Energy Engineering</option><option value="30">Engineering Design</option><option value="31">Engineering Physics</option><option value="32">English Literature</option><option value="33">Finance</option><option value="34">Fluid Mechanics</option><option value="35">Food Technology</option><option value="36">Geo Informatics</option><option value="37">Harbour Engineering </option><option value="38">High Voltage Engineering</option><option value="39">Hospitality Administration</option><option value="40">HR</option><option value="41">Humanities &amp; Social Sciences</option><option value="42">Industrial Engineering</option><option value="43">Information &amp; Communications Technology</option><option value="44">Information Technology</option><option value="45">Internal Combustion Engineering</option><option value="46">Logistics</option><option value="47">Manufacturing Engineering</option><option value="48">Marine Engineering</option><option value="49">Marketing</option><option value="50">Material Science </option><option value="51">Mathematics</option><option value="52">Mechanical Engineering</option><option value="53">Mechatronics</option><option value="54">Media Sciences</option><option value="55">Metallurgy</option><option value="56">Mining Engineering</option><option value="57">Nano Science and Technology</option><option value="58">Photonics </option><option value="59">Physics</option><option value="60">Printing Technology</option><option value="61">Production Engineering</option><option value="62">Remote Sensing</option><option value="63">Software Engineering</option><option value="64">Systems Engineering &amp; Operations Research</option><option value="65">Technology Managment</option><option value="66">Telecommunication Engineering</option><option value="67">Textile Technology</option><option value="68">Theoretical Computer Science</option><option value="69">Thermal</option><option value="70">Transportation Engineering</option><option value="71">VLSI Design</option><option value="72">Other</option>  
-                  </select>   
-                  
-                  </div>
-                <br>
-
+                
                   <label class="control-label" for="year">Your Year Of Study</label>
                   <div class="controls">
                   <label class="radio">
@@ -691,11 +675,7 @@ function getInterimProfile(){
                   
                   </div></div><!-- end of account type div. This is dynamic part of the form -->
                  <br>
-                 <label class="controls checkbox">
-                    <input id="shareprofile" type="checkbox" checked="checked"> Show profile to others
-                  </label> 
-                <br>
-          
+                
           <div class="alert fade in" id="form-err" style="display:none">
           <span id="form-err-text"></span>
             </div>
@@ -710,7 +690,16 @@ function getInterimProfile(){
 
 
   }
-  //$a=array();
+  function updateProfile($userobj){
+    $name=$userobj('name');
+    $year=$userobj('year');
+    $emailid=$userobj('emailid');
+    $degree=$userobj('degree');
+    $course=$userobj('course');
+    $sql="update USERS set user_name=?,user_year=?,email_id=?,user_degree=?,user_course=?";
+    $query=$this->db->query($sql,array($name,$year,$emailid,$degree,$course));
+
+  }
 
 
 	function getCenterContentMyGroup(){
