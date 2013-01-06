@@ -214,7 +214,8 @@ $(document).ready(function(){
           "click #postAnswerButton" : "addAnswerToQuestion",
           "keyup #answerText" : "trackTypedAnswer",
           "click a.privateQsPostButton" : "showPostPrivateQsModal",
-          "click a.upVoteButton,a.downVoteButton" : "voteAnswer" 
+          "click a.voteButton" : "voteAnswer" ,
+          "click a.votedButton" :"diplayAlreadyVotedNotification"
         },
         /* method for Ajaxifying follow/unfollow of qs*/
         followOrUnfollowQs: function (ev) {
@@ -460,9 +461,14 @@ $(document).ready(function(){
             //get votescountspan element inside the parent div element
             var votesCountSpan=$(parentAnswerElementDiv).find('span.votesCount');
             //update count in the markup
-            this.convertMarkupOfVotesCountDiv(votesCountSpan,count);
+            this.updateMarkupOfVotesCountDiv(votesCountSpan,count);
             //update count in the db
             this.updateVote(count,a_id)
+            //disable voteButtons for that answer
+            this.disableAndHideVoteButton(parentAnswerElementDiv)
+            //display voted status in answerVotesDiv
+            var answerVotesDiv=$(parentAnswerElementDiv).find('div.answerVotesDiv');
+            this.updateMarkupOfAnswerVotesDiv(answerVotesDiv,count)
 
         },
 
@@ -480,20 +486,37 @@ $(document).ready(function(){
 
         },
 
-        convertMarkupOfVoteButton : function(){
+        disableAndHideVoteButton : function(divToFindVoteButtons){
 
 
+            $(divToFindVoteButtons).find('.voteButton').removeClass('voteButton').addClass('votedButton').hide();
 
         },
 
-        convertMarkupOfVotesCountDiv : function(spanToUpdate,count){
+        updateMarkupOfVotesCountDiv: function(spanToUpdate,count){
 
             var existingCount=parseInt($(spanToUpdate).text());
             console.log(existingCount)
             existingCount+=count;
             $(spanToUpdate).text(existingCount);         
 
+        },
+
+        diplayAlreadyVotedNotification : function(){
+
+            displayNotification('success','Oops..You can vote only once!')
+
+        },
+
+        updateMarkupOfAnswerVotesDiv : function(divToAddVoteStatus,count){
+
+            var dynamicText = (count==1?'<span class="label label-success">You <i class="icon-thumbs-up"></i> this</span>':'<span class="label label-warning">You <i class="icon-thumbs-down"></i> this</span>')
+            
+            $(divToAddVoteStatus).prepend(dynamicText)
+                 
         }
+
+
 
 
 

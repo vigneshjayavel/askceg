@@ -116,13 +116,13 @@ function sqlGetUserName($user_id){
 				<div class="answerElementDiv" data-a_id="'.$row->a_id.'" class="well" style="float:left;width:100%">
 					<div class="answerVotesDiv" style="float:left;text-align:center">
 						<div class="upVotesDiv" style="height:30%; ">
-							<a class="upVoteButton" href="#"" ><i class="icon-circle-arrow-up"></i></a>
+							<a class="voteButton upVoteButton" href="#" ><i class="icon-thumbs-up"></i></a>
 	    				</div>
 	    				<div class="votesCountDiv" style="height:40%; ">
 	    					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
 	    				</div>
 						<div class="downVotesDiv" style="height:30%; ">
-							<a class="downVoteButton" href="#"" ><i class="icon-circle-arrow-down"></i></a>
+							<a class="voteButton downVoteButton" href="#" ><i class="icon-thumbs-down"></i></a>
 						</div>
 					</div>
 					<div class="answerDiv" style="float:left;">
