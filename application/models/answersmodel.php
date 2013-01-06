@@ -35,7 +35,7 @@ function sqlGetUserName($user_id){
                    ';
 
   }
-  function sqlUpdateVoteUp($a_id,$vote){
+  function sqlUpdateVote($a_id,$vote){
   	$CI=&get_instance();
   	$user_id=$CI->session->userdata('user_id');
   	$sql="insert into VOTE(a_id,user_id,vote,timestamp) values(?,?,?,?)";
@@ -116,13 +116,13 @@ function sqlGetUserName($user_id){
 				<div class="answerElementDiv" data-a_id="'.$row->a_id.'" class="well" style="float:left;width:100%">
 					<div class="answerVotesDiv" style="float:left;text-align:center">
 						<div class="upVotesDiv" style="height:30%; ">
-							<a class="upVoteButton"href=# data-a_id="'.$row->a_id.'"><i class="icon-circle-arrow-up"></i></a>
+							<a class="upVoteButton" href="#"" ><i class="icon-circle-arrow-up"></i></a>
 	    				</div>
 	    				<div class="votesCountDiv" style="height:40%; ">
 	    					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
 	    				</div>
 						<div class="downVotesDiv" style="height:30%; ">
-							<a class="downVoteButton" href=# data-a_id="'.$row->a_id.'"><i class="icon-circle-arrow-down"></i></a>
+							<a class="downVoteButton" href="#"" ><i class="icon-circle-arrow-down"></i></a>
 						</div>
 					</div>
 					<div class="answerDiv" style="float:left;">

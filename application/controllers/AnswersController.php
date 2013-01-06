@@ -17,13 +17,13 @@ class AnswersController extends CI_Controller {
 	}
 	function voteUp($a_id){
 		
-		$this->load->model('answermodel');
-		$this->answermodel->sqlUpdateVote($a_id,1);
+		$this->load->model('answersmodel');
+		$this->answersmodel->sqlUpdateVote($a_id,1);
 	}
 	function voteDown($a_id){
 		
-		$this->load->model('answermodel');
-		$this->answermodel->sqlUpdateVote($a_id,-1);
+		$this->load->model('answersmodel');
+		$this->answersmodel->sqlUpdateVote($a_id,-1);
 	}
 	
 	function viewAnswersForQuestion($url){

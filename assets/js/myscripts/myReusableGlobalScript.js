@@ -14,7 +14,7 @@ function displayNotification(type,msg,redirectUrl){
        }
     }, 4000);
     */
-    $('#alertBox .alertMessage').html('<span class="label label-'+type+'">'+msg+'</span>');
+    $('#alertBox .alertMessage').html('<span>'+msg+'</span>');
     $('#alertBox').fadeIn('slow');
     setTimeout(function() {   
        $('#alertBox').fadeOut('slow');
@@ -438,11 +438,64 @@ $(document).ready(function(){
 
         //voting answer implementation
 
-        voteAnswer: function(){
+        voteAnswer: function(ev){
 
-            alert('vote')
+            var voteButton=ev.currentTarget;            
+            var count=0;
+            
+            //devide whether upvote/downvote
+            if($(voteButton).hasClass('upVoteButton')){
+                count=1;
+                
+            }
+            else{
+                count=-1;
+                
+            }
+                
+            //get the answerElementDiv that holds the voteButton
+            var parentAnswerElementDiv=$(voteButton).closest('div.answerElementDiv');
+
+            var a_id=$(parentAnswerElementDiv).data('a_id');
+            //get votescountspan element inside the parent div element
+            var votesCountSpan=$(parentAnswerElementDiv).find('span.votesCount');
+            //update count in the markup
+            this.convertMarkupOfVotesCountDiv(votesCountSpan,count);
+            //update count in the db
+            this.updateVote(count,a_id)
+
+        },
+
+        updateVote : function(count,a_id){
+
+            console.log('ans : '+a_id)
+            var voteUrl= CI.base_url+'AnswersController/' 
+            voteUrl+= (count==1?'voteUp/':'voteDown/') + a_id;
+            var that=this;
+            console.log(voteUrl)
+            $.get(voteUrl,function(data){
+                //feedback
+                displayNotification('success','Thanks for your vote!');             
+            });
+
+        },
+
+        convertMarkupOfVoteButton : function(){
+
+
+
+        },
+
+        convertMarkupOfVotesCountDiv : function(spanToUpdate,count){
+
+            var existingCount=parseInt($(spanToUpdate).text());
+            console.log(existingCount)
+            existingCount+=count;
+            $(spanToUpdate).text(existingCount);         
 
         }
+
+
 
 
     });
@@ -450,5 +503,3 @@ $(document).ready(function(){
 
 
 });
-
-
