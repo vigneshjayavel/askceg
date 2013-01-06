@@ -109,21 +109,45 @@ function sqlGetUserName($user_id){
 
 		$previousAnswers='';
 		$url_curr=base_url()."assets/img/users/".$curr_id.".jpg";
+
+		$dynamicAnswerVotesDiv='';
+		$CI =& get_instance();
+		$currentUserId=$CI->session->userdata('user_id');
+
 		foreach($query->result() as $row ) {
-		     
+						
+			$vote=$this->sqlCheckUserVotedAnswer($currentUserId,$row->a_id);
+			if($vote==1){
+				$dynamicAnswerVotesDiv='
+				<span class="label label-success">You <i class="icon-thumbs-up"></i> this</span>
+				<div class="votesCountDiv" style="height:40%; ">
+					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
+				</div>';
+			}
+			else if($vote==-1){
+				$dynamicAnswerVotesDiv='
+				<span class="label label-warning">You <i class="icon-thumbs-down"></i> this</span>
+				<div class="votesCountDiv" style="height:40%; ">
+					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
+				</div>';
+			}
+			else if($vote==0){
+				$dynamicAnswerVotesDiv='
+				<div class="upVotesDiv" style="height:30%; ">
+					<a class="voteButton upVoteButton" href="#" ><i class="icon-thumbs-up"></i></a>
+				</div>
+				<div class="votesCountDiv" style="height:40%; ">
+					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
+				</div>
+				<div class="downVotesDiv" style="height:30%; ">
+					<a class="voteButton downVoteButton" href="#" ><i class="icon-thumbs-down"></i></a>
+				</div>';
+			}
 		     
 			$previousAnswers.='
 				<div class="answerElementDiv" data-a_id="'.$row->a_id.'" class="well" style="float:left;width:100%">
 					<div class="answerVotesDiv" style="float:left;text-align:center">
-						<div class="upVotesDiv" style="height:30%; ">
-							<a class="voteButton upVoteButton" href="#" ><i class="icon-thumbs-up"></i></a>
-	    				</div>
-	    				<div class="votesCountDiv" style="height:40%; ">
-	    					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
-	    				</div>
-						<div class="downVotesDiv" style="height:30%; ">
-							<a class="voteButton downVoteButton" href="#" ><i class="icon-thumbs-down"></i></a>
-						</div>
+						'.$dynamicAnswerVotesDiv.'
 					</div>
 					<div class="answerDiv" style="float:left;">
 					'.'	<div class="userDetailDiv">'.
@@ -160,6 +184,19 @@ function sqlGetUserName($user_id){
 		return $str;
 
 	}
+
+	function sqlCheckUserVotedAnswer($user_id,$a_id){
+
+		$query="select vote from VOTE where user_id=? and a_id=?";
+		$query=$this->db->query($query,array($user_id,$a_id));
+		if ($row=$query->row_array() ) {
+			return $row['vote'];
+		}
+		else
+			return 0;
+		
+	}
+
 
 	function getCurrentTime(){//todo
 

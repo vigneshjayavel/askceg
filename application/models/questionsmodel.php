@@ -970,7 +970,7 @@ else
             foreach($result as $row ) {
               $followers.=$this->sqlGetUserName($row['follower']).'</br>';
             }
-            $followers.='also follow this..';
+            //$followers.='also follow this..';
             return $followers;
     }
     else
