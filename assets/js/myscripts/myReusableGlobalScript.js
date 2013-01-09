@@ -309,7 +309,8 @@ $(document).ready(function(){
         },
 
         addAnswerToQuestion: function(){
-            $('#submit').val('Please wait..');
+
+            $('#postAnswerButton').attr('disabled','disabled').val('Answering..');
             $('span.error').remove();
 
             //get the question id from 'id' attr of the question <a> element
@@ -341,6 +342,7 @@ $(document).ready(function(){
                     $('#body').val('');
                     displayNotification('success','thanks for ur post! :)');
                     $('#answerText').val('');
+                    $('#postAnswerButton').attr('disabled','').val('Answer');
                     that.enableOrDisablepostAnswerButton();
                     that.updateAnswersCount(q_id);
                 }
