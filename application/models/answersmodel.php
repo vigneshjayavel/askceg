@@ -239,6 +239,40 @@ function sqlGetUserName($user_id){
         $posted_by_id=$CI->session->userdata('user_id');
         $url=base_url()."assets/img/users/".$posted_by_id.".jpg";
 		
+        //re-query to get just the newly inserted answer's a_id
+        $sql="select a_id,timestamp from ANSWER 
+        where a_content=? and q_id=? and posted_by=? and timestamp=?";
+        $query=$this->db->query($sql,array($answerArray['a_content'],$answerArray['q_id'],$posted_by,$timestamp));
+        $row=$query->row_array();
+
+        $answerMarkup='
+        	<div class="answerElementDiv" data-a_id="'.$row['a_id'].'" class="well" style="float:left;width:100%">
+				<div class="answerVotesDiv" style="float:left;text-align:center">
+					<div class="upVotesDiv" style="height:30%; ">
+						<a class="voteButton upVoteButton" href="#" ><i class="icon-thumbs-up"></i></a>
+					</div>
+					<div class="votesCountDiv" style="height:40%; ">
+						<span class="votesCount">0</span>
+					</div>
+					<div class="downVotesDiv" style="height:30%; ">
+						<a class="voteButton downVoteButton" href="#" ><i class="icon-thumbs-down"></i></a>
+					</div>
+				</div>
+				<div class="answerDiv" style="float:left;">
+				'.'	<div class="userDetailDiv">'.
+						$this->userMarkup($posted_by).'
+					</div>
+					<div class="answerContentDiv">
+					'.$answerArray['a_content'].'
+					</div>
+	    			<div class="answerStatsDiv " style="float:right" >
+	    				<i class="icon-time"></i>'.$row['timestamp'].' 
+		    		</div>
+	    		</div>
+		    </div>
+        ';
+
+/*
 				
         $answerMarkup='
         	<div id="answerDiv'.'dummy-id'.'" class="well">
@@ -252,6 +286,8 @@ function sqlGetUserName($user_id){
     				<i class="icon-time"></i>'.$this->getCurrentTime().'
     			</div>
 			</div>';
+
+*/
 
 		if($status==-1){
 			$status='success';
