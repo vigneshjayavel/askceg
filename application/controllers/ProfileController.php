@@ -155,7 +155,7 @@ class ProfileController extends CI_Controller {
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getCenterContentMyGroup();
-			$data['centerContent'].=$this->questionsmodel->getGroupScopeQuestions();
+		$data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,null,null,true);
 		$this->load->view('Skeleton',$data);
 	}
 	function MyYear()
