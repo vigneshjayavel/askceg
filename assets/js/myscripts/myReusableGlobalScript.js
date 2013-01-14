@@ -288,7 +288,15 @@ $(document).ready(function(){
         displayFollowersTooltip:function(ev){
             var tooltipElement=$(ev.currentTarget);
             $(tooltipElement).attr('data-original-title','loading..')
-            $.get(CI.base_url+'QuestionsController/getFollowersForQuestion/'+$(tooltipElement).data('q_id'),
+            var tooltipType=$(tooltipElement).attr('data-type');
+            var apiUrl='';
+            if(tooltipType==='qs'){
+                apiUrl='QuestionsController/getFollowersForQuestion/';
+            }
+            else if(tooltipType==='topic'){
+                apiUrl='QuestionsController/getFollowersForTopic/';
+            }
+            $.get(CI.base_url+apiUrl+$(tooltipElement).data('q_id'),
                 function(data){
               $(tooltipElement).tooltip('hide')
               .attr('data-original-title', data)

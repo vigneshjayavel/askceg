@@ -470,7 +470,7 @@ function getQuestionsAskedToTeacher($user_id){
         $dynamicFollowOrUnfollowButton='';
         $deleteButton='';
         if($currentUserId==$row['posted_by'])
-          $deleteButton.='<i class="icon-remove-sign"> </i>
+          $deleteButton.='
                       <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
                       href="'.$deleteUrl.$row['q_id'].'" class="label label-inverse">Delete
                       </a>';
@@ -534,7 +534,7 @@ function getQuestionsAskedToTeacher($user_id){
               <i class="icon-eye-open"></i>
               <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
               <i class="icon-user"></i>
-              <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" 
+              <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" data-type="qs"
               data-q_id="'.$row['q_id']
               .'">
               <span class="followersCountSpan" data-q_id="'.$row['q_id'].'"> '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
@@ -761,7 +761,7 @@ function getQuestionsAskedToTeacher($user_id){
 
   }
 
-  
+
   function getGlobalScopeQuestions(){
     $content=null;
     $sql="SELECT *
@@ -839,7 +839,7 @@ function getQuestionsAskedToTeacher($user_id){
 
     
   
-    $sql="select * from TOPIC_FOLLOWERS where follower=? and topic_id=?";
+    $sql="select * from TOPIC_FOLLOWERS where user_id=? and topic_id=?";
     $query=$this->db->query($sql,array($user_id,$topic_id));
     if ($row=$query->row_array() ) {
       return TRUE;
@@ -849,36 +849,21 @@ function getQuestionsAskedToTeacher($user_id){
 
   }
 
+  function sqlGetFollowers($type,$id){
 
-	function sqlGetFollowersForQuestion($q_id){
-
-	
-		$query="select user_id from FOLLOWERS where q_id=?";
-		$query=$this->db->query($query,array($q_id));
-		$followers='';
-    if($result=$query->result_array()){
-        		foreach($result as $row ) {
-        			$followers.=$this->sqlGetUserName($row['user_id']).'</br>';
-        		}
-		        $followers.='also follow this..';
-		        return $followers;
+    if($type=='qs'){
+      $query="select * from FOLLOWERS where q_id=?";  
     }
-    else
-      return 'no one follows';
-
-
-	}
-  function sqlGetFollowersForTopic($topic_id){
-
-  
-    $query="select * from TOPIC_FOLLOWERS where topic_id=?";
-    $query=$this->db->query($query,array($topic_id));
+    else if($type=='topic'){
+      $query="select * from TOPIC_FOLLOWERS where topic_id=?";  
+    }
+    
+    $query=$this->db->query($query,array($id));
     $followers='';
     if($result=$query->result_array()){
             foreach($result as $row ) {
-              $followers.=$this->sqlGetUserName($row['follower']).'</br>';
+              $followers.=$this->sqlGetUserName($row['user_id']).'</br>';
             }
-            //$followers.='also follow this..';
             return $followers;
     }
     else
@@ -1079,7 +1064,7 @@ function getQuestionsAskedToTeacher($user_id){
 
   function sqlCreateFollowerTopic($topic_id,$follower){
     
-    $sql = "insert into TOPIC_FOLLOWERS(topic_id,follower) values(?,?)";
+    $sql = "insert into TOPIC_FOLLOWERS(topic_id,user_id) values(?,?)";
     $status=$this->db->query($sql,array($topic_id,$follower));
     if($status==-1){
       return "success";
@@ -1095,7 +1080,7 @@ function getQuestionsAskedToTeacher($user_id){
   }
   function sqlDeleteFollowerTopic($topic_id,$follower){
      
-    $sql = "delete from TOPIC_FOLLOWERS where topic_id =? and follower =?";
+    $sql = "delete from TOPIC_FOLLOWERS where topic_id =? and user_id =?";
     $status=$this->db->query($sql,array($topic_id,$follower));
     if($status==-1){
       return "success";

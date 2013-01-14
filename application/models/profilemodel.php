@@ -180,13 +180,11 @@ class ProfileModel extends CI_Model{
           </div>
           <div class="profileStatsHolder">
             No Of Questions: '.$row1['count(*)'].' 
-            <a rel="tooltip" data-placement="bottom" 
-            data-original-title="'.
-            $this->questionsmodel->sqlGetFollowersForTopic($row['topic_id'])
-            .'">
-            '.$this->questionsmodel->sqlGetFollwersCountForTopic($row['topic_id']).'
-            Followers
-            </a>
+            <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" data-type="topic"
+              data-q_id="'.$row['topic_id']
+              .'">
+              <span class="followersCountSpan" data-topic_id="'.$row['topic_id'].'"> '.$this->questionsmodel->sqlGetFollwersCountForTopic($row['topic_id']).'
+              </span>Followers</a>
           </div>
         </div><!--/span6-->
       </div>
@@ -272,8 +270,8 @@ class ProfileModel extends CI_Model{
         $content='';
         foreach($result as $row){
 
-      $content.='<a href="'.base_url().'ProfileController/ViewUserProfile/'.($row['follower']).'">
-        <img class="thumbnail" height="25px" width="25px" align="left" src="'.base_url().'assets/img/users/'.$row['follower'].'.jpg" alt="">
+      $content.='<a href="'.base_url().'ProfileController/ViewUserProfile/'.($row['user_id']).'">
+        <img class="thumbnail" height="25px" width="25px" align="left" src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg" alt="">
         </a>';
       }
       return $content;
