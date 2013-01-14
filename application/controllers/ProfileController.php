@@ -12,9 +12,9 @@ class ProfileController extends CI_Controller {
 		
 	}
 	function ViewUserProfile($user_id){
-			$this->load->model('profilemodel');
-			$this->load->model('questionsmodel');
-			if($this->profilemodel->isStudent($user_id)==true){
+		$this->load->model('profilemodel');
+		$this->load->model('questionsmodel');
+		if($this->profilemodel->isStudent($user_id)==true){
 	           
 		$data['centerContent']=$this->profilemodel->getUserProfile($user_id);
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAsked($user_id);
@@ -33,49 +33,49 @@ class ProfileController extends CI_Controller {
 	    $this->load->view('Skeleton',$data);
 	  }
 	
-		}
-		function EditStudentProfile()
+	}
+	function EditStudentProfile()
 	{   $user_id=$this->session->userdata('user_id');
 		$this->load->model('profilemodel');
 		$data['centerContent']=$this->profilemodel->getCenterContentMyProfileEdit($user_id);
 		$this->load->view('Skeleton',$data);
 	}
-		function ViewGroupProfile($group_id){
-			$this->load->model('profilemodel');
-			$this->load->model('questionsmodel');
+	function ViewGroupProfile($group_id){
+		$this->load->model('profilemodel');
+		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getGroupProfile($group_id);
 		$data['centerContent'].=$this->questionsmodel->getGroupScopeQuestions();
 		$this->load->view('Skeleton',$data);
 	
-		}
-		function ViewMyYearProfile(){
-			$this->load->model('authmodel');
-			$year_id=$this->authmodel->getUserYearId($this->session->userdata('user_id'));
-			$this->ViewYearProfile($year_id);
+	}
+	function ViewMyYearProfile(){
+		$this->load->model('authmodel');
+		$year_id=$this->authmodel->getUserYearId($this->session->userdata('user_id'));
+		$this->ViewYearProfile($year_id);
 
-		}
-		function ViewYearProfile($year_id){
-			$this->load->model('profilemodel');
-			$this->load->model('questionsmodel');
+	}
+	function ViewYearProfile($year_id){
+		$this->load->model('profilemodel');
+		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getYearProfile($year_id);
-       // $data['centerContent'].=$this->questionsmodel->getYearScopeQuestions($year_id);
+	   	// $data['centerContent'].=$this->questionsmodel->getYearScopeQuestions($year_id);
 		$this->load->view('Skeleton',$data);
-	
-		}
-		function ViewInterimProfile(){
-			$this->load->model('profilemodel');
-			$this->load->model('questionsmodel');
+
+	}
+	function ViewInterimProfile(){
+		$this->load->model('profilemodel');
+		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getInterimProfile();
-        $data['centerContent'].=$this->questionsmodel->getGlobalScopeQuestions();
+	    $data['centerContent'].=$this->questionsmodel->getGlobalScopeQuestions();
 		$this->load->view('Skeleton',$data);
-	
-		}
-		function ViewAdminPrivileges(){
-			$this->load->model('profilemodel');
+
+	}
+	function ViewAdminPrivileges(){
+		$this->load->model('profilemodel');
 		$data['centerContent']=$this->profilemodel->getAdminPrivileges();
 		$this->load->view('Skeleton',$data);
-	
-		}
+
+	}
 	function MyProfile()
 	{
 		$this->load->model('profilemodel');
@@ -97,10 +97,9 @@ class ProfileController extends CI_Controller {
 		
 
 
-		}
+	}
 	function viewTopic($topic_url){
 		
-		//equivalent to $_SESSION['logged_in']
 	    if ($this->session->userdata('logged_in') == TRUE)
 	    {
 	    $this->load->model('questionsmodel');

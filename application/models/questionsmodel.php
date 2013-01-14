@@ -93,7 +93,6 @@ class QuestionsModel extends CI_Model{
             <label class="control-label" for="categorySelectBox">Select Category</label>
             <div class="controls">
               <select rel="tooltip" data-placement="top" data-original-title="Category of your question" id="categorySelectBox">
-                
                 '.$this->getCategoryOptions().'
               </select>
             </div>
@@ -127,20 +126,14 @@ class QuestionsModel extends CI_Model{
             </div>
           </div> 
           <label class="control-label" for="scope">Scope</label>
-                  <div class="controls">
-                   <div class="btn-group" data-toggle="buttons-radio" data-toggle-name="scope" id="scopegroup">
-          
-                      <button class="btn active " type="button" rel="tooltip" data-placement="top" data-original-title="visible to all"  name="scope" id="scope1" value="1" checked="">
-                      public</button>
-                  
-                      <button class="btn  " type="button" rel="tooltip" data-placement="top" data-original-title="visible only to your group people"  name="scope" id="scope3" value="2">
-                      private(your group)</button>
-                  </div> 
-                 
-                 
-                  
-                  </div>
-                        
+          <div class="controls">
+            <div class="btn-group" data-toggle="buttons-radio" data-toggle-name="scope" id="scopegroup">
+              <button class="btn active " type="button" rel="tooltip" data-placement="top" data-original-title="visible to all"  name="scope" id="scope1" value="1" checked="">
+              public</button>
+              <button class="btn  " type="button" rel="tooltip" data-placement="top" data-original-title="visible only to your group people"  name="scope" id="scope3" value="2">
+              private(your group)</button>
+            </div> 
+          </div>
           <div class="form-actions">
             <a disabled=true id="postQuestionButton" type="submit" class="btn btn-danger"><i class="icon-ok icon-white"></i>Post It</a>
             <a id="resetQuestionButton" type="reset" class="btn btn-primary"><i class="icon-remove icon-white"></i>Reset</a>

@@ -192,11 +192,11 @@ class ProfileModel extends CI_Model{
 
     <div class="postQsButtonHolder well">
       Do you want to ask something here ?
-      <a class="privateQsPostButton btn btn-primary">Post Question</a>
+      <a class="directQsPostButton btn btn-primary">Post Question</a>
     </div> 
 
-    <!--Modal to post private qs -->
-    <div id="postPrivateQsModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!--Modal to post direct qs -->
+    <div id="postDirectQsModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel">Post a new question in '.$row['topic_name'].'</h3>
@@ -239,7 +239,16 @@ class ProfileModel extends CI_Model{
                 Post Anonymously
               </label>
             </div>
-          </div>                         
+          </div>   
+          <label class="control-label" for="scope">Scope</label>
+          <div class="controls">
+            <div class="btn-group" data-toggle="buttons-radio" data-toggle-name="scope" id="scopegroup">
+              <button class="btn active " type="button" rel="tooltip" data-placement="top" data-original-title="visible to all" name="scope" id="scope1" value="1" checked="">
+              public</button>
+              <button class="btn  " type="button" rel="tooltip" data-placement="top" data-original-title="visible only to your group people" name="scope" id="scope3" value="2">
+              private(your group)</button>
+            </div>         
+          </div>                      
           <div class="form-actions">
             <a disabled=true id="postQuestionButton" data-qs_type="popup" type="submit" 
             class="btn btn-danger">
@@ -535,7 +544,7 @@ function getInterimProfile(){
       $CI=&get_instance();
       if($user_id==$CI->session->userdata('user_id')){
           $edit='
-      <a href="'.base_url().'/ProfileController/EditStudentProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
+      <a href="'.base_url().'ProfileController/EditStudentProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
        }
        else
          $edit='';
@@ -544,58 +553,57 @@ function getInterimProfile(){
 
 
       return'<div class="well">
-      <table>
-      <tr>
-            <td>Name:
-            </td>
-            <td>'.$row['user_name'].'
-            </td>
-             <div class="ask-dp pull-right">
-            <img src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg">
-            </div>
-     
-      </tr>
-      </table>
-      </div>
-      <div class="well">
-      <table>
-      <tr>
-           <td>Group/Batch :
-           </td>
-           <td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$row['group_id'].'">'.$this->getGroupName($row['group_id']).'</a>
-           </td>
+              <table>
+              <tr>
+                    <td>Name:
+                    </td>
+                    <td>'.$row['user_name'].'
+                    </td>
+                     <div class="ask-dp pull-right">
+                    <img src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg">
+                    </div>
+              </tr>
+              </table>
+              </div>
+              <div class="well">
+              <table>
+              <tr>
+                   <td>Group/Batch :
+                   </td>
+                   <td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$row['group_id'].'">'.$this->getGroupName($row['group_id']).'</a>
+                   </td>
 
 
-      </tr>
-      </table>
-      </div>
-      
-<div class="well">
-      <table>
-      <tr>
-          <td>Year:
-          </td>
-          <td><a href="'.base_url().'ProfileController/ViewYearProfile/'.$row['user_year'].'"> '.$row['user_year'].'</a>
-          </td>
+              </tr>
+              </table>
+              </div>
+              
+        <div class="well">
+              <table>
+              <tr>
+                  <td>Year:
+                  </td>
+                  <td><a href="'.base_url().'ProfileController/ViewYearProfile/'.$row['user_year'].'"> '.$row['user_year'].'</a>
+                  </td>
 
-      </tr>
-      </table>
-      </div>
-      
-      <div class="well">
-      <table>
-      <tr>
-          <td>Degree and Course:
-          </td>
-          <td>'.$row['user_degree'].'-'.$row['user_course'].'
-          </td>
+              </tr>
+              </table>
+              </div>
+              
+              <div class="well">
+              <table>
+              <tr>
+                  <td>Degree and Course:
+                  </td>
+                  <td>'.$row['user_degree'].'-'.$row['user_course'].'
+                  </td>
 
-      </tr>
-      <tr>
-        '.$edit.'
-      </tr>
-      </table>
-      </div>
+              </tr>
+              <tr>
+                '.$edit.'
+              </tr>
+              </table>
+              </div>
     ';
     
 
