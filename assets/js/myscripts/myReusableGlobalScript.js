@@ -273,7 +273,7 @@ $(document).ready(function(){
                 updationType='decrement';
             }
             //updating the followers count
-            this.updateFollowersCount($(qsFollowButtonElement).data('q_id'),updationType);
+            this.updateFollowersCount($(qsFollowButtonElement).data('q_id'),updationType,'qs');
             
         },
         /*after following/unfollowing update db */
@@ -305,11 +305,18 @@ $(document).ready(function(){
             });
         },
 
-        updateFollowersCount: function(q_id,updationType){
+        updateFollowersCount: function(item_id,updationType,itemType){
             
             //get the q_id of the qs that was followed/unfollowed
             //get the target span element to be updated based on q_id
-            var followersCountSpanElement=$('span.followersCountSpan[data-q_id='+q_id+']');
+
+            var followersCountSpanElement='';
+            if(itemType==='qs'){
+                followersCountSpanElement=$('span.followersCountSpan[data-q_id='+item_id+']');
+            }
+            else if(itemType==='topic'){
+                followersCountSpanElement=$('span.followersCountSpan[data-topic_id='+item_id+']');
+            }
             var count=parseInt(followersCountSpanElement.text());
             count=updationType=='increment'?count+1:count-1;
             followersCountSpanElement.text(count+' ');
@@ -431,7 +438,18 @@ $(document).ready(function(){
             $(topicFollowButtonElement).append(topicFollowButtonMarkupObj.followUnfollowText)
             $(topicFollowButtonElement).tooltip('hide')
             $(topicFollowButtonElement).attr('data-original-title', topicFollowButtonMarkupObj.tooltipText)
-            displayNotification(topicFollowButtonMarkupObj.notificationStatus,topicFollowButtonMarkupObj.notificationMsg)
+            displayNotification(topicFollowButtonMarkupObj.notificationStatus,topicFollowButtonMarkupObj.notificationMsg);
+
+             //determining whether to inc/dec the followerscount
+            var updationType;
+            if(topicFollowButtonMarkupObj.followUnfollowText=='Followed'){
+                updationType='increment';
+            }
+            else{
+                updationType='decrement';
+            }
+            //updating the followers count
+            this.updateFollowersCount($(topicFollowButtonElement).data('topic_id'),updationType,'topic');
         },
         /*after following/unfollowing update db */
         updateTopicFollowStatus:function(url,topicFollowButtonElement,topicFollowButtonMarkupObj){
