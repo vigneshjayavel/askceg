@@ -69,7 +69,7 @@
       }
     ?>
     
-    <!--style type="text/css" id="page-css">
+    <!--style type="text/css" id="page-css">codeignitor
       /* Styles specific to this particular page */
       .scroll-pane
       {

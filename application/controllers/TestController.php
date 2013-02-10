@@ -57,4 +57,14 @@ echo $date->format('Y-m-d H:i:s');
 }
 
 
+
+function print123($qid){
+	$this->load->model('questionsmodel');
+		$data['centerContent']=$this->questionsmodel->printanswer($qid);
+		$this->load->view('Skeleton',$this->data);
+
+
+}
+
+
 }

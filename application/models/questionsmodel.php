@@ -150,7 +150,21 @@ class QuestionsModel extends CI_Model{
       ';
 
 	}
+function printanswer($qid){
+  $sql="select * from ANSWER where q_id=?";
+  $query=$this->db->query($sql,array($qid));
+  $markup='';
+  $result=$query->result_array();
+  foreach($result as $row){
+    $markup.=$row['a_content']."<br>";
 
+  }
+  if($markup == null){
+    return "No content exists";
+  }
+  else
+  return $markup;
+}
   
 function getQuestionsAskedToTeacher($user_id){
     $sql='select q.q_id,q.q_content,q.anonymous, q.posted_by,q.url from  QUESTION q,QUESTION_POST_TO_TEACHER t
