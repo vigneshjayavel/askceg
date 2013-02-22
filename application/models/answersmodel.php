@@ -35,19 +35,44 @@ function sqlGetUserName($user_id){
                    ';
 
   }
-  function sqlUpdateVoteUp($a_id,$vote){
+  function sqlUpdateVote($a_id,$vote){
   	$CI=&get_instance();
   	$user_id=$CI->session->userdata('user_id');
   	$sql="insert into VOTE(a_id,user_id,vote,timestamp) values(?,?,?,?)";
   	$query=$this->db->query($sql,array($a_id,$user_id,$vote,$this->getCurrentTime()));
 
   }
-  function sqlgetVoteCount($a_id){
-  	$sql="select sum(vote) from VOTE";
+  	function sqlgetVoteCount($a_id){
+  		$sql="select sum(vote) from VOTE";
 
 		
 	}
 
+	function sqlCheckUserVotedStatus($user_id,$a_id){
+	
+		$query="select user_id,vote from VOTE where user_id=? and a_id=?";
+		$query=$this->db->query($query,array($user_id,$q_id));
+		if ($row=$query->row_array() ) {
+			return $row['vote'];
+		}
+		else
+			return 0;
+	}
+
+	function sqlGetVotesCoutForAnswer($a_id){
+
+		$query="select SUM(vote) as cnt from VOTE where a_id=?";
+		$query=$this->db->query($query,array($a_id));
+	    $row=$query->row_array();
+	    if($row['cnt']!=null && $row!=''){
+	    	return $row['cnt'];	
+	    }
+	    else{
+	    	return 0;
+	    }
+	    
+
+	}
 
 	function sqlReadAnswers($url=null,$curr_id){
 
@@ -71,9 +96,9 @@ function sqlGetUserName($user_id){
 
 	
 		$sql = "SELECT 
-			         *
+			         a.a_id,a.a_content,a.q_id,a.posted_by,a.timestamp
 				FROM
-					ANSWER a 
+					ANSWER a
 				where 
 					a.q_id=? 
 				order by a.a_id desc
@@ -84,21 +109,57 @@ function sqlGetUserName($user_id){
 
 		$previousAnswers='';
 		$url_curr=base_url()."assets/img/users/".$curr_id.".jpg";
+
+		$dynamicAnswerVotesDiv='';
+		$CI =& get_instance();
+		$currentUserId=$CI->session->userdata('user_id');
+
 		foreach($query->result() as $row ) {
-		     
+						
+			$vote=$this->sqlCheckUserVotedAnswer($currentUserId,$row->a_id);
+			if($vote==1){
+				$dynamicAnswerVotesDiv='
+				<span class="label label-success">You <i class="icon-thumbs-up"></i> this</span>
+				<div class="votesCountDiv" style="height:40%; ">
+					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
+				</div>';
+			}
+			else if($vote==-1){
+				$dynamicAnswerVotesDiv='
+				<span class="label label-warning">You <i class="icon-thumbs-down"></i> this</span>
+				<div class="votesCountDiv" style="height:40%; ">
+					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
+				</div>';
+			}
+			else if($vote==0){
+				$dynamicAnswerVotesDiv='
+				<div class="upVotesDiv" style="height:30%; ">
+					<a class="voteButton upVoteButton" href="#" ><i class="icon-thumbs-up"></i></a>
+				</div>
+				<div class="votesCountDiv" style="height:40%; ">
+					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
+				</div>
+				<div class="downVotesDiv" style="height:30%; ">
+					<a class="voteButton downVoteButton" href="#" ><i class="icon-thumbs-down"></i></a>
+				</div>';
+			}
 		     
 			$previousAnswers.='
-				<div id="answerDiv'.$row->a_id.'" class="well">
-					'.'	<div id="userDetailDiv">'.$this->userMarkup($row->posted_by).'				           	<div id="answerVoteStats" style="float:right">
-						
-							</div>
+				<div class="answerElementDiv" data-a_id="'.$row->a_id.'" class="well" style="float:left;width:100%">
+					<div class="answerVotesDiv" style="float:left;text-align:center">
+						'.$dynamicAnswerVotesDiv.'
+					</div>
+					<div class="answerDiv" style="float:left;">
+					'.'	<div class="userDetailDiv">'.
+							$this->userMarkup($row->posted_by).'
 						</div>
+						<div class="answerContentDiv">
 						'.$row->a_content.'
-		    			<div id="answerStats" style="float:right">
-		    				<a href=#><i class="icon-circle-arrow-up"></i>Vote</a>
-		    				<a href=#><i class="icon-circle-arrow-down"></i></a>
+						</div>
+		    			<div class="answerStatsDiv " style="float:right" >
 		    				<i class="icon-time"></i>'.$row->timestamp.' 
 			    		</div>
+		    		</div>
 			    </div>';
 
 		
@@ -123,6 +184,19 @@ function sqlGetUserName($user_id){
 		return $str;
 
 	}
+
+	function sqlCheckUserVotedAnswer($user_id,$a_id){
+
+		$query="select vote from VOTE where user_id=? and a_id=?";
+		$query=$this->db->query($query,array($user_id,$a_id));
+		if ($row=$query->row_array() ) {
+			return $row['vote'];
+		}
+		else
+			return 0;
+		
+	}
+
 
 	function getCurrentTime(){//todo
 
@@ -165,6 +239,40 @@ function sqlGetUserName($user_id){
         $posted_by_id=$CI->session->userdata('user_id');
         $url=base_url()."assets/img/users/".$posted_by_id.".jpg";
 		
+        //re-query to get just the newly inserted answer's a_id
+        $sql="select a_id,timestamp from ANSWER 
+        where a_content=? and q_id=? and posted_by=? and timestamp=?";
+        $query=$this->db->query($sql,array($answerArray['a_content'],$answerArray['q_id'],$posted_by,$timestamp));
+        $row=$query->row_array();
+
+        $answerMarkup='
+        	<div class="answerElementDiv" data-a_id="'.$row['a_id'].'" class="well" style="float:left;width:100%">
+				<div class="answerVotesDiv" style="float:left;text-align:center">
+					<div class="upVotesDiv" style="height:30%; ">
+						<a class="voteButton upVoteButton" href="#" ><i class="icon-thumbs-up"></i></a>
+					</div>
+					<div class="votesCountDiv" style="height:40%; ">
+						<span class="votesCount">0</span>
+					</div>
+					<div class="downVotesDiv" style="height:30%; ">
+						<a class="voteButton downVoteButton" href="#" ><i class="icon-thumbs-down"></i></a>
+					</div>
+				</div>
+				<div class="answerDiv" style="float:left;">
+				'.'	<div class="userDetailDiv">'.
+						$this->userMarkup($posted_by).'
+					</div>
+					<div class="answerContentDiv">
+					'.$answerArray['a_content'].'
+					</div>
+	    			<div class="answerStatsDiv " style="float:right" >
+	    				<i class="icon-time"></i>'.$row['timestamp'].' 
+		    		</div>
+	    		</div>
+		    </div>
+        ';
+
+/*
 				
         $answerMarkup='
         	<div id="answerDiv'.'dummy-id'.'" class="well">
@@ -178,6 +286,8 @@ function sqlGetUserName($user_id){
     				<i class="icon-time"></i>'.$this->getCurrentTime().'
     			</div>
 			</div>';
+
+*/
 
 		if($status==-1){
 			$status='success';

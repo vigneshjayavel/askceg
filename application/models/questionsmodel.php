@@ -93,7 +93,6 @@ class QuestionsModel extends CI_Model{
             <label class="control-label" for="categorySelectBox">Select Category</label>
             <div class="controls">
               <select rel="tooltip" data-placement="top" data-original-title="Category of your question" id="categorySelectBox">
-                
                 '.$this->getCategoryOptions().'
               </select>
             </div>
@@ -127,20 +126,14 @@ class QuestionsModel extends CI_Model{
             </div>
           </div> 
           <label class="control-label" for="scope">Scope</label>
-                  <div class="controls">
-                   <div class="btn-group" data-toggle="buttons-radio" data-toggle-name="scope" id="scopegroup">
-          
-                      <button class="btn active " type="button" rel="tooltip" data-placement="top" data-original-title="visible to all"  name="scope" id="scope1" value="1" checked="">
-                      public</button>
-                  
-                      <button class="btn  " type="button" rel="tooltip" data-placement="top" data-original-title="visible only to your group people"  name="scope" id="scope3" value="2">
-                      private(your group)</button>
-                  </div> 
-                 
-                 
-                  
-                  </div>
-                        
+          <div class="controls">
+            <div class="btn-group" data-toggle="buttons-radio" data-toggle-name="scope" id="scopegroup">
+              <button class="btn active " type="button" rel="tooltip" data-placement="top" data-original-title="visible to all"  name="scope" id="scope1" value="1" checked="">
+              public</button>
+              <button class="btn  " type="button" rel="tooltip" data-placement="top" data-original-title="visible only to your group people"  name="scope" id="scope3" value="2">
+              private(your group)</button>
+            </div> 
+          </div>
           <div class="form-actions">
             <a disabled=true id="postQuestionButton" type="submit" class="btn btn-danger"><i class="icon-ok icon-white"></i>Post It</a>
             <a id="resetQuestionButton" type="reset" class="btn btn-primary"><i class="icon-remove icon-white"></i>Reset</a>
@@ -409,9 +402,30 @@ function getQuestionsAskedToTeacher($user_id){
    
 
   
-  function sqlReadQuestions($category_id=null,$topic_url=null,$url=null){
+  function sqlReadQuestions($category_id=null,$topic_url=null,$url=null,$group_scope=null){
+    
+
+
     $content='';
-    $sql = "SELECT 
+
+    if($group_scope!=null){ //group_scope questions
+
+      $CI =& get_instance();
+      $groupId=$CI->session->userdata('group_id');
+
+      $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
+          t.topic_name,t.topic_url,c.category_name ,c.category_id,q.posted_by,
+          q.timestamp,q.anonymous
+        FROM
+          QUESTION q, TOPIC t, CATEGORY c 
+        where 
+          q.topic_id=t.topic_id and
+          t.category_id=c.category_id and q.scope='$groupId'"
+        ;
+
+    }
+    else{ //public qs
+      $sql = "SELECT 
           q.q_id,q.q_content,q.q_description,q.topic_id,q.url,t.topic_name,
           c.category_name ,c.category_id,q.posted_by,t.topic_url,q.anonymous,
           q.timestamp
@@ -420,6 +434,9 @@ function getQuestionsAskedToTeacher($user_id){
           where 
             q.topic_id=t.topic_id and
             t.category_id=c.category_id";
+
+    }
+
     if($category_id!=null){
       $category_id=mysql_real_escape_string($category_id);
       $sql.=" and c.category_id=".$category_id;
@@ -460,7 +477,7 @@ function getQuestionsAskedToTeacher($user_id){
         $dynamicFollowOrUnfollowButton='';
         $deleteButton='';
         if($currentUserId==$row['posted_by'])
-          $deleteButton.='<i class="icon-remove-sign"> </i>
+          $deleteButton.='
                       <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
                       href="'.$deleteUrl.$row['q_id'].'" class="label label-inverse">Delete
                       </a>';
@@ -524,7 +541,7 @@ function getQuestionsAskedToTeacher($user_id){
               <i class="icon-eye-open"></i>
               <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
               <i class="icon-user"></i>
-              <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" 
+              <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" data-type="qs"
               data-q_id="'.$row['q_id']
               .'">
               <span class="followersCountSpan" data-q_id="'.$row['q_id'].'"> '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
@@ -750,122 +767,6 @@ function getQuestionsAskedToTeacher($user_id){
           
 
   }
-	function getGroupScopeQuestions(){
-		$content=null;
-    $CI =& get_instance();
-    $groupId=$CI->session->userdata('group_id');
-    $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
-					t.topic_name,t.topic_url,c.category_name ,c.category_id,q.posted_by,
-					q.timestamp,q.anonymous
-				
-				FROM
-					QUESTION q, TOPIC t, CATEGORY c 
-				where 
-					q.topic_id=t.topic_id and
-					t.category_id=c.category_id and q.scope='$groupId'"
-				;
-
-    $query=$this->db->query($sql);
-    
-    // $row=$query->result_array();
-    $categoryUrl=base_url().'QuestionsController/viewQuestion/';
-    $topicUri=base_url().'ProfileController/viewTopic/';
-		$questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
-		$followUrl=	base_url().'QuestionsController/followQuestion/';
-		$unfollowUrl=	base_url().'QuestionsController/unfollowQuestion/';
-
-		$CI =& get_instance();
-		$currentUserName=$CI->session->userdata('user_name');
-    if($result=$query->result_array()){
-
-
-		foreach( $result as $row ) {
-      if($row['anonymous']==1)
-        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
-                  
-                 <strong>Anonymous</strong> 
-            ';
-      else
-        $userMarkup=$this->userMarkup($row['posted_by']);
-     
-			$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
-			$currentUrl=urlencode(current_url());
-
-			$dynamicFollowOrUnfollowButton='';
-			if($this->sqlCheckUserFollowsQuestion($currentUserName,$row['q_id']))
-				$dynamicFollowOrUnfollowButton='
-					<i class="icon-minus-sign"></i>
-               		<a href="'.$unfollowUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
-                    data-original-title="Click to unfollow the question!">Unfollow</a>';
-			else
-				$dynamicFollowOrUnfollowButton='
-					<i class="icon-plus-sign"></i>
-               		<a href="'.$followUrl.$row['q_id'].'?redirectUrl='.$currentUrl.'" rel="tooltip" data-placement="bottom" 
-                    data-original-title="Click to follow the question!">Follow</a>';
-
-			$content.='
-
-				<div id="questionPostDiv" class="well questionElement" style="background-color:white">
-                  <div id="userDetailDiv">
-                  '.$userMarkup.' <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
-                  </div>
-                  <div id="questionDetailsDiv">
-                    <p id="questionContent">
-                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
-                    </strong>
-                    </p>
-                    <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
-                  </div><!--/questionDetailsDiv-->
-                  <div id="questionExtraDetailsDiv">    
-                    <a rel="tooltip" data-placement="top" data-original-title="Category"
-                    href="'.$categoryUrl.$row['category_name'].'" class="label label-warning">'.$row['category_name'].'
-                    </a>
-                    <i class="icon-arrow-right"></i>
-                    <a rel="tooltip" data-placement="top" data-original-title="Topic"
-                    href="'.$topicUri.$row['topic_url'].'" class="label label-info">'.$row['topic_name'].'
-                    </a>
-                    <p>      </p>
-                  </div><!--/questionExtraDetailsDiv-->
-                  <div id="questionStatsDiv">
-                    <i class="icon-time"></i>
-                    <a>'.$row['timestamp'].'</a>
-                    <i class="icon-comment"></i>
-                    <a rel="tooltip popover" href="#" 
-                      data-placement="bottom" 
-                      data-original-title="Quick answer!" 
-                      data-content=\'<textarea placeholder="Enter answer here.."></textarea><br/>
-                                    <button class="postAnswerButton btn btn-success pull-right">
-                                    <i class="icon-share-alt icon-white"></i>
-                                    Answer!</button>\' 
-                      data-original-title="Post Answer"
-                      data-placement="bottom">
-                      '.$this->sqlGetAnswerCount($row['q_id']).' Answers
-                    </a>
-                    <i class="icon-eye-open"></i>
-                    <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
-                    <i class="icon-user"></i>
-                    <a rel="tooltip" data-placement="bottom" 
-                    data-original-title="'.
-                    $this->sqlGetFollowersForQuestion($row['q_id'])
-                    .'">
-                    '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
-                    Followers</a>
-               		<div style="float:right">
-                    FLike,Tweet                    
-                    </div>
-                  </div><!--/questionStatsDiv-->
-                  
-                </div><!--/questionPostDiv-->
-
-			';
-		}
-
-return $content;
-  }
-else
-
-  return 'No Questions posted in the group yet ';
-  }
 
 
   function getGlobalScopeQuestions(){
@@ -945,7 +846,7 @@ else
 
     
   
-    $sql="select * from TOPIC_FOLLOWERS where follower=? and topic_id=?";
+    $sql="select * from TOPIC_FOLLOWERS where user_id=? and topic_id=?";
     $query=$this->db->query($sql,array($user_id,$topic_id));
     if ($row=$query->row_array() ) {
       return TRUE;
@@ -955,36 +856,21 @@ else
 
   }
 
+  function sqlGetFollowers($type,$id){
 
-	function sqlGetFollowersForQuestion($q_id){
-
-	
-		$query="select user_id from FOLLOWERS where q_id=?";
-		$query=$this->db->query($query,array($q_id));
-		$followers='';
-    if($result=$query->result_array()){
-        		foreach($result as $row ) {
-        			$followers.=$this->sqlGetUserName($row['user_id']).'</br>';
-        		}
-		        $followers.='also follow this..';
-		        return $followers;
+    if($type=='qs'){
+      $query="select * from FOLLOWERS where q_id=?";  
     }
-    else
-      return 'no one follows';
-
-
-	}
-  function sqlGetFollowersForTopic($topic_id){
-
-  
-    $query="select * from TOPIC_FOLLOWERS where topic_id=?";
-    $query=$this->db->query($query,array($topic_id));
+    else if($type=='topic'){
+      $query="select * from TOPIC_FOLLOWERS where topic_id=?";  
+    }
+    
+    $query=$this->db->query($query,array($id));
     $followers='';
     if($result=$query->result_array()){
             foreach($result as $row ) {
-              $followers.=$this->sqlGetUserName($row['follower']).'</br>';
+              $followers.=$this->sqlGetUserName($row['user_id']).'</br>';
             }
-            $followers.='also follow this..';
             return $followers;
     }
     else
@@ -1185,7 +1071,7 @@ else
 
   function sqlCreateFollowerTopic($topic_id,$follower){
     
-    $sql = "insert into TOPIC_FOLLOWERS(topic_id,follower) values(?,?)";
+    $sql = "insert into TOPIC_FOLLOWERS(topic_id,user_id) values(?,?)";
     $status=$this->db->query($sql,array($topic_id,$follower));
     if($status==-1){
       return "success";
@@ -1201,7 +1087,7 @@ else
   }
   function sqlDeleteFollowerTopic($topic_id,$follower){
      
-    $sql = "delete from TOPIC_FOLLOWERS where topic_id =? and follower =?";
+    $sql = "delete from TOPIC_FOLLOWERS where topic_id =? and user_id =?";
     $status=$this->db->query($sql,array($topic_id,$follower));
     if($status==-1){
       return "success";

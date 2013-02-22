@@ -14,7 +14,7 @@ function displayNotification(type,msg,redirectUrl){
        }
     }, 4000);
     */
-    $('#alertBox .alertMessage').html('<span class="label label-'+type+'">'+msg+'</span>');
+    $('#alertBox .alertMessage').html('<span>'+msg+'</span>');
     $('#alertBox').fadeIn('slow');
     setTimeout(function() {   
        $('#alertBox').fadeOut('slow');
@@ -213,7 +213,9 @@ $(document).ready(function(){
           "mouseover a.followersInfoTooltip" : "displayFollowersTooltip",
           "click #postAnswerButton" : "addAnswerToQuestion",
           "keyup #answerText" : "trackTypedAnswer",
-          "click a.privateQsPostButton" : "showPostPrivateQsModal" 
+          "click a.directQsPostButton" : "showPostDirectQsModal",
+          "click a.voteButton" : "voteAnswer" ,
+          "click a.votedButton" :"diplayAlreadyVotedNotification"
         },
         /* method for Ajaxifying follow/unfollow of qs*/
         followOrUnfollowQs: function (ev) {
@@ -271,7 +273,7 @@ $(document).ready(function(){
                 updationType='decrement';
             }
             //updating the followers count
-            this.updateFollowersCount($(qsFollowButtonElement).data('q_id'),updationType);
+            this.updateFollowersCount($(qsFollowButtonElement).data('q_id'),updationType,'qs');
             
         },
         /*after following/unfollowing update db */
@@ -286,7 +288,15 @@ $(document).ready(function(){
         displayFollowersTooltip:function(ev){
             var tooltipElement=$(ev.currentTarget);
             $(tooltipElement).attr('data-original-title','loading..')
-            $.get(CI.base_url+'QuestionsController/getFollowersForQuestion/'+$(tooltipElement).data('q_id'),
+            var tooltipType=$(tooltipElement).attr('data-type');
+            var apiUrl='';
+            if(tooltipType==='qs'){
+                apiUrl='QuestionsController/getFollowersForQuestion/';
+            }
+            else if(tooltipType==='topic'){
+                apiUrl='QuestionsController/getFollowersForTopic/';
+            }
+            $.get(CI.base_url+apiUrl+$(tooltipElement).data('q_id'),
                 function(data){
               $(tooltipElement).tooltip('hide')
               .attr('data-original-title', data)
@@ -295,11 +305,18 @@ $(document).ready(function(){
             });
         },
 
-        updateFollowersCount: function(q_id,updationType){
+        updateFollowersCount: function(item_id,updationType,itemType){
             
             //get the q_id of the qs that was followed/unfollowed
             //get the target span element to be updated based on q_id
-            var followersCountSpanElement=$('span.followersCountSpan[data-q_id='+q_id+']');
+
+            var followersCountSpanElement='';
+            if(itemType==='qs'){
+                followersCountSpanElement=$('span.followersCountSpan[data-q_id='+item_id+']');
+            }
+            else if(itemType==='topic'){
+                followersCountSpanElement=$('span.followersCountSpan[data-topic_id='+item_id+']');
+            }
             var count=parseInt(followersCountSpanElement.text());
             count=updationType=='increment'?count+1:count-1;
             followersCountSpanElement.text(count+' ');
@@ -307,7 +324,8 @@ $(document).ready(function(){
         },
 
         addAnswerToQuestion: function(){
-            $('#submit').val('Please wait..');
+
+            $('#postAnswerButton').attr('disabled','disabled').val('Answering..');
             $('span.error').remove();
 
             //get the question id from 'id' attr of the question <a> element
@@ -339,6 +357,7 @@ $(document).ready(function(){
                     $('#body').val('');
                     displayNotification('success','thanks for ur post! :)');
                     $('#answerText').val('');
+                    $('#postAnswerButton').attr('disabled','').val('Answer');
                     that.enableOrDisablepostAnswerButton();
                     that.updateAnswersCount(q_id);
                 }
@@ -419,7 +438,18 @@ $(document).ready(function(){
             $(topicFollowButtonElement).append(topicFollowButtonMarkupObj.followUnfollowText)
             $(topicFollowButtonElement).tooltip('hide')
             $(topicFollowButtonElement).attr('data-original-title', topicFollowButtonMarkupObj.tooltipText)
-            displayNotification(topicFollowButtonMarkupObj.notificationStatus,topicFollowButtonMarkupObj.notificationMsg)
+            displayNotification(topicFollowButtonMarkupObj.notificationStatus,topicFollowButtonMarkupObj.notificationMsg);
+
+             //determining whether to inc/dec the followerscount
+            var updationType;
+            if(topicFollowButtonMarkupObj.followUnfollowText=='Followed'){
+                updationType='increment';
+            }
+            else{
+                updationType='decrement';
+            }
+            //updating the followers count
+            this.updateFollowersCount($(topicFollowButtonElement).data('topic_id'),updationType,'topic');
         },
         /*after following/unfollowing update db */
         updateTopicFollowStatus:function(url,topicFollowButtonElement,topicFollowButtonMarkupObj){
@@ -431,9 +461,92 @@ $(document).ready(function(){
             
         },
 
-        showPostPrivateQsModal: function(){
-            $('#postPrivateQsModal').modal('show');
+        showPostDirectQsModal: function(){
+            $('#postDirectQsModal').modal('show');
+        },
+
+        //voting answer implementation
+
+        voteAnswer: function(ev){
+
+            var voteButton=ev.currentTarget;            
+            var count=0;
+            
+            //devide whether upvote/downvote
+            if($(voteButton).hasClass('upVoteButton')){
+                count=1;
+                
+            }
+            else{
+                count=-1;
+                
+            }
+                
+            //get the answerElementDiv that holds the voteButton
+            var parentAnswerElementDiv=$(voteButton).closest('div.answerElementDiv');
+
+            var a_id=$(parentAnswerElementDiv).data('a_id');
+            //get votescountspan element inside the parent div element
+            var votesCountSpan=$(parentAnswerElementDiv).find('span.votesCount');
+            //update count in the markup
+            this.updateMarkupOfVotesCountDiv(votesCountSpan,count);
+            //update count in the db
+            this.updateVote(count,a_id)
+            //disable voteButtons for that answer
+            this.disableAndHideVoteButton(parentAnswerElementDiv)
+            //display voted status in answerVotesDiv
+            var answerVotesDiv=$(parentAnswerElementDiv).find('div.answerVotesDiv');
+            this.updateMarkupOfAnswerVotesDiv(answerVotesDiv,count)
+
+        },
+
+        updateVote : function(count,a_id){
+
+            console.log('ans : '+a_id)
+            var voteUrl= CI.base_url+'AnswersController/' 
+            voteUrl+= (count==1?'voteUp/':'voteDown/') + a_id;
+            var that=this;
+            console.log(voteUrl)
+            $.get(voteUrl,function(data){
+                //feedback
+                displayNotification('success','Thanks for your vote!');             
+            });
+
+        },
+
+        disableAndHideVoteButton : function(divToFindVoteButtons){
+
+
+            $(divToFindVoteButtons).find('.voteButton').removeClass('voteButton').addClass('votedButton').hide();
+
+        },
+
+        updateMarkupOfVotesCountDiv: function(spanToUpdate,count){
+
+            var existingCount=parseInt($(spanToUpdate).text());
+            console.log(existingCount)
+            existingCount+=count;
+            $(spanToUpdate).text(existingCount);         
+
+        },
+
+        diplayAlreadyVotedNotification : function(){
+
+            displayNotification('success','Oops..You can vote only once!')
+
+        },
+
+        updateMarkupOfAnswerVotesDiv : function(divToAddVoteStatus,count){
+
+            var dynamicText = (count==1?'<span class="label label-success">You <i class="icon-thumbs-up"></i> this</span>':'<span class="label label-warning">You <i class="icon-thumbs-down"></i> this</span>')
+            
+            $(divToAddVoteStatus).prepend(dynamicText)
+                 
         }
+
+
+
+
 
 
     });
@@ -443,3 +556,250 @@ $(document).ready(function(){
 });
 
 
+//question-script.js
+
+$(document).ready(function(){
+
+ $('[rel~=popover]').popover();
+        //activate tooltips
+  $("[rel~=tooltip],[disabled=true]").tooltip();
+
+
+
+    function cascadeTopicSelectBoxBasedOnCategory(){
+        //get selected value
+        var selectedCategoryId=$('#categorySelectBox').attr('value');
+        //cear the topics select box
+        $('#topicSelectBox').html('<option>Select a category first</option>');
+        $('#topicSelectBox').attr('disabled',true);
+        if(isValidCategorySelected()){
+
+                
+            //cascade topicSelectBox
+            $.getJSON(CI.base_url+'QuestionsController/getTopicsInCategory/'+selectedCategoryId,
+                function(jsonObj){
+                    if(jsonObj.topicsData!='no data'){
+                        $('#topicSelectBox').html('<option>Select a topic</option>'+jsonObj.topicsData);
+                        $('#topicSelectBox').attr('disabled',false);
+                    }else
+                        $('#topicSelectBox').html('<option>Select a category</option>');
+                }
+            );
+
+        }
+
+    }//cascade topic ends
+
+    //change event listener for the categorySelectBox
+    $('#categorySelectBox').change(function(){
+
+        cascadeTopicSelectBoxBasedOnCategory();
+        cascadeQuestionTextBasedOnTopic();
+        enableOrDisablepostQuestionButton();
+        
+    });//categorySelectBox change ends
+
+
+    function cascadeQuestionTextBasedOnTopic(){
+        if(isValidTopicSelected()){
+            $('#questionText').attr('disabled',false);
+            $('#questionDescText').attr('disabled',false);
+        }
+        else{
+            $('#questionText').attr('disabled',true).val('');
+            $('#questionDescText').attr('disabled',true).val('');
+
+        }
+    }//cascade question ends
+
+    //change event listener for the topicSelectBox
+    $('#topicSelectBox').change(function(){
+
+        cascadeQuestionTextBasedOnTopic();
+        enableOrDisablepostQuestionButton();
+    });//topicSelectBox change ends
+
+    //change event listener for questionText
+    $('#questionText').keyup(function(){
+
+        enableOrDisablepostQuestionButton();
+
+    });
+
+
+
+    function resetFormFields(){
+
+        //clear all textfields n selectbox
+        $('#categorySelectBox')
+            .html('<option>Select a category</option>'+
+                '<option value="1">Education</option>'+
+                '<option value="2">Entertainment</option>'+
+                '<option value="3">Sports</option>'+
+                '<option value="4">Technology</option>'+
+                '<option value="5">Miscellaneous</option>');
+        $('#categorySelectBox').trigger('change');
+
+    }
+
+    function isValidCategorySelected(){
+
+        //return true if valid
+        if($('#categorySelectBox').val()!='Select a category')
+            return true;    
+        return false;
+    }
+
+    function isValidTopicSelected(){
+
+        if($('#topicSelectBox').val()!='Select a topic' && $('#topicSelectBox').val()!='Select a category first')
+            return true;    
+        return false;
+    }
+
+    function isValidQuestionEntered(){
+        var questionTextEntered=$.trim($('#questionText').val());
+        if(questionTextEntered!=null && questionTextEntered!='' && questionTextEntered.length>0)
+            return true;    
+        return false;
+
+    }
+
+    function enableOrDisablepostQuestionButton(){
+
+        if(isValidCategorySelected() && isValidTopicSelected() && isValidQuestionEntered()){
+            $('#postQuestionButton')
+                .attr('disabled',false)
+                .removeClass('btn-danger')
+                .addClass('btn-success');
+        }           
+        else{
+            $('#postQuestionButton')
+                .attr('disabled',true)
+                .addClass('btn-danger')
+                .removeClass('btn-success');
+        }
+    }
+            
+
+
+
+    //change event listener for the postQuestionButton
+    $('#postQuestionButton').click(function(){
+
+        //construct the questionObj to be sent
+        var questionObj={
+            'q_content':$('#questionText').val(),
+            'q_description':$('#questionDescText').val(),
+            'topic_id':$('#topicSelectBox').attr('value'),
+            'anonymous':$('#anonymousCheckbox').is(':checked'),
+            'scope':$('button.active[name=scope]').val()
+
+        };
+
+        //incase any modal is opened..just close it
+        $('.modal').modal('hide');
+
+        if(!$('#postQuestionButton').attr('disabled')){
+                console.log(questionObj);
+            //post qs ajaxIly
+            $.post(CI.base_url+'QuestionsController/postQuestionToDb',
+                {'questionObj':JSON.stringify(questionObj)},
+                function(jsonObj){
+                    var redirectUrl=CI.base_url+'AnswersController/viewAnswersForQuestion/';
+                    if(jsonObj.status=='success'){
+                        redirectUrl+=jsonObj.qsUrl;
+                        displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);                    
+                    }
+                    else if(jsonObj.status=='warning'){
+                        redirectUrl+=jsonObj.qsUrl;
+                        displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);
+                    }
+                    else{
+                        displayNotification(jsonObj.status,jsonObj.msg);
+                    }
+                },//callback ends
+                'json'
+            );//post ends
+            
+            resetFormFields();
+
+        }//if ends
+        else{
+            displayNotification('error','Make sure you have posted a valid question!!');
+        }
+        
+    });//postQuestionButton click ends
+
+    //change event listener for the resetQuestionButton
+    $('#resetQuestionButton').click(function(){
+
+        displayNotification('warning','Question is now reset!');
+        //reset the form to initial values
+        resetFormFields();
+
+    });//resetQuestionButton click ends
+
+    //the following code is for setting popover show/hide dynamically
+    popoverPreviouslyOpened = true;
+
+    //add event handlers for elements with class=.postAnswerButton dynamically
+    $('body').on('click','.postAnswerButton',function(){
+
+        popoverPreviouslyOpened = true;
+        $('a[rel~=popover]').popover('hide');
+
+        postAnswer('asas','asasas');
+    });
+
+    /*#####################dont touch######################
+    //add event handlers for popovers which are dynamically
+    //hide open popover if another popover is open or clicked out
+
+    $('body').on('click','a[rel~=popover]',function(e) {
+      
+      if(popoverPreviouslyOpened)
+      {
+        $('a[rel~=popover]').popover();
+        popoverPreviouslyOpened = false;
+
+      }
+      else
+      {
+        popoverPreviouslyOpened = true;
+        $('a[rel~=popover]').popover('hide');
+      }
+    });
+
+    */
+
+    var isVisible = false;
+    var clickedAway = false;
+
+    $('a[rel~=popover]').each(function(e) {
+        $(this).popover({
+            html: true,
+            trigger: 'manual'
+        }).click(function(e) {
+            $(this).popover('show');
+            isVisible = true;
+            //e.preventDefault();
+        });
+    });
+
+    $('#center,#left,#right').click(function(e) {
+      if(isVisible & clickedAway)
+      {
+         $('a[rel~=popover]').each(function() {
+              $(this).popover('hide');
+         });
+        isVisible = clickedAway = false;
+      }
+      else
+      {
+        clickedAway = true;
+      }
+    });
+
+
+});

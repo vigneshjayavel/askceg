@@ -33,7 +33,7 @@ class HomeModel extends CI_Model{
                 <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
               </div>
               ';
-		return $carousel;
+		return 'Welcome!';
 
 	}
   function sqlGetUserid($user_name)

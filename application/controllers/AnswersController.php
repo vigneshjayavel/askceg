@@ -17,17 +17,13 @@ class AnswersController extends CI_Controller {
 	}
 	function voteUp($a_id){
 		
-		$redirectUrl=$this->input->get('redirectUrl');
-		$this->load->model('answermodel');
-		$this->answermodel->sqlUpdateVote($a_id,1);
-		redirect(urldecode($redirectUrl));
+		$this->load->model('answersmodel');
+		$this->answersmodel->sqlUpdateVote($a_id,1);
 	}
 	function voteDown($a_id){
 		
-		$redirectUrl=$this->input->get('redirectUrl');
-		$this->load->model('answermodel');
-		$this->answermodel->sqlUpdateVote($a_id,-1);
-		redirect(urldecode($redirectUrl));
+		$this->load->model('answersmodel');
+		$this->answersmodel->sqlUpdateVote($a_id,-1);
 	}
 	
 	function viewAnswersForQuestion($url){
