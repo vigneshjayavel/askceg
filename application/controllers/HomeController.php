@@ -28,7 +28,11 @@ function HomeController()
 		}
 		
 	}
+    function error(){
+    	$data['centerContent']='<div style="text-align:centre">404 page not found</div>';
+    		$this->load->view('Skeleton',$data);
 
+    }
 	function getTickerContent($page=null){
 
 		$this->load->model('HomeModel');

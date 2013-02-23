@@ -757,7 +757,6 @@ function getQuestionsAskedToTeacher($user_id){
           
 
   }
-
   function sqlGetTopicId($topic_url){
   
     $query="select topic_id from TOPIC where topic_url=?";
@@ -778,7 +777,8 @@ function getQuestionsAskedToTeacher($user_id){
       where 
          scope=0"
       ;
-
+    //$CI =& get_instance();
+    // $group_id=$CI->session->userdata('group_id');
     $query=$this->db->query($sql);
 
     /// $row=$query->result_array();
@@ -826,6 +826,62 @@ function getQuestionsAskedToTeacher($user_id){
 
     return 'No Questions posted in the global scope yet ';
   }
+function getGroupScopeQuestions($group_id){
+    $content=null;
+    $sql="SELECT *
+
+      FROM
+        QUESTION 
+      where 
+         scope=?"
+      ;
+    $query=$this->db->query($sql,array($group_id));
+
+    /// $row=$query->result_array();
+    //$categoryUrl=base_url().'QuestionsController/viewQuestion/';
+    $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
+    $content=' <div class="well">
+        questions posted by the group members in the group scope
+        </div>
+       ';
+    if($result=$query->result_array())
+    {
+      foreach( $result as $row ) {
+      ///$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
+      //$currentUrl=urlencode(current_url());
+      if($row['anonymous']==1)
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+                  
+                 <strong>Anonymous</strong> 
+            ';
+      else
+        $userMarkup=$this->userMarkup($row['posted_by']);
+
+
+      $content.='
+        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
+                  <div id="userDetailDiv">
+                  '.$userMarkup.' <div style="float:right"></div>
+                  </div>
+                  <div id="questionDetailsDiv">
+                    <p id="questionContent">
+                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
+                    </strong>
+                    </p>
+                    <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
+                  </div><!--/questionDetailsDiv-->
+                 
+              
+      ';
+      }
+
+      return $content;
+      }
+      else
+
+    return 'No Questions posted in the global scope yet ';
+  }
+
 
 
 	function sqlCheckUserFollowsQuestion($user_id,$q_id){

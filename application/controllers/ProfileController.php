@@ -33,7 +33,6 @@ class ProfileController extends CI_Controller {
 	    $this->load->view('Skeleton',$data);
 	  }
 	
-<<<<<<< HEAD
 		}
 		function EditProfile(){
 	    $this->load->model('profilemodel');
@@ -48,11 +47,7 @@ class ProfileController extends CI_Controller {
 		$this->load->view('Skeleton',$data);
 	}
 }
-		function ViewGroupProfile($group_id){
-			$this->load->model('profilemodel');
-			$this->load->model('questionsmodel');
-=======
-	}
+	
 	function EditStudentProfile()
 	{   $user_id=$this->session->userdata('user_id');
 		$this->load->model('profilemodel');
@@ -62,9 +57,9 @@ class ProfileController extends CI_Controller {
 	function ViewGroupProfile($group_id){
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
->>>>>>> 980e5a90e611bd5efdd71700cb08258d5b20a207
 		$data['centerContent']=$this->profilemodel->getGroupProfile($group_id);
-		$data['centerContent'].=$this->questionsmodel->getGroupScopeQuestions();
+		if($group_id==$this->session->userdata('group_id'))
+		$data['centerContent'].=$this->questionsmodel->getGroupScopeQuestions($group_id);
 		$this->load->view('Skeleton',$data);
 	
 	}

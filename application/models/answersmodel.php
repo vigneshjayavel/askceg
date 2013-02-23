@@ -90,8 +90,10 @@ function sqlGetUserName($user_id){
 		$content=null;
         $q="select q_id from QUESTION where url=?";
         $query=$this->db->query($q,array($url));
-        $row=$query->row_array();
+        if($row=$query->row_array())
         $q_id=$row['q_id'];
+        else
+        	redirect('HomeController/error');
 		
 
 	

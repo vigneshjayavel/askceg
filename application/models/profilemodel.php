@@ -508,7 +508,7 @@ function getInterimProfile(){
         
        '.$row['group_name'].'
         <div class="ask-dp pull-right">
-            <img src="'.base_url().'assets/img/group/'.$row['group_id'].'.jpg">
+            <img src="'.base_url().'assets/img/groups/'.$row['group_id'].'.jpg">
         </div>
         <br>
         '.$AdminMarkup.'
@@ -526,9 +526,6 @@ function getInterimProfile(){
         Group members photo:
         </div>
         <div>'.$this->getGroupMembersImage($group_id).' </div>
-        <div class="well">
-        questions posted by the group members in the group scope
-        </div>
          ';
 
     }
@@ -543,13 +540,10 @@ function getInterimProfile(){
       $row=$query->row_array();
       $CI=&get_instance();
       if($user_id==$CI->session->userdata('user_id')){
-          $edit='
-<<<<<<< HEAD
-      <a href="'.base_url().'/ProfileController/EditProfile" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
-=======
-      <a href="'.base_url().'ProfileController/EditStudentProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
->>>>>>> 980e5a90e611bd5efdd71700cb08258d5b20a207
-       }
+          
+     // <a href="'.base_url().'/ProfileController/EditProfile" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
+     $edit=' <a href="'.base_url().'ProfileController/EditStudentProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
+ }
        else
          $edit='';
 
