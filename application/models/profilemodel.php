@@ -542,7 +542,7 @@ function getInterimProfile(){
       if($user_id==$CI->session->userdata('user_id')){
           
      // <a href="'.base_url().'/ProfileController/EditProfile" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
-     $edit=' <a href="'.base_url().'ProfileController/EditStudentProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
+     $edit=' <a href="'.base_url().'ProfileController/EditProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
  }
        else
          $edit='';
@@ -704,7 +704,6 @@ function getInterimProfile(){
     $query=$this->db->query($sql,array($name,$year,$emailid,$degree,$course));
 
   }
-
 
 	function getCenterContentMyGroup(){
 
