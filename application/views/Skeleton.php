@@ -40,6 +40,7 @@
     <link rel="apple-touch-icon-precomposed" href="<?php echo base_url()?>assets/ico/apple-touch-icon-57-precomposed.png">
     <script src="<?php echo base_url()?>assets/js/jquery.js"></script>
     <script src="<?php echo base_url()?>assets/js/bootstrap.js"></script>
+
     <script src="<?php echo base_url()?>assets/js/myscripts/myReusableGlobalScript.js"></script>
       
     <script src="<?php echo base_url()?>assets/js/underscore.js"></script>
@@ -59,15 +60,23 @@
           'user_id': "<?php $CI =& get_instance(); echo $CI->session->userdata('user_id'); ?>",
           'user_name':"<?php echo $CI->session->userdata('user_name'); ?>"
         };
+        var pagination = {
+          'required': "<?php echo $paginationrequired; ?>",
+          'type' : "<?php echo $paginationtype; ?> ",
+          'group_id' : "<?php echo $CI->session->userdata('group_id'); ?>"
+        }
     -->
     </script>
     <?php 
       if(isset($page)){
     ?>
     <script src="<?php echo base_url()?>assets/js/myscripts/<?php echo $page?>Script.js"></script>
+   
+    
     <?php
       }
     ?>
+
     
     <!--style type="text/css" id="page-css">codeignitor
       /* Styles specific to this particular page */

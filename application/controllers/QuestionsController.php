@@ -67,6 +67,13 @@ class QuestionsController extends CI_Controller {
 		$this->data['centerContent']=$this->questionsmodel->sqlStudentReadQuestions($category_id,$topic_id,$q_id);
 		$this->load->view('Skeleton',$this->data);
 	    }
+	    else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm($category_id,$topic_id,$q_id);
+		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 	}
 	function viewTopicsInCategory($category_id){
 		
@@ -79,9 +86,20 @@ class QuestionsController extends CI_Controller {
 	}
 	
 	function AskQuestion(){
+		if ($this->session->userdata('logged_in') == TRUE)
+	    {
+	
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->getCenterContentAskQuestion();
 		$this->load->view('Skeleton',$this->data);
+		 }
+	    else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 		
 
 	}
@@ -95,10 +113,19 @@ class QuestionsController extends CI_Controller {
 
 
 	function AnswerQuestion(){
-
+ 	if ($this->session->userdata('logged_in') == TRUE)
+	    {
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions();
 		$this->load->view('Skeleton',$this->data);
+		 }
+	    else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 		
 	}
 	function DeleteQuestion($q_id){
@@ -110,49 +137,113 @@ class QuestionsController extends CI_Controller {
 	}
 
 	function CreateDiscussion(){
+			if ($this->session->userdata('logged_in') == TRUE)
+	    {
 		$this->data['page']="createDiscussionPage";
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->getCenterContentCreateDiscussion();
 		$this->load->view('Skeleton',$this->data);
+		 }
+	    else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 
 	}
 
 	function cse($topic_id=null)
-	{
+	{if ($this->session->userdata('logged_in') == TRUE)
+	    {
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('1',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
+		 }
+	    else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 	}
 	function ece($topic_id=null)
-	{
+	{if ($this->session->userdata('logged_in') == TRUE)
+	    {
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('2',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
+		 }
+	    else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 	}
 	function mechanical($topic_id=null)
-	{
+	{if ($this->session->userdata('logged_in') == TRUE)
+	    {
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('3',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
+		 }
+	    else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 	}
 	function civil($topic_id=null)
-	{
+	{if ($this->session->userdata('logged_in') == TRUE)
+	    {
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('4',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
+		 }
+	    else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 	}
 	function eee($topic_id=null)
-	{
+	{if ($this->session->userdata('logged_in') == TRUE)
+	    {
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('5',$topic_id,null);
 		$this->load->view('Skeleton',$this->data);
+		 }
+	    else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 	}
 
 	function miscellaneous($topic_id=null)
-	{
+	{if ($this->session->userdata('logged_in') == TRUE)
+	    {
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions('6',$topic_id,null);
+		$this->load->view('Skeleton',$this->data); 
+	}
+	    else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
 		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 	}
 
 

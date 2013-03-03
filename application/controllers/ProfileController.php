@@ -138,6 +138,13 @@ class ProfileController extends CI_Controller {
 		$this->data['centerContent'].=$this->questionsmodel->sqlgetPromotedQuestions($category_id);
 		$this->load->view('Skeleton',$this->data);
 	   }
+	   else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 	}
 	function EditTopicDesc($topic_id){
 

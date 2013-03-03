@@ -1,3 +1,4 @@
+
 function displayNotification(type,msg,redirectUrl){
     /*
     //display an alert msg
@@ -23,7 +24,18 @@ function displayNotification(type,msg,redirectUrl){
        }
     }, 3000);
 }
-
+$(document).ready(function() 
+{ 
+$('#photoimg').live('change', function()    
+{ 
+$("#preview").html('');
+$("#preview").html('<img src="'+CI.base_url+'assets/img/mini-loader.gif" alt="Uploading...."/>');
+$("#imageform").ajaxForm(
+{
+target: '#preview'
+}).submit();
+});
+}); 
 
 $(window).load(function(){
 

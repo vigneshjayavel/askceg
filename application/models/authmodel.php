@@ -251,12 +251,35 @@ $query=$this->db->query($sql,array($user_id));
 
      }
      function AddAccountRequest($account){
+         $base_url=base_url();
 
       $sql="insert into REQUEST_USER(user_id,user_name,group_id,password,email_id,user_year,user_degree,user_course) values(?,?,?,?,?,?,?,?)";
        if($query=$this->db->query($sql,array($account['user_id'],$account['user_name'],$account['user_group'],$account['user_pass'],$account['user_email'],$account['user_year'],$account['user_degree'],$account['user_course'])))
         return 'Added Request SUCCESSFULLY. Kindly wait till your Admin approves your account. 
-      Till then you are a Interim User <a href="'.base_url().'ProfileController/viewInterimProfile" > Click here to view your privilege </a>';
-        
+      Till then you are a Interim User <a href="'.base_url().'ProfileController/viewInterimProfile" > Click here to view your privilege </a>
+      <form id="login" enctype="application/x-www-form-urlencoded" class="form-vertical login"
+        accept-charset="utf-8" method="post" action="'.$base_url.'AuthController/process_login">
+            <div class="control-group error">
+                <label for="email" class="control-label required">User id</label>
+                <div class="controls">
+                    <input type="text" name="user_id" id="user_id" data-title="Invalid email" value="" tabindex="1">
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="password" class="control-label required">Password (
+                    <a href="#" class="trigger-lightbox validate-resetpassword">forgot password</a>)</label>
+                <div class="controls">
+                    <input type="password" name="user_pass" id="user_pass" data-title="Invalid password" value="" tabindex="2">
+                </div>
+            </div>
+            <div class="form-actions">
+        <button name="submit" id="loginbutton" data-loading-text="logging in.." onclick="javascript:dologin();return false;" 
+                tabindex="3" class="btn btn-primary">Log In</button>
+                <button name="cancel" id="cancel" type="reset" data-dismiss="modal" class="btn">Cancel</button>
+            </div>
+        </form>
+        New User? <a href="'.base_url().'AuthController/RequestAccount">Click here to create your account.</a>
+    ';
 
       }
     function getCenterContentAddNewUser()
