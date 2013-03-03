@@ -203,7 +203,27 @@ function printanswer($qid){
                    ';
 
   }
+<<<<<<< HEAD
   //if group_scope is true it fetches only group scope questions of the user
+=======
+  /*function getTopics($category_id)
+  {
+    $content='';
+    $sql="select * from TOPIC where category_id=?";
+    $query=$this->db->query($sql);
+    $result=$query->result_array();
+    foreach($result as $row){
+
+      $content.='<p> '.$row['topic_name'].' </p>';
+    }
+
+      $jsonObj=json_encode(array('content'=>$content
+              ));
+    return $content;
+
+  }*/
+  
+>>>>>>> 90329e206ffb9a1744609c1bf748f7d6f43bc08e
   function sqlReadQuestions($category_id=null,$topic_url=null,$url=null,$group_scope=null,$set=null){
     
 

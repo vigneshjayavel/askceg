@@ -225,15 +225,15 @@ $(document).ready(function(){
     });
     var endOfRecords=false;
     var set=1;
-    if(pagination.category)
+    if(pagination.category!=null)
         var category=pagination.category;
     else
         var category=null;
-    if(pagination.topicurl)
+    if(pagination.topicurl!=null)
         var topicurl=pagination.topicurl;
     else
        var topicurl=null;
-   if(pagination.questionurl)
+   if(pagination.questionurl!=null)
        var questionurl=pagination.questionurl;
    else
        var questionurl=null;

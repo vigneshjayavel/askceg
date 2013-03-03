@@ -7,6 +7,28 @@ class TestController extends CI_Controller {
 		$this->load->view('TestView');
 
 	}
+
+
+	function somePageThatHasQuestions(){
+		
+		$this->data['centerContent']="testing";
+		$this->data['paginationrequired']="true";
+		$this->data['paginationtype']="question";
+	    
+		$this->load->view('Skeleton',$this->data);
+	}
+
+
+	function somePageThatHasAnswersForAQuestion(){
+		
+		$this->data['centerContent']="testing";
+		$this->data['paginationrequired']="true";
+		$this->data['paginationtype']="answer";
+		$this->data['questionId']="someQuestionId";//to get answers for that question and paginate
+	    
+		$this->load->view('Skeleton',$this->data);
+	}
+	
 	public function api_getQuestionsMarkup(){ 
 		$this->load->model('questionsmodel');
 		$set=$this->input->post('set');
@@ -97,6 +119,7 @@ echo "Please select image..!";
 exit;
 }
 }
+<<<<<<< HEAD
 function paginate(){
 	$this->data['centerContent']="testing";
 	$this->data['paginationrequired']="true";
@@ -107,5 +130,8 @@ function paginate(){
     
 $this->load->view('Skeleton',$this->data);
 }
+=======
+
+>>>>>>> 90329e206ffb9a1744609c1bf748f7d6f43bc08e
 
 }

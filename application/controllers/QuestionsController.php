@@ -103,14 +103,7 @@ class QuestionsController extends CI_Controller {
 		
 
 	}
-	function print123($qid){
-	$this->load->model('questionsmodel');
-		$data['centerContent']=$this->questionsmodel->printanswer($qid);
-		$this->load->view('Skeleton',$this->data);
-
-
-}
-
+	
 
 	function AnswerQuestion(){
  	if ($this->session->userdata('logged_in') == TRUE)
