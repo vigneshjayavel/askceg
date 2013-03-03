@@ -279,8 +279,8 @@ class ProfileModel extends CI_Model{
         $content='';
         foreach($result as $row){
 
-      $content.='<a href="'.base_url().'ProfileController/ViewUserProfile/'.($row['user_id']).'">
-        <img class="thumbnail" height="25px" width="25px" align="left" src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg" alt="">
+      $content.='<a href="'.base_url().'ProfileController/ViewUserProfile/'.($row['follower']).'">
+        <img class="thumbnail" height="25px" width="25px" align="left" src="'.base_url().'assets/img/users/'.$row['follower'].'.jpg" alt="">
         </a>';
       }
       return $content;

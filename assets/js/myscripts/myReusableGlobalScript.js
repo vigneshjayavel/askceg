@@ -225,6 +225,18 @@ $(document).ready(function(){
     });
     var endOfRecords=false;
     var set=1;
+    if(pagination.category)
+        var category=pagination.category;
+    else
+        var category=null;
+    if(pagination.topicurl)
+        var topicurl=pagination.topicurl;
+    else
+       var topicurl=null;
+   if(pagination.questionurl)
+       var questionurl=pagination.questionurl;
+   else
+       var questionurl=null;
     function triggerDataLoad() {
         if(!endOfRecords){
             $.ajax({

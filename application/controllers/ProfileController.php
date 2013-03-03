@@ -65,10 +65,19 @@ class ProfileController extends CI_Controller {
 	
 	}
 	function ViewMyYearProfile(){
+		if ($this->session->userdata('logged_in') == TRUE)
+	    {
 		$this->load->model('authmodel');
 		$year_id=$this->authmodel->getUserYearId($this->session->userdata('user_id'));
 		$this->ViewYearProfile($year_id);
-
+         }
+	    else{
+	    	$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+	    }
 	}
 	function ViewYearProfile($year_id){
 		$this->load->model('profilemodel');

@@ -10,6 +10,7 @@ class TestController extends CI_Controller {
 	public function api_getQuestionsMarkup(){ 
 		$this->load->model('questionsmodel');
 		$set=$this->input->post('set');
+
 		$query = $this->questionsmodel->sqlReadQuestions(null,null,null,null,$set); 
 		
 		$resultLength=count($query);
@@ -49,14 +50,6 @@ echo $date->format('Y-m-d H:i:s');
 }
 
 
-
-function print123($qid){
-	$this->load->model('questionsmodel');
-		$data['centerContent']=$this->questionsmodel->printanswer($qid);
-		$this->load->view('Skeleton',$this->data);
-
-
-}
 function Upload(){
    $this->data['centerContent']='<form id="imageform" method="post" enctype="multipart/form-data" action="'.base_url().'TestController/SaveImg">
 Upload image <input type="file" name="photoimg" id="photoimg" />
@@ -108,6 +101,9 @@ function paginate(){
 	$this->data['centerContent']="testing";
 	$this->data['paginationrequired']="true";
 	$this->data['paginationtype']="question";
+	$this->data['categoryid']=null;
+	$this->data['topicurl']='ibatch';
+	//$this->data['question']
     
 $this->load->view('Skeleton',$this->data);
 }
