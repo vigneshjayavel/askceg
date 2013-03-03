@@ -257,7 +257,7 @@ function getQuestionsAskedToTeacher($user_id){
     return $content;
 
   }*/
-  function sqlTeacherReadQuestions($category_id=null,$topic_url=null,$url=null){
+  function sqlTeacherReadQuestions($category_id=null,$topic_url=null,$url=null,$set=null){
     $content='';
     $sql = "SELECT 
           q.q_id,q.q_content,q.q_description,q.topic_id,q.url,t.topic_name,
@@ -402,12 +402,13 @@ function getQuestionsAskedToTeacher($user_id){
    
 
   
-  function sqlReadQuestions($category_id=null,$topic_url=null,$url=null,$group_scope=null){
+  function sqlReadQuestions($category_id=null,$topic_url=null,$url=null,$group_scope=null,$set=null){
     
 
 
     $content='';
-
+    $limit=20;
+    $count=0;
     if($group_scope!=null){ //group_scope questions
 
       $CI =& get_instance();
@@ -449,11 +450,30 @@ function getQuestionsAskedToTeacher($user_id){
       //$q_id=mysql_real_escape_string($q_id);
       $sql.=" and q.url=".'\''.$url.'\'';
     }
+    
     $CI =& get_instance();
     $currentUserId=$CI->session->userdata('user_id');
 
     $CurrentuserGroup=$CI->session->userdata('group_id');
-    $sql.=" and (q.scope=0 or q.scope=".$CurrentuserGroup.") order by q_id desc";
+    $sql.=" and (q.scope=0 or q.scope=".$CurrentuserGroup.") order by q_id desc"; 
+    if($set!=null){
+      /*
+      set = start,   limit
+      1  = 20   , 20
+      2=40,20
+      3=60,20
+      4=80,20
+      5=100,20
+      for set=1 we'll be getting records from 0,19 (20 being the limit)
+      for set=2 we'll be getting records from 20,39 (20 being the limit)
+      for set=3 we'll be getting records from 40,59 (20 being the limit)
+      */
+      $startIndex=$set*20;
+      $sql.=" LIMIT ".$startIndex.",".$limit;
+    }else{
+      $sql.=" LIMIT 0,".$limit;      
+    }
+   
     $query=$this->db->query($sql);
     $deleteUrl=base_url().'QuestionsController/DeleteQuestion/';
     $categoryUrl=base_url().'ProfileController/viewCategory/';
@@ -497,11 +517,11 @@ function getQuestionsAskedToTeacher($user_id){
             <i class="icon-plus-sign"></i>
             Follow</a>';
         }
-          
+          $count++;
         $content.=' 
         <div class="questionElementDiv">
           <div class="questionPostDiv" class="well questionElement" style="background-color:white">
-            <div class="userDetailDiv">'.$userMarkup.'
+            <div class="userDetailDiv">'.$count.$userMarkup.'
               <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
             </div>
             <div class="questionDetailsDiv">

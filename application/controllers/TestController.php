@@ -7,37 +7,29 @@ class TestController extends CI_Controller {
 		$this->load->view('TestView');
 
 	}
-
-	function dbTest($startIndex=null,$endIndex=null){
-
-		if($startIndex==null && $endIndex==null){
-			$sql = "SELECT 
-			q.q_id,q.q_content
-			FROM
-			QUESTION q
-			LIMIT 0,20";
+	public function api_getQuestionsMarkup(){ 
+		$this->load->model('questionsmodel');
+		$set=$this->input->post('set');
+		$query = $this->questionsmodel->sqlReadQuestions(null,null,null,null,$set); 
+		
+		$resultLength=count($query);
+		if($resultLength!=0){
+			echo json_encode(array("data"=>$query));
 		}
 		else{
-			$sql = "SELECT 
-			q.q_id,q.q_content
-			FROM
-			QUESTION q
-			LIMIT $startIndex,$endIndex ";
-		}
+			echo null;
+		}	 
+	} 
 
 
-		$query=$this->db->query($sql);
-		$result='';
-		$resultSet=$query->result_array();
-		foreach($resultSet as $row){
-			$result.='<div>'.$row['q_content'].'</div>';
-		}
-		echo $result;
-
+	public function view(){
+		$this->load->model('questionsmodel');
+		
+		$data['centerContent']=$this->questionsmodel->sqlReadQuestions(null,null,null,null,null);
+		$this->load->view('Skeleton',$data);
 	}
 
 	function test(){
-		$this->load->view('TestView');
 	}
    	
    	function convert(){

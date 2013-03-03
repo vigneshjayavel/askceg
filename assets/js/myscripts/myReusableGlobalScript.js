@@ -59,6 +59,9 @@ $(document).ready(function(){
 	);
     */
 
+
+
+
 	$('.carousel').carousel({
   	interval: 2000
 	});
@@ -210,7 +213,62 @@ function textRotate() {
 
 //TODO
 $(document).ready(function(){
+    $('#scrollableContentDiv').append('<input type=button class=btn-success id=loadMoreQs value=LoadMore!>')
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == ($(document).height() - $(window).height())) {
+            triggerDataLoad();
+        }
+    });
+    $('input#loadMoreQs').on('click',function(){
+       triggerDataLoad();
+         
+    });
+    var endOfRecords=false;
+    var set=1;
+    function triggerDataLoad() {
+        if(!endOfRecords){
+            $.ajax({
+                type: "post",
+                url: CI.base_url+'TestController/api_getQuestionsMarkup/',
+                cache: false,
+                data: {'set':set}, 
+                success: function (response) {
+                    var obj = JSON.parse(response);
+                        if(obj.data!=""){
+                        //valid result is obtained
 
+                        
+                        try {
+                            var str = '';
+                            var items=obj.data;
+
+                            $(this).append(str).fadeIn('slow');
+                            $('#loadMoreQs').remove();
+    
+                            $('#scrollableContentDiv').append(items).append('<input type=button class=btn-success id=loadMoreQs value=LoadMore!>')
+    ;
+                            
+                            console.log('got data for set:'+set)
+                            //initialize next set
+                            set++;
+                        } catch (e) {
+                            alert('Exception while request..'+e);
+                        }
+                    }
+                    else{
+                        endOfRecords=true;
+                    }
+                },
+                error: function () {
+                    alert('Error while request..');
+                }
+            });
+
+        }
+        else{
+            $('body').append('End of data!!');
+        }
+    }//end triggerDataLoad
 
     /* BackboneJs Implementation */
 
