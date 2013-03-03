@@ -61,9 +61,11 @@
           'user_name':"<?php echo $CI->session->userdata('user_name'); ?>"
         };
         var pagination = {
-          'required': "<?php echo $paginationrequired; ?>",
-          'type' : "<?php echo $paginationtype; ?> ",
-          'group_id' : "<?php echo $CI->session->userdata('group_id'); ?>"
+          'required': "<?php if(isset($paginationrequired)) echo $paginationrequired; ?>",
+          'type' : "<?php if(isset($paginationtype)) echo $paginationtype; ?>",
+          'group_id' : "<?php echo $CI->session->userdata('group_id'); ?>",
+          'questionId' : "<?php if(isset($questionId)) echo $questionId; ?>",
+          
         }
     -->
     </script>
