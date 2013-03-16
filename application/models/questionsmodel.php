@@ -391,7 +391,7 @@ function printanswer($qid){
 
     //$jsonObj=json_encode(array('content'=>$content
        //       ));
-    return $sql;
+    return $content;
 
   }
 
