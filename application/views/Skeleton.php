@@ -63,8 +63,11 @@
         var pagination = {
           'required': "<?php if(isset($paginationrequired)) echo $paginationrequired; ?>",
           'type' : "<?php if(isset($paginationtype)) echo $paginationtype; ?>",
-          'group_id' : "<?php echo $CI->session->userdata('group_id'); ?>",
+          'group_scope' : "<?php if(isset($groupScope)) echo $groupScope; ?>",
           'questionId' : "<?php if(isset($questionId)) echo $questionId; ?>",
+          'categoryId' : "<?php if(isset($categoryId)) echo $categoryId; ?>",
+          'topicUrl' : "<?php if(isset($topicUrl)) echo $topicUrl; ?>"
+
           
         }
     -->

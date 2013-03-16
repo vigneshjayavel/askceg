@@ -81,6 +81,7 @@ class QuestionsController extends CI_Controller {
 	    {
 		    $this->load->model('questionsmodel');
 			$this->data['centerContent']=$this->questionsmodel->sqlgetTopicsInCategory($category_id);
+			$this->data['paginationrequired']="false";
 			$this->load->view('Skeleton',$this->data);
 	    }
 	}
@@ -91,6 +92,9 @@ class QuestionsController extends CI_Controller {
 	
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->getCenterContentAskQuestion();
+		$this->data['paginationrequired']="false";
+	
+    
 		$this->load->view('Skeleton',$this->data);
 		 }
 	    else{
@@ -110,6 +114,7 @@ class QuestionsController extends CI_Controller {
 	    {
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions();
+		$this->data['paginationrequired']="true";
 		$this->load->view('Skeleton',$this->data);
 		 }
 	    else{

@@ -34,7 +34,7 @@ class ProfileController extends CI_Controller {
 	  }
 	
 		}
-		function EditProfile(){
+		function EditProfile(){//for getting the edit profile page
 	    $this->load->model('profilemodel');
 	    $user_id=$this->session->userdata('user_id');
 	if($this->profilemodel->isStudent($user_id)){
@@ -46,15 +46,25 @@ class ProfileController extends CI_Controller {
 		$data['centerContent']=$this->profilemodel->getTeacherProfileEdit($user_id);
 		$this->load->view('Skeleton',$data);
 	}
-}
+        }
+        function EditStudentProfile(){//updating the user table
+        $account['user_name']=$this->input->post('name');
 	
-	/*(function EditStudentProfile()
-	{   $user_id=$this->session->userdata('user_id');
+		$account['user_email']=$this->input->post('email');
+        
+
+		$account['user_year']=$this->input->post('year');
+		$account['user_degree']=$this->input->post('degree');
+		$account['user_course']=$this->input->post('course');
 		$this->load->model('profilemodel');
-		$data['centerContent']=$this->profilemodel->getCenterContentMyProfileEdit($user_id);
+
+	    $user_id=$this->session->userdata('user_id');
+		//echo $account['user_name'];
+		$data['centerContent']=$this->profilemodel->sqlEditStudentProfile($account,$user_id);
 		$this->load->view('Skeleton',$data);
-	}
-	*/
+	
+
+        }
 	function ViewGroupProfile($group_id){
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
@@ -75,6 +85,7 @@ class ProfileController extends CI_Controller {
 	    	$this->load->model('profilemodel');
 	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
 		$this->data['centerContent'].=$this->profilemodel->loginForm();
+
 		$this->load->view('Skeleton',$this->data);
 	    
 	    }
@@ -83,7 +94,7 @@ class ProfileController extends CI_Controller {
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getYearProfile($year_id);
-	   	// $data['centerContent'].=$this->questionsmodel->getYearScopeQuestions($year_id);
+	   	$data['paginationrequired']="false";
 		$this->load->view('Skeleton',$data);
 
 	}
@@ -112,12 +123,16 @@ class ProfileController extends CI_Controller {
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAsked($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsFollowed($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($this->session->userdata('user_id'));
+		
+		$this->data['paginationrequired']="false1";
 		$this->load->view('Skeleton',$data);}
 		else{
        $data['centerContent']=$this->profilemodel->getTeacherProfile($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAsked($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsFollowed($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($this->session->userdata('user_id'));
+		
+		$this->data['paginationrequired']="false";
 		$this->load->view('Skeleton',$data);}
 		
 
@@ -131,6 +146,10 @@ class ProfileController extends CI_Controller {
 	    $this->load->model('profilemodel');
 		$this->data['centerContent']=$this->profilemodel->getTopicProfile($topic_url);
 		$this->data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,$topic_url,null);
+		$this->data['paginationrequired']="true";
+		$this->data['paginationtype']="question";
+		$this->data['topicUrl']=$topic_url;
+	
 		$this->load->view('Skeleton',$this->data);
 	   }
 	}
@@ -145,6 +164,7 @@ class ProfileController extends CI_Controller {
 	
 		$this->data['centerContent']=$this->profilemodel->getCategoryProfile($category_id);
 		$this->data['centerContent'].=$this->questionsmodel->sqlgetPromotedQuestions($category_id);
+		$this->data['paginationrequired']="false";
 		$this->load->view('Skeleton',$this->data);
 	   }
 	   else{
@@ -187,6 +207,11 @@ class ProfileController extends CI_Controller {
 		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getCenterContentMyGroup();
 		$data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,null,null,true);
+		$data['paginationrequired']="true";
+		$data['paginationtype']="question";
+		$data['groupScope']="true";
+	
+	    
 		$this->load->view('Skeleton',$data);
 	}
 	function MyYear()
@@ -195,6 +220,7 @@ class ProfileController extends CI_Controller {
 		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getCenterContentMyYear();
 			//$data['centerContent'].=$this->questionsmodel->getYearScopeQuestions();
+		$this->data['paginationrequired']="false";
 		$this->load->view('Skeleton',$data);
 	}
 	function AccountSettings()

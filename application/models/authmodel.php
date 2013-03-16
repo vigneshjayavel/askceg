@@ -48,10 +48,7 @@ $query=$this->db->query($sql,array($user_id));
         }
         if($result1!=null){
           foreach ($result1 as $row1) {
-              if($row1['user_level']>='1'&& $row1['user_level']!='2'){
-                $deleteMarkup.='';
-              }
-              else
+             
               $deleteMarkup.='<option value="'.$row1['user_id'].'">'.$row1['user_name'].'</option>';
               
           }
@@ -124,15 +121,25 @@ $query=$this->db->query($sql,array($user_id));
         
 
      }
+
+    
      function getCenterContentRequestAccount(){
        
         $sql="select group_name,group_id from GROUPS";
          $query=$this->db->query($sql,array());
         $result=$query->result_array();
-        $optionMarkup='<option value="">Select Group</option>';
+        $groupOptionMarkup='<option value="">Select Group</option>';
         foreach($result as $row)
         {
-            $optionMarkup.='<option value="'.$row['group_id'].'">'.$row['group_name'].'</option>';
+            $groupOptionMarkup.='<option value="'.$row['group_id'].'">'.$row['group_name'].'</option>';
+        }
+        $sql1="select category_name,category_id from CATEGORY";
+         $query1=$this->db->query($sql1,array());
+        $result1=$query1->result_array();
+        $departmentOptionMarkup='<option value="">Select a department</option>';
+        foreach($result1 as $row1)
+        {
+            $departmentOptionMarkup.='<option value="'.$row1['category_id'].'">'.$row1['category_name'].'</option>';
         }
         return '<form class="form-horizontal" id="registerHere" method=\'post\' action=\''.base_url().'AuthController/AddAccountRequest\'>
       <fieldset>
@@ -175,6 +182,32 @@ $query=$this->db->query($sql,array($user_id));
            
           </div>
     </div>
+
+     <div class="control-group">
+    <label class="control-label" for="scope">Who are you?</label>
+          <div class="controls">
+            <div class="btn-group" data-toggle="buttons-radio" data-toggle-name="user_type" id="user_type">
+              <button class="btn active " type="button" rel="tooltip" data-placement="top" data-original-title="you need to select your year and batch"  name="user_type" id="user_type" value="1" checked="">
+              student</button>
+              <button class="btn  " type="button" rel="tooltip" data-placement="top" data-original-title="Just year and department is enough"  name="user_type" id="user_type" value="2">
+              alumni</button>
+
+              <button class="btn  " type="button" rel="tooltip" data-placement="top" data-original-title="Just department is enough"  name="user_type" id="user_type" value="3">
+              teacher</button>
+            </div> 
+          </div>
+          </div>
+          
+    <div class="control-group">
+        <label class="control-label" for="input01">department</label>
+          <div class="controls">
+            <select name="department" id="department" >
+                           '.$departmentOptionMarkup.';           
+                          </select>
+           
+          </div>
+    
+    </div>
     
     <div class="control-group">
         <label class="control-label" for="input01">Year</label>
@@ -195,12 +228,13 @@ $query=$this->db->query($sql,array($user_id));
         <label class="control-label" for="input01">Group/Batch</label>
           <div class="controls">
             <select name="group" id="group" >
-                           '.$optionMarkup.';           
+                           '.$groupOptionMarkup.';           
                           </select>
            
           </div>
     
     </div>
+
     
     <div class="control-group">
         <label class="control-label" for="input01">Password</label>

@@ -42,6 +42,15 @@ function sqlGetUserName($user_id){
   	$query=$this->db->query($sql,array($a_id,$user_id,$vote,$this->getCurrentTime()));
 
   }
+
+  function sqlDeleteAnswer($a_id){
+    $sql='delete from ANSWER where a_id=?';
+    if($query=$this->db->query($sql,array($q_id)))
+      return 'Answer Removed successfully!';
+    else
+      return 'Sorry the answer could not be removed!';
+
+  }
   	function sqlgetVoteCount($a_id){
   		$sql="select sum(vote) from VOTE";
 
@@ -84,6 +93,10 @@ function sqlGetUserName($user_id){
 		$CI =& get_instance();
     	$CI->load->Model('QuestionsModel');
 
+    	$currentUserId=$CI->session->userdata('user_id');
+
+    	$deleteUrl=base_url().'AnswersController/DeleteAnswer/';
+
 		$questionMarkup=$CI->QuestionsModel->sqlReadQuestions(null,null,$url);
 
 
@@ -111,13 +124,22 @@ function sqlGetUserName($user_id){
 
 		$previousAnswers='';
 		$url_curr=base_url()."assets/img/users/".$curr_id.".jpg";
+		
 
 		$dynamicAnswerVotesDiv='';
-		$CI =& get_instance();
 		$currentUserId=$CI->session->userdata('user_id');
+		$deleteButton='';
 
 		foreach($query->result() as $row ) {
 						
+						if($currentUserId==$row->posted_by)
+          $deleteButton.='
+                      <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
+                      href="'.$deleteUrl.$row['q_id'].'" class="label label-inverse">Delete
+                      </a>';
+        else
+          $deleteButton.='';
+        
 			$vote=$this->sqlCheckUserVotedAnswer($currentUserId,$row->a_id);
 			if($vote==1){
 				$dynamicAnswerVotesDiv='
@@ -158,6 +180,7 @@ function sqlGetUserName($user_id){
 						<div class="answerContentDiv">
 						'.$row->a_content.'
 						</div>
+						'. $deleteButton.'
 		    			<div class="answerStatsDiv " style="float:right" >
 		    				<i class="icon-time"></i>'.$row->timestamp.' 
 			    		</div>

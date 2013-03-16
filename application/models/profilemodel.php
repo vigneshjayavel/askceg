@@ -542,7 +542,7 @@ function getInterimProfile(){
       if($user_id==$CI->session->userdata('user_id')){
           
      // <a href="'.base_url().'/ProfileController/EditProfile" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
-     $edit=' <a href="'.base_url().'ProfileController/EditProfile/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
+     $edit=' <a href="'.base_url().'ProfileController/EditProfile" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
  }
        else
          $edit='';
@@ -613,12 +613,23 @@ function getInterimProfile(){
        return $row['group_name'];
 
     }
+    function sqlEditStudentProfile($account,$user_id){
+        $base_url=base_url();
+
+      $sql="update USERS set user_name=?,email_id=?,user_year=?,user_degree=?,user_course=? where user_id=?";
+       if($query=$this->db->query($sql,array($account['user_name'],$account['user_email'],$account['user_year'],$account['user_degree'],$account['user_course'],$user_id)))
+        return 'Updated Successfully !!! with user name '.$account['user_name'];
+      else
+        return 'something went wrong ';
+    
+    }
 	 function getStudentProfileEdit($user_id){
     $sql="select * from USERS where user_id=?";
     $query=$this->db->query($sql,array($user_id));
     $row=$query->row_array();
 
      return '<h2>Edit Profile</h2>
+                 <form action="'.base_url().'ProfileController/EditStudentProfile" method="post">
                  <fieldset>
                  <label class="control-label" for="name">Your Name</label>
                   <div class="controls">
@@ -686,9 +697,10 @@ function getInterimProfile(){
           
                 <br>
                 <label class="controls">
-                  <button id="updateButton" class="btn btn-primary btn-large" data-loading-text="saving.." onclick="Javascript:verify();" type="button">Save</button>
+                  <button id="updateButton" type="submit" class="btn btn-primary btn-large" data-loading-text="saving.." onclick="Javascript:verify();" type="button">Save</button>
                  <label>
-                 </label></label></fieldset>';
+                 </label></label></fieldset>
+                 </form>';
     
 
 

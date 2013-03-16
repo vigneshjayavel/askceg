@@ -213,10 +213,12 @@ function textRotate() {
 
 //TODO
 $(document).ready(function(){
+    if(required=="true")
     $('#scrollableContentDiv').append('<input type=button class=btn-success id=loadMoreQs value=LoadMore!>')
     $(window).scroll(function () {
         if ($(window).scrollTop() == ($(document).height() - $(window).height())) {
-            triggerDataLoad();
+            if(required=="true")
+                triggerDataLoad();
         }
     });
     $('input#loadMoreQs').on('click',function(){
@@ -225,25 +227,38 @@ $(document).ready(function(){
     });
     var endOfRecords=false;
     var set=1;
-    if(pagination.category!=null)
-        var category=pagination.category;
+    var required,categoryId,topicUrl,questionUrl;
+    required=pagination.required;
+    if(pagination.categoryId!="")
+        categoryId=pagination.categoryId;
     else
-        var category=null;
-    if(pagination.topicurl!=null)
-        var topicurl=pagination.topicurl;
+        categoryId=null;
+    if(pagination.topicUrl!="")
+        topicUrl=pagination.topicUrl;
     else
-       var topicurl=null;
-   if(pagination.questionurl!=null)
-       var questionurl=pagination.questionurl;
+        topicUrl=null;
+   if(pagination.questionUrl!="")
+        questionUrl=pagination.questionUrl;
    else
-       var questionurl=null;
+        questionUrl=null;
+    if(pagination.groupScope!="")
+        groupScope=pagination.groupScope;
+
     function triggerDataLoad() {
         if(!endOfRecords){
             $.ajax({
                 type: "post",
                 url: CI.base_url+'TestController/api_getQuestionsMarkup/',
                 cache: false,
-                data: {'set':set}, 
+                data: {
+                    'set':set,
+                    'categoryId':categoryId,
+                    'topicUrl':topicUrl,
+                    'questionUrl':questionUrl,
+                    'groupScope' :groupScope
+
+
+                }, 
                 success: function (response) {
                     var obj = JSON.parse(response);
                         if(obj.data!=""){

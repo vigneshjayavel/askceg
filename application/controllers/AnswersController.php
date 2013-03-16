@@ -15,6 +15,13 @@ class AnswersController extends CI_Controller {
 		$this->load->view('AnswerQuestionView');
 		
 	}
+	function DeleteAnswer($a_id){
+
+		$this->load->model('answersmodel');
+		$this->data['centerContent']=$this->answersmodel->sqlDeleteAnswer($a_id);
+		$this->load->view('Skeleton',$this->data);
+		
+	}
 	function voteUp($a_id){
 		
 		$this->load->model('answersmodel');

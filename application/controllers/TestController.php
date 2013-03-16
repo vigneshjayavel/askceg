@@ -32,16 +32,21 @@ class TestController extends CI_Controller {
 	public function api_getQuestionsMarkup(){ 
 		$this->load->model('questionsmodel');
 		$set=$this->input->post('set');
+		$categoryId=$this->input->post('categoryId');
+		$topicUrl=$this->input->post('topicUrl');
+		//$questionUrl=$this->input->post('questionUrl');
+     	//echo json_encode(array('data' => $category_id." ".$topic_url." ".$question_url));
 
-		$query = $this->questionsmodel->sqlReadQuestions(null,null,null,null,$set); 
+		$query = $this->questionsmodel->sqlReadQuestions($categoryId,$topicUrl,null,null,$set); 
 		
+		//$query=array('data' => $categoryId."-".$topicUrl."-".$questionUrl);
 		$resultLength=count($query);
 		if($resultLength!=0){
 			echo json_encode(array("data"=>$query));
 		}
 		else{
 			echo null;
-		}	 
+		}
 	} 
 
 
@@ -119,19 +124,15 @@ echo "Please select image..!";
 exit;
 }
 }
-<<<<<<< HEAD
 function paginate(){
 	$this->data['centerContent']="testing";
 	$this->data['paginationrequired']="true";
 	$this->data['paginationtype']="question";
-	$this->data['categoryid']=null;
-	$this->data['topicurl']='ibatch';
-	//$this->data['question']
+	$this->data['categoryId']="";
+	$this->data['topicUrl']='ibatch';
+	$this->data['questionurl']="";
     
 $this->load->view('Skeleton',$this->data);
 }
-=======
-
->>>>>>> 90329e206ffb9a1744609c1bf748f7d6f43bc08e
 
 }

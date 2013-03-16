@@ -18,8 +18,8 @@ class AuthController extends CI_Controller {
 	    if ($this->session->userdata('logged_in') == TRUE)
 	    {
 	    	//redirect to some page if logged in
-	       // redirect('HomeController');
-	    	echo "success";
+	        redirect('HomeController');
+	    	
 	    }
 	    else
 	    //ignore the rest of the func
@@ -27,6 +27,8 @@ class AuthController extends CI_Controller {
 
 		$this->load->model('profilemodel');
 		$data['centerContent']=$this->profilemodel->loginForm();
+	    $this->data['paginationrequired']="false";
+		
 		$this->load->view('Skeleton',$data);
 	}
 	
@@ -36,6 +38,9 @@ class AuthController extends CI_Controller {
 		$account['user_name']=$this->input->post('user_name');
 		$account['user_pass']=$this->input->post('pwd');
 		$account['user_email']=$this->input->post('user_email');
+        
+		$account['user_type']=$this->input->post('user_type');
+		$account['user_department']=$this->input->post('department');
 		$account['user_group']=$this->input->post('group');
 		$account['user_year']=$this->input->post('Year');
 		$account['user_gender']=$this->input->post('gender');

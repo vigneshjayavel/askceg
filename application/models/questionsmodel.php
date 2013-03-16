@@ -203,35 +203,22 @@ function printanswer($qid){
                    ';
 
   }
-<<<<<<< HEAD
-  //if group_scope is true it fetches only group scope questions of the user
-=======
-  /*function getTopics($category_id)
-  {
-    $content='';
-    $sql="select * from TOPIC where category_id=?";
-    $query=$this->db->query($sql);
-    $result=$query->result_array();
-    foreach($result as $row){
 
-      $content.='<p> '.$row['topic_name'].' </p>';
-    }
-
-      $jsonObj=json_encode(array('content'=>$content
-              ));
-    return $content;
-
-  }*/
   
->>>>>>> 90329e206ffb9a1744609c1bf748f7d6f43bc08e
   function sqlReadQuestions($category_id=null,$topic_url=null,$url=null,$group_scope=null,$set=null){
     
+  /*IMPORTANT NOTE: if group scope is true only the group scope questions are selected 
+  without any other filters.(used in user's group page)
+  If group scope = null then it means query is used to fetch results for normal pages
+  But even here the questions having group/private scope is fetched only if the user belongs
+  to that group
+*/
 
 
     $content='';
     $limit=20;
     $count=0;
-    if($group_scope!=null){ //group_scope questions
+    if($group_scope==true || $group_scope=="true"){ //group_scope questions
 
       $CI =& get_instance();
       $groupId=$CI->session->userdata('group_id');
@@ -260,15 +247,15 @@ function printanswer($qid){
 
     }
 
-    if($category_id!=null){
+    if($category_id!=null && $category_id!="null"){
       $category_id=mysql_real_escape_string($category_id);
       $sql.=" and c.category_id=".$category_id;
     }
-    if($topic_url!=null){
+    if($topic_url!=null && $topic_url!="null"){
       $topic_id=$this->sqlgetTopicId($topic_url);
       $sql.=" and t.topic_id=".$topic_id;
     }
-    if($url!=null){
+    if($url!=null && $url!="null"){
       //$q_id=mysql_real_escape_string($q_id);
       $sql.=" and q.url=".'\''.$url.'\'';
     }
@@ -402,9 +389,9 @@ function printanswer($qid){
       
     }
 
-    $jsonObj=json_encode(array('content'=>$content
-              ));
-    return $content;
+    //$jsonObj=json_encode(array('content'=>$content
+       //       ));
+    return $sql;
 
   }
 

@@ -24,6 +24,7 @@ function HomeController()
                     <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
                     <h2>Greetings '.$name.'!</h2>
                      </div>'.$this->HomeModel->getCenterContent();
+        $data['paginationrequired']="false";
 		$this->load->view('Skeleton',$data);
 		}
 		
