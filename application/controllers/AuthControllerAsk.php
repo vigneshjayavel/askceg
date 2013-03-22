@@ -247,7 +247,7 @@ class AuthControllerPin extends CI_Controller {
             $_SESSION['pid']=$responseObj['pid'];
             echo $responseObj['statusCode'];
         }
-                
+               
     } 
 
     function destroySession(){

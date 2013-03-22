@@ -264,7 +264,9 @@ function printanswer($qid){
     $currentUserId=$CI->session->userdata('user_id');
 
     $CurrentuserGroup=$CI->session->userdata('group_id');
+    if($group_scope!=true||$group_scope!="true"){
     $sql.=" and (q.scope=0 or q.scope=".$CurrentuserGroup.") order by q_id desc"; 
+  }
     if($set!=null){
       /*
       set = start,   limit

@@ -34,10 +34,10 @@ class TestController extends CI_Controller {
 		$set=$this->input->post('set');
 		$categoryId=$this->input->post('categoryId');
 		$topicUrl=$this->input->post('topicUrl');
+		$groupScope=$this->input->post('groupScope');
 		//$questionUrl=$this->input->post('questionUrl');
      	//echo json_encode(array('data' => $category_id." ".$topic_url." ".$question_url));
-
-		$query = $this->questionsmodel->sqlReadQuestions($categoryId,$topicUrl,null,null,$set); 
+		$query = $this->questionsmodel->sqlReadQuestions($categoryId,$topicUrl,null,$groupScope,$set); 
 		
 		//$query=array('data' => $categoryId."-".$topicUrl."-".$questionUrl);
 		$resultLength=count($query);

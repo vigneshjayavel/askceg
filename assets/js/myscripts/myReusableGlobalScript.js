@@ -243,6 +243,8 @@ $(document).ready(function(){
         questionUrl=null;
     if(pagination.groupScope!="")
         groupScope=pagination.groupScope;
+    else
+        groupScope=null;
 
     function triggerDataLoad() {
         if(!endOfRecords){
