@@ -111,6 +111,18 @@ a.question:hover{
   margin-bottom: 10px;
 }
 
-
-.questionPostDiv{
+input#ajaxSearchPanel::-webkit-input-placeholder {
+   color: #cdd9f1 !important;
+}
+input#ajaxSearchPanel::-moz-input-placeholder {
+   color: #cdd9f1 !important;
+}
+#ajaxSearchPanel{
+	background-color: #1e8cbe;
+	color: #cdd9f1;
+	border-color: none !important;
+	-webkit-box-shadow:none !important;
+	-moz-box-shadow:none !important;
+	-box-shadow:none !important;
+	font-size: 18px;
 }

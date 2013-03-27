@@ -48,8 +48,7 @@ $(document).ready(function(){
     */
 
     //wysiwyg rich text editor
-    $('#answerText').redactor();
-      
+    $('#answerText').redactor();   
 
 
 	$('.carousel').carousel({
@@ -473,10 +472,9 @@ $(document).ready(function(){
         },
 
         trackTypedAnswer : function(){
-            var answer=$('#answerText').getCode();
+            var answerLength=$.trim($('#answerText').getText()).length;
             //this.enableOrDisablepostAnswerButton(answerLength);  
-            console.log($('.redactor_ redactor_editor').text(),$('.redactor_ redactor_editor').html())
-            if(answer==''||answer==null||answer==""){
+            if(answerLength==0){
                 alert("Please enter a valid answer!");
             }
             else{

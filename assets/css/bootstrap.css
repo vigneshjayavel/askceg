@@ -6170,7 +6170,7 @@ a.badge:focus {
 
 .navbar .search-query {
   line-height: normal;
-  border: 1px solid #178acc;
+  border:none;
 }
 
 .navbar .navbar-text {
