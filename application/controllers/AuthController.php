@@ -65,18 +65,44 @@ class AuthController extends CI_Controller {
 
 	}
 	function AddUser(){
-		$request_id = $this->input->post('adduser');
+		$user_id = $this->input->post('adduser');
 		$this->load->model('authmodel');
-		$data['centerContent']=$this->authmodel->AddUser($user_id);
-		$this->load->view('Skeleton',$data);
+		$flag=$this->authmodel->sqlAddUser($user_id);
+
+		if($flag==1){
+			$msg='user is added sucessfully.you  will be redirected to the admin panel';
+		}
+		else
+			$msg='something went wrong :(';
+			echo $msg.'
+            <script>
+                window.setInterval(function(){
+                    window.location="'.base_url().'AuthController/AddRemoveuser/";
+                },3000);
+            </script>
+            ';
+
+
 
 	}
 	
 	function RemoveUser(){
 		$user_id = $this->input->post('removeuser');
 		$this->load->model('authmodel');
-		$data['centerContent']=$this->authmodel->RemoveUser($user_id);
-		$this->load->view('Skeleton',$data);
+		$flag=$this->authmodel->sqlRemoveUser($user_id);
+		if($flag==1){
+			$msg='user is removed sucessfully.you  will be redirected to the admin panel';
+		}
+		else
+			$msg='something went wrong :(';
+			echo $msg.'
+            <script>
+                window.setInterval(function(){
+                    window.location="'.base_url().'AuthController/AddRemoveuser/";
+                },3000);
+            </script>
+            ';
+
 
 	}
 	function process_login()
