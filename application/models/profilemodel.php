@@ -651,9 +651,17 @@ function getInterimProfile(){
     function sqlSendGroupRequest($group_id){
 
       $CI=&get_instance();
-      $user_id==$CI->session->userdata('user_id');
-      $sql="INSERT into GROUP_REQUEST values(?,?)";
+      $user_id=$CI->session->userdata('user_id');
+      $sql="INSERT into GROUP_REQUEST(user_id,group_id) values(?,?)";
       if($query=$this->db->query($sql,array($user_id,$group_id)))
+        return 1;
+      else
+        return 0;
+
+    }
+    function sqlCancelGroupRequest($user_id){
+         $sql="DELETE from GROUP_REQUEST where user_id=?";
+          if($query=$this->db->query($sql,array($user_id)))
         return 1;
       else
         return 0;
@@ -664,33 +672,54 @@ function getInterimProfile(){
     $query=$this->db->query($sql,array($user_id));
     $row=$query->row_array();
     $batchOptionMarkup='
-          <div class="control-group">
-            <label class="control-label" for="BatchSelectBox">Batch</label>
-            <div class="controls">
-              <select id="BatchSelectBox" name="BatchSelectBox">';
+          ';
+
     if($row['group_id']==0){
-      $batchOptionMarkup.='<option>Select a batch</option>';
-      $sql1="select group_name,group_id from GROUPS";
-      $q=$this->db->query($sql1,array());
-      $result=$q->result_array();
-       foreach($result as $r) { 
-         $batchOptionMarkup.='<option value="'.$r['group_id'].'">'.$r['group_name'].'</option>';
-       }
+      $sql0="select r.group_id,g.group_name from GROUP_REQUEST r, GROUPS g where user_id=? and r.group_id=g.group_id";
+      $query0=$this->db->query($sql0,array($user_id));
+              if($row0=$query0->row_array()){
+                $batchOptionMarkup='You have given request to join '.$row0['group_name'].'<a href="'.base_url().'ProfileController/cancelGroupRequest">cancel request</a>';
+              }
+              else{
+              $batchOptionMarkup.='<div class="control-group">
+                    <label class="control-label" for="BatchSelectBox">Batch</label>
+                    <div class="controls">
+                      <select id="BatchSelectBox" name="BatchSelectBox">
+                      <option value="0">Select a batch</option>';
+              $sql1="select group_name,group_id from GROUPS";
+              $q=$this->db->query($sql1,array());
+              $result=$q->result_array();
+               foreach($result as $r) { 
+                 $batchOptionMarkup.='
+                 <option value="'.$r['group_id'].'">'.$r['group_name'].'</option>';
+               }
+              $batchOptionMarkup.='</select>
+            </div>
+          </div>';
+             }
     }
     else{
-      $currentGroupName=$this->getGroupName($row['group_id']);
-      $batchOptionMarkup.='you now belong to '.$currentGroupName.'</br>If you need
-      to change your batch give request to other batch by selecting from the given options';
-      $batchOptionMarkup.='<option value="'.$row['group_id'].'">'.$currentGroupName.'</option>';
-      $sql1="select group_name,group_id from GROUPS";
-      $q=$this->db->query($sql1,array());
-      $result=$q->result_array();
-       foreach($result as $r) { 
-        if($r['group_id']!=$row['group_id'])
-         $batchOptionMarkup.='<option value="'.$r['group_id'].'">'.$r['group_name'].'</option>';
-       }
-    }
-      $batchOptionMarkup.='</select>';
+              $currentGroupName=$this->getGroupName($row['group_id']);
+              $batchOptionMarkup='you now belong to '.$currentGroupName.'</br>If you need
+              to change your batch give request to other batch by selecting from the given options';
+              $batchOptionMarkup.='<div class="control-group">
+                    <label class="control-label" for="BatchSelectBox">Batch</label>
+                    <div class="controls">
+                      <select id="BatchSelectBox" name="BatchSelectBox">
+                      <option value="'.$row['group_id'].'">'.$currentGroupName.'</option>
+              ';
+              $sql1="select group_name,group_id from GROUPS";
+              $q=$this->db->query($sql1,array());
+              $result=$q->result_array();
+               foreach($result as $r) { 
+                if($r['group_id']!=$row['group_id'])
+                 $batchOptionMarkup.='<option value="'.$r['group_id'].'">'.$r['group_name'].'</option>';
+               }
+              $batchOptionMarkup.='</select>
+            </div>
+          </div>
+              ';
+     }
      return '<h2>Edit Profile</h2>
                  <form action="'.base_url().'ProfileController/EditStudentProfile" method="post">
                  <fieldset>
@@ -730,8 +759,6 @@ function getInterimProfile(){
                 
                 '.$batchOptionMarkup.'
               
-            </div>
-          </div>
                   <label class="control-label" for="year">Your Year Of Study</label>
                   <div class="controls">
                   <label class="radio">
@@ -789,11 +816,11 @@ function getInterimProfile(){
 
     $CI =& get_instance();
     $currentUserId=$CI->session->userdata('user_id');
-    $groupId=$CI->session->userdata('group_id');
-    $sql='select user_level from USERS where user_id=?';
+    $sql='select user_level,group_id from USERS where user_id=?';
 
     $query=$this->db->query($sql,array( $currentUserId));
-     $row=$query->row_array();
+     if($row=$query->row_array()){
+     $groupId=$row['group_id'];
      $AdminMarkup='';
      if($row['user_level']>='1'&& $row['user_level']!='2')
      {
@@ -843,6 +870,7 @@ function getInterimProfile(){
         return 'You havnt specified your group yet!';
        }
 
+   }
 	}
 
   function getAdminPrivileges(){

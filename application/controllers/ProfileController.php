@@ -66,13 +66,24 @@ class ProfileController extends CI_Controller {
 		$data['flag']=$this->profilemodel->sqlSendGroupRequest($group_id);
 		}
 		$data['centerContent']=$this->profilemodel->sqlEditStudentProfile($account,$user_id);
-		echo "group id is".$group_id;
-		/*if($data['centerContent']==1)//returns 1 if success
+
+		if($data['centerContent']==1)//returns 1 if success
 	     redirect('ProfileController/MyProfile');
 	    else//returns error msg if failure
         $this->load->view('Skeleton',$data);
-        */
+        
           }
+     function cancelGroupRequest(){
+     	$user_id=$this->session->userdata('user_id');
+
+		$this->load->model('profilemodel');
+		$data['flag']=$this->profilemodel->sqlCancelGroupRequest($user_id);
+		if($data['flag']==1)
+			  redirect('ProfileController/EditProfile');
+			else
+			  echo "something went wrong";
+
+     }
 	function ViewGroupProfile($group_id){
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');

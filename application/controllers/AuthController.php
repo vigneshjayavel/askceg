@@ -58,26 +58,20 @@ class AuthController extends CI_Controller {
 		$this->load->view('Skeleton',$data);
 	}
 	function AddRemoveUser(){
-		$group_id=$this->session->userdata('group_id');
+		//$group_id=$this->session->userdata('group_id');
 		$this->load->model('authmodel');
-		$data['centerContent']=$this->authmodel->AddRemoveUserMarkup($group_id);
+		$data['centerContent']=$this->authmodel->AddRemoveUserMarkup();
 		$this->load->view('Skeleton',$data);
 
 	}
 	function AddUser(){
 		$request_id = $this->input->post('adduser');
 		$this->load->model('authmodel');
-		$data['centerContent']=$this->authmodel->AddUser($request_id);
+		$data['centerContent']=$this->authmodel->AddUser($user_id);
 		$this->load->view('Skeleton',$data);
 
 	}
-	function AddUserAgain(){
-		$user_id = $this->input->post('adduseragain');
-		$this->load->model('authmodel');
-		$data['centerContent']=$this->authmodel->AddUserAgain($user_id);
-		$this->load->view('Skeleton',$data);
-
-	}
+	
 	function RemoveUser(){
 		$user_id = $this->input->post('removeuser');
 		$this->load->model('authmodel');
