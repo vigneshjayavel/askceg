@@ -97,7 +97,7 @@ $(document).ready(function(){
             return items;
         },
         items:11,
-        menu: '<ul class="span5 dropdown-menu"></ul>', //to stretch the box
+        menu: '<ul id="ajaxSearchDropdown" style="margin-left:0px;font-size:16px;left:0px !important;width:100%" class="span12 dropdown-menu"></ul>', //to stretch the box
         
         //display the result type by concatenating either "question/topic" to search keyword
         //TODO: strip search term if the length is too long 

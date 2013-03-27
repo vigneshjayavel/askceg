@@ -92,6 +92,9 @@
 }
 
 @media (min-width: 1200px) {
+  ul#ajaxSearchDropdown{
+    
+  }
   div#main{
     margin-left:10%; 
   }
