@@ -236,7 +236,10 @@ $(document).ready(function(){
         groupScope=null;
 
     function triggerDataLoad() {
+
+
         if(!endOfRecords){
+            //$('#scrollableContentDiv').append('<div id="paginationLoadingGfx"><img src="'+CI.base_url+'assets/img/mini-loader.gif'+'"/></div>');
             $.ajax({
                 type: "post",
                 url: CI.base_url+'TestController/api_getQuestionsMarkup/',
@@ -262,7 +265,7 @@ $(document).ready(function(){
 
                             $(this).append(str).fadeIn('slow');
                             $('#loadMoreQs').remove();
-    
+                            //$('#paginationLoadingGfx').remove();
                             $('#scrollableContentDiv').append(items).append('<input type=button class=btn-success id=loadMoreQs value=LoadMore!>')
     ;
                             

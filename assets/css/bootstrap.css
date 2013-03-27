@@ -5673,7 +5673,7 @@ a.badge:focus {
 
 .label-warning[href],
 .badge-warning[href] {
-  background-color: #126b9e;
+  background-color: rgb(179, 176, 176);
 }
 
 .label-success,
@@ -5693,7 +5693,7 @@ a.badge:focus {
 
 .label-info[href],
 .badge-info[href] {
-  background-color: #126b9e;
+  background-color: rgb(179, 176, 176);
 }
 
 .label-inverse,
