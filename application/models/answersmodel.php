@@ -135,7 +135,7 @@ function sqlGetUserName($user_id){
 						if($currentUserId==$row->posted_by)
           $deleteButton.='
                       <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
-                      href="'.$deleteUrl.$row['q_id'].'" class="label label-inverse">Delete
+                      href="'.$deleteUrl.$row->q_id.'" class="label label-inverse">Delete
                       </a>';
         else
           $deleteButton.='';

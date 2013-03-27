@@ -197,10 +197,9 @@ function printanswer($qid){
   function userMarkup($user_id){
           $url=base_url()."assets/img/users/".$user_id.".jpg";
 
-    return '<img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
-                   
-                <a href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'"> <strong>'.$this->sqlGetUserName($user_id).'</strong> </a>
-                   ';
+    return '<a rel="tooltip" data-placement="bottom" data-original-title="'.$this->sqlGetUserName($user_id).'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
+              <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
+            </a>';
 
   }
 
@@ -298,10 +297,10 @@ function printanswer($qid){
       foreach($result as $row){
         $currentUrl=urlencode(current_url());
         if($row['anonymous']==1)
-          $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
-                    
-                   <strong>Anonymous</strong> 
-              ';
+          $userMarkup='
+              <a rel="tooltip" data-placement="bottom" data-original-title="Anonymous" href="#">
+              <img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+            </a>';
         else
           $userMarkup=$this->userMarkup($row['posted_by']);
        //$content.=$row['category_name'];
@@ -331,17 +330,9 @@ function printanswer($qid){
           $count++;
         $content.=' 
         <div class="questionElementDiv">
-          <div class="questionPostDiv" class="well questionElement" style="background-color:white">
-            <div class="userDetailDiv">'.$count.$userMarkup.'
-              <div style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
-            </div>
-            <div class="questionDetailsDiv">
-              <p id="questionContent">
-              <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
-              </strong>
-              </p>
-              <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
-            </div><!--/questionDetailsDiv-->
+          <div class="questionPostDiv" class="well questionElement" >
+
+            <div class="qsFollowButtonDiv" style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
             <div class="questionExtraDetailsDiv">    
               <a rel="tooltip" data-placement="top" data-original-title="Category"
               href="'.$categoryUrl.$row['category_name'].'" class="label label-warning">'.$row['category_name'].'
@@ -349,37 +340,37 @@ function printanswer($qid){
               <i class="icon-arrow-right"></i>
               <a rel="tooltip" data-placement="top" data-original-title="Topic"
               href="'.$topicUri.$row['topic_url'].'" class="label label-info">'.$row['topic_name'].'
-              </a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-               &nbsp &nbsp &nbsp &nbsp   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+              </a> 
             '.$deleteButton.'
               <p>      </p>
             </div><!--/questionExtraDetailsDiv-->
+            <div class="questionDetailsDiv">
+              <p id="questionContent">
+              <a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
+              </p>
+              <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
+            </div><!--/questionDetailsDiv-->
             <div class="questionStatsDiv">
-              <i class="icon-time"></i>
-              <a>'.$row['timestamp'].'</a>
-              <i class="icon-comment"></i>
-              <a rel="tooltip popover" href="#" 
-                data-placement="bottom" 
-                data-original-title="Quick answer!" 
-                data-content=\'<textarea placeholder="Enter answer here.."></textarea><br/>
-                              <button class="postAnswerButton btn btn-success pull-right">
-                              <i class="icon-share-alt icon-white"></i>
-                              Answer!</button>\' 
-                data-original-title="Post Answer"
-                data-placement="bottom">
-                <span class="answersCountSpan" data-q_id="'.$row['q_id'].'" >'.$this->sqlGetAnswerCount($row['q_id']).'</span> Answers
-              </a>
-              <i class="icon-eye-open"></i>
-              <a >'.$this->sqlReadViewCount($row['q_id']).' Views</a>
-              <i class="icon-user"></i>
-              <a class="followersInfoTooltip" rel="tooltip" data-placement="bottom" data-type="qs"
-              data-q_id="'.$row['q_id']
-              .'">
-              <span class="followersCountSpan" data-q_id="'.$row['q_id'].'"> '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
-              </span>Followers</a>
-            <div style="float:right">
-              FLike,Tweet                    
-              </div>
+              <div class="userAvatar">
+              '.$userMarkup.'
+              </div><!--/userAvatar-->
+              <p>
+                <i class="icon-time"></i>
+                <a href="#">'.$row['timestamp'].'</a>
+                <i class="icon-comment"></i>
+                <a rel="tooltip popover" href="#" 
+                  data-placement="bottom">
+                  <span class="answersCountSpan" data-q_id="'.$row['q_id'].'" >'.$this->sqlGetAnswerCount($row['q_id']).'</span> Answers
+                </a>
+                <i class="icon-eye-open"></i>
+                <a href="#">'.$this->sqlReadViewCount($row['q_id']).' Views</a>
+                <i class="icon-user"></i>
+                <a href="#" class="followersInfoTooltip" rel="tooltip" data-placement="bottom" data-type="qs"
+                data-q_id="'.$row['q_id']
+                .'">
+                <span class="followersCountSpan" data-q_id="'.$row['q_id'].'"> '.$this->sqlGetFollwersCountForQuestion($row['q_id']).'
+                </span>Followers</a>
+              </p>
             </div><!--/questionStatsDiv-->
             
           </div><!--/questionPostDiv-->
@@ -467,8 +458,7 @@ function printanswer($qid){
                       </div><!--/userDetailDiv-->
                       <div id="questionDetailsDiv">
                         <p id="questionContent">
-                        <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
-                        </strong>
+                        <a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
                         </p>
                       </div><!--/questionDetailsDiv-->
                     </div><!--/questionDiv-->
@@ -506,13 +496,12 @@ function printanswer($qid){
 
         $content.='
 
-        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
+        <div id="questionPostDiv" class="well questionElement" >
                   <div id="userDetailDiv">
                   '.$this->userMarkup($row['posted_by']).' </div><!--/userDetailDiv-->
                    <div id="questionDetailsDiv">
                     <p id="questionContent">
-                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
-                    </strong>
+                    <a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
                     </p>
                     </div><!--/questionDetailsDiv-->
                   
@@ -551,13 +540,12 @@ function printanswer($qid){
 
         $content.='
 
-        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
+        <div id="questionPostDiv" class="well questionElement" >
                   <div id="userDetailDiv">
                   '.$userMarkup.' </div><!--/userDetailDiv-->
                    <div id="questionDetailsDiv">
                     <p id="questionContent">
-                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
-                    </strong>
+                    <a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
                     </p>
                     </div><!--/questionDetailsDiv-->
                   
@@ -635,14 +623,13 @@ function printanswer($qid){
 
 
       $content.='
-        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
+        <div id="questionPostDiv" class="well questionElement" >
                   <div id="userDetailDiv">
                   '.$userMarkup.' <div style="float:right"></div>
                   </div>
                   <div id="questionDetailsDiv">
                     <p id="questionContent">
-                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
-                    </strong>
+                    <a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
                     </p>
                     <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
                   </div><!--/questionDetailsDiv-->
@@ -690,14 +677,13 @@ function getGroupScopeQuestions($group_id){
 
 
       $content.='
-        <div id="questionPostDiv" class="well questionElement" style="background-color:white">
+        <div id="questionPostDiv" class="well questionElement" >
                   <div id="userDetailDiv">
                   '.$userMarkup.' <div style="float:right"></div>
                   </div>
                   <div id="questionDetailsDiv">
                     <p id="questionContent">
-                    <strong><a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
-                    </strong>
+                    <a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
                     </p>
                     <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
                   </div><!--/questionDetailsDiv-->

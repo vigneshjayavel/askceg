@@ -9,6 +9,7 @@
 
     <!-- Le styles -->
     <link href="<?php echo base_url()?>assets/css/bootstrap.css" rel="stylesheet">
+    <link href="<?php echo base_url()?>assets/css/custom.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -89,7 +90,7 @@
 
     <?php 
       $CI = &get_instance();
-      if(!$CI->session->userdata('isNormalAccount')){
+      if(!$CI->session->userdata('logged_in')){
     ?>
       <script type="text/javascript" src="<?php echo base_url()?>assets/js/login.js"></script>
     <?php
@@ -116,18 +117,13 @@
       </div>
     </div>
     <?php include "MenuFragment.php"; ?>
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div id="left" class="well" style="min-height:648px">
-            <h3>Trending Questions</h3>
-          </div><!--/left-->
-        </div><!--/span-->
-        <div class="span6">
+    <div class="container-fluid" >
+      <div id="main" class="row-fluid">
+        <div class="span7">
             <div id="progressbar"style="min-height:400px;text-align:center" class="progress progress-striped active">
-              
-                <div class="bar" style="width:38%;margin-left:30%;margin-top:5%"></div></br>
-                Loading..
+              <div class="loadGfx" style="margin-top:30%;margin-left:50%;width:25px;height:25px">
+                <img src="<?php echo base_url();?>assets/img/mini-loader.gif" />
+              </div>
             </div>
             <!--dynamic content in center div-->
             <div id="center" class="well-container" style="display:none;">
@@ -148,11 +144,6 @@
         
       </div><!--/row-->
 
-      <hr>
-
-      <footer>
-        <?php include "FooterFragment.php"; ?>
-      </footer>
 
     </div><!--/.fluid-container-->
 
