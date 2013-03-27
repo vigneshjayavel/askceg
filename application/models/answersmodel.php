@@ -27,13 +27,19 @@ function sqlGetUserName($user_id){
 
   }
   function userMarkup($user_id){
-          $url=base_url()."assets/img/users/".$user_id.".jpg";
-
-    return '<img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
+  	$query="select profile_pic,user_name from USERS where user_id=?";
+        $query=$this->db->query($query,array($user_id));
+           if($row=$query->row_array()){
+           	$url=$row['profile_pic'];
+           	return '<img src="'.$url.'" height="10%" width="10%" alt="No pic" class="display-pic" />
                    
-                <a href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'"> <strong>'.$this->sqlGetUserName($user_id).'</strong> </a>
+                <a href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'"> <strong>'.$row['user_name'].'</strong> </a>
                    ';
 
+           }
+    
+
+    
   }
   function sqlUpdateVote($a_id,$vote){
   	$CI=&get_instance();
