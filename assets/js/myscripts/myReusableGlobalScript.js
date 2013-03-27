@@ -24,18 +24,6 @@ function displayNotification(type,msg,redirectUrl){
        }
     }, 3000);
 }
-$(document).ready(function() 
-{ 
-$('#photoimg').live('change', function()    
-{ 
-$("#preview").html('');
-$("#preview").html('<img src="'+CI.base_url+'assets/img/mini-loader.gif" alt="Uploading...."/>');
-$("#imageform").ajaxForm(
-{
-target: '#preview'
-}).submit();
-});
-}); 
 
 $(window).load(function(){
 
@@ -59,7 +47,9 @@ $(document).ready(function(){
 	);
     */
 
-
+    //wysiwyg rich text editor
+    $('#answerText').redactor();
+      
 
 
 	$('.carousel').carousel({
@@ -310,8 +300,7 @@ $(document).ready(function(){
           "click a.qsFollowButton" :  "followOrUnfollowQs",
           "click a.topicFollowButton" : "followOrUnfollowTopic",
           "mouseover a.followersInfoTooltip" : "displayFollowersTooltip",
-          "click #postAnswerButton" : "addAnswerToQuestion",
-          "keyup #answerText" : "trackTypedAnswer",
+          "click #postAnswerButton" : "trackTypedAnswer",
           "click a.directQsPostButton" : "showPostDirectQsModal",
           "click a.voteButton" : "voteAnswer" ,
           "click a.votedButton" :"diplayAlreadyVotedNotification"
@@ -424,7 +413,7 @@ $(document).ready(function(){
 
         addAnswerToQuestion: function(){
 
-            $('#postAnswerButton').attr('disabled','disabled').val('Answering..');
+            $('#postAnswerButton').val('Answering..');
             $('span.error').remove();
 
             //get the question id from 'id' attr of the question <a> element
@@ -456,8 +445,9 @@ $(document).ready(function(){
                     $('#body').val('');
                     displayNotification('success','thanks for ur post! :)');
                     $('#answerText').val('');
-                    $('#postAnswerButton').attr('disabled','').val('Answer');
-                    that.enableOrDisablepostAnswerButton();
+                    $('#postAnswerButton').val('Answer');
+                    //that.enableOrDisablepostAnswerButton();
+                    $('#answerText').setCode('');//clear editor
                     that.updateAnswersCount(q_id);
                 }
                 else {
@@ -483,8 +473,15 @@ $(document).ready(function(){
         },
 
         trackTypedAnswer : function(){
-            var answerLength=$('#answerText').val().length;
-            this.enableOrDisablepostAnswerButton(answerLength);  
+            var answer=$('#answerText').getCode();
+            //this.enableOrDisablepostAnswerButton(answerLength);  
+            console.log($('.redactor_ redactor_editor').text(),$('.redactor_ redactor_editor').html())
+            if(answer==''||answer==null||answer==""){
+                alert("Please enter a valid answer!");
+            }
+            else{
+                this.addAnswerToQuestion();
+            }
         },
 
         updateAnswersCount: function(q_id){
