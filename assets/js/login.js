@@ -33,16 +33,16 @@ window.fbAsyncInit = function () {
             var accessToken = response.authResponse.accessToken;
             login(response);
         } else if (response.status === 'not_authorized') { // user logged in not connected with k! app
-            temp.html("<img src="+CI.base_url+"assets/images/fbLoginRegister.png>");
+            temp.html("<img src="+CI.base_url+"assets/img/btns/fbLoginRegister.png>");
             temp.unbind("click").click(function () {
-                temp.html("<img src="+CI.base_url+"assets/images/fbLoading.gif>");
+                temp.html("<img src="+CI.base_url+"assets/img/btns/fbLoading.gif>");
                 fblogin();
             });
         } else { //User not logged in facebook 1-->check whether user has logged in with our 'normal login' 2-->wait for user to click on either of the login. 
 
-            temp.html("<img src="+CI.base_url+"assets/images/fbLoginRegister.png>");
+            temp.html("<img src="+CI.base_url+"assets/img/btns/fbLoginRegister.png>");
             temp.unbind("click").click(function () {
-                temp.html("<img src="+CI.base_url+"assets/images/fbLoading.gif>");
+                temp.html("<img src="+CI.base_url+"assets/img/btns/fbLoading.gif>");
                 fblogin();
             });
         }
@@ -77,7 +77,7 @@ function login(response) { //logs in if old user, create account for new user..
         },
 
         function (rows) { // send the response to verify completion of profile/signup user.
-            $.post(CI.base_url+"authcontroller/dofbcheck", {
+            $.post(CI.base_url+"AuthControllerAsk/dofbcheck", {
                 'access_token': at,
                 'uid': rows[0].uid,
                 'email': rows[0].email,
@@ -89,25 +89,29 @@ function login(response) { //logs in if old user, create account for new user..
             function (data) {
 
                 if(data=="2"){
+                    console.log(rows[0].pic_small)
                     console.log(data + " : already registered, profile is complete");
                 }
                 else if(data=="4"){
                     console.log(data + " : already registered, incomplete profile");
-                    window.location=CI.base_url+'profile';
+                    window.location=CI.base_url+'AuthControllerAsk/profile';
                 }
                 else if(data=="3"){
                     console.log(data + " : new user, incomplete profile");
-                    window.location=CI.base_url+'profile';
+                    window.location=CI.base_url+'AuthControllerAsk/profile';
+                }
+                else{
+                    console.log(data)
                 }
                 $('#normalLoginButton').hide();
             });//$.post ends
         }//callback of FB.api ends
     );//FB.api ends
 
-    temp.html("<img src="+CI.base_url+"assets/images/fbLogout.png>");
+    temp.html("<img src="+CI.base_url+"assets/img/btns/fbLogout.png>");
     temp.unbind("click").click(function () {
         FB.logout(function (response) {
-            $.post(CI.base_url+"authcontroller/destroySession", {},function (data){});//$.post ends
+            $.post(CI.base_url+"AuthControllerAsk/destroySession", {},function (data){});//$.post ends
         });
     });
 

@@ -11,12 +11,15 @@ class AuthModelAsk extends CI_Model {
         
         
         $access_token = mysql_real_escape_string($access_token);
-        $qr           = "select pid,acctype from p_registration_info where email='$email'";
+        /*
+        $qr           = "select user_id,acctype from p_registration_info where email='$email'";
         $result       = $db->query($qr);
+        */
         $responseObj= array();
 
-        $pid=null;
+        $user_id=null;
 
+        /*
         if ($result->num_rows() == 1) {
             //already registered using normal login..
             $q3 = "select * from p_fb_connect where email='$email'";
@@ -26,28 +29,28 @@ class AuthModelAsk extends CI_Model {
                 $db->query($q4);
                 $rrt = $result->row();
                 if (strcmp($rrt->acctype, "college") == 0)
-                    $q9 = "select name from p_student_profile where email='$email'";
+                    $q9 = "select name from USERS where email='$email'";
                 
                 $result1          = $db->query($q9);
                 $row1             = $result1->row();
                 $responseObj['statusCode'] = "1";
-                $config['appId']  = FB_APPID;
+                $config['apuser_id']  = FB_APuser_id;
                 $config['secret'] = FB_SECRET;
                 $config['cookie'] = true;
                 $this->load->library('facebook-source/facebook', $config);
                 $facebook = new Facebook(array(
-                    'appId' => FB_APPID,
+                    'apuser_id' => FB_APuser_id,
                     'secret' => FB_SECRET
                 ));
                 $user     = $facebook->getUser();
                 if ($user) {
                     try {
                         $publishStream = $facebook->api("/$user/feed", 'post', array(
-                            'message' => "Registered for Pinnacle 2013!",
-                            'link' => 'http://pinnacleceg.com/home',
-                            'picture' => 'http://pinnacleceg.com/assets/images/pi_logo/pi-color.png',
-                            'name' => 'Pinnacle 2013',
-                            'description' => 'Ascend and Conquer!'
+                            'message' => "Signed-up for AskCEG!",
+                            'link' => 'http://askceg.in/home',
+                            'picture' => 'http://askceg.in/assets/images/logo.png',
+                            'name' => 'AskCEG beta',
+                            'description' => 'AskCEG beta!'
                         ));
                     }
                     catch (FacebookApiException $e) {
@@ -59,73 +62,75 @@ class AuthModelAsk extends CI_Model {
         }
         
         
-        else { //user not registered previously in p_registration_info. ( not signed up using normal login )
+        else { 
+        */
+            //user not registered previously in p_registration_info. ( not signed up using normal login )
             //Let the user login and check for completion of profile.
             
-            $q   = "select * from p_fb_details where fb_user_id='$uid'";
+            $q   = "select * from FB_DETAILS where fb_user_id='$uid'";
             $res = $db->query($q);
-            if ($res->num_rows() == 1) { //Already present in p_fb_details ( USER ALREADY CONNECTED WITH THE APP )
+            if ($res->num_rows() == 1) { //Already present in FB_DETAILS ( USER ALREADY CONNECTED WITH THE APP )
                 $r = $res->row();
 
                 if ($r->fb_user_id == '' || $r->access_token == '' || $r->status == 0) {
-                    $q1 = "update p_fb_details set status=1,fb_user_id='$uid',access_token='$access_token' where email='$email'";
+                    $q1 = "update FB_DETAILS set status=1,fb_user_id='$uid',access_token='$access_token' where email='$email'";
                     $db->query($q1);
                 } else {
-                    $q1 = "update p_fb_details set access_token='$access_token' where fb_user_id='$uid'";
+                    $q1 = "update FB_DETAILS set access_token='$access_token' where fb_user_id='$uid'";
                     $db->query($q1);
                 }
                 
-                $q10   = "select a.complete,a.pid
-                 from p_student_profile a, p_fb_details b 
-                 where a.email=b.email and b.fb_user_id='$uid'";
+                $q10   = "select a.complete,a.user_id,a.user_name
+                 from USERS a, FB_DETAILS b 
+                 where a.email_id=b.email and b.fb_user_id='$uid'";
                 $r10   = $db->query($q10);
                 $row10 = $r10->row();
-                $pid=$row10->pid;
+                $user_id=$row10->user_id;
+                $user_name=$row10->user_name;
                 if ($row10->complete == 1) { //already registered ( PROFILE IS COMPLETE )
                     
                     $responseObj['statusCode'] = "2";
                 } else{
                     $responseObj['statusCode'] = "4";
                 }
-                $responseObj['pid'] = $pid;
+                $responseObj['user_id'] = $user_id;
+                $responseObj['user_name'] = $user_name;
                 return $responseObj;
             }
             
             
-            else { //Not present in p_fb_details.. ( FIRST TIME USER AND HE NEEDS TO AUTHORIZE THE APP )
-                $config['appId'] = FB_APPID;
+            else { //Not present in FB_DETAILS.. ( FIRST TIME USER AND HE NEEDS TO AUTHORIZE THE APP )
+                $config['apuser_id'] = FB_APuser_id;
                 $config['secret'] = FB_SECRET;
                 $config['cookie'] = true;
                 $this->load->library('facebook-source/facebook', $config);
                 $facebook = new Facebook(array(
-                    'appId' => FB_APPID,
+                    'apuser_id' => FB_APuser_id,
                     'secret' => FB_SECRET
                 ));
                 $facebook->setExtendedAccessToken();
                 $access_token = $facebook->getAccessToken();
-                $q2 = "insert into p_fb_details(email,fb_user_id,access_token,status) values('$email','$uid','$access_token',1)";
+                $q2 = "insert into FB_DETAILS(email,fb_user_id,access_token,status) values('$email','$uid','$access_token',1)";
                 $db->query($q2);
-                $qq    = "select seqid from p_fb_details where fb_user_id='$uid'";
+                $qq    = "select seqid from FB_DETAILS where fb_user_id='$uid'";
                 $rr    = $db->query($qq);
                 $tr    = $rr->row();
                 $seqid = $tr->seqid;
                 $this->load->library('klib');
-                $pid = $this->klib->fb_generate($seqid);
-                $q5  = "insert into p_pid_email(pid,email,user_id) values('$pid','$email','$uid')";
-                $db->query($q5);
-
-                $q5  = "insert into p_student_profile(pid,email) values('$pid','$email')";
+               // $user_id = $this->klib->fb_generate($seqid);
+                $user_id="AAA";
+                $q5  = "insert into USERS(user_id,email_id) values('$user_id','$email')";
                 $db->query($q5);
                 
                 $user     = $facebook->getUser();
                 if ($user) {
                     try {
                         $publishStream = $facebook->api("/$user/feed", 'post', array(
-                            'message' => "Registered for Pinnacle 2013!",
-                            'link' => 'http://pinnacleceg.com/home',
-                            'picture' => 'http://pinnacleceg.com/assets/images/pi_logo/pi-color.png',
-                            'name' => 'Pinnacle 2013',
-                            'description' => '20+ events 2000+ participants from 300+ colleges of the past made this Warfield a remarkable one. We invite you back to this Warfield with more strength for the National 2 day combat of the Mechanical brains. We welcome u for PINNACLE 2013. Come let’s ascend and conquer to show who is the champion.'
+                            'message' => "Signed-up for AskCEG!",
+                            'link' => 'http://askceg.in/home',
+                            'picture' => 'http://askceg.in/assets/images/logo.png',
+                            'name' => 'AskCEG beta',
+                            'description' => 'AskCEG beta!'
                         ));                        
                     }
                     catch (FacebookApiException $e) {
@@ -134,14 +139,16 @@ class AuthModelAsk extends CI_Model {
                 
                 //auto mail
                 $emailData['to']=$email;
-                $emailData['subject']='[Pinnacle 2013] Welcome to Pinnacle 2013!';
-                $emailData['message']="Thanks for registering! Please note your Pinnacle ID : $pid . You need the Pinnacle ID for all of your communications.";
+                $emailData['subject']='[AskCEG] Welcome to AskCEG!';
+                $emailData['message']="Thanks for registering! Please note your AskCEG ID : $user_id . You need the AskCEG ID for all of your communications.";
                 $this->klib->sendMail($emailData);
                 
                 $responseObj['statusCode'] = "3";
-                $responseObj['pid']=$pid;
+                $responseObj['user_id']=$user_id;
                 return $responseObj;
             }
+        /*
         }
+        */
     }
 }

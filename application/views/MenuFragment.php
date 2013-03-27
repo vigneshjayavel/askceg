@@ -37,24 +37,45 @@
 <div id="notificationsPanel" style="float:left">
       </div>
 <ul class="nav pull-right" id="main-menu-right">
-	<li class="dropdown" id="preview-menu"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php if ($this->session->userdata('logged_in') == TRUE)
+	<li class="dropdown" id="preview-menu">
+      <?php if ($this->session->userdata('logged_in') == TRUE)
       {
-$url=base_url()."assets/img/users/".$this->session->userdata('user_id').".jpg";
-        //redirect to controller/function if there's no valid session
-          echo '<img src="'.$url.'" alt="James" height="38px" width="20px" class="display-pic" />'.$this->session->userdata('user_name');
-          //$this->load->view('login');
+        $url=base_url()."assets/img/users/".$this->session->userdata('user_id').".jpg";
+        echo '<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <img src="'.$url.'" alt="James" height="38px" width="20px" class="display-pic" />'
+                .$this->session->userdata('user_name');
       }
       else
       {
-        echo "login/signup";
+        echo '<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              login/signup';
       }
       ?>
-  <b class="caret"></b></a>
-<ul class="dropdown-menu">
-  <li><a href="<?php echo base_url() ?>ProfileController/MyProfile">MyProfile</a></li>
-  <li><a href="<?php echo base_url() ?>AuthController/logout">Logout</a></li>
+  <b class="caret"></b>
+</a>
+<?php
+  if($this->session->userdata('logged_in') == TRUE)
+  {
+  ?>
+  <ul class="dropdown-menu">
   
-</ul></li>
+    <li><a href="<?php echo base_url() ?>ProfileController/MyProfile">MyProfile</a></li>
+    <li><a href="<?php echo base_url() ?>AuthControllerAsk/destroySession">Logout</a></li>
+  </ul>
+  <?
+  }
+  else
+  {
+  ?>
+  <ul class="dropdown-menu">
+    <li><a href="#" id="fbLoginStatus">FbConnect</a></li>
+    <li><a href="<?php echo base_url() ?>AuthControllerAsk/normallogin">Normal Login/Signup</a></li>
+  </ul>
+  <?php
+  }
+  ?>
+
+</li>
  </div>
      </div>
    </div>

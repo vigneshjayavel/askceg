@@ -30,15 +30,11 @@
                     <?php if(!isset($normalSignup) && !isset($normalLogin))
                     { 
                     ?>
-                    <form method="post"  action="<?php echo base_url();?>updateProfile" autocomplete="on"> 
-                        <h1> Pinnacle 2013 - Update Profile </h1> 
+                    <form id="updateform" method="post"  action="<?php echo base_url();?>AuthControllerAsk/updateProfile" autocomplete="on"> 
+                        <h1> AskCEG - Update Profile </h1> 
                         <p> 
                             <label for="name"  >Your Fullname</label>
                             <input id="name" name="name" placeholder="John Doe.." required="required" type="text"/> 
-                        </p>
-                        <p> 
-                            <label for="phone"  > Phone No.</label>
-                            <input id="phone" name="phone" placeholder="+919000090000" /> 
                         </p>
                         <p> 
                             <label for="degree"  > Degree</label>
@@ -57,15 +53,11 @@
                     }
                     else if(isset($normalSignup)){
                     ?>
-                    <form method="post" id="signupform" action="<?php echo base_url();?>authcontrollerask/createNormalProfile" autocomplete="on"> 
-                        <h1> Pinnacle 2013 - Normal Signup </h1> 
+                    <form method="post" id="signupform" action="<?php echo base_url();?>AuthControllerAsk/createNormalProfile" autocomplete="on"> 
+                        <h1> AskCEG - Normal Signup </h1> 
                         <p> 
                             <label for="name"  >Your Fullname</label>
                             <input id="name" name="name" placeholder="John Doe.." required="required" type="text"/> 
-                        </p>
-                        <p> 
-                            <label for="phone"  > Phone No.</label>
-                            <input id="phone" name="phone" placeholder="+919000090000" /> 
                         </p>
                         <p> 
                             <label for="degree"  > Degree</label>
@@ -100,8 +92,9 @@
                     }
                     else if(isset($normalLogin)){
                     ?>
-                        <form method="post" id="signupform" action="<?php echo base_url();?>authcontrollerask/processNormalLogin" autocomplete="on"> 
-                            <h1> Pinnacle 2013 - Normal Login</h1> 
+                        <form method="post" id="signinform" 
+                            action="<?php echo base_url();?>AuthControllerAsk/processNormalLogin" autocomplete="on"> 
+                            <h1> AskCEG - Normal Login</h1> 
                             <p> 
                                 <label for="email"  >email</label>
                                 <input id="email" name="email" required="required" placeholder="johndoe@mail.com,.." type="email"/> 

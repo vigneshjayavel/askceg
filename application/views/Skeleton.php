@@ -70,8 +70,13 @@
 
           
         }
+
+        var FBConfig = {
+          'appId': '<?php echo FB_APPID; ?>'
+        };
     -->
     </script>
+        
     <?php 
       if(isset($page)){
     ?>
@@ -82,7 +87,14 @@
       }
     ?>
 
-    
+    <?php 
+      $CI = &get_instance();
+      if(!$CI->session->userdata('isNormalAccount')){
+    ?>
+      <script type="text/javascript" src="<?php echo base_url()?>assets/js/login.js"></script>
+    <?php
+      }
+    ?>
     <!--style type="text/css" id="page-css">codeignitor
       /* Styles specific to this particular page */
       .scroll-pane

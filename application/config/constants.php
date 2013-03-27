@@ -36,6 +36,10 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
+//fb app details
+define('FB_APPID','314511855323893');
+define('FB_SECRET','28f1380425fa95c178d243aeb7ded052');
+
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

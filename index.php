@@ -11,9 +11,9 @@
  *
  * This can be set to anything, but default usage is:
  *
- *     development
- *     testing
- *     production
+ *     local
+ *     cloud
+ *     
  *
  * NOTE: If you change these, also change the error_reporting() code below
  *
