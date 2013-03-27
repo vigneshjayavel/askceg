@@ -169,32 +169,33 @@ function sqlGetUserName($user_id){
 			}
 		     
 			$previousAnswers.='
-				<div class="answerElementDiv" data-a_id="'.$row->a_id.'" class="well" style="float:left;width:100%">
-					<div class="answerVotesDiv" style="float:left;text-align:center">
-						'.$dynamicAnswerVotesDiv.'
-					</div>
-					<div class="answerDiv" style="float:left;">
-					'.'	<div class="userDetailDiv">'.
-							$this->userMarkup($row->posted_by).'
+				<div class="answerElementWrapper">
+					<div class="answerElementDiv" data-a_id="'.$row->a_id.'" class="well" style="float:left;width:100%">
+						<div class="answerVotesDiv" style="float:left;text-align:center">
+							'.$dynamicAnswerVotesDiv.'
 						</div>
-						<div class="answerContentDiv">
-						'.$row->a_content.'
-						</div>
-						'. $deleteButton.'
-		    			<div class="answerStatsDiv " style="float:right" >
-		    				<i class="icon-time"></i>'.$row->timestamp.' 
+						<div class="answerDiv" style="float:left;">
+						'.'	<div class="userDetailDiv">'.
+								$this->userMarkup($row->posted_by).'
+							</div>
+							<div class="answerContentDiv">
+							'.$row->a_content.'
+							</div>
+							'. $deleteButton.'
+			    			<div class="answerStatsDiv " style="float:right" >
+			    				<i class="icon-time"></i>'.$row->timestamp.' 
+				    		</div>
 			    		</div>
-		    		</div>
-			    </div>';
+				    </div>
+				</div>';
 
 		
 		}
 
 		$previousAnswersPlusAddNewAnswerFormMarkup='
 		<div class="well" id="addAnswerContainer">
-			<img src="'.$url_curr.'" height="40px" width="40px" alt="James" class="display-pic" />
-				           <textarea name="body" id="answerText"></textarea>
-	        <input disabled=true class="btn btn-danger" 
+			<textarea name="content" id="answerText"></textarea>
+	        <input class="btn btn-success" 
 	        type="submit" id="postAnswerButton" value="Answer!" />
 		</div>
 		

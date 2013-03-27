@@ -49,6 +49,9 @@
       
     <script src="<?php echo base_url()?>assets/js/underscore.js"></script>
     <script src="<?php echo base_url()?>assets/js/backbone.js"></script>
+    <!--rich text editor-->
+    <link rel="stylesheet" href="<?php echo base_url()?>assets/redactor-editor/redactor.css" />
+    <script src="<?php echo base_url()?>assets/redactor-editor/redactor.min.js"></script>
     
     <script type="text/javascript">
     <!--
