@@ -124,7 +124,7 @@ class AuthControllerAsk extends CI_Controller {
                 $this->load->library('klib');
                 $emailData['to']=$email;
                 $emailData['subject']='[AskCEG] Account Activation';
-                $emailData['message']="Please click the following link to activate your Pinnacle 2013 account !
+                $emailData['message']="Please click the following link to activate your AskCEG account !
                 <a href=$activationLink>$activationLink</a>";
                 $this->klib->sendMail($emailData);
 
@@ -150,7 +150,7 @@ class AuthControllerAsk extends CI_Controller {
             $this->load->library('klib');
             $emailData['to']=$email;
             $emailData['subject']='[AskCEG] Account Activation Successful';
-            $emailData['message']="Thanks for registering! Please note your Pinnacle ID : $user_id . You need the Pinnacle ID for all of your communications.";
+            $emailData['message']="Thanks for registering! Please note your AskCEG ID : $user_id . You need the AskCEG ID for all of your communications.";
             $this->klib->sendMail($emailData);            
             echo 'Thanks for activating your account!! Please wait while you are being redirected!
                 <script>
@@ -257,7 +257,7 @@ class AuthControllerAsk extends CI_Controller {
             $pic=$this->input->post('pic');
             $name=$this->input->post('name');
             $this->load->model('authmodelask');
-            $responseObj=$this->authmodelask->dodatabasecheck_fbdetails($email,$access_token,$uid);
+            $responseObj=$this->authmodelask->dodatabasecheck_fbdetails($email,$access_token,$uid,$pic);
             //if user is a valid user with user_id
             $sessionData = array(
             'user_id'  => $responseObj['user_id'],

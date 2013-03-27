@@ -27,7 +27,7 @@ class Klib {
 	  	
    		$CI =& get_instance();
 	    $CI->load->library('email', $config);
-	    $CI->email->from('no-reply@pinnacleceg.com', "Pinnacle 2013");
+	    $CI->email->from('no-reply@pinnacleceg.com', "AskCEG");
 	    $CI->email->to($emailData['to']);
 	    $CI->email->subject($emailData['subject']);
 	    $CI->email->message($emailData['message']);

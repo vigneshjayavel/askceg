@@ -4,7 +4,7 @@ class AuthModelAsk extends CI_Model {
         parent::__construct();
     }
     
-    function dodatabasecheck_fbdetails($email, $access_token, $uid) {
+    function dodatabasecheck_fbdetails($email, $access_token, $uid,$pic) {
         $db    = $this->load->database('default', TRUE);
         $email = mysql_real_escape_string($email);
         $uid   = mysql_real_escape_string($uid);
@@ -119,7 +119,7 @@ class AuthModelAsk extends CI_Model {
                 $this->load->library('klib');
                // $user_id = $this->klib->fb_generate($seqid);
                 $user_id="AAA";
-                $q5  = "insert into USERS(user_id,email_id) values('$user_id','$email')";
+                $q5  = "insert into USERS(user_id,email_id,profile_pic) values('$user_id','$email','$pic')";
                 $db->query($q5);
                 
                 $user     = $facebook->getUser();
