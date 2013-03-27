@@ -24,10 +24,18 @@ $query=$this->db->query($sql,array($user_id));
             return $result['user_year'];
 
     }
-    function AddRemoveUserMarkup($group_id){
-        $sql='select user_name,request_id from REQUEST_USER where group_id=?';
+    function AddRemoveUserMarkup(){
+      $CI=&get_instance();
+      $user_id=$CI->session->userdata('user_id');
+      $sql0='select group_id from USERS where user_level="1" and user_id=?';
+      $query0=$this->db->query($sql0,array($user_id));
+      if($row0=$query0->row_array()){
+        $group_id=$row0['group_id'];
+        $sql='select r.user_id,u.user_name from GROUP_REQUEST r,USERS u where r.group_id=? and r.user_id=u.user_id';
         $sql1='select * from USERS where group_id=?';
         $sql2='select * from USER_HISTORY_LOG where group_id=?';
+        
+
         $query=$this->db->query($sql,array($group_id));
         $query1=$this->db->query($sql1,array($group_id));
         $query2=$this->db->query($sql2,array($group_id));
@@ -39,7 +47,7 @@ $query=$this->db->query($sql,array($user_id));
         $optionMarkup='';
         if($result!=null){
           foreach ($result as $row) {
-              $optionMarkup.='<option value="'.$row['request_id'].'">'.$row['user_name'].'</option>';
+              $optionMarkup.='<option value="'.$row['user_id'].'">'.$row['user_name'].'</option>';
               
           }
         }
@@ -87,7 +95,7 @@ $query=$this->db->query($sql,array($user_id));
                <h4> Add Users who were deleted previously:
                 <p>
                 </form>
-                 <form action="'.base_url().'AuthController/AddUserAgain" method="post">
+                 <form action="'.base_url().'AuthController/AddUser" method="post">
               
               <select name="adduseragain" >'.$addPrevDeletedMarkup.'
               </select>
@@ -118,7 +126,10 @@ $query=$this->db->query($sql,array($user_id));
 
 
 
-        
+        }
+        else{
+          return 'sorry you don\'t have privileges to visit this page';
+        }
 
      }
 
