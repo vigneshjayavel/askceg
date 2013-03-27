@@ -40,9 +40,9 @@
 	<li class="dropdown" id="preview-menu">
       <?php if ($this->session->userdata('logged_in') == TRUE)
       {
-        $url=base_url()."assets/img/users/".$this->session->userdata('user_id').".jpg";
+        $url=$this->session->userdata('profile_pic');
         echo '<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <img src="'.$url.'" alt="James" height="38px" width="20px" class="display-pic" />'
+                <img src="'.$url.'" height="10%" width="10%" alt="No pic " class="display-pic" />'
                 .$this->session->userdata('user_name');
       }
       else
@@ -53,6 +53,7 @@
       ?>
   <b class="caret"></b>
 </a>
+
 <?php
   if($this->session->userdata('logged_in') == TRUE)
   {
@@ -76,6 +77,7 @@
   ?>
 
 </li>
+
  </div>
      </div>
    </div>

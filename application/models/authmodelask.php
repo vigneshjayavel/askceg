@@ -95,6 +95,7 @@ class AuthModelAsk extends CI_Model {
                 }
                 $responseObj['user_id'] = $user_id;
                 $responseObj['user_name'] = $user_name;
+                $responseObj['profile_pic'] = $pic;
                 return $responseObj;
             }
             
