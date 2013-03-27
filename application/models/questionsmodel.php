@@ -194,14 +194,23 @@ function printanswer($qid){
       ';
 
 	}
-  function userMarkup($user_id){
-          $url=base_url()."assets/img/users/".$user_id.".jpg";
 
-    return '<img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
+  function userMarkup($user_id){
+    $sql="select user_name,profile_pic from USERS where user_id=?";
+    $query=$this->db->query($sql,array($user_id));
+  $markup='';
+  if($row=$query->row_array()){
+    $url=$row['profile_pic'];
+
+    return '<img src="'.$url.'" width="10%" height="10%" alt="No pic available" class="display-pic" />
                    
-                <a href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'"> <strong>'.$this->sqlGetUserName($user_id).'</strong> </a>
+                <a href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'"> <strong>'.$row['user_name'].'</strong> </a>
                    ';
 
+  }
+  
+
+          
   }
 
   
@@ -222,7 +231,8 @@ function printanswer($qid){
 
       $CI =& get_instance();
       $groupId=$CI->session->userdata('group_id');
-
+      if($groupId==null||$groupId=='')
+        return null;
       $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
           t.topic_name,t.topic_url,c.category_name ,c.category_id,q.posted_by,
           q.timestamp,q.anonymous

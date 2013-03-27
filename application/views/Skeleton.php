@@ -58,7 +58,9 @@
     <!--
         var userData = {
           'user_id': "<?php $CI =& get_instance(); echo $CI->session->userdata('user_id'); ?>",
-          'user_name':"<?php echo $CI->session->userdata('user_name'); ?>"
+          'user_name':"<?php echo $CI->session->userdata('user_name'); ?>",
+          'profile_pic':"<?php echo $CI->session->userdata('profile_pic'); ?>"
+
         };
         var pagination = {
           'required': "<?php if(isset($paginationrequired)) echo $paginationrequired; ?>",

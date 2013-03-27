@@ -63,7 +63,7 @@ if($mode=="local"){
 
 	$hostname = "localhost";
 	$username = "root";
-	$password = "root";
+	$password = "";
 	$dbname = "askceg";
 
 }

@@ -56,15 +56,22 @@ class ProfileController extends CI_Controller {
 		$account['user_year']=$this->input->post('year');
 		$account['user_degree']=$this->input->post('degree');
 		$account['user_course']=$this->input->post('course');
+		$group_id=$this->input->post('BatchSelectBox');
 		$this->load->model('profilemodel');
 
 	    $user_id=$this->session->userdata('user_id');
 		//echo $account['user_name'];
-		$data['centerContent']=$this->profilemodel->sqlEditStudentProfile($account,$user_id);
-		$this->load->view('Skeleton',$data);
-	
+		if($group_id!=$this->session->userdata('group_id')){
 
-        }
+		$data['flag']=$this->profilemodel->sqlSendGroupRequest($group_id);
+		}
+		$data['centerContent']=$this->profilemodel->sqlEditStudentProfile($account,$user_id);
+		
+		if($data['centerContent']==1)//returns 1 if success
+	     redirect('ProfileController/MyProfile');
+	    else//returns error msg if failure
+        $this->load->view('Skeleton',$data);
+          }
 	function ViewGroupProfile($group_id){
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');

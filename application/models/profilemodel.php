@@ -541,14 +541,42 @@ function getInterimProfile(){
       $CI=&get_instance();
       if($user_id==$CI->session->userdata('user_id')){
           
-     // <a href="'.base_url().'/ProfileController/EditProfile" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
      $edit=' <a href="'.base_url().'ProfileController/EditProfile" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
  }
        else
          $edit='';
+    //groupMarkup
+      if($row['group_id']==0){
+        $q="select * from GROUP_REQUEST where user_id=?";
+          $qu=$this->db->query($q,array($user_id));
+          if($r=$qu->row_array()){
+            $groupMarkup='<td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$r['group_id'].'">'.$this->getGroupName($r['group_id']).'(request pending)</a>
+                   </td>
+                  ';
+          }
+          else{
+        $groupMarkup="Batch info not updated yet";
+          }
+      }
+      else{
+        $groupMarkup='<td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$row['group_id'].'">'.$this->getGroupName($row['group_id']).'</a>
+                   </td>
+                  ';
+      }  
+       //yearMarkup
+      if($row['user_year']==0){
 
+          
 
+          $yearMarkup="year info not updated yet";
+      }
+      else{
+        $yearMarkup='<a href="'.base_url().'ProfileController/ViewYearProfile/'.$row['user_year'].'"> '.$row['user_year'].'</a>
+                 ';
 
+      }          
+   
+      
 
       return'<div class="well">
               <table>
@@ -558,7 +586,7 @@ function getInterimProfile(){
                     <td>'.$row['user_name'].'
                     </td>
                      <div class="ask-dp pull-right">
-                    <img src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg">
+                    <img src="'.$row['profile_pic'].'">
                     </div>
               </tr>
               </table>
@@ -568,10 +596,7 @@ function getInterimProfile(){
               <tr>
                    <td>Group/Batch :
                    </td>
-                   <td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$row['group_id'].'">'.$this->getGroupName($row['group_id']).'</a>
-                   </td>
-
-
+                   <td>'.$groupMarkup.'
               </tr>
               </table>
               </div>
@@ -581,8 +606,8 @@ function getInterimProfile(){
               <tr>
                   <td>Year:
                   </td>
-                  <td><a href="'.base_url().'ProfileController/ViewYearProfile/'.$row['user_year'].'"> '.$row['user_year'].'</a>
-                  </td>
+                  <td>
+                 '.$yearMarkup.' </td>
 
               </tr>
               </table>
@@ -609,7 +634,7 @@ function getInterimProfile(){
     function getGroupName($group_id){
       $sql='select group_name from GROUPS where group_id=?';
       $query=$this->db->query($sql,array($group_id));
-       $row=$query->row_array();
+       if($row=$query->row_array())
        return $row['group_name'];
 
     }
@@ -618,16 +643,54 @@ function getInterimProfile(){
 
       $sql="update USERS set user_name=?,email_id=?,user_year=?,user_degree=?,user_course=? where user_id=?";
        if($query=$this->db->query($sql,array($account['user_name'],$account['user_email'],$account['user_year'],$account['user_degree'],$account['user_course'],$user_id)))
-        return 'Updated Successfully !!! with user name '.$account['user_name'];
+        return 1;
       else
         return 'something went wrong ';
     
+    }
+    function sqlSendGroupRequest($group_id){
+
+      $CI=&get_instance();
+      $user_id==$CI->session->userdata('user_id');
+      $sql="INSERT into GROUP_REQUEST values(?,?)";
+      if($query=$this->db->query($sql,array($user_id,$group_id)))
+        return 1;
+      else
+        return 0;
+
     }
 	 function getStudentProfileEdit($user_id){
     $sql="select * from USERS where user_id=?";
     $query=$this->db->query($sql,array($user_id));
     $row=$query->row_array();
-
+    $batchOptionMarkup='
+          <div class="control-group">
+            <label class="control-label" for="BatchSelectBox">Batch</label>
+            <div class="controls">
+              <select id="BatchSelectBox">';
+    if($row['group_id']==0){
+      $batchOptionMarkup.='<option>Select a batch</option>';
+      $sql1="select group_name,group_id from GROUPS";
+      $q=$this->db->query($sql1,array());
+      $result=$q->result_array();
+       foreach($result as $r) { 
+         $batchOptionMarkup.='<option value="'.$r['group_id'].'">'.$r['group_name'].'</option>';
+       }
+    }
+    else{
+      $currentGroupName=$this->getGroupName($row['group_id']);
+      $batchOptionMarkup.='you now belong to '.$currentGroupName.'</br>If you need
+      to change your batch give request to other batch by selecting from the given options';
+      $batchOptionMarkup.='<option value="'.$row['group_id'].'">'.$currentGroupName.'</option>';
+      $sql1="select group_name,group_id from GROUPS";
+      $q=$this->db->query($sql1,array());
+      $result=$q->result_array();
+       foreach($result as $r) { 
+        if($r['group_id']!=$row['group_id'])
+         $batchOptionMarkup.='<option value="'.$r['group_id'].'">'.$r['group_name'].'</option>';
+       }
+    }
+      $batchOptionMarkup.='</select>';
      return '<h2>Edit Profile</h2>
                  <form action="'.base_url().'ProfileController/EditStudentProfile" method="post">
                  <fieldset>
@@ -665,6 +728,10 @@ function getInterimProfile(){
                  <br>
 
                 
+                '.$batchOptionMarkup.'
+              
+            </div>
+          </div>
                   <label class="control-label" for="year">Your Year Of Study</label>
                   <div class="controls">
                   <label class="radio">
@@ -712,6 +779,7 @@ function getInterimProfile(){
     $emailid=$userobj('emailid');
     $degree=$userobj('degree');
     $course=$userobj('course');
+
     $sql="update USERS set user_name=?,user_year=?,email_id=?,user_degree=?,user_course=?";
     $query=$this->db->query($sql,array($name,$year,$emailid,$degree,$course));
 
@@ -740,7 +808,7 @@ function getInterimProfile(){
     
     $sql='select * from GROUPS  where group_id=?';
     $query=$this->db->query($sql,array($groupId));
-    $row=$query->row_array();
+     if( $row=$query->row_array()){
     
 		return '        <div class="well">
         <div class="ask-dp pull-right">
@@ -770,6 +838,10 @@ function getInterimProfile(){
         </div>
         
          ';
+       }
+       else{
+        return 'You havnt specified your group yet!';
+       }
 
 	}
 

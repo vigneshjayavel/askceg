@@ -183,7 +183,7 @@ class AuthControllerAsk extends CI_Controller {
             $email=mysql_real_escape_string($this->input->post('email'));
             $pass=mysql_real_escape_string($this->input->post('pass'));
             //check whether he is activated and theres a valid record for given data
-            $q="select user_id,user_name,group_id,hash from USERS where email_id='$email' and password='$pass'";
+            $q="select user_id,user_name,group_id,hash,profile_pic from USERS where email_id='$email' and password='$pass'";
             $res=$this->db->query($q);
             if ($res->num_rows() > 0){
                 $row=$res->row_array();
@@ -194,7 +194,9 @@ class AuthControllerAsk extends CI_Controller {
                     'logged_in' => TRUE,
                     'user_name' => $row['user_name'],
                     'group_id' => $row['group_id'],
-                    'isNormalAccount' => 1
+                    'isNormalAccount' => 1,
+                    'profile_pic' => $row['profile_pic']
+
                     );
 
                     //jus like $this->session->userdata('someKey']='someValue';
@@ -264,7 +266,8 @@ class AuthControllerAsk extends CI_Controller {
             'logged_in' => TRUE,
             'user_name' => $responseObj['user_name'],
             'group_id' => 0,
-            'isNormalAccount' => 0
+            'isNormalAccount' => 0,
+            'profile_pic' => $responseObj['profile_pic']
             );
             //jus like $this->session->userdata('someKey']='someValue';
             //but note that here the key itself is an array of keys!!
