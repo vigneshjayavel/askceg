@@ -64,9 +64,9 @@ $query=$this->db->query($sql,array($user_id));
         else{
           $deleteMarkup.='<option>No Users remaining to be deleted!!</option>';
         }
-        if($result1!=null){
+        if($result2!=null){
           foreach ($result2 as $row2) {
-              $addPrevDeletedMarkup.='<option value="'.$row2['user_id'].'">'.$row2['user_name'].'</option>';
+              $addPrevDeletedMarkup.='<option value="'.$row2['user_id'].'">'.$this->getUserName($row2['user_id']).'</option>';
               
           }
         }
@@ -97,7 +97,7 @@ $query=$this->db->query($sql,array($user_id));
                 </form>
                  <form action="'.base_url().'AuthController/AddUser" method="post">
               
-              <select name="adduseragain" >'.$addPrevDeletedMarkup.'
+              <select name="adduser" >'.$addPrevDeletedMarkup.'
               </select>
               </p>
                <input type="submit" value="Add user">
@@ -469,88 +469,40 @@ $query=$this->db->query($sql,array($user_id));
 
 
     }
-    function AddUser($request_id){
-
-      $sql="select * from REQUEST_USER where request_id=?";
-      $query=$this->db->query($sql,array($request_id));
-      $row=$query->row_array();
+    function sqlAddUser($user_id){
+      $flag=0;
+      $group_id=$this->getUserGroupId($this->session->userdata('user_id'));//get the group id using admin's user id
+      $sql="UPDATE USERS set group_id=? where user_id=?";
+      if($query=$this->db->query($sql,array($group_id,$user_id))){//if updated ,remove the user's record from GROUP_RECORD
+            $sql1="DELETE from GROUP_REQUEST where user_id=?";
+            if($query1=$this->db->query($sql1,array($user_id)))//if userrecord from GROUP_REQUEST removed successfully
+                   $flag=1;
+          
+            $sql2="DELETE from USER_HISTORY_LOG where user_id=?";
+            if($query2=$this->db->query($sql2,array($user_id)))//if userrecord from USER_HISTORY_LOG removed successfully
+                    $flag=1;
+                    else
+                    $flag=0;
+                   
       
-      $user_name=$row['user_name'];
-      $user_id=$row['user_id'];
-      $user_course=$row['user_course'];
-      $user_degree=$row['user_degree'];
-      $user_year=$row['user_year'];
-      $group_id=$row['group_id'];
-      $password=$row['password'];
-    
-      $sql1="insert into USERS(user_name,user_id,user_course,user_degree,user_year,group_id,password) values(?,?,?,?,?,?,?)";
-      $query=$this->db->query($sql1,array($user_name,$user_id,$user_course,$user_degree,$user_year,$group_id,$password));
-      if($query==1){
-        $sql1="delete from REQUEST_USER
-              where request_id=?";
-        $query=$this->db->query($sql1,array($request_id));
-        return "ADDED SUCCESSFULLY";
       }
-        
-      else
-        return "NOPE :(";
+      else 
+          $flag=0;
 
-
+  return $flag;
     }
-    function AddUserAgain($user_id){
-
-      $sql="select * from USER_HISTORY_LOG where user_id=?";
-      $query=$this->db->query($sql,array($user_id));
-      $row=$query->row_array();
-      
-      $user_name=$row['user_name'];
-      $user_id=$row['user_id'];
-      $user_course=$row['user_course'];
-      $user_degree=$row['user_degree'];
-      $user_year=$row['user_year'];
-      $group_id=$row['group_id'];
-      $password=$row['password'];
-    
-      $sql1="insert into USERS(user_name,user_id,user_course,user_degree,user_year,group_id,password) values(?,?,?,?,?,?,?)";
-      $query=$this->db->query($sql1,array($user_name,$user_id,$user_course,$user_degree,$user_year,$group_id,$password));
-      if($query==1){
-        $sql1="delete from USER_HISTORY_LOG
-              where user_id=?";
-        $query=$this->db->query($sql1,array($user_id));
-        return "ADDED SUCCESSFULLY";
-      }
-        
+    function sqlRemoveUser($user_id){
+      $group_id=$this->getUserGroupId($this->session->userdata('user_id'));//get the group id using admin's user id
+      $sql="insert into USER_HISTORY_LOG(user_id,group_id) values(?,?)";
+      if($query=$this->db->query($sql,array($user_id,$group_id))){
+        $sql1="UPDATE USERS set group_id=0 where user_id=?";
+      if($query1=$this->db->query($sql1,array($user_id)))
+        return 1;
       else
-        return "Sorry, not possible. Please Try later!";
-
-
-    }
-    
-    function RemoveUser($user_id){
-
-
-      $sql="select * from USERS where user_id=?";
-      $query=$this->db->query($sql,array($user_id));
-      $row=$query->row_array();
-      
-      $user_name=$row['user_name'];
-      $user_id=$row['user_id'];
-      $user_course=$row['user_course'];
-      $user_degree=$row['user_degree'];
-      $user_year=$row['user_year'];
-      $group_id=$row['group_id'];
-      $password=$row['password'];
-    
-      $sql1="insert into USER_HISTORY_LOG(user_name,user_id,user_course,user_degree,user_year,group_id,password) values(?,?,?,?,?,?,?)";
-      $query=$this->db->query($sql1,array($user_name,$user_id,$user_course,$user_degree,$user_year,$group_id,$password));
-      if($query==1){
-        $sql1="delete from USERS
-              where user_id=?";
-        $query=$this->db->query($sql1,array($user_id));
-        return "ADDED SUCCESSFULLY";
+        return 0;
       }
       else
-        return 'User could not be deleted. Please Try again.';
+        return 0;
 
       }
 	function authenticate($user_id,$user_pass){
