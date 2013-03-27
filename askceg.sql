@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 27, 2013 at 12:09 PM
+-- Generation Time: Mar 28, 2013 at 12:11 AM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `ANSWER` (
   `vote` int(20) NOT NULL,
   `timestamp` varchar(50) NOT NULL,
   PRIMARY KEY (`a_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=66 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=69 ;
 
 --
 -- Dumping data for table `ANSWER`
@@ -104,7 +104,10 @@ INSERT INTO `ANSWER` (`a_id`, `a_content`, `q_id`, `posted_by`, `scope`, `vote`,
 (62, 'sdcscsdcsdc', 22, 2011103053, '', 0, '07:10 PM 13-Jan-13'),
 (63, 'erre23edwcscscscs dc s ', 22, 2011103053, '', 0, '07:10 PM 13-Jan-13'),
 (64, 'wasdsadasd asasd asd asdasd asdasaaa a', 45, 2011103089, '', 0, '07:25 PM 14-Jan-13'),
-(65, 'qwqwqw12112 dfsdfsd  sdf sdf sdf dsfsd sd   sdf sd sdf sdfdfff', 22, 2011103089, '', 0, '07:45 PM 14-Jan-13');
+(65, 'qwqwqw12112 dfsdfsd  sdf sdf sdf dsfsd sd   sdf sd sdf sdfdfff', 22, 2011103089, '', 0, '07:45 PM 14-Jan-13'),
+(66, 'khkkj\n', 3, 2011103602, '', 0, '01:16 AM 28-Mar-13'),
+(67, '<p>patrick is modern sherlock!</p><p><br></p>', 55, 2011103602, '', 0, '04:30 AM 28-Mar-13'),
+(68, '<p>sfsfsfssfsf</p><p>dddad</p><p>adadad<br></p>', 55, 2011103602, '', 0, '04:41 AM 28-Mar-13');
 
 -- --------------------------------------------------------
 
@@ -171,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `FB_DETAILS` (
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`seqid`),
   UNIQUE KEY `fb_user_id` (`fb_user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
 
 --
 -- Dumping data for table `FB_DETAILS`
@@ -179,7 +182,8 @@ CREATE TABLE IF NOT EXISTS `FB_DETAILS` (
 
 INSERT INTO `FB_DETAILS` (`email`, `fb_user_id`, `access_token`, `seqid`, `timestamp`, `status`) VALUES
 ('dgr8geek@gmail.com', '100000673452300', 'AAAEeCZC9qCvUBAEN2wewFVKos7BadeZBZBuVXH2853EVVJnrFNeKJ0gpAlJK7nMQZBjxbZAxGoMxSTTPr1E3OVtz1iy8Nx7wRZAiQLCSGGGxrFxA2xo5DN', 46, '2013-03-27 11:03:36', 1),
-('vigneshjmsc@gmail.com', 'vigneshjmsc@gmail.com', '', 45, '2013-03-27 10:34:16', 0);
+('vigneshjmsc@gmail.com', 'vigneshjmsc@gmail.com', '', 45, '2013-03-27 10:34:16', 0),
+('vishnuj81093@gmail.com', '100002276456345', 'AAAEeCZC9qCvUBADZAcq2oFHR1Wf3X4R2x0Fmc9gDZAfzJP13EatWMmFYoitpZCQcmUDNA5ZAZA8e1LJ65khqoJf7OWEeFOlZBREtzEFojNnG213ghuJaZBX8', 49, '2013-03-27 12:22:57', 1);
 
 -- --------------------------------------------------------
 
@@ -230,7 +234,10 @@ INSERT INTO `FOLLOWERS` (`q_id`, `user_id`) VALUES
 (18, 2011103089),
 (22, 2011103089),
 (52, 2011103089),
-(54, 2011103597);
+(54, 2011103597),
+(55, 2011103600),
+(54, 2011103600),
+(53, 2011103600);
 
 -- --------------------------------------------------------
 
@@ -252,17 +259,17 @@ CREATE TABLE IF NOT EXISTS `GROUPS` (
 --
 
 INSERT INTO `GROUPS` (`group_id`, `group_name`, `group_desc`, `group_level`, `department_id`) VALUES
-(1, 'cse ibatch 2nd year', 'After the iPod, came the iPhone... then the iPad, and now it is our very own iBatch! :D\nThis page is a forum on all discussions relating to iBatch. :)', '0', 0),
-(2, 'CSE h batch 2nd year', 'dsadwsadfsada\r\nsasadsafdasd\r\nsdfasdsadad', '0', 0),
-(7, 'DEPARTMENT OF COMPUTERSCIENCE ', '', '2', 0);
+(1, 'cse ibatch 2011-2015', 'After the iPod, came the iPhone... then the iPad, and now it is our very own iBatch! :D\nThis page is a forum on all discussions relating to iBatch. :)', '0', 0),
+(2, 'CSE h batch 2011-2015', 'dsadwsadfsada\r\nsasadsafdasd\r\nsdfasdsadad', '0', 0),
+(7, 'CIVIl 2011-2015', '', '2', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `GROUPS_HANDLED`
+-- Table structure for table `GROUP_REQUEST`
 --
 
-CREATE TABLE IF NOT EXISTS `GROUPS_HANDLED` (
+CREATE TABLE IF NOT EXISTS `GROUP_REQUEST` (
   `user_id` int(20) NOT NULL,
   `group_id` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -298,7 +305,7 @@ CREATE TABLE IF NOT EXISTS `QUESTION` (
   `url` varchar(400) NOT NULL,
   `anonymous` int(20) NOT NULL,
   PRIMARY KEY (`q_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=55 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
 
 --
 -- Dumping data for table `QUESTION`
@@ -353,7 +360,9 @@ INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `
 (51, 'erertet', 4, 2011103089, 0, '08:16 PM 14-Jan-13', '', 0, 0, 'erertet', 0),
 (52, 'fwefwef vwe wer wer wer ', 9, 2011103089, 0, '08:16 PM 14-Jan-13', '', 0, 0, 'fwefwef-vwe-wer-wer-wer', 0),
 (53, 'qwqw!', 9, 2011103089, 0, '11:13 PM 17-Jan-13', '', 0, 0, 'qwqw', 0),
-(54, 'why do I need askCeg?', 1, 2011103597, 0, '03:32 PM 27-Mar-13', '', 0, 0, 'why-do-I-need-askCeg', 0);
+(54, 'why do I need askCeg?', 1, 2011103597, 0, '03:32 PM 27-Mar-13', '', 0, 0, 'why-do-I-need-askCeg', 0),
+(55, 'How is mentalist diff from sherlocks?', 1, 2011103600, 0, '05:40 PM 27-Mar-13', '', 0, 0, 'How-is-mentalist-diff-from-sherlocks', 0),
+(56, 'adadaadd', 3, 2011103602, 0, '06:09 PM 27-Mar-13', '', 0, 0, 'adadaadd', 0);
 
 -- --------------------------------------------------------
 
@@ -428,7 +437,7 @@ CREATE TABLE IF NOT EXISTS `TOPIC` (
   `topic_url` varchar(200) NOT NULL,
   PRIMARY KEY (`topic_id`),
   UNIQUE KEY `topic_id` (`topic_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `TOPIC`
@@ -444,7 +453,8 @@ INSERT INTO `TOPIC` (`topic_id`, `topic_name`, `topic_desc`, `posted_by`, `categ
 (7, 'placement', '', 2011103089, 3, '01:46 AM 27-Dec-12', 'placement'),
 (8, 'programming', '', 2011103089, 1, '01:47 AM 27-Dec-12', 'programming'),
 (9, 'JAVA labwork-4th sem', 'this is a askceg page where anyone can post questions related java lab and also post answer', 2011103089, 1, '02:09 AM 27-Dec-12', 'JAVA-labwork-4th-sem'),
-(10, 'c++', '0', 2011103089, 1, '04:47 AM 27-Dec-12', 'c');
+(10, 'c++', '0', 2011103089, 1, '04:47 AM 27-Dec-12', 'c'),
+(11, 'web', '0', 2011103602, 1, '01:18 AM 28-Mar-13', 'web');
 
 -- --------------------------------------------------------
 
@@ -507,7 +517,7 @@ CREATE TABLE IF NOT EXISTS `USERS` (
   `isNormalAccount` int(11) NOT NULL,
   `profile_pic` varchar(300) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2011103600 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2011103603 ;
 
 --
 -- Dumping data for table `USERS`
@@ -520,7 +530,6 @@ INSERT INTO `USERS` (`user_id`, `user_name`, `group_id`, `password`, `user_level
 (2011103087, 'swetha', 1, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
 (2011103085, 'adi', 1, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
 (2011103038, 'Jayashruthi', 1, '123123', 0, '', '', 0, 'BE', 'CSE', '', 0, 0, ''),
-(2011103051, 'Gopinath', 2, '123123', 1, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
 (2011103054, 'Jai Vasanth', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
 (2011103053, 'Hema Varman', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
 (2011103050, 'Anudeep Ballu', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
@@ -530,7 +539,8 @@ INSERT INTO `USERS` (`user_id`, `user_name`, `group_id`, `password`, `user_level
 (2011103058, 'Prashanth Anantharam', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
 (604, 'Annie Benet', 7, '123123', 2, 'annie@gmail.com', '', 0, 'M.E', 'CSE', '', 0, 0, ''),
 (2011103599, 'Vikki', 0, '', 0, 'dgr8geek@gmail.com', '', 0, 'Msc', 'CS', '', 1, 0, 'https://m.ak.fbcdn.net/profile.ak/hprofile-ak-prn1/173827_100000673452300_1106930760_t.jpg'),
-(2011103598, 'Vignesh', 0, '123123', 0, 'vigneshjmsc@gmail.com', '', 0, 'Msc', 'CS', '', 1, 1, '');
+(2011103598, 'Vignesh', 0, '123123', 0, 'vigneshjmsc@gmail.com', '', 0, 'Msc', 'CS', '', 1, 1, ''),
+(2011103602, 'vishnu jayvel', 1, '', 1, 'vishnuj81093@gmail.com', '', 2, 'B.E', 'cse', '', 1, 0, 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc6/274996_100002276456345_1631929202_n.jpg');
 
 -- --------------------------------------------------------
 
@@ -551,14 +561,16 @@ CREATE TABLE IF NOT EXISTS `USER_FOLLOWERS` (
 
 CREATE TABLE IF NOT EXISTS `USER_HISTORY_LOG` (
   `user_id` int(20) NOT NULL,
-  `user_name` varchar(20) NOT NULL,
-  `user_course` varchar(20) NOT NULL,
-  `user_degree` varchar(20) NOT NULL,
-  `user_year` int(20) NOT NULL,
   `group_id` int(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
-  PRIMARY KEY (`user_id`,`user_name`)
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `USER_HISTORY_LOG`
+--
+
+INSERT INTO `USER_HISTORY_LOG` (`user_id`, `group_id`) VALUES
+(2011103051, 1);
 
 -- --------------------------------------------------------
 
@@ -616,7 +628,9 @@ INSERT INTO `VOTE` (`a_id`, `user_id`, `vote`, `timestamp`) VALUES
 (34, 2011103089, -1, '07:41 PM 14-Jan-13'),
 (65, 2011103089, 1, '07:45 PM 14-Jan-13'),
 (21, 2011103089, 1, '05:15 PM 02-Mar-13'),
-(20, 2011103089, -1, '05:16 PM 02-Mar-13');
+(20, 2011103089, -1, '05:16 PM 02-Mar-13'),
+(19, 2011103602, 1, '01:14 AM 28-Mar-13'),
+(66, 2011103602, 1, '01:16 AM 28-Mar-13');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
