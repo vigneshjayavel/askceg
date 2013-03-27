@@ -743,7 +743,7 @@ function getGroupScopeQuestions($group_id){
 
     
   
-    $sql="select * from TOPIC_FOLLOWERS where follower=? and topic_id=?";
+    $sql="select * from TOPIC_FOLLOWERS where user_id=? and topic_id=?";
     $query=$this->db->query($sql,array($user_id,$topic_id));
     if ($row=$query->row_array() ) {
       return TRUE;
