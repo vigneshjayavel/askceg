@@ -66,11 +66,12 @@ class ProfileController extends CI_Controller {
 		$data['flag']=$this->profilemodel->sqlSendGroupRequest($group_id);
 		}
 		$data['centerContent']=$this->profilemodel->sqlEditStudentProfile($account,$user_id);
-		
-		if($data['centerContent']==1)//returns 1 if success
+		echo "group id is".$group_id;
+		/*if($data['centerContent']==1)//returns 1 if success
 	     redirect('ProfileController/MyProfile');
 	    else//returns error msg if failure
         $this->load->view('Skeleton',$data);
+        */
           }
 	function ViewGroupProfile($group_id){
 		$this->load->model('profilemodel');
@@ -150,9 +151,11 @@ class ProfileController extends CI_Controller {
 	    if ($this->session->userdata('logged_in') == TRUE)
 	    {
 	    $this->load->model('questionsmodel');
+	    $this->load->model('metamodel');
 	    $this->load->model('profilemodel');
 		$this->data['centerContent']=$this->profilemodel->getTopicProfile($topic_url);
 		$this->data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,$topic_url,null);
+		$this->data['metaContent']=$this->metamodel->getMeta("topic",$topic_url);
 		$this->data['paginationrequired']="true";
 		$this->data['paginationtype']="question";
 		$this->data['topicUrl']=$topic_url;

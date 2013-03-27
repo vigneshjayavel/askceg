@@ -37,9 +37,11 @@ class AnswersController extends CI_Controller {
 
 		$this->load->model('answersmodel');
 		$this->load->model('questionsmodel');
+        $this->load->model('metamodel');
 		$this->questionsmodel->sqlUpdateViewCount($url);
 		$curr_id=$this->session->userdata('user_id');
 		$this->data['centerContent']=$this->answersmodel->sqlReadAnswers($url,$curr_id);
+		$this->data['metaContent']=$this->metamodel->getmeta("question",$url);
 		$this->load->view('Skeleton',$this->data);
 	}
 
