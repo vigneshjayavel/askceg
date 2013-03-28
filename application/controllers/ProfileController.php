@@ -140,6 +140,8 @@ class ProfileController extends CI_Controller {
 	}
 	function MyProfile()
 	{
+
+	    if ($this->session->userdata('logged_in') == TRUE){
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
 	    if($this->profilemodel->isStudent($this->session->userdata('user_id'))==true){
@@ -161,7 +163,14 @@ class ProfileController extends CI_Controller {
 		$this->data['paginationrequired']="false";
 		$this->load->view('Skeleton',$data);}
 		
-
+    }
+    else{
+    		$this->load->model('profilemodel');
+	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+    }
 
 	}
 	function viewTopic($topic_url){

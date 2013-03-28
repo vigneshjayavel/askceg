@@ -115,12 +115,13 @@ class QuestionsController extends CI_Controller {
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions();
 		$this->data['paginationrequired']="true";
+
 		$this->data['paginationtype']="question";
 		$this->load->view('Skeleton',$this->data);
 		 }
 	    else{
-	    	$this->load->model('profilemodel');
-	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+	    $this->load->model('profilemodel');
+	    $this->data['centerContent']='sorry you havnt logged in yet!!';
 		$this->data['centerContent'].=$this->profilemodel->loginForm();
 		$this->load->view('Skeleton',$this->data);
 	    
