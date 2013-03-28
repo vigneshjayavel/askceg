@@ -171,5 +171,83 @@
   })();
 
 </script>
-  <?php }?>
+  <?php }
+
+  if(!$CI->session->userdata('logged_in')){
+
+  ?>
+  <div class="modal hide fade in" id="registerModal" style="">
+    <div class="modal-header">
+      <h3>
+        Sign up for AskCEG
+        <small>
+          (Already registered?
+          <a href="<?php echo base_url(); ?>AuthControllerAsk/normallogin" data-dismiss="modal">
+            Click here to login
+          </a>
+          )
+        </small>
+      </h3>
+    </div>
+    <div class="modal-body">
+      <div class="row-fluid">
+        <div class="span12">
+          <center>
+            <p class="mbxs">
+              Login/Register with just one click via facebook
+            </p>
+            
+              
+              <span id="regStatusHolder">
+                <a href="#" class="fbLoginStatus"><img src="<?php echo base_url(); ?>assets/img/btns/fbLoginRegister.png"></a>
+              </span>
+            </a>
+            
+            
+            <p>
+              <a class="show" data-content="We oblige to protect your privacy and will not give, sell or rent your email adress to others."
+              rel="popover" placement="bottom" data-original-title="We care for your privacy!">
+              </br>
+              <i class="icon-lock">
+              </i>
+              We protect your privacy!
+            </a>
+        </p>
+      </center>
+    </div>
+  </div>
+  <hr>
+  <div class="row-fluid">
+    <div class="span12">
+      <center>
+        <i>
+          or
+        </i>
+        
+        <a href="<?php echo base_url(); ?>AuthControllerAsk/normalSignup" class="btn btn-success">
+          Create an account here.
+        </a>
+      </center>
+      
+    </div>
+  </div>
+  </div>
+  </div>
+  <!--/registerModal-->
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $('#registerModal').modal({
+      show:true,
+      backdrop:'static'
+    });
+  });
+  </script>
+
+
+
+
+  <?php
+  }
+  ?>
+
 </html>

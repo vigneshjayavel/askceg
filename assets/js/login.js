@@ -112,6 +112,7 @@ function login(response) { //logs in if old user, create account for new user..
                     console.log(data)
                 }
                 $('#normalLoginButton').hide();
+                $('#registerModal').modal('hide');
             });//$.post ends
         }//callback of FB.api ends
     );//FB.api ends
