@@ -49,6 +49,9 @@
       
     <script src="<?php echo base_url()?>assets/js/underscore.js"></script>
     <script src="<?php echo base_url()?>assets/js/backbone.js"></script>
+
+
+    <script src="<?php echo base_url()?>assets/js/bootstrap-tour.js" type="text/javascript"></script>
     <!--rich text editor-->
     <link rel="stylesheet" href="<?php echo base_url()?>assets/redactor-editor/redactor.css" />
     <script src="<?php echo base_url()?>assets/redactor-editor/redactor.min.js"></script>
@@ -155,7 +158,6 @@
 
     </div><!--/.fluid-container-->
 
-
   </body>
   <?php if(ENVIRONMENT!='local'){ ?>
   <script type="text/javascript">
@@ -195,8 +197,7 @@
           <center>
             <p class="mbxs">
               Login/Register with just one click via facebook
-            </p>
-            
+            </p>   
               
               <span id="regStatusHolder">
                 <a href="#" class="fbLoginStatus"><img src="<?php echo base_url(); ?>assets/img/btns/fbLoginRegister.png"></a>
@@ -252,5 +253,6 @@
   <?php
   }
   ?>
+
 
 </html>
