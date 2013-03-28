@@ -279,9 +279,9 @@ class ProfileModel extends CI_Model{
         $content='';
        
         foreach($result as $row){
-           if($row['profile_pic']==0||$row['profile_pic']==null||$row['profile_pic']==''){
-            $email=$row['email_id'];
-            $url=$this->get_gravatar($email);
+           if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
+             $email=$row['email_id'];
+             $url=$this->get_gravatar($email);
           }
       else
              $url=$row['profile_pic'];
@@ -300,10 +300,16 @@ class ProfileModel extends CI_Model{
         $result=$query->result_array();
         $content='';
         foreach($result as $row){
+           if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
+             $email=$row['email_id'];
+             $url=$this->get_gravatar($email);
+          }
+      else
+             $url=$row['profile_pic'];
+      
 
       $content.='<a href="'.base_url().'ProfileController/ViewUserProfile/'.($row['user_id']).'">
-     
-        <img class="thumbnail" height="25px" width="25px" align="left" src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg" alt="">
+        <img class="thumbnail" height="25px" width="25px" align="left" src="'.$url.'" alt="">
         </a>';
       }
       $content.='<br> <br> <br>';
@@ -607,7 +613,7 @@ function getInterimProfile(){
       }          
       //userpic markup
      
-      if($row['profile_pic']==0||$row['profile_pic']==null||$row['profile_pic']==''){
+      if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
         $email=$row['email_id'];
          $url=$this->get_gravatar($email);
       }
