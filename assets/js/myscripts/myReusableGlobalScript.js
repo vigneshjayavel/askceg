@@ -203,7 +203,7 @@ function textRotate() {
 //TODO
 $(document).ready(function(){
     if(required=="true")
-    $('#scrollableContentDiv').append('<input type=button class=btn-success id=loadMoreQs value=LoadMore!>')
+    $('#scrollableContentDiv').append('');
     $(window).scroll(function () {
         if ($(window).scrollTop() == ($(document).height() - $(window).height())) {
             if(required=="true")
@@ -239,7 +239,7 @@ $(document).ready(function(){
 
 
         if(!endOfRecords){
-            //$('#scrollableContentDiv').append('<div id="paginationLoadingGfx"><img src="'+CI.base_url+'assets/img/mini-loader.gif'+'"/></div>');
+            displayNotification('warning','<div id="paginationLoadingGfx"><center><img height=20 width=20 src="'+CI.base_url+'assets/img/mini-loader.gif"/>Loading...</center></div>');
             $.ajax({
                 type: "post",
                 url: CI.base_url+'TestController/api_getQuestionsMarkup/',
@@ -266,7 +266,7 @@ $(document).ready(function(){
                             $(this).append(str).fadeIn('slow');
                             $('#loadMoreQs').remove();
                             //$('#paginationLoadingGfx').remove();
-                            $('#scrollableContentDiv').append(items).append('<input type=button class=btn-success id=loadMoreQs value=LoadMore!>')
+                            $('#scrollableContentDiv').append(items).append('');
     ;
                             
                             console.log('got data for set:'+set)
@@ -287,7 +287,10 @@ $(document).ready(function(){
 
         }
         else{
-            $('body').append('End of data!!');
+            $('paginationLoadingGfx').remove();
+
+            displayNotification('warning','End of Questions for now!');
+
         }
     }//end triggerDataLoad
 

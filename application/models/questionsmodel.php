@@ -236,7 +236,6 @@ function printanswer($qid){
   to that group
 */
 
-
     $content='';
     $limit=20;
     $count=0;
@@ -244,18 +243,18 @@ function printanswer($qid){
 
       $CI =& get_instance();
       $groupId=$CI->session->userdata('group_id');
-      if($groupId==null||$groupId=='')
-        return null;
+      if($groupId==null||$groupId==''){
+        $groupId=0;        
+      }
       $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
-          t.topic_name,t.topic_url,c.category_name ,c.category_id,q.posted_by,
-          q.timestamp,q.anonymous
-        FROM
-          QUESTION q, TOPIC t, CATEGORY c 
-        where 
-          q.topic_id=t.topic_id and
-          t.category_id=c.category_id and q.scope='$groupId'"
+        t.topic_name,t.topic_url,c.category_name ,c.category_id,q.posted_by,
+        q.timestamp,q.anonymous
+      FROM
+        QUESTION q, TOPIC t, CATEGORY c 
+      where 
+        q.topic_id=t.topic_id and
+        t.category_id=c.category_id and q.scope='$groupId'"
         ;
-
     }
     else{ //public qs
       $sql = "SELECT 
@@ -355,7 +354,7 @@ function printanswer($qid){
         $content.=' 
         <div class="questionElementDiv">
           <div class="questionPostDiv" class="well questionElement" >
-
+          '.$count.'
             <div class="qsFollowButtonDiv" style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
             <div class="questionExtraDetailsDiv">    
               <a rel="tooltip" data-placement="top" data-original-title="Category"
@@ -411,8 +410,6 @@ function printanswer($qid){
     return $content;
 
   }
-
-   
 
 	
   function sqlDeleteQuestions($q_id){

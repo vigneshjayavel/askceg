@@ -73,7 +73,7 @@ function login(response) { //logs in if old user, create account for new user..
     FB.api(
         {
             method: 'fql.query',
-            query: 'select uid, name, email, sex, pic_big from user where uid=me()'
+            query: 'select uid, name, email, sex,pic_big,pic_small from user where uid=me()'
         },
 
         function (rows) { // send the response to verify completion of profile/signup user.
@@ -83,6 +83,7 @@ function login(response) { //logs in if old user, create account for new user..
                 'email': rows[0].email,
                 'sex': rows[0].sex,
                 'pic': rows[0].pic_big,
+                'pic_thumb': rows[0].pic_small,
                 'name': rows[0].name
             },
 
