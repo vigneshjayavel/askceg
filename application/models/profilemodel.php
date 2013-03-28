@@ -273,14 +273,22 @@ class ProfileModel extends CI_Model{
   }
     function getTopicFollowersImage($topic_id)
     {
-      $sql="select * from TOPIC_FOLLOWERS where topic_id=?";
+      $sql="select t.user_id,u.profile_pic,u.email_id from TOPIC_FOLLOWERS t,USERS u where topic_id=? and t.user_id=u.user_id";
        $query=$this->db->query($sql,array($topic_id)); 
         $result=$query->result_array();
         $content='';
+       
         foreach($result as $row){
+           if($row['profile_pic']==0||$row['profile_pic']==null||$row['profile_pic']==''){
+            $email=$row['email_id'];
+            $url=$this->get_gravatar($email);
+          }
+      else
+             $url=$row['profile_pic'];
+      
 
       $content.='<a href="'.base_url().'ProfileController/ViewUserProfile/'.($row['user_id']).'">
-        <img class="thumbnail" height="25px" width="25px" align="left" src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg" alt="">
+        <img class="thumbnail" height="25px" width="25px" align="left" src="'.$url.'" alt="">
         </a>';
       }
       return $content;
@@ -542,7 +550,18 @@ function getInterimProfile(){
     }
 
     
-    
+     function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+        $url = 'http://www.gravatar.com/avatar/';
+        $url .= md5( strtolower( trim( $email ) ) );
+        $url .= "?s=$s&d=$d&r=$r";
+              if ( $img ) {
+              $url = '<img src="' . $url . '"';
+              foreach ( $atts as $key => $val )
+                  $url .= ' ' . $key . '="' . $val . '"';
+              $url .= ' />';
+          }
+     return $url;
+    }
     function getUserProfile($user_id){
 
     
@@ -586,7 +605,14 @@ function getInterimProfile(){
                  ';
 
       }          
-   
+      //userpic markup
+     
+      if($row['profile_pic']==0||$row['profile_pic']==null||$row['profile_pic']==''){
+        $email=$row['email_id'];
+         $url=$this->get_gravatar($email);
+      }
+      else
+        $url=$row['profile_pic'];
       
 
       return'<div class="well">
@@ -597,7 +623,7 @@ function getInterimProfile(){
                     <td>'.$row['user_name'].'
                     </td>
                      <div class="ask-dp pull-right">
-                    <img src="'.$row['profile_pic'].'">
+                    <img src="'.$url.'">
                     </div>
               </tr>
               </table>
@@ -681,9 +707,24 @@ function getInterimProfile(){
 	 function getStudentProfileEdit($user_id){
     $sql="select * from USERS where user_id=?";
     $query=$this->db->query($sql,array($user_id));
-    $row=$query->row_array();
+    if($row=$query->row_array()){
     $batchOptionMarkup='
           ';
+     //profile pic markup
+          $msg='';
+    if($row['profile_pic']==0||$row['profile_pic']==null||$row['profile_pic']==''){
+        $email=$row['email_id'];
+         $url=$this->get_gravatar($email);
+         $msg='change your profile pic using gravatar.<a href="https://en.gravatar.com/">click here!</a>';
+      }
+      else
+        $url=$row['profile_pic'];
+      
+
+    $profilePicMarkup= '<a rel="tooltip" data-placement="bottom" data-original-title="'.$row['user_name'].'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
+              <img src="'.$url.'" alt="'.$row['user_name'].'" class="display-pic" />
+            </a>'.$msg.'</br>';
+
 
     if($row['group_id']==0){
       $sql0="select r.group_id,g.group_name from GROUP_REQUEST r, GROUPS g where user_id=? and r.group_id=g.group_id";
@@ -740,7 +781,7 @@ function getInterimProfile(){
                   
                   </div>
                   <br>
-                 
+                  '.$profilePicMarkup.'
                  <br> 
                   <label class="control-label" for="email">Email Address</label>
                   <div class="controls">
@@ -808,7 +849,9 @@ function getInterimProfile(){
                  </form>';
     
 
-
+}
+else
+return 'something went wrong :(';
 
   }
   function updateProfile($userobj){

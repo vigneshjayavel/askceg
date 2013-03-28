@@ -26,21 +26,38 @@ function sqlGetUserName($user_id){
             return $user_id;
 
   }
+  function get_gravatar( $email, $s = 40, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+        $url = 'http://www.gravatar.com/avatar/';
+        $url .= md5( strtolower( trim( $email ) ) );
+        $url .= "?s=$s&d=$d&r=$r";
+             
+     return $url;
+    }
   function userMarkup($user_id){
-  	$query="select profile_pic,user_name from USERS where user_id=?";
-        $query=$this->db->query($query,array($user_id));
-           if($row=$query->row_array()){
-           	$url=$row['profile_pic'];
-           	return '<img src="'.$url.'" height="10%" width="10%" alt="No pic" class="display-pic" />
-                   
-                <a href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'"> <strong>'.$row['user_name'].'</strong> </a>
-                   ';
-
-           }
+    $sql="select user_name,profile_pic,email_id from USERS where user_id=?";
+    $query=$this->db->query($sql,array($user_id));
+  $markup='';
+  if($row=$query->row_array()){
     
+    $user_name=$this->sqlGetUserName($user_id);
+    if($row['profile_pic']==0||$row['profile_pic']==null||$row['profile_pic']==''){
+        $email=$row['email_id'];
+         $url=$this->get_gravatar($email);
+      }
+      else
+        $url=$row['profile_pic'];
+      
 
-    
+    return '<a rel="tooltip" data-placement="bottom" data-original-title="'.$user_name.'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
+              <img src="'.$url.'" height="40px" width="40px" alt="'.$user_name.'" class="display-pic" />
+            </a>';
+
   }
+  
+
+          
+  }
+
   function sqlUpdateVote($a_id,$vote){
   	$CI=&get_instance();
   	$user_id=$CI->session->userdata('user_id');
