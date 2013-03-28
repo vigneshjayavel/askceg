@@ -32,6 +32,27 @@ class MetaModel extends CI_Model{
                              ';
                           }
                           break;
+        case 'answer':
+                         $sql = "SELECT 
+                        q.q_content,a.a_content,a.posted_by,q.topic_id
+                        FROM
+                        ANSWER a,QUESTION q
+                        where 
+                        a.q_id=q.q_id AND a.a_id=?
+                        order by a.a_id desc
+                        ";
+                         $query=$this->db->query($sql,array($identifier));
+                          if($row=$query->row_array()){
+                              $meta='<meta property="og:title" content="'.$row['q_content'].'"/>
+                               <meta property="og:image" content="'.base_url().'assets/img/topics/'.$row['topic_id'].'"/>
+                               <meta property="og:site_name" content="AskCEG"/>
+                               <meta property="og:description" content="'.$row['a_content'].'"/>
+                             ';
+                           }
+                           break;
+
+
+
                           
         }
         return $meta;

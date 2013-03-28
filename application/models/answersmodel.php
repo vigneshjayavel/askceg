@@ -2,20 +2,7 @@
 
 class AnswersModel extends CI_Model{
 
-	/*
-	function dbTest(){
 
-		$sql="select * from dummy where id=? and name=?";
-		$query=$this->db->query($sql,array(1,"vishnu"));
-		$i=1;
-		foreach($query->result() as $row){
-
-			echo $i.' '.$row->name.' '.$row->id."\n";
-			$i++;
-
-		}
-	}
-*/
 function sqlGetUserName($user_id){
   
     $query="select user_name from USERS u where u.user_id=?";
@@ -106,7 +93,7 @@ function sqlGetUserName($user_id){
 
 	}
 
-	function sqlReadAnswers($url=null,$curr_id){
+	function sqlReadAnswers($identifier=null,$type=null){
 
 
 		//get question's markup from QuestionModel
@@ -120,37 +107,55 @@ function sqlGetUserName($user_id){
 
     	$deleteUrl=base_url().'AnswersController/DeleteAnswer/';
 
-		$questionMarkup=$CI->QuestionsModel->sqlReadQuestions(null,null,$url);
-
 
 		$content=null;
-        $q="select q_id from QUESTION where url=?";
-        $query=$this->db->query($q,array($url));
-        if($row=$query->row_array())
-        $q_id=$row['q_id'];
-        else
-        	redirect('HomeController/error');
+    	if($type=='all'){
+    		$url=$identifier;
+    		$q="select q_id from QUESTION where url=?";
+	        $query=$this->db->query($q,array($url));
+	        if($row=$query->row_array())
+	        $q_id=$row['q_id'];
+	        else
+	        	redirect('HomeController/error');
+
+	        $sql = "SELECT 
+				         a.a_id,a.a_content,a.q_id,a.posted_by,a.timestamp
+					FROM
+						ANSWER a
+					where 
+						a.q_id=? 
+					order by a.a_id desc
+					";
+			$query=$this->db->query($sql,array($q_id));
+    }
+    else{
+    	  $ansId=$identifier;
+    	  $q="select q.q_id,q.url from QUESTION q,ANSWER a where a.a_id=? and q.q_id=a.q_id";
+	        $query=$this->db->query($q,array($ansId));
+	        if($row=$query->row_array()){
+	        $q_id=$row['q_id'];
+	        $url=$row['url'];
+	        }
+
+	        else
+	        	redirect('HomeController/error');
+ 			$sql = "SELECT 
+				         a.a_id,a.a_content,a.q_id,a.posted_by,a.timestamp
+					FROM
+						ANSWER a
+					where 
+						a.a_id=?
+					
+					";
+			$query=$this->db->query($sql,array($ansId));
+
+    }
+    	$questionMarkup=$CI->QuestionsModel->sqlReadQuestions(null,null,$url);
 		
-
-	
-		$sql = "SELECT 
-			         a.a_id,a.a_content,a.q_id,a.posted_by,a.timestamp
-				FROM
-					ANSWER a
-				where 
-					a.q_id=? 
-				order by a.a_id desc
-				";
-
-		$query=$this->db->query($sql,array($q_id));
 		$i=0;
 
 		$previousAnswers='';
-		$url_curr=base_url()."assets/img/users/".$curr_id.".jpg";
-		
-
 		$dynamicAnswerVotesDiv='';
-		$currentUserId=$CI->session->userdata('user_id');
 		$deleteButton='';
 
 		foreach($query->result() as $row ) {
@@ -192,6 +197,7 @@ function sqlGetUserName($user_id){
 			}
 		     
 			$previousAnswers.='
+			
 				<div class="answerElementWrapper">
 					<div class="answerElementDiv" data-a_id="'.$row->a_id.'" class="well" style="float:left;width:100%">
 						<div class="answerVotesDiv" style="float:left;text-align:center">
@@ -202,7 +208,7 @@ function sqlGetUserName($user_id){
 								$this->userMarkup($row->posted_by).'
 							</div>
 							<div class="answerContentDiv">
-							'.$row->a_content.'
+							<a href="'.base_url().'AnswersController/viewAnswer/'.$row->a_id.'" class="linkableAnswerContent">'.$row->a_content.'</a>
 							</div>
 							'. $deleteButton.'
 			    			<div class="answerStatsDiv " style="float:right" >
@@ -210,7 +216,8 @@ function sqlGetUserName($user_id){
 				    		</div>
 			    		</div>
 				    </div>
-				</div>';
+				</div>
+				';
 
 		
 		}
