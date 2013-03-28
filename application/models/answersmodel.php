@@ -104,6 +104,7 @@ function sqlGetUserName($user_id){
     	$CI->load->Model('QuestionsModel');
 
     	$currentUserId=$CI->session->userdata('user_id');
+        $currentUserGroupId=$this->sqlGetGroupid($currentUserId);
 
     	$deleteUrl=base_url().'AnswersController/DeleteAnswer/';
 
@@ -111,8 +112,8 @@ function sqlGetUserName($user_id){
 		$content=null;
     	if($type=='all'){
     		$url=$identifier;
-    		$q="select q_id from QUESTION where url=?";
-	        $query=$this->db->query($q,array($url));
+    		$q="select q_id from QUESTION where url=? and (scope=? or scope=0)";
+	        $query=$this->db->query($q,array($url,$currentUserGroupId));
 	        if($row=$query->row_array())
 	        $q_id=$row['q_id'];
 	        else
@@ -123,15 +124,15 @@ function sqlGetUserName($user_id){
 					FROM
 						ANSWER a
 					where 
-						a.q_id=? 
+						a.q_id=?  
 					order by a.a_id desc
 					";
 			$query=$this->db->query($sql,array($q_id));
     }
     else{
     	  $ansId=$identifier;
-    	  $q="select q.q_id,q.url from QUESTION q,ANSWER a where a.a_id=? and q.q_id=a.q_id";
-	        $query=$this->db->query($q,array($ansId));
+    	  $q="select q.q_id,q.url from QUESTION q,ANSWER a where a.a_id=? and q.q_id=a.q_id and (q.scope=? or q.scope=0)";
+	        $query=$this->db->query($q,array($ansId,$currentUserGroupId));
 	        if($row=$query->row_array()){
 	        $q_id=$row['q_id'];
 	        $url=$row['url'];
@@ -272,6 +273,15 @@ function sqlGetUserName($user_id){
 		$query=$this->db->query($query,array($user_name));
 	    if($row=$query->row_array())
 	    return $row['user_id'];
+
+	}
+	function sqlGetGroupid($user_id)
+	{
+	
+		$query="select group_id from USERS u where u.user_id=?";
+		$query=$this->db->query($query,array($user_id));
+	    if($row=$query->row_array())
+	    return $row['group_id'];
 
 	}
 

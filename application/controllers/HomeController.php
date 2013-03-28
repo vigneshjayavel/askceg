@@ -17,19 +17,19 @@ function HomeController()
 	    }
 	    else
 	    {
-		$this->load->model('HomeModel');
-		$name=$this->session->userdata('user_name');
-		$url=base_url()."assets/img/users/".$this->session->userdata('user_id').".jpg";
-		$data['centerContent']='<div id="bio">
-                    <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
-                    <h2>Greetings '.$name.'!</h2>
-                     </div>'.$this->HomeModel->getCenterContent();
+		$this->load->model('homemodel');
+		$this->load->model('metamodel');
+       	$data['metaContent']=$this->metamodel->getmeta("normal");
+		$data['centerContent']=$this->homemodel->getHomePage();
         $data['paginationrequired']="false";
 		$this->load->view('Skeleton',$data);
 		}
 		
 	}
     function error(){
+    	$this->load->model('metamodel');
+       	$data['metaContent']=$this->metamodel->getmeta("normal");
+		
     	$data['centerContent']='<div style="text-align:centre">404 page not found</div>';
     		$this->load->view('Skeleton',$data);
 

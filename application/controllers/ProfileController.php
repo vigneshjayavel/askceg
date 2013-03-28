@@ -148,7 +148,11 @@ class ProfileController extends CI_Controller {
 	}
 	function MyProfile()
 	{
-
+        
+		$this->load->model('metamodel');
+		$data['metaContent']=$this->metamodel->getMeta("normal",0);
+	    
+		$data['paginationrequired']="false";
 	    if ($this->session->userdata('logged_in') == TRUE){
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
@@ -160,47 +164,52 @@ class ProfileController extends CI_Controller {
 		$data['centerContent'].=$this->questionsmodel->getQuestionsFollowed($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($this->session->userdata('user_id'));
 		
-		$this->data['paginationrequired']="false1";
-		$this->load->view('Skeleton',$data);}
+		
+		}
 		else{
        $data['centerContent']=$this->profilemodel->getTeacherProfile($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAsked($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsFollowed($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($this->session->userdata('user_id'));
 		
-		$this->data['paginationrequired']="false";
-		$this->load->view('Skeleton',$data);}
-		
+		}
     }
     else{
     		$this->load->model('profilemodel');
-	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
-		$this->data['centerContent'].=$this->profilemodel->loginForm();
-		$this->load->view('Skeleton',$this->data);
+	    	$data['centerContent']='sorry you havnt logged in yet!!';
+			$data['centerContent'].=$this->profilemodel->loginForm();
+	
 	    
     }
-
+     $this->load->view('Skeleton',$data);
 	}
 	function viewTopic($topic_url){
-		
-	    if ($this->session->userdata('logged_in') == TRUE)
+		$this->load->model('metamodel');
+		$this->data['metaContent']=$this->metamodel->getMeta("topic",$topic_url);
+		if ($this->session->userdata('logged_in') == TRUE)
 	    {
 	    $this->load->model('questionsmodel');
-	    $this->load->model('metamodel');
+	    
 	    $this->load->model('profilemodel');
 		$this->data['centerContent']=$this->profilemodel->getTopicProfile($topic_url);
 		$this->data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,$topic_url,null);
-		$this->data['metaContent']=$this->metamodel->getMeta("topic",$topic_url);
 		$this->data['paginationrequired']="true";
 		$this->data['paginationtype']="question";
 		$this->data['topicUrl']=$topic_url;
 	
-		$this->load->view('Skeleton',$this->data);
 	   }
+	   else{
+	   	$this->data['centerContent']='You have to login to view this page';
+		
+	   }
+
+		$this->load->view('Skeleton',$this->data);
 	}
 	function viewCategory($category_url){
 		
 		//equivalent to $_SESSION['logged_in']
+		$this->load->model('metamodel');
+		$this->data['metaContent']=$this->metamodel->getMeta("normal",0);
 	    if ($this->session->userdata('logged_in') == TRUE)
 	    {
 	    $this->load->model('questionsmodel');
