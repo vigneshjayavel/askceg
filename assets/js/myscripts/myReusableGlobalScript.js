@@ -48,8 +48,7 @@ $(document).ready(function(){
     */
 
     //wysiwyg rich text editor
-    $('#answerText').redactor();
-      
+    $('#answerText').redactor();   
 
 
 	$('.carousel').carousel({
@@ -98,7 +97,7 @@ $(document).ready(function(){
             return items;
         },
         items:11,
-        menu: '<ul class="span5 dropdown-menu"></ul>', //to stretch the box
+        menu: '<ul id="ajaxSearchDropdown" style="margin-left:0px;font-size:16px;left:0px !important;width:100%" class="span12 dropdown-menu"></ul>', //to stretch the box
         
         //display the result type by concatenating either "question/topic" to search keyword
         //TODO: strip search term if the length is too long 
@@ -237,7 +236,10 @@ $(document).ready(function(){
         groupScope=null;
 
     function triggerDataLoad() {
+
+
         if(!endOfRecords){
+            //$('#scrollableContentDiv').append('<div id="paginationLoadingGfx"><img src="'+CI.base_url+'assets/img/mini-loader.gif'+'"/></div>');
             $.ajax({
                 type: "post",
                 url: CI.base_url+'TestController/api_getQuestionsMarkup/',
@@ -263,7 +265,7 @@ $(document).ready(function(){
 
                             $(this).append(str).fadeIn('slow');
                             $('#loadMoreQs').remove();
-    
+                            //$('#paginationLoadingGfx').remove();
                             $('#scrollableContentDiv').append(items).append('<input type=button class=btn-success id=loadMoreQs value=LoadMore!>')
     ;
                             
@@ -473,10 +475,9 @@ $(document).ready(function(){
         },
 
         trackTypedAnswer : function(){
-            var answer=$('#answerText').getCode();
+            var answerLength=$.trim($('#answerText').getText()).length;
             //this.enableOrDisablepostAnswerButton(answerLength);  
-            console.log($('.redactor_ redactor_editor').text(),$('.redactor_ redactor_editor').html())
-            if(answer==''||answer==null||answer==""){
+            if(answerLength==0){
                 alert("Please enter a valid answer!");
             }
             else{

@@ -8,31 +8,11 @@
        </a>
        <a class="brand" href="<?php echo base_url() ?>HomeController">
         AskCEG</a>
-       <div class="nav-collapse" id="main-menu"><ul class="nav" id="main-menu-left">
-	<li><a id="swatch-link" href="<?php echo base_url() ?>HomeController">Home</a></li>
-	<li class="dropdown">
-		<a class="dropdown-toggle" data-toggle="dropdown" href="#">Category <b class="caret"></b></a>
-		<ul class="dropdown-menu" id="swatch-menu">
-		
-			<li><a href="<?php echo base_url() ?>ProfileController/viewCategory/cse">CSE</a></li>
-              <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/ece">ECE</a></li>
-              <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/mechanical-engineering">MECHANICAL</a></li>
-              <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/civil-engineering">CIVIL</a></li>
-              <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/eee">EEE</a></li>
-              <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/miscellaneous ">miscellaneous </a></li>
-              
-		</ul>
-	</li>
-<li class="dropdown" id="preview-menu"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Post<b class="caret"></b></a>
-<ul class="dropdown-menu">
-	<li><a href="<?php echo base_url() ?>QuestionsController/AskQuestion">Question</a></li>
-  <li><a href="<?php echo base_url() ?>QuestionsController/AnswerQuestion">Answer</a></li>
-              
-</ul></li></ul>
+       <div class="nav-collapse" id="main-menu">
 <form class="navbar-search pull-left" action="">
 
   <input type="text" id="ajaxSearchPanel" autocomplete="off"
-   class="typeahead search-query span6" placeholder="Search for Questions, Categories and Topics" data-provide="typeahead" data-items="4" >
+   class="typeahead search-query span8" placeholder="Search for Questions, Categories, Topics and CEGians" data-provide="typeahead" data-items="4" >
 </form>
 <div id="notificationsPanel" style="float:left">
       </div>
