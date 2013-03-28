@@ -32,12 +32,14 @@ class ProfileModel extends CI_Model{
   function isStudent($user_id){
     $sql="select user_level from USERS where user_id=?";
     $query=$this->db->query($sql,array($user_id)); 
-    $row=$query->row_array();  
+    if( $row=$query->row_array()){  
     if($row['user_level']!=2)
       return true;
     else
       return false;
-    
+    }
+    else
+      return null;
 
   }
   function getTeacherProfile($user_id){
@@ -567,7 +569,7 @@ function getInterimProfile(){
     
       $sql='select * from USERS where user_id=?';
       $query=$this->db->query($sql,array($user_id));
-      $row=$query->row_array();
+    if($row=$query->row_array()){
       $CI=&get_instance();
       if($user_id==$CI->session->userdata('user_id')){
           
@@ -665,7 +667,7 @@ function getInterimProfile(){
               </table>
               </div>
     ';
-    
+    }
 
     }
     function getGroupName($group_id){
