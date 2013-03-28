@@ -201,9 +201,9 @@ function printanswer($qid){
   $markup='';
   if($row=$query->row_array()){
     $url=$row['profile_pic'];
-
-    return '<a rel="tooltip" data-placement="bottom" data-original-title="'.$this->sqlGetUserName($user_id).'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
-              <img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
+    $user_name=$this->sqlGetUserName($user_id);
+    return '<a rel="tooltip" data-placement="bottom" data-original-title="'.$user_name.'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
+              <img src="'.$url.'" height="40px" width="40px" alt="'.$user_name.'" class="display-pic" />
             </a>';
 
   }
@@ -309,7 +309,7 @@ function printanswer($qid){
         if($row['anonymous']==1)
           $userMarkup='
               <a rel="tooltip" data-placement="bottom" data-original-title="Anonymous" href="#">
-              <img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+              <img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="Anonymous" class="display-pic" />
             </a>';
         else
           $userMarkup=$this->userMarkup($row['posted_by']);
@@ -452,7 +452,7 @@ function printanswer($qid){
 
       foreach($result as $row){
         if($row['anonymous']==1)
-        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="Anonymous" class="display-pic" />
                   
                  <strong>Anonymous</strong> 
             ';
@@ -624,7 +624,7 @@ function printanswer($qid){
       ///$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
       //$currentUrl=urlencode(current_url());
       if($row['anonymous']==1)
-        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="Anonymous" class="display-pic" />
                   
                  <strong>Anonymous</strong> 
             ';
@@ -678,7 +678,7 @@ function getGroupScopeQuestions($group_id){
       ///$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
       //$currentUrl=urlencode(current_url());
       if($row['anonymous']==1)
-        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
+        $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="Anonymous" class="display-pic" />
                   
                  <strong>Anonymous</strong> 
             ';

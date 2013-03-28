@@ -51,10 +51,10 @@ function sqlGetUserName($user_id){
 
   function sqlDeleteAnswer($a_id){
     $sql='delete from ANSWER where a_id=?';
-    if($query=$this->db->query($sql,array($q_id)))
+    if($query=$this->db->query($sql,array($a_id)))
       return 'Answer Removed successfully!';
     else
-      return 'Sorry the answer could not be removed!';
+      return 'Sorry!the answer could not be removed!';
 
   }
   	function sqlgetVoteCount($a_id){
@@ -139,12 +139,12 @@ function sqlGetUserName($user_id){
 		foreach($query->result() as $row ) {
 						
 						if($currentUserId==$row->posted_by)
-          $deleteButton.='
+          $deleteButton='
                       <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
-                      href="'.$deleteUrl.$row->q_id.'" class="label label-inverse">Delete
+                      href="'.$deleteUrl.$row->a_id.'" class="label label-inverse">Delete
                       </a>';
         else
-          $deleteButton.='';
+          $deleteButton='';
         
 			$vote=$this->sqlCheckUserVotedAnswer($currentUserId,$row->a_id);
 			if($vote==1){
@@ -277,6 +277,14 @@ function sqlGetUserName($user_id){
         $query=$this->db->query($sql,array($answerArray['a_content'],$answerArray['q_id'],$posted_by,$timestamp));
         $row=$query->row_array();
 
+    	$deleteUrl=base_url().'AnswersController/DeleteAnswer/';
+        
+          $deleteButton='
+                      <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
+                      href="'.$deleteUrl.$row['a_id'].'" class="label label-inverse">Delete
+                      </a>';
+        
+
         $answerMarkup='
         	<div class="answerElementDiv" data-a_id="'.$row['a_id'].'" class="well" style="float:left;width:100%">
 				<div class="answerVotesDiv" style="float:left;text-align:center">
@@ -297,6 +305,7 @@ function sqlGetUserName($user_id){
 					<div class="answerContentDiv">
 					'.$answerArray['a_content'].'
 					</div>
+						'. $deleteButton.'
 	    			<div class="answerStatsDiv " style="float:right" >
 	    				<i class="icon-time"></i>'.$row['timestamp'].' 
 		    		</div>

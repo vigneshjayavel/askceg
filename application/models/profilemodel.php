@@ -394,20 +394,21 @@ function getInterimProfile(){
 
      function loginForm(){
          $base_url=base_url();
-        return ' <form id="login" enctype="application/x-www-form-urlencoded" class="form-vertical login"
-        accept-charset="utf-8" method="post" action="'.$base_url.'AuthController/process_login">
+        return ' <div id="normallogin" class="span6">
+        <form id="login" enctype="application/x-www-form-urlencoded" class="form-vertical login"
+        accept-charset="utf-8" method="post" action="'.$base_url.'AuthControllerAsk/processNormalLogin">
             <div class="control-group error">
-                <label for="email" class="control-label required">User id</label>
+                <label for="email" class="control-label required">email id</label>
                 <div class="controls">
-                    <input type="text" name="user_id" id="user_id" data-title="Invalid email" value="" tabindex="1">
+                    <input type="email" name="email" id="email" value="" required="required" placeholder="you@mail.com,.."  >
                 </div>
             </div>
             <div class="control-group">
                 <label for="password" class="control-label required">Password (
                     <a href="#" class="trigger-lightbox validate-resetpassword">forgot password</a>)</label>
                 <div class="controls">
-                    <input type="password" name="user_pass" id="user_pass" data-title="Invalid password" value="" tabindex="2">
-                </div>
+                    <input id="pass" name="pass" required="required" placeholder="******" type="password"/> 
+                    </div>
             </div>
             <div class="form-actions">
         <button name="submit" id="loginbutton" data-loading-text="logging in.." onclick="javascript:dologin();return false;" 
@@ -415,7 +416,17 @@ function getInterimProfile(){
                 <button name="cancel" id="cancel" type="reset" data-dismiss="modal" class="btn">Cancel</button>
             </div>
         </form>
-        New User? <a href="'.base_url().'AuthController/RequestAccount">Click here to create your account.</a>
+        New User? <a href="'.base_url().'AuthControllerAsk/normalsignup">Click here to SIGNUP</a>
+    </div>
+    <div id="fblogin" class="span6">
+    </br>
+    </br>
+    </br>
+    Just one click to use AskCEG!!!
+    <a class="fbLoginStatus" href="#">
+    <img src="http://askceg.in/ask/assets/img/btns/fbLoginRegister.png">
+    </a>
+    </div>
     ';
 
 
