@@ -32,15 +32,20 @@ class AnswersController extends CI_Controller {
 		$this->load->model('answersmodel');
 		$this->answersmodel->sqlUpdateVote($a_id,-1);
 	}
-	
+	function viewAnswer($a_id){
+		$this->load->model('answersmodel');
+        $this->load->model('metamodel');
+		$this->data['centerContent']=$this->answersmodel->sqlReadAnswers($a_id,"single");
+		$this->data['metaContent']=$this->metamodel->getmeta("answer",$a_id);
+		$this->load->view('Skeleton',$this->data);
+	}
 	function viewAnswersForQuestion($url){
 
 		$this->load->model('answersmodel');
 		$this->load->model('questionsmodel');
         $this->load->model('metamodel');
 		$this->questionsmodel->sqlUpdateViewCount($url);
-		$curr_id=$this->session->userdata('user_id');
-		$this->data['centerContent']=$this->answersmodel->sqlReadAnswers($url,$curr_id);
+		$this->data['centerContent']=$this->answersmodel->sqlReadAnswers($url,"all");
 		$this->data['metaContent']=$this->metamodel->getmeta("question",$url);
 		$this->load->view('Skeleton',$this->data);
 	}
