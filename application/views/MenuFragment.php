@@ -39,14 +39,22 @@
                                     <a href="<?php echo base_url(); ?>ProfileController/MyProfile">MyProfile</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>AuthControllerAsk/destroySession">Logout</a>
+                                <?php
+                                  if($this->session->userdata('isNormalAccount')==1){
+                                    echo '<a href="'.base_url().'AuthControllerAsk/destroySession">Logout</a>';
+                                  }
+                                  else{
+                                    echo '<a href="#" class="fbLoginStatus"><img src="'.base_url().'"assets/img/btns/fbLogout.png></a>';
+                                  }
+                                ?>
+                                    
                                 </li>
                             </ul>
                             <? } 
                             else { ?>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#" id="fbLoginStatus">FbConnect</a>
+                                    <a href="#" class="fbLoginStatus">FbConnect</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>AuthControllerAsk/normallogin">Normal Login/Signup</a>

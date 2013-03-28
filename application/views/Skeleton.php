@@ -157,6 +157,7 @@
 
 
   </body>
+  <?php if(ENVIRONMENT!='local'){ ?>
   <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -170,4 +171,5 @@
   })();
 
 </script>
+  <?php }?>
 </html>

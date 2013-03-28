@@ -8,7 +8,7 @@ window.fbAsyncInit = function () {
         xfbml: true // parse XFBML
     });
     console.log('inside fbAsyncInit')
-    temp = $('#fbLoginStatus');
+    temp = $('.fbLoginStatus');
 
     function fblogin() { //requesting permission for K! app from user
         FB.login(
@@ -68,7 +68,7 @@ window.fbAsyncInit = function () {
 //custom func
 function login(response) { //logs in if old user, create account for new user..
 
-    var temp = $('#fbLoginStatus');
+    var temp = $('.fbLoginStatus');
     var at = response.authResponse.accessToken;
     FB.api(
         {
@@ -89,8 +89,15 @@ function login(response) { //logs in if old user, create account for new user..
             function (data) {
 
                 if(data=="2"){
-                    console.log(rows[0].pic_small)
                     console.log(data + " : already registered, profile is complete");
+                        temp.html("<img src="+CI.base_url+"assets/img/btns/fbLogout.png>");
+                        temp.unbind("click").click(function () {
+                            FB.logout(function (response) {
+                                $.post(CI.base_url+"AuthControllerAsk/destroySession", {},function (data){
+                                    window.location=CI.base_url+'HomeController';
+                                });//$.post ends
+                            });
+                        });
                 }
                 else if(data=="4"){
                     console.log(data + " : already registered, incomplete profile");
@@ -108,12 +115,7 @@ function login(response) { //logs in if old user, create account for new user..
         }//callback of FB.api ends
     );//FB.api ends
 
-    temp.html("<img src="+CI.base_url+"assets/img/btns/fbLogout.png>");
-    temp.unbind("click").click(function () {
-        FB.logout(function (response) {
-            $.post(CI.base_url+"AuthControllerAsk/destroySession", {},function (data){});//$.post ends
-        });
-    });
+
 
 }//login ends
    

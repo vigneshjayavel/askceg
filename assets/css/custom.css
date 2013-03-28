@@ -111,10 +111,20 @@ a.question:hover{
   margin-bottom: 10px;
 }
 
+input#ajaxSearchPanel{
+  cursor: pointer;
+}
+
 input#ajaxSearchPanel::-webkit-input-placeholder {
    color: #cdd9f1 !important;
 }
+
+
+
 input#ajaxSearchPanel::-moz-input-placeholder {
+   color: #cdd9f1 !important;
+}
+input#ajaxSearchPanel:-moz-input-placeholder {
    color: #cdd9f1 !important;
 }
 #ajaxSearchPanel{
