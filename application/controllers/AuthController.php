@@ -24,7 +24,9 @@ class AuthController extends CI_Controller {
 	    else
 	    //ignore the rest of the func
 	    {
-
+        
+		$this->load->model('metamodel');
+       	$data['metaContent']=$this->metamodel->getmeta("normal");
 		$this->load->model('profilemodel');
 		$data['centerContent']=$this->profilemodel->loginForm();
 	    $this->data['paginationrequired']="false";

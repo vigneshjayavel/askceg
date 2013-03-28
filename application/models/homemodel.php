@@ -36,6 +36,19 @@ class HomeModel extends CI_Model{
 		return 'Welcome!';
 
 	}
+  function getHomePage(){
+
+    $CI=&get_instance();
+    $query="select profile_pic from USERS u where u.user_id=?";
+    $query=$this->db->query($query,array($CI->session->userdata('user_id')));
+   
+      if($row=$query->row_array()){
+                    return '<div id="bio">
+                    <img src="'.$row['profile_pic'].'" alt="No pic" class="display-pic" />
+                    <h2>Greetings '.$CI->session->userdata('user_name').'!</h2>
+                     </div>';
+      }
+  }
   function sqlGetUserid($user_name)
   {
 
@@ -44,7 +57,7 @@ class HomeModel extends CI_Model{
     $query="select user_id from USERS u where u.user_name=?";
     $query=$this->db->query($query,array($user_name));
    
-      $row=$query->row_array();
+      if($row=$query->row_array())
       return $row['user_id'];
 
   }

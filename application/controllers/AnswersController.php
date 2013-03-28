@@ -33,21 +33,44 @@ class AnswersController extends CI_Controller {
 		$this->answersmodel->sqlUpdateVote($a_id,-1);
 	}
 	function viewAnswer($a_id){
+		$this->load->model('metamodel');
+       	$this->data['metaContent']=$this->metamodel->getmeta("question",$url);
+		if ($this->session->userdata('logged_in') == TRUE)
+	    {
+	   
 		$this->load->model('answersmodel');
         $this->load->model('metamodel');
 		$this->data['centerContent']=$this->answersmodel->sqlReadAnswers($a_id,"single");
 		$this->data['metaContent']=$this->metamodel->getmeta("answer",$a_id);
-		$this->load->view('Skeleton',$this->data);
+
+		}
+		else{
+		$this->data['centerContent']="You have to login to view this page";
+		}
+
+     	$this->load->view('Skeleton',$this->data);
+
 	}
 	function viewAnswersForQuestion($url){
+       $this->load->model('metamodel');
+       $this->data['metaContent']=$this->metamodel->getmeta("question",$url);
+		
 
-		$this->load->model('answersmodel');
+		if ($this->session->userdata('logged_in') == TRUE)
+	    {
+	    $this->load->model('answersmodel');
 		$this->load->model('questionsmodel');
-        $this->load->model('metamodel');
+        
 		$this->questionsmodel->sqlUpdateViewCount($url);
 		$this->data['centerContent']=$this->answersmodel->sqlReadAnswers($url,"all");
-		$this->data['metaContent']=$this->metamodel->getmeta("question",$url);
-		$this->load->view('Skeleton',$this->data);
+		
+	}
+	else{
+		$this->data['centerContent']="You have to login to view this page";
+	}
+
+     	$this->load->view('Skeleton',$this->data);
+
 	}
 
 	function postAnswerForQuestionToDb(){
