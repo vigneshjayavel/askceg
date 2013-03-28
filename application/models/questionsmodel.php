@@ -208,8 +208,8 @@ function printanswer($qid){
   if($row=$query->row_array()){
     
     $user_name=$this->sqlGetUserName($user_id);
-    if($row['profile_pic']==0||$row['profile_pic']==null||$row['profile_pic']==''){
-        $email=$row['email_id'];
+    if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
+          $email=$row['email_id'];
          $url=$this->get_gravatar($email);
       }
       else

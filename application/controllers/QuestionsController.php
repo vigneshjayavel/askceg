@@ -115,7 +115,8 @@ class QuestionsController extends CI_Controller {
 		$this->load->model('questionsmodel');
 		$this->data['centerContent']=$this->questionsmodel->sqlReadQuestions();
 		$this->data['paginationrequired']="true";
-		$this->data['type']="question";
+
+		$this->data['paginationtype']="question";
 		$this->load->view('Skeleton',$this->data);
 		 }
 	    else{
