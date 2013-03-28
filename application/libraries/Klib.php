@@ -13,8 +13,8 @@ class Klib {
 	    Supported Outgoing Mail Protocols: SMTP, SMTPS (SSL/TLS)
 	    */
 	    
-	    // Email configuration
-	    $config = Array(
+	    /* Email configuration */
+	    /*$config = Array(
 	        'protocol' => 'smtp',
 	        'smtp_host' => 'mail.pinnacleceg.com',
 	        'smtp_port' => 26,
@@ -24,15 +24,31 @@ class Klib {
 	        'charset' => 'iso-8859-1',
 	        'wordwrap' => TRUE
 	    );  
-	  	
-   		$CI =& get_instance();
+	  	*/
+		$config = Array(
+	        'protocol' => 'smtp',
+	        'smtp_host' => 'ssl://smtp.gmail.com',
+	        'smtp_auth' => TRUE,
+	        'smtp_port' => 465,
+	        'smtp_user' => 'askceg.in@gmail.com',
+	        'smtp_pass' => 'whythiskolaveri', 
+	        'mailtype' => 'html',
+	        'charset' => 'iso-8859-1',
+	        'wordwrap' => TRUE
+	    );
+		
+		$CI =& get_instance();
 	    $CI->load->library('email', $config);
-	    $CI->email->from('no-reply@pinnacleceg.com', "AskCEG");
+	    $CI->email->from('askceg.in@gmail.com', "AskCEG");
 	    $CI->email->to($emailData['to']);
 	    $CI->email->subject($emailData['subject']);
 	    $CI->email->message($emailData['message']);
-	      
-	   	$CI->email->send();
+	    try{
+	   		$CI->email->send();
+	    }
+	    catch(Exception $e){
+	    	echo $e->getMessage();
+	    }
 	   
 	}
 	function getcollege($x)

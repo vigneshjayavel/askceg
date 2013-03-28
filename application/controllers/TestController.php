@@ -8,6 +8,13 @@ class TestController extends CI_Controller {
 
 	}
 
+	function mail(){
+		$mailData['to']='dgr8geek@gmail.com';
+		$mailData['subject']='asasasas';
+		$mailData['message']='tesssssst';
+		$this->load->library('klib');
+		$this->klib->sendMail($mailData);
+	}
 
 	function somePageThatHasQuestions(){
 		
