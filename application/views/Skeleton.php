@@ -98,7 +98,7 @@
 
     <?php 
       $CI = &get_instance();
-      if(!$CI->session->userdata('logged_in')){
+      if($CI->session->userdata('isNormalAccount')==0){
     ?>
       <script type="text/javascript" src="<?php echo base_url()?>assets/js/login.js"></script>
     <?php

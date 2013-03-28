@@ -20,7 +20,7 @@
 $mode=ENVIRONMENT;
 
 if($mode=='local'){
-	$base_url='http://askceg.in/ask/';
+	$base_url='http://vikki.askceg.ap01.aws.af.cm/ask/';
 }
 else if($mode=='cloud'){
 	$base_url='http://askceg.ap01.aws.af.cm/';

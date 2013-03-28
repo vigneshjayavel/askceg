@@ -101,14 +101,16 @@ class AuthModelAsk extends CI_Model {
             
             
             else { //Not present in FB_DETAILS.. ( FIRST TIME USER AND HE NEEDS TO AUTHORIZE THE APP )
-                $config['apuser_id'] = FB_APuser_id;
+                
+                $config['appId']  = FB_APPID;
                 $config['secret'] = FB_SECRET;
                 $config['cookie'] = true;
                 $this->load->library('facebook-source/facebook', $config);
                 $facebook = new Facebook(array(
-                    'apuser_id' => FB_APuser_id,
+                    'appId' => FB_APPID,
                     'secret' => FB_SECRET
                 ));
+
                 $facebook->setExtendedAccessToken();
                 $access_token = $facebook->getAccessToken();
                 $q2 = "insert into FB_DETAILS(email,fb_user_id,access_token,status) values('$email','$uid','$access_token',1)";
