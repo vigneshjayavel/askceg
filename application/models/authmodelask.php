@@ -141,7 +141,7 @@ class AuthModelAsk extends CI_Model {
                 //auto mail
                 $emailData['to']=$email;
                 $emailData['subject']='[AskCEG] Welcome to AskCEG!';
-                $emailData['message']="Thanks for registering! Please note your AskCEG ID : $user_id . You need the AskCEG ID for all of your communications.";
+                $emailData['message']="Thanks for registering!  Hope you find the beta release interesting! :)";
                 $this->klib->sendMail($emailData);
                 
                 $responseObj['statusCode'] = "3";

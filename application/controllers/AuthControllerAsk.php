@@ -120,7 +120,7 @@ class AuthControllerAsk extends CI_Controller {
                 echo 'Thanks for registering !! Check your inbox for activation instructions!';
                 //send activation to email
                 //auto mail
-                $activationLink=base_url()."authcontroller/activateAccount/".urlencode($email)."/$hash";
+                $activationLink=base_url()."AuthControllerAsk/activateAccount/".urlencode($email)."/$hash";
                 $this->load->library('klib');
                 $emailData['to']=$email;
                 $emailData['subject']='[AskCEG] Account Activation';
@@ -150,7 +150,7 @@ class AuthControllerAsk extends CI_Controller {
             $this->load->library('klib');
             $emailData['to']=$email;
             $emailData['subject']='[AskCEG] Account Activation Successful';
-            $emailData['message']="Thanks for registering! Please note your AskCEG ID : $user_id . You need the AskCEG ID for all of your communications.";
+            $emailData['message']="Thanks for registering! Hope you find the beta release interesting! :)";
             $this->klib->sendMail($emailData);            
             echo 'Thanks for activating your account!! Please wait while you are being redirected!
                 <script>

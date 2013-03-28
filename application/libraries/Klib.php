@@ -26,15 +26,15 @@ class Klib {
 	    );  
 	  	*/
 		$config = Array(
-	        'protocol' => 'smtp',
-	        'smtp_host' => 'ssl://smtp.gmail.com',
-	        'smtp_auth' => TRUE,
-	        'smtp_port' => 465,
 	        'smtp_user' => 'askceg.in@gmail.com',
-	        'smtp_pass' => 'whythiskolaveri', 
+	        'smtp_pass' => 'whythiskolaveri',
+	        'protocol'=>'smtp',
+			'smtp_host'=>'ssl://smtp.googlemail.com',
+			'smtp_port'=>'465',
+			'smtp_timeout'=>'30',  
+			'charset'=>'utf-8',   
 	        'mailtype' => 'html',
-	        'charset' => 'iso-8859-1',
-	        'wordwrap' => TRUE
+			'newline'=>"\r\n"
 	    );
 		
 		$CI =& get_instance();
