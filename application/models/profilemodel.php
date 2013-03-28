@@ -273,14 +273,22 @@ class ProfileModel extends CI_Model{
   }
     function getTopicFollowersImage($topic_id)
     {
-      $sql="select * from TOPIC_FOLLOWERS where topic_id=?";
+      $sql="select t.user_id,u.profile_pic,u.email_id from TOPIC_FOLLOWERS t,USERS u where topic_id=? and t.user_id=u.user_id";
        $query=$this->db->query($sql,array($topic_id)); 
         $result=$query->result_array();
         $content='';
+       
         foreach($result as $row){
+           if($row['profile_pic']==0||$row['profile_pic']==null||$row['profile_pic']==''){
+            $email=$row['email_id'];
+            $url=$this->get_gravatar($email);
+          }
+      else
+             $url=$row['profile_pic'];
+      
 
       $content.='<a href="'.base_url().'ProfileController/ViewUserProfile/'.($row['user_id']).'">
-        <img class="thumbnail" height="25px" width="25px" align="left" src="'.base_url().'assets/img/users/'.$row['user_id'].'.jpg" alt="">
+        <img class="thumbnail" height="25px" width="25px" align="left" src="'.$url.'" alt="">
         </a>';
       }
       return $content;
@@ -394,20 +402,21 @@ function getInterimProfile(){
 
      function loginForm(){
          $base_url=base_url();
-        return ' <form id="login" enctype="application/x-www-form-urlencoded" class="form-vertical login"
-        accept-charset="utf-8" method="post" action="'.$base_url.'AuthController/process_login">
+        return ' <div id="normallogin" class="span6">
+        <form id="login" enctype="application/x-www-form-urlencoded" class="form-vertical login"
+        accept-charset="utf-8" method="post" action="'.$base_url.'AuthControllerAsk/processNormalLogin">
             <div class="control-group error">
-                <label for="email" class="control-label required">User id</label>
+                <label for="email" class="control-label required">email id</label>
                 <div class="controls">
-                    <input type="text" name="user_id" id="user_id" data-title="Invalid email" value="" tabindex="1">
+                    <input type="email" name="email" id="email" value="" required="required" placeholder="you@mail.com,.."  >
                 </div>
             </div>
             <div class="control-group">
                 <label for="password" class="control-label required">Password (
                     <a href="#" class="trigger-lightbox validate-resetpassword">forgot password</a>)</label>
                 <div class="controls">
-                    <input type="password" name="user_pass" id="user_pass" data-title="Invalid password" value="" tabindex="2">
-                </div>
+                    <input id="pass" name="pass" required="required" placeholder="******" type="password"/> 
+                    </div>
             </div>
             <div class="form-actions">
         <button name="submit" id="loginbutton" data-loading-text="logging in.." onclick="javascript:dologin();return false;" 
@@ -415,7 +424,17 @@ function getInterimProfile(){
                 <button name="cancel" id="cancel" type="reset" data-dismiss="modal" class="btn">Cancel</button>
             </div>
         </form>
-        New User? <a href="'.base_url().'AuthController/RequestAccount">Click here to create your account.</a>
+        New User? <a href="'.base_url().'AuthControllerAsk/normalsignup">Click here to SIGNUP</a>
+    </div>
+    <div id="fblogin" class="span6">
+    </br>
+    </br>
+    </br>
+    Just one click to use AskCEG!!!
+    <a class="fbLoginStatus" href="#">
+    <img src="http://askceg.in/ask/assets/img/btns/fbLoginRegister.png">
+    </a>
+    </div>
     ';
 
 
@@ -531,7 +550,18 @@ function getInterimProfile(){
     }
 
     
-    
+     function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+        $url = 'http://www.gravatar.com/avatar/';
+        $url .= md5( strtolower( trim( $email ) ) );
+        $url .= "?s=$s&d=$d&r=$r";
+              if ( $img ) {
+              $url = '<img src="' . $url . '"';
+              foreach ( $atts as $key => $val )
+                  $url .= ' ' . $key . '="' . $val . '"';
+              $url .= ' />';
+          }
+     return $url;
+    }
     function getUserProfile($user_id){
 
     
@@ -575,7 +605,14 @@ function getInterimProfile(){
                  ';
 
       }          
-   
+      //userpic markup
+     
+      if($row['profile_pic']==0||$row['profile_pic']==null||$row['profile_pic']==''){
+        $email=$row['email_id'];
+         $url=$this->get_gravatar($email);
+      }
+      else
+        $url=$row['profile_pic'];
       
 
       return'<div class="well">
@@ -586,7 +623,7 @@ function getInterimProfile(){
                     <td>'.$row['user_name'].'
                     </td>
                      <div class="ask-dp pull-right">
-                    <img src="'.$row['profile_pic'].'">
+                    <img src="'.$url.'">
                     </div>
               </tr>
               </table>
@@ -670,9 +707,24 @@ function getInterimProfile(){
 	 function getStudentProfileEdit($user_id){
     $sql="select * from USERS where user_id=?";
     $query=$this->db->query($sql,array($user_id));
-    $row=$query->row_array();
+    if($row=$query->row_array()){
     $batchOptionMarkup='
           ';
+     //profile pic markup
+          $msg='';
+    if($row['profile_pic']==0||$row['profile_pic']==null||$row['profile_pic']==''){
+        $email=$row['email_id'];
+         $url=$this->get_gravatar($email);
+         $msg='change your profile pic using gravatar.<a href="https://en.gravatar.com/">click here!</a>';
+      }
+      else
+        $url=$row['profile_pic'];
+      
+
+    $profilePicMarkup= '<a rel="tooltip" data-placement="bottom" data-original-title="'.$row['user_name'].'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
+              <img src="'.$url.'" alt="'.$row['user_name'].'" class="display-pic" />
+            </a>'.$msg.'</br>';
+
 
     if($row['group_id']==0){
       $sql0="select r.group_id,g.group_name from GROUP_REQUEST r, GROUPS g where user_id=? and r.group_id=g.group_id";
@@ -729,7 +781,7 @@ function getInterimProfile(){
                   
                   </div>
                   <br>
-                 
+                  '.$profilePicMarkup.'
                  <br> 
                   <label class="control-label" for="email">Email Address</label>
                   <div class="controls">
@@ -797,7 +849,9 @@ function getInterimProfile(){
                  </form>';
     
 
-
+}
+else
+return 'something went wrong :(';
 
   }
   function updateProfile($userobj){
