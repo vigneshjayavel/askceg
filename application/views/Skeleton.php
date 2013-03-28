@@ -182,7 +182,7 @@
         Sign up for AskCEG
         <small>
           (Already registered?
-          <a href="<?php echo base_url(); ?>AuthControllerAsk/normallogin" data-dismiss="modal">
+          <a href="<?php echo base_url(); ?>AuthControllerAsk/normallogin">
             Click here to login
           </a>
           )
@@ -220,9 +220,9 @@
   <div class="row-fluid">
     <div class="span12">
       <center>
-        <i>
+        <p>
           or
-        </i>
+        </p>
         
         <a href="<?php echo base_url(); ?>AuthControllerAsk/normalSignup" class="btn btn-success">
           Create an account here.
@@ -239,6 +239,9 @@
     $('#registerModal').modal({
       show:true,
       backdrop:'static'
+    }).on('hide',function(){
+      //on hide reload the current page so that session gets set
+          location.reload();    
     });
   });
   </script>
