@@ -17,6 +17,7 @@
                 </form>
                 <div id="notificationsPanel" style="float:left"></div>
                 <ul class="nav pull-right" id="main-menu-right">
+                    <!--li><a id="swatch-link" href="#"><i class="icon-info-sign icon-white"></i></li-->
                     <li class="dropdown" id="preview-menu">
                         <?php 
                         if ($this->session->userdata('logged_in') == TRUE) { 
