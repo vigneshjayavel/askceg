@@ -239,13 +239,16 @@ function printanswer($qid){
     $content='';
     $limit=20;
     $count=0;
-    if($group_scope==true || $group_scope=="true"){ //group_scope questions
-
+  
       $CI =& get_instance();
       $groupId=$CI->session->userdata('group_id');
+      $currentUserId=$CI->session->userdata('user_id');
       if($groupId==null||$groupId==''){
         $groupId=0;        
       }
+    if($group_scope==true || $group_scope=="true"){ //group_scope questions
+
+      
       $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
         t.topic_name,t.topic_url,c.category_name ,c.category_id,q.posted_by,
         q.timestamp,q.anonymous
@@ -282,10 +285,8 @@ function printanswer($qid){
       $sql.=" and q.url=".'\''.$url.'\'';
     }
     
-    $CI =& get_instance();
-    $currentUserId=$CI->session->userdata('user_id');
 
-    $CurrentuserGroup=$CI->session->userdata('group_id');
+    $CurrentuserGroup=$groupId;
     if($group_scope!=true||$group_scope!="true"){
     $sql.=" and (q.scope=0 or q.scope=".$CurrentuserGroup.") order by q_id desc"; 
   }
@@ -407,6 +408,8 @@ function printanswer($qid){
 
     //$jsonObj=json_encode(array('content'=>$content
        //       ));
+  
+ 
     return $content;
 
   }

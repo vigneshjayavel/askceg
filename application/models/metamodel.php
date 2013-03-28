@@ -50,6 +50,12 @@ class MetaModel extends CI_Model{
                              ';
                            }
                            break;
+        case 'normal' :
+                       $meta='<meta property="og:title" content="AskCEG"/>
+                               <meta property="og:image" content=""/>
+                               <meta property="og:site_name" content="An exclusive social forum for CEGIANS"/>
+                               <meta property="og:description" content="'.$row['a_content'].'"/>
+                             ';
 
 
 

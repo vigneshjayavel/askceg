@@ -720,7 +720,7 @@ function getInterimProfile(){
           ';
      //profile pic markup
           $msg='';
-    if($row['profile_pic']==0||$row['profile_pic']==null||$row['profile_pic']==''){
+    if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
         $email=$row['email_id'];
          $url=$this->get_gravatar($email);
          $msg='change your profile pic using gravatar.<a href="https://en.gravatar.com/">click here!</a>';

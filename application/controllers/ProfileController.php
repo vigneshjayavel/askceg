@@ -35,17 +35,25 @@ class ProfileController extends CI_Controller {
 	
 		}
 		function EditProfile(){//for getting the edit profile page
-	    $this->load->model('profilemodel');
-	    $user_id=$this->session->userdata('user_id');
-	if($this->profilemodel->isStudent($user_id)){
-	
-		$data['centerContent']=$this->profilemodel->getStudentProfileEdit($user_id);
-		$this->load->view('Skeleton',$data);
-	}
-	else{
-		$data['centerContent']=$this->profilemodel->getTeacherProfileEdit($user_id);
-		$this->load->view('Skeleton',$data);
-	}
+			if ($this->session->userdata('logged_in') == TRUE)
+		    {
+					$this->load->model('profilemodel');
+					$user_id=$this->session->userdata('user_id');
+							if($this->profilemodel->isStudent($user_id)){
+
+							$data['centerContent']=$this->profilemodel->getStudentProfileEdit($user_id);
+							
+							}
+							else{
+							$data['centerContent']=$this->profilemodel->getTeacherProfileEdit($user_id);
+					
+							}
+			}
+			else{
+				$data['centerContent']="you havnt logged in yet!!";
+			}
+			$this->load->view('Skeleton',$data);
+  
         }
         function EditStudentProfile(){//updating the user table
         $account['user_name']=$this->input->post('name');
@@ -205,8 +213,8 @@ class ProfileController extends CI_Controller {
 		$this->load->view('Skeleton',$this->data);
 	   }
 	   else{
-	    	$this->load->model('profilemodel');
-	    	$this->data['centerContent']='sorry you havnt logged in yet!!';
+	    $this->load->model('profilemodel');
+	    $this->data['centerContent']='sorry you havnt logged in yet!!';
 		$this->data['centerContent'].=$this->profilemodel->loginForm();
 		$this->load->view('Skeleton',$this->data);
 	    
@@ -240,6 +248,8 @@ class ProfileController extends CI_Controller {
 
 	function MyGroup()
 	{
+		if ($this->session->userdata('logged_in') == TRUE)
+	    {
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getCenterContentMyGroup();
@@ -247,18 +257,35 @@ class ProfileController extends CI_Controller {
 		$data['paginationrequired']="true";
 		$data['paginationtype']="question";
 		$data['groupScope']="true";
-	
-	    
 		$this->load->view('Skeleton',$data);
+		}
+		else
+		{
+		$this->load->model('profilemodel');
+	    $this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+		}
 	}
 	function MyYear()
-	{
+	{   if ($this->session->userdata('logged_in') == TRUE)
+	    {
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getCenterContentMyYear();
 			//$data['centerContent'].=$this->questionsmodel->getYearScopeQuestions();
 		$this->data['paginationrequired']="false";
 		$this->load->view('Skeleton',$data);
+		}
+		else
+		{
+		$this->load->model('profilemodel');
+	    $this->data['centerContent']='sorry you havnt logged in yet!!';
+		$this->data['centerContent'].=$this->profilemodel->loginForm();
+		$this->load->view('Skeleton',$this->data);
+	    
+		}
 	}
 	function AccountSettings()
 	{
