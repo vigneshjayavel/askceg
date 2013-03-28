@@ -9,7 +9,10 @@
             <a class="brand" href="<?php echo base_url(); ?>HomeController">AskCEG</a>
             <div class="nav-collapse" id="main-menu">
                 <form class="navbar-search pull-left" action="">
-                    <input type="text" id="ajaxSearchPanel" autocomplete="off" class="typeahead search-query span8" placeholder="Search for Questions, Categories, Topics and CEGians" data-provide="typeahead" data-items="4">
+                    <input type="text" id="ajaxSearchPanel" autocomplete="off" 
+                    class="typeahead search-query span8"
+                    placeholder="Search for Questions, Categories, Topics and CEGians" 
+                    data-provide="typeahead" data-items="6">
                 </form>
                 <div id="notificationsPanel" style="float:left"></div>
                 <ul class="nav pull-right" id="main-menu-right">
