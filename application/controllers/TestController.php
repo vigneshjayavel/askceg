@@ -77,51 +77,68 @@ echo $date->format('Y-m-d H:i:s');
 
 
 function Upload(){
-   $this->data['centerContent']='<form id="imageform" method="post" enctype="multipart/form-data" action="'.base_url().'TestController/SaveImg">
-Upload image <input type="file" name="photoimg" id="photoimg" />
+   $this->data['centerContent']='
+   <script src="'.base_url().'assets/js/jquery.form.js"></script>
+   <style type="text/css">
+   .preview
+{
+width:200px;
+border:solid 1px #dedede;
+padding:10px;
+}
+#preview
+{
+color:#cc0000;
+font-size:12px
+}
+</style>
+   <form id="imageform" method="post" enctype="multipart/form-data" action="'.base_url().'TestController/SaveImg">
+Upload your image <input type="file" name="photoimg" id="photoimg" />
 </form>
-
 <div id="preview">
-</div>';
+</div>
+   ';
 $this->load->view('Skeleton',$this->data);
 
 }
 
 function SaveImg(){
-	$path = base_url()."uploads/";
+	if(ENVIRONMENT=='cloud')
+		$path = "/assets/img/topics/";
+	else
+		$path = "/ask/assets/img/topics/";
 
-$valid_formats = array("jpg", "png", "gif", "bmp","jpeg");
-if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST")
-{
-$name = $_FILES['photoimg']['name'];
-$size = $_FILES['photoimg']['size'];
-if(strlen($name))
-{
-list($txt, $ext) = explode(".", $name);
-if(in_array($ext,$valid_formats))
-{
-if($size<(1024*1024)) // Image size max 1 MB
-{
-$actual_image_name = time().$session_id.".".$ext;
-$tmp = $_FILES['photoimg']['tmp_name'];
-if(move_uploaded_file($tmp, $path.$actual_image_name))
-{
-mysql_query("UPDATE users SET profile_image='$actual_image_name' WHERE uid='$session_id'");
-echo "<img src='uploads/".$actual_image_name."' class='preview'>";
-}
-else
-echo "failed";
-}
-else
-echo "Image file size max 1 MB"; 
-}
-else
-echo "Invalid file format.."; 
-}
-else
-echo "Please select image..!";
-exit;
-}
+	$valid_formats = array("jpg", "png", "gif", "bmp","jpeg");
+	if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST")
+	{
+		$name = $_FILES['photoimg']['name'];
+		$size = $_FILES['photoimg']['size'];
+		if(strlen($name))
+		{
+			list($txt, $ext) = explode(".", $name);
+			if(in_array($ext,$valid_formats))
+			{
+				if($size<(1024*1024)) // Image size max 1 MB
+				{
+					$actual_image_name = time().".jpg";
+					$tmp = $_FILES['photoimg']['tmp_name'];
+					if(move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'].$path.$actual_image_name))
+					{
+						echo "<img src='".$path.$actual_image_name."' class='preview'>";
+					}
+					else
+						echo "failed";
+				}
+				else
+					echo "Image file size max 1 MB"; 
+			}
+			else
+				echo "Invalid file format.."; 
+		}
+		else
+			echo "Please select image..!";
+		exit;
+	}
 }
 function paginate(){
 	$this->data['centerContent']="testing";
