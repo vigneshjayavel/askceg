@@ -120,7 +120,9 @@ class HomeModel extends CI_Model{
                     </div>
                     <div class="span6">      
                       <p>4th year MSc CS (Integrated)</p>
-                      
+                      <address>
+                      Student Director at <a href="www.cegtechforum.com">CEG Tech Forum</a>
+                      </address>
                     </div>
                   </div>
                   

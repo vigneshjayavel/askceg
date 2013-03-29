@@ -13,12 +13,13 @@
  *
  *     local
  *     cloud
+ 		ctf
  *     
  *
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-	define('ENVIRONMENT', 'local');
+	define('ENVIRONMENT', 'ctf');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

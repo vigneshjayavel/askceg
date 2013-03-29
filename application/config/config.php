@@ -25,6 +25,9 @@ if($mode=='local'){
 else if($mode=='cloud'){
 	$base_url='http://askceg.ap01.aws.af.cm/';
 }
+else if($mode=='ctf'){
+	$base_url='http://askceg.cegtechforum.com/';
+}
 
 $config['base_url']	= $base_url;
 

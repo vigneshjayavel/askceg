@@ -67,6 +67,12 @@ if($mode=="local"){
 	$dbname = "askceg";
 
 }
+else if($mode=="ctf"){
+	$hostname = 'mysql.kurukshetra.org.in';
+	$username = 'k12_admin';
+	$password = 'this1is2absolute3nonsense';
+	$dbname = 'k11_enigma';
+}
 else if($mode=="cloud"){
 	
 	$services_json = json_decode(getenv("VCAP_SERVICES"),true);
