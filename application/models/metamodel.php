@@ -8,9 +8,14 @@ class MetaModel extends CI_Model{
           case 'question':
                           $sql="select q.q_content,q.q_description,q.topic_id,q.posted_by,u.user_name from QUESTION q,USERS u where q.url=? and q.posted_by=u.user_id and q.scope=0";
                           $query=$this->db->query($sql,array($identifier));
+
                           if($row=$query->row_array()){
+                             if(file_exists(base_url().'assets/img/topic/'.$row['topic_id'].'.jpg'))
+                              $url=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
+                            else
+                              $url=base_url().'assets/img/defaultquestion.jpg';
                           $meta='<meta property="og:title" content="'.$row['q_content'].'"/>
-                               <meta property="og:image" content="'.base_url().'assets/img/topics/'.$row['topic_id'].'.jpg"/>
+                               <meta property="og:image" content="'.$url.'"/>
                                <meta property="og:site_name" content="askceg.in"/>
                                <meta property="og:description" content="posted by '.$row['user_name'].$row['q_description'].'"/>
                              ';
@@ -23,7 +28,13 @@ class MetaModel extends CI_Model{
           case 'topic':
                           $sql="select t.topic_id,t.topic_name,t.topic_desc,t.posted_by,u.user_name from TOPIC t,USERS u where t.topic_url=? and t.posted_by=u.user_id";
                           $query=$this->db->query($sql,array($identifier));
+                          
                           if($row=$query->row_array()){
+
+                             if(file_exists(base_url().'assets/img/topic/'.$row['topic_id'].'.jpg'))
+                              $url=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
+                            else
+                              $url=base_url().'assets/img/defaulttopic.jpg';
                             if($row['topic_desc']==null){
                               $desc='created by'.$row['user_name'];
                             }
@@ -52,6 +63,11 @@ class MetaModel extends CI_Model{
                         ";
                          $query=$this->db->query($sql,array($identifier));
                           if($row=$query->row_array()){
+
+                             if(file_exists(base_url().'assets/img/topic/'.$row['topic_id'].'.jpg'))
+                              $url=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
+                            else
+                              $url=base_url().'assets/img/defaulttopic.jpg';
                               $meta='<meta property="og:title" content="'.$row['q_content'].'"/>
                                <meta property="og:image" content="'.base_url().'assets/img/topics/'.$row['topic_id'].'"/>
                                <meta property="og:site_name" content="askceg.in"/>

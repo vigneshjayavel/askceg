@@ -159,12 +159,16 @@ class ProfileModel extends CI_Model{
     else{
       $topicDescMarkup='No description yet!!!<a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Add description</a>';
     }
+    if(file_exists(base_url().'assets/img/topic/'.$row['topic_id'].'.jpg'))
+                              $imgurl=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
+                            else
+                              $imgurl=base_url().'assets/img/defaulttopic.jpg';
     return ' 
     <div class="profileContainer">
       <div class="profileHolder">
         <div class="span6 pull-left style="min-height: 200px;">      
           <div class="profilePicHolder">
-            <img src="'.base_url().'assets/img/topics/'.$row['topic_id'].'.jpg" alt="300x200" style="width: 300px; height: 200px;">
+            <img src="'.$imgurl.'" alt="300x200" style="width: 300px; height: 200px;">
           </div>
           <div class="profileTitle caption">
             <h3>'.$row['topic_name'].'</h3>
