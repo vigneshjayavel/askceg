@@ -768,7 +768,7 @@ function getInterimProfile(){
               <img src="'.$url.'" alt="'.$row['user_name'].'" class="display-pic" />
             </a>'.$msg.'</br>';
 
-
+    
     if($row['group_id']==0){
       $sql0="select r.group_id,g.group_name from GROUP_REQUEST r, GROUPS g where user_id=? and r.group_id=g.group_id";
       $query0=$this->db->query($sql0,array($user_id));
@@ -776,7 +776,7 @@ function getInterimProfile(){
                 $batchOptionMarkup='You have given request to join '.$row0['group_name'].'<a href="'.base_url().'ProfileController/cancelGroupRequest">cancel request</a>';
               }
               else{
-              $batchOptionMarkup.='<div class="control-group">
+              $batchOptionMarkup.='<p>join a batch by sending request to the Admin</p><div class="control-group">
                     <label class="control-label" for="BatchSelectBox">Batch</label>
                     <div class="controls">
                       <select id="BatchSelectBox" name="BatchSelectBox">
@@ -964,7 +964,7 @@ return 'something went wrong :(';
          ';
        }
        else{
-        return 'Something went wrong!';
+        return 'Something went wrong!.Make sure you that you have joined your batch by checking your profile';
        }
 
    }
