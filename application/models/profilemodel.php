@@ -329,15 +329,37 @@ class ProfileModel extends CI_Model{
     
 
   }
-   function EditTopicDescMarkup($topic_id){
+  function sqlUpdateTopicDesc($topic_id,$topic_desc){
+    $CI =& get_instance();
+    $currentUserId=$CI->session->userdata('user_id');
+   
+    $sql="select posted_by from TOPIC where topic_id=?";
+    $query=$this->db->query($sql,array($topic_id));
+    if($row=$query->row_array()){
+              if($row['posted_by']==$currentUserId){
+                $sql1="UPDATE TOPIC set topic_desc=? where topic_id=?";
+                if($query1=$this->db->query($sql1,array($topic_desc,$topic_id)))
+                  return 'topic desc updated!!';
+                }
+                else
+                  return 'something went wrong';
+                
+
+        }
+        else
+          return 'something went wrong';
+      }
+
+  
+   function getEditTopicDescMarkup($topic_id){
 
     $sql="select topic_desc from TOPIC where topic_id=?";
     $query=$this->db->query($sql,array($topic_id));
     $row=$query->row_array();
     return '
      <h4>Please enter the topic description <h4>
-     <form class="form-horizontal" id="editTopicDesc" method=\'post\' action="'.base_url().'ProfileController/editTopicDesc">
-    <textarea id="EditTopicDesc" > '.$row['topic_desc'].'</textarea> <br>
+     <form class="form-horizontal" id="editTopicDesc" method=\'post\' action="'.base_url().'ProfileController/updateTopicDesc/'.$topic_id.'">
+    <textarea id="EditTopicDesc" name="TopicDesc" > '.$row['topic_desc'].'</textarea> <br>
     <input type="Submit" id="TopicDesc" "" name="TopicDesc"> </input>'
     ;
 
