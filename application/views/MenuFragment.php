@@ -12,7 +12,7 @@
                 <form class="navbar-search pull-left" action="">
                     <input type="text" id="ajaxSearchPanel" autocomplete="off" 
                     class="typeahead search-query span8"
-                    placeholder="Search for Questions, Categories, Topics and CEGians" 
+                    placeholder="Search for Questions, Posts, Topics and CEGians" 
                     data-provide="typeahead" data-items="6">
                 </form>
                 <div id="notificationsPanel" style="float:left"></div>

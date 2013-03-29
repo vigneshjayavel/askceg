@@ -507,7 +507,7 @@ function getInterimProfile(){
             $CI =& get_instance();
     $currentUserId=$CI->session->userdata('user_id');
     $yearId=$CI->session->userdata('user_year');
-   $sql='select * from USERS where user_year=?';
+   $sql='select user_year from USERS where user_year=?';
       $query=$this->db->query($sql,array($user_year));
       $row=$query->row_array();
 
@@ -520,7 +520,9 @@ function getInterimProfile(){
         <img  height="200px" width="740px" src="'.base_url().'assets/img/year/year1.jpg" alt="">
         <h3> Year '.$user_year.'</h3>
         <br>
-        
+        <p>Explore fellow year CEGians !</p>
+        </br>
+        <p>More features coming soon </p>
         </div>
         
         

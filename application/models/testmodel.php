@@ -28,6 +28,23 @@ class TestModel extends CI_Model{
     
   } 
 
+ function createbatch(){
+  $depart='IT';
+  $departid=9;
+  $ys=2009;
+  $ye=2013;
+  $b=array('G','H');
+  foreach ($b as $v) {
+    for($i=$ys;$i<2013;$i++){
+    $name=$depart.' '.$v.' batch '.$i.'-'.($i+4);
+    $desc='Here you can discuss about all happenings in your class and to make it private select the private scope(vi
+      sible only to your batch mates) when creating a post/question';
+    $sql='INSERT into GROUPS(group_name,group_desc,department_id) values(?,?,?)';
+    $query=$this->db->query($sql,array($name,$desc,$departid));
+    }
+  }
+  
 
+ }
 
 }

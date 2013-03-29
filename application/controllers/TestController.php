@@ -7,7 +7,12 @@ class TestController extends CI_Controller {
 		$this->load->view('TestView');
 
 	}
+    function createbatch(){
+    	$this->load->model('testmodel');
 
+    	$this->testmodel->createbatch();
+		
+    }
 	function somePageThatHasQuestions(){
 		
 		$this->data['centerContent']="testing";
