@@ -355,7 +355,7 @@ function printanswer($qid){
         $content.=' 
         <div class="questionElementDiv">
           <div class="questionPostDiv" class="well questionElement" >
-          '.$count.'
+          
             <div class="qsFollowButtonDiv" style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
             <div class="questionExtraDetailsDiv">    
               <a rel="tooltip" data-placement="top" data-original-title="Category"

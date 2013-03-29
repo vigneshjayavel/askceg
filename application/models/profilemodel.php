@@ -123,7 +123,7 @@ class ProfileModel extends CI_Model{
 
   function getTopicProfile($topic_url){
 
-    $sql="select t.topic_url,t.topic_id,t.topic_name,t.topic_desc, c.category_id,c.category_name
+    $sql="select t.topic_url,t.topic_id,t.posted_by,t.topic_name,t.topic_desc, c.category_id,c.category_name
      from TOPIC t,CATEGORY c 
     where t.category_id=c.category_id and t.topic_url=?";
     $query=$this->db->query($sql,array($topic_url)); 
@@ -152,13 +152,19 @@ class ProfileModel extends CI_Model{
         Follow</a>';
 
       }
+    $topicDescMarkup='';
+    if(strlen($row['topic_desc'])>=2){
 
-    if($row['topic_desc']){
-      $topicDescMarkup=$row['topic_desc'].'<br><a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Edit description</a>';
+            $topicDescMarkup.=$row['topic_desc'];
+             if($row['posted_by']==$currentUserId)
+              $topicDescMarkup.='<br><a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Edit description</a>';
     }
     else{
-      $topicDescMarkup='No description yet!!!<a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Add description</a>';
+            if($row['posted_by']==$currentUserId)
+              $topicDescMarkup.='No description yet!!!<a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Add description</a>';
     }
+
+      $topicDescMarkup.='want to create a topic page like this?<a href="'.base_url().'QuestionsController/CreateDiscussion">click here!</a>';
     if(file_exists(base_url().'assets/img/topic/'.$row['topic_id'].'.jpg'))
                               $imgurl=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
                             else
@@ -323,30 +329,20 @@ class ProfileModel extends CI_Model{
     
 
   }
-   function EditTopicDesc($topic_id){
+   function EditTopicDescMarkup($topic_id){
 
     $sql="select topic_desc from TOPIC where topic_id=?";
     $query=$this->db->query($sql,array($topic_id));
     $row=$query->row_array();
     return '
-     <h4>Please write the topic description <h4>
-     <form class="form-horizontal" id="editTopicDesc" method=\'post\' action=\''.base_url().'ProfileController/editTopicDescAgain/'.$topic_id.'\'>
+     <h4>Please enter the topic description <h4>
+     <form class="form-horizontal" id="editTopicDesc" method=\'post\' action="'.base_url().'ProfileController/editTopicDesc">
     <textarea id="EditTopicDesc" > '.$row['topic_desc'].'</textarea> <br>
     <input type="Submit" id="TopicDesc" "" name="TopicDesc"> </input>'
     ;
 
 }
-  function editTopicDescAgain($topic_desc,$topic_id)
-  {
-    $sql="update TOPIC set topic_desc='?' where topic_id=? ";
-    if($query=$this->db->query($sql,array($topic_desc,$topic_id)))
-     { return 'Topic Description Updated!';
-      $sql="insert into TOPIC_DESC_HISTORY values(?,?)";
-       $query=$this->db->query($sql,array($topic_desc,$topic_id));
-     }
-    else
-      return 'Cannot be updated!';
-}
+ 
 function sqlgetCategoryId($category_url){
   $sql="select category_id from CATEGORY where category_url=?";
    $query=$this->db->query($sql,array($category_url)); 

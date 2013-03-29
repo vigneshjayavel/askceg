@@ -34,7 +34,7 @@ class AnswersController extends CI_Controller {
 	}
 	function viewAnswer($a_id){
 		$this->load->model('metamodel');
-       	$this->data['metaContent']=$this->metamodel->getmeta("question",$url);
+       	$this->data['metaContent']=$this->metamodel->getmeta("answer",$a_id);
 		if ($this->session->userdata('logged_in') == TRUE)
 	    {
 	   
