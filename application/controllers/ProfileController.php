@@ -232,20 +232,19 @@ class ProfileController extends CI_Controller {
 	function EditTopicDesc($topic_id){
 
 		$this->load->model('profilemodel');
-		$data['centerContent']=$this->profilemodel->EditTopicDesc($topic_id);
+		$data['centerContent']=$this->profilemodel->getEditTopicDescMarkUp($topic_id);
 		$this->load->view('Skeleton',$data);
 
 
 	}
-
-	function editTopicDescAgain($topic_id)
-	{
-		$topicDesc['topic_desc']=$this->input->post('editTopicDesc');
-		$this->load->model('profilemodel');
-		$data['centerContent']=$this->profilemodel->editTopicDescAgain($topicDesc['topic_desc'],$topic_id);
+    function UpdateTopicDesc($topic_id){
+    	$this->load->model('profilemodel');
+    	$topicDesc=$this->input->post('topicDesc');
+        $data['centerContent']=$this->profilemodel->sqlUpdateTopicDesc($topic_id,$topicDesc);
 		$this->load->view('Skeleton',$data);
 
-	}
+    }
+	
 	function EditCategoryDesc($category_id){
 
 		$this->load->model('profilemodel');

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 28, 2013 at 12:11 AM
+-- Generation Time: Mar 29, 2013 at 12:34 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `ANSWER` (
   `vote` int(20) NOT NULL,
   `timestamp` varchar(50) NOT NULL,
   PRIMARY KEY (`a_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=69 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=82 ;
 
 --
 -- Dumping data for table `ANSWER`
@@ -93,8 +93,8 @@ INSERT INTO `ANSWER` (`a_id`, `a_content`, `q_id`, `posted_by`, `scope`, `vote`,
 (51, 's', 42, 2011103089, '', 0, '04:25 PM 09-Jan-13'),
 (52, 'asdasd', 42, 2011103089, '', 0, '04:25 PM 09-Jan-13'),
 (53, 'sadsad', 42, 2011103089, '', 0, '04:26 PM 09-Jan-13'),
-(54, 'sadasdsd', 42, 2011103089, '', 0, '04:27 PM 09-Jan-13'),
-(55, 'I need to know it ASAP', 43, 2011103089, '', 0, '06:57 PM 09-Jan-13'),
+(72, '<p>dgdgdgdg<br></p>', 54, 2011103602, '', 0, '04:38 PM 28-Mar-13'),
+(79, '<p>fsfsfsffsfsfsf</p>', 55, 2011103603, '', 0, '12:41 AM 29-Mar-13'),
 (56, 'ssassa', 43, 2011103089, '', 0, '08:47 PM 09-Jan-13'),
 (57, 'QQQ', 43, 2011103089, '', 0, '08:47 PM 09-Jan-13'),
 (58, ':P', 40, 2011103053, '', 0, '06:36 PM 13-Jan-13'),
@@ -107,7 +107,17 @@ INSERT INTO `ANSWER` (`a_id`, `a_content`, `q_id`, `posted_by`, `scope`, `vote`,
 (65, 'qwqwqw12112 dfsdfsd  sdf sdf sdf dsfsd sd   sdf sd sdf sdfdfff', 22, 2011103089, '', 0, '07:45 PM 14-Jan-13'),
 (66, 'khkkj\n', 3, 2011103602, '', 0, '01:16 AM 28-Mar-13'),
 (67, '<p>patrick is modern sherlock!</p><p><br></p>', 55, 2011103602, '', 0, '04:30 AM 28-Mar-13'),
-(68, '<p>sfsfsfssfsf</p><p>dddad</p><p>adadad<br></p>', 55, 2011103602, '', 0, '04:41 AM 28-Mar-13');
+(68, '<p>sfsfsfssfsf</p><p>dddad</p><p>adadad<br></p>', 55, 2011103602, '', 0, '04:41 AM 28-Mar-13'),
+(69, '<p>hello<br></p>', 54, 2011103602, '', 0, '04:28 PM 28-Mar-13'),
+(70, 'gdgdgg', 54, 2011103602, '', 0, '04:28 PM 28-Mar-13'),
+(71, 'wasup?', 54, 2011103602, '', 0, '04:28 PM 28-Mar-13'),
+(73, '<p>dgdgdgdg<br></p>', 54, 2011103602, '', 0, '04:40 PM 28-Mar-13'),
+(74, '<p>gdgdgggdg<br></p>', 55, 2011103089, '', 0, '05:10 PM 28-Mar-13'),
+(75, '<p>gdgdgggdg<br></p>', 55, 2011103089, '', 0, '05:11 PM 28-Mar-13'),
+(78, '<p>ffsfsf<br></p>', 55, 2011103089, '', 0, '06:15 PM 28-Mar-13'),
+(77, 'sfffsfsff<br>sfsff<br><br><br><br>sfssfsf<br><br>fsfs<br>fs<br>f<br>f<br>s<br>f<br>f<br>s<br>s<br>f<br><br><br>s<br>fs<br>f<br>fsfffsfsfsssf<br>', 55, 2011103089, '', 0, '05:12 PM 28-Mar-13'),
+(80, '<p>sffffff</p>', 55, 2011103603, '', 0, '03:20 AM 29-Mar-13'),
+(81, '<p>sssffsfsf</p><p><br></p>', 9, 2011103603, '', 0, '04:40 AM 29-Mar-13');
 
 -- --------------------------------------------------------
 
@@ -121,19 +131,22 @@ CREATE TABLE IF NOT EXISTS `CATEGORY` (
   `category_desc` varchar(500) NOT NULL,
   `category_url` varchar(50) NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `CATEGORY`
 --
 
 INSERT INTO `CATEGORY` (`category_id`, `category_name`, `category_desc`, `category_url`) VALUES
-(1, 'cse', 'this is the official askceg page for CSE department.post your questions here for cse teachers to answer', 'cse'),
-(2, 'ece', 'all about Entertainment', 'ece'),
-(3, 'mechanical engineering', '', 'mechanical-engineering'),
-(4, 'civil engineering', '', 'civil-engineering'),
-(5, 'eee', '', 'eee'),
-(6, 'miscellaneous', '', 'miscellaneous');
+(1, 'CSE', 'this is the official askceg page for CSE department.post your questions here for cse teachers and fellow CSE students \nto answer', 'cse'),
+(2, 'ECE', 'this is the official askceg page for ECE department.post your questions here for ECE teachers and fellow ECE students \r\nto answer', 'ece'),
+(3, 'MECHANICAL ENGINEERING', 'this is the official askceg page for mechanical department.post your questions here for Mech teachers and fellow Mech students  to answer', 'mechanical-engineering'),
+(4, 'CIVIL ENGINEERING', 'this is the official askceg page for civil department.post your questions here for civil teachers and fellow civil students  to answer', 'civil-engineering'),
+(5, 'EEE', 'this is the official askceg page for EEE department.post your questions here for EEE teachers and fellow EEE students  to answer', 'eee'),
+(6, 'MISCELLANEOUS', 'Discuss with your fellow CEGians about any miscellaneous subjects!!', 'miscellaneous'),
+(7, 'CLUBS/ORGANIZATION', 'Start an AskCEG page for clubs and organizations in CEG and get volunteers ,post your queries and share your interests', 'clubs-organization'),
+(8, 'EVENTS', 'Start an AskCEG page for department symposiums, college events,etc and get volunteers ,post your queries and get answers from fellow CEGIANS', 'events'),
+(9, 'IT', 'this is the official askceg page for IT department.post your questions here for IT teachers and fellow IT students  to answer', 'IT');
 
 -- --------------------------------------------------------
 
@@ -174,16 +187,16 @@ CREATE TABLE IF NOT EXISTS `FB_DETAILS` (
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`seqid`),
   UNIQUE KEY `fb_user_id` (`fb_user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=51 ;
 
 --
 -- Dumping data for table `FB_DETAILS`
 --
 
 INSERT INTO `FB_DETAILS` (`email`, `fb_user_id`, `access_token`, `seqid`, `timestamp`, `status`) VALUES
-('dgr8geek@gmail.com', '100000673452300', 'AAAEeCZC9qCvUBAEN2wewFVKos7BadeZBZBuVXH2853EVVJnrFNeKJ0gpAlJK7nMQZBjxbZAxGoMxSTTPr1E3OVtz1iy8Nx7wRZAiQLCSGGGxrFxA2xo5DN', 46, '2013-03-27 11:03:36', 1),
+('dgr8geek@gmail.com', '100000673452300', 'AAAEeCZC9qCvUBAOqKJs3CJOay0HNQVCk5C4yRMZCz6unEYZCgrGDZC8yZByfekQZCrRTeeTZC2z1uM5SHfSWZCOTD6pXd9YPQXkaFtnokZCr0nFsJdRkwKbfp', 46, '2013-03-27 11:03:36', 1),
 ('vigneshjmsc@gmail.com', 'vigneshjmsc@gmail.com', '', 45, '2013-03-27 10:34:16', 0),
-('vishnuj81093@gmail.com', '100002276456345', 'AAAEeCZC9qCvUBADZAcq2oFHR1Wf3X4R2x0Fmc9gDZAfzJP13EatWMmFYoitpZCQcmUDNA5ZAZA8e1LJ65khqoJf7OWEeFOlZBREtzEFojNnG213ghuJaZBX8', 49, '2013-03-27 12:22:57', 1);
+('vigneshjmsc@gmail.com', '100003324675095', 'AAAEeCZC9qCvUBAMk6qZCDB2S6lnS6J7KUxtgxDlASIWDe2DHYPHFIlDt723MvjzdxCCNmDUPbitGOZC5HRAN6BtZA89MamLaRFK8ogE63W8gDXZASeG7P', 50, '2013-03-28 18:23:59', 1);
 
 -- --------------------------------------------------------
 
@@ -237,7 +250,10 @@ INSERT INTO `FOLLOWERS` (`q_id`, `user_id`) VALUES
 (54, 2011103597),
 (55, 2011103600),
 (54, 2011103600),
-(53, 2011103600);
+(53, 2011103600),
+(55, 2011103089),
+(55, 2011103603),
+(58, 2011103089);
 
 -- --------------------------------------------------------
 
@@ -252,16 +268,61 @@ CREATE TABLE IF NOT EXISTS `GROUPS` (
   `group_level` varchar(20) NOT NULL,
   `department_id` int(20) NOT NULL,
   PRIMARY KEY (`group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=56 ;
 
 --
 -- Dumping data for table `GROUPS`
 --
 
 INSERT INTO `GROUPS` (`group_id`, `group_name`, `group_desc`, `group_level`, `department_id`) VALUES
-(1, 'cse ibatch 2011-2015', 'After the iPod, came the iPhone... then the iPad, and now it is our very own iBatch! :D\nThis page is a forum on all discussions relating to iBatch. :)', '0', 0),
-(2, 'CSE h batch 2011-2015', 'dsadwsadfsada\r\nsasadsafdasd\r\nsdfasdsadad', '0', 0),
-(7, 'CIVIl 2011-2015', '', '2', 0);
+(32, 'CIVIL  batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 4),
+(8, 'ECE AB batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(9, 'ECE AB batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(10, 'ECE AB batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(11, 'ECE AB batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(12, 'ECE CD batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(13, 'ECE CD batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(14, 'ECE CD batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(15, 'ECE CD batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(16, 'ECE EF batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(17, 'ECE EF batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(18, 'ECE EF batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(19, 'ECE EF batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 2),
+(20, 'CSE G batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(21, 'CSE G batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(22, 'CSE G batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(23, 'CSE G batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(24, 'CSE H batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(25, 'CSE H batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(26, 'CSE H batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(27, 'CSE H batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(28, 'CSE I batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(29, 'CSE I batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(30, 'CSE I batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(31, 'CSE I batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 1),
+(33, 'CIVIL  batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 4),
+(34, 'CIVIL  batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 4),
+(35, 'CIVIL  batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 4),
+(36, 'MECHANICAL AB batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 3),
+(37, 'MECHANICAL AB batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 3),
+(38, 'MECHANICAL AB batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 3),
+(39, 'MECHANICAL AB batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 3),
+(40, 'MECHANICAL CD batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 3),
+(41, 'MECHANICAL CD batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 3),
+(42, 'MECHANICAL CD batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 3),
+(43, 'MECHANICAL CD batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 3),
+(44, 'EEE  batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 5),
+(45, 'EEE  batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 5),
+(46, 'EEE  batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 5),
+(47, 'EEE  batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 5),
+(48, 'IT G batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 9),
+(49, 'IT G batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 9),
+(50, 'IT G batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 9),
+(51, 'IT G batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 9),
+(52, 'IT H batch 2009-2013', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 9),
+(53, 'IT H batch 2010-2014', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 9),
+(54, 'IT H batch 2011-2015', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 9),
+(55, 'IT H batch 2012-2016', 'Here you can discuss about all happenings in your class and to make it private select the private scope(vi\n      sible only to your batch mates) when creating a post/question', '', 9);
 
 -- --------------------------------------------------------
 
@@ -273,6 +334,13 @@ CREATE TABLE IF NOT EXISTS `GROUP_REQUEST` (
   `user_id` int(20) NOT NULL,
   `group_id` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `GROUP_REQUEST`
+--
+
+INSERT INTO `GROUP_REQUEST` (`user_id`, `group_id`) VALUES
+(2011103602, 1);
 
 -- --------------------------------------------------------
 
@@ -305,7 +373,7 @@ CREATE TABLE IF NOT EXISTS `QUESTION` (
   `url` varchar(400) NOT NULL,
   `anonymous` int(20) NOT NULL,
   PRIMARY KEY (`q_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=59 ;
 
 --
 -- Dumping data for table `QUESTION`
@@ -313,12 +381,12 @@ CREATE TABLE IF NOT EXISTS `QUESTION` (
 
 INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `timestamp`, `q_description`, `views`, `followers`, `url`, `anonymous`) VALUES
 (2, 'asdasd', 1, 2011103089, 0, '10:53 pm 02 Dec-12 ', 'asdasdasd', 4, 0, 'asdasd', 0),
-(3, 'who is obama?', 1, 2011103090, 0, '11:12 pm 02 Dec-12 ', '', 27, 0, 'who-is-obama', 0),
+(3, 'who is obama?', 1, 2011103090, 10, '11:12 pm 02 Dec-12 ', '', 27, 0, 'who-is-obama', 0),
 (4, 'what is the rate of iphone 5?', 1, 2011103090, 0, '09:08 PM 06-Dec-12', '', 4, 0, 'what-is-the-rate-of-iphone-5', 0),
 (5, 'GJHGJ??', 1, 2011103090, 0, '12:32 PM 11-Dec-12', 'DDDCD', 3, 0, 'GJHGJ', 0),
 (6, 'What is Askceg?', 1, 2011103090, 0, '12:36 PM 11-Dec-12', '', 0, 0, 'What-is-Askceg', 0),
 (7, 'sdsdsdd', 1, 2011103090, 0, '11:20 AM 15-Dec-12', '', 0, 0, 'sdsdsdd', 0),
-(9, 'When is college reopening??', 1, 2011103089, 0, '12:04 PM 17-Dec-12', 'I dont want it to reopen at all!!! :P', 3, 0, 'When-is-college-reopening', 0),
+(9, 'When is college reopening??', 1, 2011103089, 3, '12:04 PM 17-Dec-12', 'I dont want it to reopen at all!!! :P', 3, 0, 'When-is-college-reopening', 0),
 (10, 'How cool is AskCEG? :D', 1, 2011103053, 0, '09:57 AM 18-Dec-12', '', 5, 0, 'How-cool-is-AskCEG-D', 0),
 (11, 'ghikjfkjrf', 2, 2011103090, 0, '05:18 PM 18-Dec-12', '', 0, 0, 'ghikjfkjrf', 0),
 (12, 'hey boys ?', 2, 2011103090, 0, '05:19 PM 18-Dec-12', '', 0, 0, 'hey-boys', 0),
@@ -362,7 +430,8 @@ INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `
 (53, 'qwqw!', 9, 2011103089, 0, '11:13 PM 17-Jan-13', '', 0, 0, 'qwqw', 0),
 (54, 'why do I need askCeg?', 1, 2011103597, 0, '03:32 PM 27-Mar-13', '', 0, 0, 'why-do-I-need-askCeg', 0),
 (55, 'How is mentalist diff from sherlocks?', 1, 2011103600, 0, '05:40 PM 27-Mar-13', '', 0, 0, 'How-is-mentalist-diff-from-sherlocks', 0),
-(56, 'adadaadd', 3, 2011103602, 0, '06:09 PM 27-Mar-13', '', 0, 0, 'adadaadd', 0);
+(57, 'heeeeeeeeello?', 4, 2011103602, 0, '04:32 PM 28-Mar-13', '', 0, 0, 'heeeeeeeeello', 0),
+(58, 'ggggg', 4, 2011103089, 1, '04:19 PM 29-Mar-13', '', 0, 0, 'ggggg', 1);
 
 -- --------------------------------------------------------
 
@@ -445,7 +514,7 @@ CREATE TABLE IF NOT EXISTS `TOPIC` (
 
 INSERT INTO `TOPIC` (`topic_id`, `topic_name`, `topic_desc`, `posted_by`, `category_id`, `timestamp`, `topic_url`) VALUES
 (1, 'computer', '0', 2011103090, 1, '12-10-12', 'computer'),
-(2, 'ibatch', '0', 0, 5, '', 'ibatch'),
+(2, 'ibatch', '0', 2011103603, 5, '', 'ibatch'),
 (3, 'ibatch boys', '0', 0, 1, '', 'ibatch-boys'),
 (4, 'Movies', 'Contains all questions about movies!', 2011103090, 2, '', 'Movies'),
 (5, 'battle of brains', '', 0, 3, '', 'battle-of-brains'),
@@ -517,14 +586,14 @@ CREATE TABLE IF NOT EXISTS `USERS` (
   `isNormalAccount` int(11) NOT NULL,
   `profile_pic` varchar(300) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2011103603 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2011103604 ;
 
 --
 -- Dumping data for table `USERS`
 --
 
 INSERT INTO `USERS` (`user_id`, `user_name`, `group_id`, `password`, `user_level`, `email_id`, `joined_on`, `user_year`, `user_degree`, `user_course`, `hash`, `complete`, `isNormalAccount`, `profile_pic`) VALUES
-(2011103089, 'vishnu', 1, '123123', 1, '', '', 2, '', '', '', 0, 0, ''),
+(2011103089, 'vishnu', 1, '123123', 1, 'vishnu@gmail.com', '', 3, '', '', '', 0, 0, ''),
 (2011103090, 'Narain Sharma', 1, '123123', 1, 'narainthedude@gmail.com', '', 2, 'BE', 'CSE', '', 0, 0, ''),
 (2011103593, 'Anirudh', 1, '123123', 0, '', '', 0, 'BE', 'CSE', '', 0, 0, ''),
 (2011103087, 'swetha', 1, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
@@ -539,8 +608,7 @@ INSERT INTO `USERS` (`user_id`, `user_name`, `group_id`, `password`, `user_level
 (2011103058, 'Prashanth Anantharam', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
 (604, 'Annie Benet', 7, '123123', 2, 'annie@gmail.com', '', 0, 'M.E', 'CSE', '', 0, 0, ''),
 (2011103599, 'Vikki', 0, '', 0, 'dgr8geek@gmail.com', '', 0, 'Msc', 'CS', '', 1, 0, 'https://m.ak.fbcdn.net/profile.ak/hprofile-ak-prn1/173827_100000673452300_1106930760_t.jpg'),
-(2011103598, 'Vignesh', 0, '123123', 0, 'vigneshjmsc@gmail.com', '', 0, 'Msc', 'CS', '', 1, 1, ''),
-(2011103602, 'vishnu jayvel', 1, '', 1, 'vishnuj81093@gmail.com', '', 2, 'B.E', 'cse', '', 1, 0, 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc6/274996_100002276456345_1631929202_n.jpg');
+(2011103603, 'vignesh', 0, '', 0, 'vigneshjmsc@gmail.com', '', 0, 'hkh', 'jjkjkjkjkj', '', 1, 0, 'http://m-static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif');
 
 -- --------------------------------------------------------
 

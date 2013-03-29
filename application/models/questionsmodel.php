@@ -88,7 +88,8 @@ class QuestionsModel extends CI_Model{
 		return '
 		<form class="form-horizontal well">
         <fieldset>
-          <legend>Post A New Question!</legend>
+          <h3>Create A New Question/Post!</h3>
+          <p>You can create a question or a post to fellow CEGians under any topic!</p>
           <div class="control-group">
             <label class="control-label" for="categorySelectBox">Select Category</label>
             <div class="controls">
@@ -101,9 +102,10 @@ class QuestionsModel extends CI_Model{
             <label class="control-label" for="topicSelectBox">Select Topic</label>
             <div class="controls">
               <select disabled="true"  id="topicSelectBox">
-                <option>Select a category first</option>
+                <option>Select a topic</option>
               </select>
             </div>
+            <p>Could\'nt find a topic you are looking for?Create a topic by <a href="'.base_url().'QuestionsController/CreateDiscussion">clicking here</a></p> 
           </div>
           <div class="control-group">
             <label class="control-label" for="textarea">Question</label>
@@ -164,7 +166,8 @@ function printanswer($qid){
 
 		return '<form class="form-horizontal well">
         <fieldset>
-          <legend>Create a topic!!</legend>
+          <h3>Create a topic!!</h3>
+        create a topic and start discussing with fellow CEGIANS!!
           <div class="control-group">
             <label class="control-label" for="categorySelectBox">Select Category</label>
             <div class="controls">
@@ -355,7 +358,7 @@ function printanswer($qid){
         $content.=' 
         <div class="questionElementDiv">
           <div class="questionPostDiv" class="well questionElement" >
-          '.$count.'
+          
             <div class="qsFollowButtonDiv" style="float:right">'.$dynamicFollowOrUnfollowButton.'</div>
             <div class="questionExtraDetailsDiv">    
               <a rel="tooltip" data-placement="top" data-original-title="Category"
