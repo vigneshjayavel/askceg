@@ -117,7 +117,7 @@ class AuthControllerAsk extends CI_Controller {
                     complete,isNormalAccount,user_id,email_id,password,hash) values('$name','$degree',
                     '$course',1,1,'$user_id','$email','$pass','$hash')";
                 $this->db->query($q1);
-                echo 'Thanks for registering !! Check your inbox for activation instructions!<b>Please check your spam folder in your inbox if you dont receive the mail!</b>';
+                echo 'Thanks for registering !! Check your inbox for activation instructions!<br><b>Please check spam if you haven\'t received the mail!</b>';
                 //send activation to email
                 //auto mail
                 $activationLink=base_url()."AuthControllerAsk/activateAccount/".urlencode($email)."/$hash";
@@ -155,7 +155,7 @@ class AuthControllerAsk extends CI_Controller {
             echo 'Thanks for activating your account!! Please wait while you are being redirected!
                 <script>
                 window.setInterval(function(){
-                    window.location="'.base_url().'";
+                    window.location="'.base_url().'HomeController";
                 },3000);
                 </script>';
         }
