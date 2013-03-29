@@ -167,7 +167,7 @@ class HomeModel extends CI_Model{
               </div>     
               <div class="tab-pane fade" id="suggestions">
                 <h2>Your suggestions help us!</h2>
-                <p>Send us your view/ideas/suggestions to <a href="emailto:askceg.in@gmail.com">askceg.in@gmail.com</a></p>
+                <p>Send us your view/ideas/suggestions to <a href="emailto:admin@askceg.krk.org.in"></a></p>
               </div>         
             </div>
           </div>
