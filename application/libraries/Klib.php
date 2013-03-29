@@ -25,6 +25,18 @@ class Klib {
 	        'wordwrap' => TRUE
 	    );  
 	  	*/
+	    $config = Array(
+	        'smtp_user' => 'admin@askceg.krk.org.in',
+	        'smtp_pass' => '22091991',
+	        'protocol'=>'smtp',
+			'smtp_host'=>'mail.askceg.krk.org.in',
+			'smtp_port'=>'587',
+			'smtp_timeout'=>'30',  
+			'charset'=>'utf-8',   
+	        'mailtype' => 'html',
+			'newline'=>"\r\n"
+	    );  
+/*
 		$config = Array(
 	        'smtp_user' => 'askceg.in@gmail.com',
 	        'smtp_pass' => 'whythiskolaveri',
@@ -36,10 +48,10 @@ class Klib {
 	        'mailtype' => 'html',
 			'newline'=>"\r\n"
 	    );
-		
+*/		
 		$CI =& get_instance();
 	    $CI->load->library('email', $config);
-	    $CI->email->from('askceg.in@gmail.com', "AskCEG");
+	    $CI->email->from('admin@askceg.krk.org.in', "AskCEG");
 	    $CI->email->to($emailData['to']);
 	    $CI->email->subject($emailData['subject']);
 	    $CI->email->message($emailData['message']);

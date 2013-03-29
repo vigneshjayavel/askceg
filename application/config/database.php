@@ -67,12 +67,13 @@ if($mode=="local"){
 	$dbname = "askceg";
 
 }
-else if($mode=="ctf"){
+else if($mode=="ctf" || $mode=="cloud"){
 	$hostname = 'mysql.kurukshetra.org.in';
 	$username = 'k12_admin';
 	$password = 'this1is2absolute3nonsense';
-	$dbname = 'k11_enigma';
+	$dbname = 'askceg';
 }
+/*
 else if($mode=="cloud"){
 	
 	$services_json = json_decode(getenv("VCAP_SERVICES"),true);
@@ -85,7 +86,7 @@ else if($mode=="cloud"){
 
 
 }
-
+*/
 
 $db['default']['hostname'] = $hostname;
 $db['default']['username'] = $username;
