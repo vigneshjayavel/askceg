@@ -39,7 +39,13 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 //fb app details
 define('FB_APPID','314511855323893');
 define('FB_SECRET','28f1380425fa95c178d243aeb7ded052');
+//for topic imgfile operation
 
+	if(ENVIRONMENT=='cloud')
+		$path = "/assets/img/topics/";
+	else
+		$path = "/ask/assets/img/topics/";
+define('SERVERPATH',$path);
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

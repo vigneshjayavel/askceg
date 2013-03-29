@@ -167,7 +167,8 @@ function printanswer($qid){
 		return '<form class="form-horizontal well">
         <fieldset>
           <h3>Create a topic!!</h3>
-        create a topic and start discussing with fellow CEGIANS!!
+        <p>create a topic and start discussing with fellow CEGIANS!!</p>
+        </br>
           <div class="control-group">
             <label class="control-label" for="categorySelectBox">Select Category</label>
             <div class="controls">
