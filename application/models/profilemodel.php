@@ -155,7 +155,7 @@ class ProfileModel extends CI_Model{
       //topicimg edit markup
       $changeImageMarkup='';
       if($row['posted_by']==$currentUserId){
-      $changeImageMarkup='</br><a href='.base_url().'TestController/Upload/'.$row['topic_id'].'">click here</a> to change the topic image</br>';
+      $changeImageMarkup='</br><a href="'.base_url().'TestController/Upload/'.$row['topic_id'].'">click here</a> to change the topic image</br>';
     }
     
     $topicDescMarkup='';
@@ -171,10 +171,12 @@ class ProfileModel extends CI_Model{
     }
 
       $topicDescMarkup.='<br></p>want to create a topic page like this?<a href="'.base_url().'QuestionsController/CreateDiscussion">click here!</a></p>';
-    if(file_exists(base_url().'assets/img/topic/'.$row['topic_id'].'.jpg'))
-                              $imgurl=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
+    if(file_exists($_SERVER['DOCUMENT_ROOT'] .SERVERPATH.$row['topic_id'].'.jpg'))
+                              $imgurl=base_url().'assets/img/topics/'.$row['topic_id'].'.jpg';
                             else
                               $imgurl=base_url().'assets/img/defaulttopic.jpg';
+                             // $imgurl=base_url().'assets/img/topics/'.$row['topic_id'].'.jpg';
+                           // echo SERVERPATH.$row['topic_id'].'.jpg';
     return ' 
     <div class="profileContainer">
       <div class="profileHolder">

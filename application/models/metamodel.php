@@ -10,7 +10,8 @@ class MetaModel extends CI_Model{
                           $query=$this->db->query($sql,array($identifier));
 
                           if($row=$query->row_array()){
-                             if(file_exists(base_url().'assets/img/topic/'.$row['topic_id'].'.jpg'))
+                             if(file_exists($_SERVER['DOCUMENT_ROOT'] .SERVERPATH.$row['topic_id'].'.jpg'))
+    
                               $url=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
                             else
                               $url=base_url().'assets/img/defaultquestion.jpg';
@@ -31,8 +32,8 @@ class MetaModel extends CI_Model{
                           
                           if($row=$query->row_array()){
 
-                             if(file_exists(base_url().'assets/img/topic/'.$row['topic_id'].'.jpg'))
-                              $url=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
+                             if(file_exists($_SERVER['DOCUMENT_ROOT'] .SERVERPATH.$row['topic_id'].'.jpg'))
+                             $url=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
                             else
                               $url=base_url().'assets/img/defaulttopic.jpg';
                             if($row['topic_desc']==null){
@@ -42,7 +43,7 @@ class MetaModel extends CI_Model{
                               $desc=$row['topic_desc'];
                             }
                             $meta='<meta property="og:title" content="'.$row['topic_name'].'"/>
-                               <meta property="og:image" content="'.base_url().'assets/img/topics/'.$row['topic_id'].'"/>
+                               <meta property="og:image" content="'.$url.'"/>
                                <meta property="og:site_name" content="askceg.in"/>
                                <meta property="og:description" content="'.$desc.'"/>
                              ';
@@ -64,12 +65,12 @@ class MetaModel extends CI_Model{
                          $query=$this->db->query($sql,array($identifier));
                           if($row=$query->row_array()){
 
-                             if(file_exists(base_url().'assets/img/topic/'.$row['topic_id'].'.jpg'))
-                              $url=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
+                             if(file_exists($_SERVER['DOCUMENT_ROOT'] .SERVERPATH.$row['topic_id'].'.jpg'))
+                                  $url=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
                             else
                               $url=base_url().'assets/img/defaulttopic.jpg';
                               $meta='<meta property="og:title" content="'.$row['q_content'].'"/>
-                               <meta property="og:image" content="'.base_url().'assets/img/topics/'.$row['topic_id'].'"/>
+                               <meta property="og:image" content="'.$url.'"/>
                                <meta property="og:site_name" content="askceg.in"/>
                                <meta property="og:description" content="'.$row['a_content'].'"/>
                              ';

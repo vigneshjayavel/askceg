@@ -81,7 +81,7 @@ echo $date->format('Y-m-d H:i:s');
 }
 
 
-function Upload(){
+function Upload($topic_id){
    $this->data['centerContent']='
    <script src="'.base_url().'assets/js/jquery.form.js"></script>
    <style type="text/css">
@@ -97,7 +97,7 @@ color:#cc0000;
 font-size:12px
 }
 </style>
-   <form id="imageform" method="post" enctype="multipart/form-data" action="'.base_url().'TestController/SaveImg">
+   <form id="imageform" method="post" enctype="multipart/form-data" action="'.base_url().'TestController/SaveImg/'.urlencode($topic_id).'">
 Upload your image <input type="file" name="photoimg" id="photoimg" />
 </form>
 <div id="preview">
@@ -107,7 +107,16 @@ $this->load->view('Skeleton',$this->data);
 
 }
 
-function SaveImg(){
+function SaveImg($topic_id){
+	$topic_id=urldecode($topic_id);
+	$CI=&get_instance();
+	$sql="select posted_by from TOPIC where topic_id=?";
+	$query=$this->db->query($sql,array($topic_id));
+	if($row=$query->row_array()){
+         if($row['posted_by']!=$CI->session->userdata('user_id'))
+         	return 'you dont permission to view this page';
+
+	
 	if(ENVIRONMENT=='cloud')
 		$path = "/assets/img/topics/";
 	else
@@ -125,7 +134,7 @@ function SaveImg(){
 			{
 				if($size<(1024*1024)) // Image size max 1 MB
 				{
-					$actual_image_name = time().".jpg";
+					$actual_image_name = $topic_id.".jpg";
 					$tmp = $_FILES['photoimg']['tmp_name'];
 					if(move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'].$path.$actual_image_name))
 					{
@@ -144,6 +153,7 @@ function SaveImg(){
 			echo "Please select image..!";
 		exit;
 	}
+}
 }
 function paginate(){
 	$this->data['centerContent']="testing";
