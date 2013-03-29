@@ -46,7 +46,7 @@
                                     echo '<a href="'.base_url().'AuthControllerAsk/destroySession">Logout</a>';
                                   }
                                   else{
-                                    echo '<a href="#" class="fbLoginStatus"><img src="'.base_url().'"assets/img/btns/fbLogout.png></a>';
+                                    echo '<a href="#" class="fbLoginStatus"><img src="'.base_url().'assets/img/btns/fbLogout.png"></a>';
                                   }
                                 ?>
                                     

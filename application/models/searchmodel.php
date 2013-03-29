@@ -33,6 +33,14 @@ class SearchModel extends CI_Model{
 			array_push($searchResults,array('resultData'=>$row['topic_name'],'resultType'=>'Topic','resultUrl'=>$row['topic_url']));
 		}
 
+		//search users
+		$sql="select user_id,user_name from USERS where user_name LIKE '%".$this->db->escape_like_str($searchTerm)."%'";
+		$query=$this->db->query($sql);
+		$result=$query->result_array();
+		foreach($result as $row){
+			array_push($searchResults,array('resultData'=>$row['user_name'],'resultType'=>'User','resultUrl'=>$row['user_id']));
+		}
+
 		return json_encode($searchResults);
 		
 		

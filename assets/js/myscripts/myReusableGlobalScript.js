@@ -59,7 +59,7 @@ $(document).ready(function(){
 
     var requiredData,mapped,searchQuery;
     $(".typeahead").typeahead({
-        minLength: 6,
+        minLength: 4,
         source: function(query, process) {
             searchQuery=query;
             requiredData = [],
@@ -81,7 +81,13 @@ $(document).ready(function(){
             var targetUrl;
             if(mapped[item]!=null){
                 targetUrl = mapped[item].resultUrl;
-                var dynamicUri = mapped[item].resultType==='Question'?'AnswersController/viewAnswersForQuestion/':'ProfileController/viewTopic/';    
+                var dynamicUri = '';
+                dynamicUriObj={
+                    'Question':'AnswersController/viewAnswersForQuestion/',
+                    'Topic':'ProfileController/viewTopic/',
+                    'User':'ProfileController/ViewUserProfile/'
+                };
+                dynamicUri=dynamicUriObj[mapped[item].resultType];
                 window.location=CI.base_url+dynamicUri+targetUrl;
             }
             else{
