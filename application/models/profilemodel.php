@@ -964,7 +964,7 @@ return 'something went wrong :(';
          ';
        }
        else{
-        return 'You havnt specified your group yet!';
+        return 'Something went wrong!';
        }
 
    }

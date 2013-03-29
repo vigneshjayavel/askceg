@@ -233,7 +233,13 @@ function printanswer($qid){
 
           
   }
+  function sqlGetGroupId($user_id){
 
+    $query="select u.group_id from USERS u where u.user_id=?";
+    $query=$this->db->query($query,array($user_id));
+   if( $row=$query->row_array())
+    return $row['group_id'];
+  }
   
   function sqlReadQuestions($category_id=null,$topic_url=null,$url=null,$group_scope=null,$set=null){
     
@@ -249,10 +255,10 @@ function printanswer($qid){
     $count=0;
   
       $CI =& get_instance();
-      $groupId=$CI->session->userdata('group_id');
       $currentUserId=$CI->session->userdata('user_id');
-      if($groupId==null||$groupId==''){
-        $groupId=0;        
+      $groupId=$this->sqlGetGroupId($currentUserId);
+      if($groupId==null||$groupId==''||$groupId==0){
+        $groupId=-1;        
       }
     if($group_scope==true || $group_scope=="true"){ //group_scope questions
 

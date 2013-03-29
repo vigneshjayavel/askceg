@@ -261,7 +261,7 @@ class ProfileController extends CI_Controller {
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getCenterContentMyGroup();
-		$data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,null,null,true);
+		$data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,null,null,"true");
 		$data['paginationrequired']="true";
 		$data['paginationtype']="question";
 		$data['groupScope']="true";
