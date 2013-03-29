@@ -93,7 +93,7 @@
 
 @media (min-width: 1200px) {
   ul#ajaxSearchDropdown{
-    
+    top:55px !important;
   }
   div#main{
     margin-left:10%; 

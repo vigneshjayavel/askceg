@@ -67,7 +67,7 @@ class MetaModel extends CI_Model{
                        $meta='<meta property="og:title" content="AskCEG"/>
                                <meta property="og:image" content="'.base_url().'assets/img/fbthumb.jpg"/>
                                <meta property="og:site_name" content="askceg.in"/>
-                               <meta property="og:description" content="An exclusive social forum for CEGIANS"/>
+                               <meta property="og:description" content="AskCEG - an exclusive question and answer platform for CEGians"/>
                              ';
                              break;
 

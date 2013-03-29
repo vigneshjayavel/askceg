@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>AskCEG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AskCEG-exclusive social forum for CEG">
+    <meta name="description" content="AskCEG - an exclusive question and answer platform for CEGians">
     <meta name="author" content="AskCEG webteam">
     <?php 
       if(isset($metaContent))
@@ -37,7 +37,7 @@
     <![endif]-->
 
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="<?php echo base_url()?>assets/ico/favicon.ico">
+    <link rel="shortcut icon" href="<?php echo base_url()?>assets/ico/fbthumb.jpg">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo base_url()?>assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo base_url()?>assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo base_url()?>assets/ico/apple-touch-icon-72-precomposed.png">

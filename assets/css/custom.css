@@ -136,3 +136,7 @@ input#ajaxSearchPanel:-moz-input-placeholder {
 	-box-shadow:none !important;
 	font-size: 18px;
 }
+
+ul#ajaxSearchDropdown li{
+  
+}

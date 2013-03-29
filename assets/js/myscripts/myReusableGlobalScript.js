@@ -59,7 +59,7 @@ $(document).ready(function(){
 
     var requiredData,mapped,searchQuery;
     $(".typeahead").typeahead({
-        minLength: 3,
+        minLength: 6,
         source: function(query, process) {
             searchQuery=query;
             requiredData = [],
