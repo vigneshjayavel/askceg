@@ -55,27 +55,65 @@ class HomeModel extends CI_Model{
             
             <ul id="myTab" class="nav nav-tabs">
               <li class="active"><a href="#about" data-toggle="tab">About AskCEG</a></li>
-              <li><a href="#devs" data-toggle="tab">The Developers</a></li>
               <li><a href="#team" data-toggle="tab">The Team</a></li>
-              <li><a href="#suggestions" data-toggle="tab">Suggestions</a></li>              
+              <li><a href="#tech" data-toggle="tab">Technologies Used</a></li>              
+              <li><a href="#suggestions" data-toggle="tab">Suggestions</a></li>  
             </ul>
             <div id="myTabContent" class="tab-content">
               <div class="tab-pane fade active in" id="about">
-                <h2>Ask and Answer!</h2>
-                <p></p>
+               
+             <div class="accordion" id="accordion2">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                      What is AskCEG?
+                    </a>
+                  </div>
+                  <div id="collapseOne" class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                      An interactive online forum exclusively for fellow CEGians.
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                      How it is different from other online forums?
+                    </a>
+                  </div>
+                  <div id="collapseTwo" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                        <p><p><ul><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;AskCeg provides an unparalleled platform for hands-on interaction with teachers.</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Authenticity is assured.</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Facilities to follow teachers.</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Post questions to teachers.</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Inculcates a healthy relation with seniors.</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Not only do we have our doubts cleared, discussions on placements,&nbsp;</span><span style="line-height: 1.45em;">&nbsp;internships, college fests will enlighten the student community as a&nbsp;</span><span style="line-height: 1.45em;">whole.</span><br></li></ul></p><br></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                      What are its cool features?
+                    </a>
+                  </div>
+                  <div id="collapseThree" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <p><ul><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Easy categorization of questions/posts.</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Create topics within categories.</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Follow Users.</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Follow Questions.</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Answer Questions</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Vote up/down Answers.</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Follow Topics.</span><br></li><li><span style="line-height: 1.45em;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Separate group profiles for each batch.</span><br></li></ul></p>                    
+
+                    </div>
+                  </div>
+                </div>
+              </div>
               </div>     
-              <div class="tab-pane fade" id="devs">
-              
+              <div class="tab-pane fade" id="team">
+              <h2>The Developers</h2>
                 <div id="vikki" >
                   <div >
                     <div class="span12">
-                      <h4><strong><a href="#">Vignesh Jayavel</a></strong></h4>
+                      <h4><strong><a href="https://www.facebook.com/Vikki.ceg">Vignesh Jayavel</a></strong></h4>
                     </div>
                   </div>
                   <div >
                     <div class="span2">
                       <a href="#" class="thumbnail">
-                          <img src="http://placehold.it/260x180" alt="">
+                          <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc7/c37.37.457.457/s160x160/418158_513008858731558_1392611612_n.jpg" alt="">
                       </a>
                     </div>
                     <div class="span6">      
@@ -88,13 +126,13 @@ class HomeModel extends CI_Model{
                 <div id="vishnu">
                   <div >
                     <div class="span12">
-                      <h4><strong><a href="#">Vishnu Jayavel</a></strong></h4>
+                      <h4><strong><a href="https://www.facebook.com/vishnu.jayvel">Vishnu Jayavel</a></strong></h4>
                     </div>
                   </div>
                   <div >
                     <div class="span2">
                       <a href="#" class="thumbnail">
-                          <img src="http://placehold.it/260x180" alt="">
+                          <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/c66.66.828.828/s160x160/532511_387198618032683_200153497_n.jpg" alt="">
                       </a>
                     </div>
                     <div class="span6">      
@@ -104,15 +142,28 @@ class HomeModel extends CI_Model{
                   </div>
                   
                 </div>
+                <div class="span12" id="others">
+                  <h3>We also have these cool folks in our team!</h3>
+                  <p><a href=""><b>Narain Sharma</b></a> 2nd year BE - CSE</p>
+                  <p><a href=""><b>Hema Varman</b></a> 2nd year BE - CSE</p>
+                </div>
               </div>     
-              <div class="tab-pane fade" id="team">
-                <h2>We are nothing without the team!</h2>
-                <p><a href=""><b>Narain Sharma</b></a> 2nd year BE - CSE</p>
-                <p><a href=""><b>Hema Varman</b></a> 2nd year BE - CSE</p>
+
+              <div class="tab-pane fade" id="tech">
+                <h2>We have used some cool Web technologies!</h2>
+                <ul>
+                  <li>CodeIgniter Php framework</li>
+                  <li>MySQL database</li>
+                  <li>jQuery</li>
+                  <li>BackboneJS</li>
+                  <li>Twitter Bootstrap</li>
+                  <li>Amazon WebServices</li>
+                  <li>git DVCS</li>
+                </ul>
               </div>     
               <div class="tab-pane fade" id="suggestions">
                 <h2>Your suggestions help us!</h2>
-                <p>Send us your view/ideas/suggestions to <a href="email:dgr8geek@gmail.com">dgr8geek@gmail.com</a></p>
+                <p>Send us your view/ideas/suggestions to <a href="emailto:askceg.in@gmail.com">askceg.in@gmail.com</a></p>
               </div>         
             </div>
           </div>
@@ -121,6 +172,7 @@ class HomeModel extends CI_Model{
 
 
     ';
+
 
     return $content;
 
