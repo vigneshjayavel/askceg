@@ -22,9 +22,7 @@
         padding: 9px 0;
       }
 
-      .popover {
-        width: 400px;
-      }
+
       textarea {
         width: 360px;
       }
@@ -117,7 +115,7 @@
    
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target=".subnav" data-offset="80">
     <div class="background-holder"></div>
     <div id="alertBox" style="display:none; padding-top: 60px;">
       <div class="alertMessage">

@@ -41,13 +41,89 @@ class HomeModel extends CI_Model{
     $CI=&get_instance();
     $query="select profile_pic from USERS u where u.user_id=?";
     $query=$this->db->query($query,array($CI->session->userdata('user_id')));
-   
-      if($row=$query->row_array()){
-                    return '<div id="bio">
-                    <img src="'.$row['profile_pic'].'" alt="No pic" class="display-pic" />
-                    <h2>Greetings '.$CI->session->userdata('user_name').'!</h2>
-                     </div>';
-      }
+    $content='';
+    if($row=$query->row_array()){
+                  $content.='<div id="bio">
+                  <img src="'.$row['profile_pic'].'" alt="No pic" class="display-pic" />
+                  <h3>Greetings '.$CI->session->userdata('user_name').'!</h3>
+                   <p>Get to know about AskCEG.. Please read the following info..</p>
+                   </div>';
+    }
+    $content.='
+    
+          <div class="">
+            
+            <ul id="myTab" class="nav nav-tabs">
+              <li class="active"><a href="#about" data-toggle="tab">About AskCEG</a></li>
+              <li><a href="#devs" data-toggle="tab">The Developers</a></li>
+              <li><a href="#team" data-toggle="tab">The Team</a></li>
+              <li><a href="#suggestions" data-toggle="tab">Suggestions</a></li>              
+            </ul>
+            <div id="myTabContent" class="tab-content">
+              <div class="tab-pane fade active in" id="about">
+                <h2>Ask and Answer!</h2>
+                <p></p>
+              </div>     
+              <div class="tab-pane fade" id="devs">
+              
+                <div id="vikki" >
+                  <div >
+                    <div class="span12">
+                      <h4><strong><a href="#">Vignesh Jayavel</a></strong></h4>
+                    </div>
+                  </div>
+                  <div >
+                    <div class="span2">
+                      <a href="#" class="thumbnail">
+                          <img src="http://placehold.it/260x180" alt="">
+                      </a>
+                    </div>
+                    <div class="span6">      
+                      <p>4th year MSc CS (Integrated)</p>
+                      
+                    </div>
+                  </div>
+                  
+                </div>
+                <div id="vishnu">
+                  <div >
+                    <div class="span12">
+                      <h4><strong><a href="#">Vishnu Jayavel</a></strong></h4>
+                    </div>
+                  </div>
+                  <div >
+                    <div class="span2">
+                      <a href="#" class="thumbnail">
+                          <img src="http://placehold.it/260x180" alt="">
+                      </a>
+                    </div>
+                    <div class="span6">      
+                      <p>2nd year BE - CSE</p>
+                      
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>     
+              <div class="tab-pane fade" id="team">
+                <h2>We are nothing without the team!</h2>
+                <p><a href=""><b>Narain Sharma</b></a> 2nd year BE - CSE</p>
+                <p><a href=""><b>Hema Varman</b></a> 2nd year BE - CSE</p>
+              </div>     
+              <div class="tab-pane fade" id="suggestions">
+                <h2>Your suggestions help us!</h2>
+                <p>Send us your view/ideas/suggestions to <a href="email:dgr8geek@gmail.com">dgr8geek@gmail.com</a></p>
+              </div>         
+            </div>
+          </div>
+
+
+
+
+    ';
+
+    return $content;
+
   }
   function sqlGetUserid($user_name)
   {
