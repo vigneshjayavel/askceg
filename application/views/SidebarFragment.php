@@ -2,12 +2,12 @@
             <ul class="nav nav-list affix">
               <li class="nav-header">QuickLinks</li>
               <li ><a href="<?php echo base_url() ?>HomeController">Home</a></li>
-              <li><a href="<?php echo base_url() ?>ProfileController/MyProfile">MyProfile</a></li>
-              <li><a href="<?php echo base_url() ?>ProfileController/MyGroup">MyBatch</a></li>
-              <li><a href="<?php echo base_url() ?>ProfileController/ViewMyYearProfile/">MyYear</a></li>
-              <li><a href="<?php echo base_url() ?>QuestionsController/AskQuestion">CreateQuestion/Post</a></li>
-              <li><a href="<?php echo base_url() ?>QuestionsController/AnswerQuestion">AnswerQuestion</a></li>
-              <li><a href="<?php echo base_url() ?>QuestionsController/CreateDiscussion">CreateDiscussion/Topic</a></li>
+              <li><a href="<?php echo base_url() ?>ProfileController/MyProfile">My Profile</a></li>
+              <li><a href="<?php echo base_url() ?>ProfileController/MyGroup">My Batch</a></li>
+              <li><a href="<?php echo base_url() ?>ProfileController/ViewMyYearProfile/">My Year</a></li>
+              <li><a href="<?php echo base_url() ?>QuestionsController/AskQuestion">Create Question / Post</a></li>
+              <li><a href="<?php echo base_url() ?>QuestionsController/AnswerQuestion">Answer Questions</a></li>
+              <li><a href="<?php echo base_url() ?>QuestionsController/CreateDiscussion">Create Discussion / Topic</a></li>
              
               <li class="nav-header">Category</li>
             <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/cse">CSE</a></li>
@@ -19,7 +19,7 @@
               <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/miscellaneous ">MISCELLANEOUS </a></li>
               <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/clubs-organization">CLUBS/ORGANIZATION</a></li>
               <li><a href="<?php echo base_url() ?>ProfileController/viewCategory/events">EVENTS</a></li>
-              <li>Other department pages coming soon</li>
+              <li  class="nav-header">Other department pages coming soon</li>
 
               
             </ul>

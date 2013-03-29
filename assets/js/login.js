@@ -82,8 +82,8 @@ function login(response) { //logs in if old user, create account for new user..
                 'uid': rows[0].uid,
                 'email': rows[0].email,
                 'sex': rows[0].sex,
-                'pic': rows[0].pic_big,
-                'pic_thumb': rows[0].pic_small,
+                'pic_big': rows[0].pic_big,
+                'pic': rows[0].pic_small,
                 'name': rows[0].name
             },
 

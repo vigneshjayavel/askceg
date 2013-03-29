@@ -189,7 +189,10 @@
     <div class="modal-body">
       <div class="row-fluid">
         <div class="span12">
-          <center>
+          <div class="span3">
+            <img height="125" width="125" src="<?php echo base_url();?>assets/img/fbthumb.jpg" />
+          </div>
+          <div class="span9">
             <p class="mbxs">
               Login/Register with just one click via facebook
             </p>   
@@ -208,8 +211,8 @@
               </i>
               We protect your privacy!
             </a>
-        </p>
-      </center>
+            </p>
+          </div>
     </div>
   </div>
   <hr>

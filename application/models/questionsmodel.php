@@ -219,9 +219,13 @@ function printanswer($qid){
         $url=$row['profile_pic'];
       
 
-    return '<a rel="tooltip" data-placement="bottom" data-original-title="'.$user_name.'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
-              <img src="'.$url.'" height="40px" width="40px" alt="'.$user_name.'" class="display-pic" />
-            </a>';
+    return '
+              <a rel="tooltip" data-placement="bottom" data-original-title="'.$user_name.'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
+                <img src="'.$url.'" height="40px" width="40px" alt="'.$user_name.'" class="display-pic" />
+              </a>
+                <a href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">'.$user_name.'</a>
+
+              ';
 
   }
   
@@ -378,10 +382,8 @@ function printanswer($qid){
               <p id="questionDescription"><span>'.$row['q_description'].'</span></p>
             </div><!--/questionDetailsDiv-->
             <div class="questionStatsDiv">
-              <div class="userAvatar">
-              '.$userMarkup.'
-              </div><!--/userAvatar-->
               <p>
+                '.$userMarkup.'
                 <i class="icon-time"></i>
                 <a href="#">'.$row['timestamp'].'</a>
                 <i class="icon-comment"></i>
