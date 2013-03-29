@@ -82,7 +82,7 @@ class MetaModel extends CI_Model{
                            break;
         case 'normal' :
                        $meta='<meta property="og:title" content="AskCEG"/>
-                               <meta property="og:image" content="'.base_url().'assets/img/fbthumb.jpg"/>
+                               <meta property="og:image" content="'.base_url().'assets/img/fbthumb-new.jpg"/>
                                <meta property="og:site_name" content="'.base_url().'"/>
                                <meta property="og:description" content="AskCEG - an exclusive question and answer platform for CEGians"/>
                              ';

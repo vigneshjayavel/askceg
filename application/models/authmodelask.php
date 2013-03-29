@@ -131,7 +131,7 @@ class AuthModelAsk extends CI_Model {
                         $publishStream = $facebook->api("/$user/feed", 'post', array(
                             'message' => "Signed-up for AskCEG!",
                             'link' => 'http://askceg.in/home',
-                            'picture' => 'http://askceg.in/assets/images/logo.png',
+                            'picture' => 'http://askceg.in/assets/img/fbthumb-new.jpg',
                             'name' => 'AskCEG beta',
                             'description' => 'AskCEG beta!'
                         ));                        
