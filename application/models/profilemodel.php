@@ -152,6 +152,12 @@ class ProfileModel extends CI_Model{
         Follow</a>';
 
       }
+      //topicimg edit markup
+      $changeImageMarkup='';
+      if($row['posted_by']==$currentUserId){
+      $changeImageMarkup='</br><a href='.base_url().'TestController/Upload/'.$row['topic_id'].'">click here</a> to change the topic image</br>';
+    }
+    
     $topicDescMarkup='';
     if(strlen($row['topic_desc'])>=2){
 
@@ -161,10 +167,10 @@ class ProfileModel extends CI_Model{
     }
     else{
             if($row['posted_by']==$currentUserId)
-              $topicDescMarkup.='No description yet!!!<a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Add description</a>';
+              $topicDescMarkup.='No topic description yet!!!<a href='.base_url().'ProfileController/editTopicDesc/'.$row['topic_id'].'>Add description</a>';
     }
 
-      $topicDescMarkup.='want to create a topic page like this?<a href="'.base_url().'QuestionsController/CreateDiscussion">click here!</a>';
+      $topicDescMarkup.='<br></p>want to create a topic page like this?<a href="'.base_url().'QuestionsController/CreateDiscussion">click here!</a></p>';
     if(file_exists(base_url().'assets/img/topic/'.$row['topic_id'].'.jpg'))
                               $imgurl=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
                             else
@@ -175,6 +181,8 @@ class ProfileModel extends CI_Model{
         <div class="span6 pull-left style="min-height: 200px;">      
           <div class="profilePicHolder">
             <img src="'.$imgurl.'" alt="300x200" style="width: 300px; height: 200px;">
+             
+          '.$changeImageMarkup.'        
           </div>
           <div class="profileTitle caption">
             <h3>'.$row['topic_name'].'</h3>
@@ -356,6 +364,7 @@ class ProfileModel extends CI_Model{
     $sql="select topic_desc from TOPIC where topic_id=?";
     $query=$this->db->query($sql,array($topic_id));
     $row=$query->row_array();
+
     return '
      <h4>Please enter the topic description <h4>
      <form class="form-horizontal" id="editTopicDesc" method=\'post\' action="'.base_url().'ProfileController/updateTopicDesc/'.$topic_id.'">
