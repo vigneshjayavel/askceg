@@ -124,7 +124,7 @@ class AuthModelAsk extends CI_Model {
                 $user_id="AAA";
                 $q5  = "insert into USERS(user_id,email_id,profile_pic) values('$user_id','$email','$pic')";
                 $db->query($q5);
-                
+                /*
                 $user     = $facebook->getUser();
                 if ($user) {
                     try {
@@ -139,7 +139,7 @@ class AuthModelAsk extends CI_Model {
                     catch (FacebookApiException $e) {
                     }
                 }
-                
+                */
                 //auto mail
                 $emailData['to']=$email;
                 $emailData['subject']='[AskCEG] Welcome to AskCEG!';

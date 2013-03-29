@@ -43,7 +43,10 @@ class SearchController extends CI_Controller {
 
 	function search($searchQuery){
 
-		echo "search results for ".$searchQuery;
+		$this->load->model('SearchModel');
+		$this->data['centerContent']='<h3>Advanced search - Coming soon!! Hope you find the answer for <b>'.urldecode($searchQuery).'</b> then!</h3>';
+		$this->load->view('Skeleton',$this->data);
+		
 	}
 
 }

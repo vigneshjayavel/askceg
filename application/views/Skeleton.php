@@ -2,10 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>AskCEG</title>
+    <title>AskCEG beta</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AskCEG - an exclusive question and answer platform for CEGians">
-    <meta name="author" content="AskCEG webteam">
+    <meta name="author" content="Vignesh Jayavel">
+    <meta name="keywords" content="askceg,ceg,ceg questions,ceg forum,ctf,ceg tech forum,anna university forum, anna university chennai">
     <?php 
       if(isset($metaContent))
         echo $metaContent;
