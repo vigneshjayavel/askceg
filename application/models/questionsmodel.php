@@ -312,7 +312,17 @@ function printanswer($qid){
       3=60,20
       4=80,20
       5=100,20
-      for set=1 we'll be getting records from 0,19 (20 being the limit)
+      for set=1 we'll be getting records 
+Sign up for AskCEG (Already registered? Click here to login )
+
+Login/Register with just one click via facebook
+
+
+We protect your privacy!
+
+or
+Create an account here.
+from 0,19 (20 being the limit)
       for set=2 we'll be getting records from 20,39 (20 being the limit)
       for set=3 we'll be getting records from 40,59 (20 being the limit)
       */
@@ -394,7 +404,7 @@ function printanswer($qid){
                 <i class="icon-time"></i>
                 <a href="#">'.$row['timestamp'].'</a>
                 <i class="icon-comment"></i>
-                <a rel="tooltip popover" href="#" 
+                <a rel="tooltip popover" href="'.$questionUrl.$row['url'].'" 
                   data-placement="bottom">
                   <span class="answersCountSpan" data-q_id="'.$row['q_id'].'" >'.$this->sqlGetAnswerCount($row['q_id']).'</span> Answers
                 </a>
