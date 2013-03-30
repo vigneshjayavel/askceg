@@ -41,16 +41,11 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo base_url()?>assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo base_url()?>assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="<?php echo base_url()?>assets/ico/apple-touch-icon-57-precomposed.png">
-    <script src="<?php echo base_url()?>assets/js/jquery.js"></script>
-    <script src="<?php echo base_url()?>assets/js/bootstrap.js"></script>
+    
 
-    <script src="<?php echo base_url()?>assets/js/myscripts/myReusableGlobalScript.js"></script>
-      
-    <script src="<?php echo base_url()?>assets/js/underscore.js"></script>
-    <script src="<?php echo base_url()?>assets/js/backbone.js"></script>
+
     <!--rich text editor-->
     <link rel="stylesheet" href="<?php echo base_url()?>assets/redactor-editor/redactor.css" />
-    <script src="<?php echo base_url()?>assets/redactor-editor/redactor.min.js"></script>
     
     <script type="text/javascript">
     <!--
@@ -85,24 +80,7 @@
     -->
     </script>
         
-    <?php 
-      if(isset($page)){
-    ?>
-    <script src="<?php echo base_url()?>assets/js/myscripts/<?php echo $page?>Script.js"></script>
-   
-    
-    <?php
-      }
-    ?>
 
-    <?php 
-      $CI = &get_instance();
-      if($CI->session->userdata('isNormalAccount')==0){
-    ?>
-      <script type="text/javascript" src="<?php echo base_url()?>assets/js/login.js"></script>
-    <?php
-      }
-    ?>
     <!--style type="text/css" id="page-css">codeignitor
       /* Styles specific to this particular page */
       .scroll-pane
@@ -155,21 +133,84 @@
     </div><!--/.fluid-container-->
 
   </body>
-  <?php if(ENVIRONMENT!='local'){ ?>
+
+
+  <?php 
+  if(ENVIRONMENT=='local'){
+  ?>
+  <script src="<?php echo base_url()?>assets/js/jquery.js"></script>
+  <script src="<?php echo base_url()?>assets/js/bootstrap.js"></script>
+  <script src="<?php echo base_url()?>assets/js/underscore.js"></script>
+  <script src="<?php echo base_url()?>assets/js/backbone.js"></script>
+  <?php
+  }
+  else{
+  ?>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+  <?php
+  }
+  ?>
+  <script src="<?php echo base_url()?>assets/js/myscripts/myReusableGlobalScript.js"></script>
+  <script src="<?php echo base_url()?>assets/redactor-editor/redactor.min.js"></script>
+  
+  <?php 
+  if(isset($page)){
+  ?>
+  <script src="<?php echo base_url()?>assets/js/myscripts/<?php echo $page?>Script.js"></script>
+  <?php
+  }
+  ?>
+  <?php 
+  $CI = &get_instance();
+  if($CI->session->userdata('isNormalAccount')==0){
+  ?>
+  <script type="text/javascript" src="<?php echo base_url()?>assets/js/login.js"></script>
+  <?php
+  }
+  ?>
+  <!--/registerModal-->
   <script type="text/javascript">
+  $(document).ready(function(){
+    $('#registerModal').modal({
+      show:true,
+      backdrop:'static'
+    }).on('hide',function(){
+      //on hide reload the current page so that session gets set
+          location.reload();    
+    });
+  });
+  </script>
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-39689726-1']);
-  _gaq.push(['_trackPageview']);
+    <?php if(ENVIRONMENT!='local'){ ?>
+      <script type="text/javascript">
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-39689726-1']);
+      _gaq.push(['_trackPageview']);
 
-</script>
-  <?php }
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+      </script>
+
+    <?php
+    }
+    ?>
+
+
+
+
+
+
+
+
+  <?php 
 
   if(!$CI->session->userdata('logged_in')){
 
@@ -233,25 +274,9 @@
   </div>
   </div>
   </div>
-  <!--/registerModal-->
-  <script type="text/javascript">
-  $(document).ready(function(){
-    $('#registerModal').modal({
-      show:true,
-      backdrop:'static'
-    }).on('hide',function(){
-      //on hide reload the current page so that session gets set
-          location.reload();    
-    });
-  });
-  </script>
 
-
-
-
-  <?php
-  }
-  ?>
+<?php
+}?>
 
 
 </html>

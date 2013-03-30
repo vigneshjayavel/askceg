@@ -1,15 +1,32 @@
 
 
-      RewriteEngine on
+	RewriteEngine on
 
-    #  RewriteBase /
+	#  RewriteBase /
 
-      # Hide the application and system directories by redirecting the request to index.php
+	# Hide the application and system directories by redirecting the request to index.php
 
-     # RewriteRule ^(application|system|\.svn) index.php/$1 [L]
+	# RewriteRule ^(application|system|\.svn) index.php/$1 [L]
 
-      RewriteCond %{REQUEST_FILENAME} !-f
- 
-      RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
 
-      RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+	RewriteCond %{REQUEST_FILENAME} !-d
+
+	RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+
+	#enable caching
+	ExpiresActive On
+	# Set up caching on media files for 1 week
+	<FilesMatch "\.(gif|jpg|jpeg|png|swf)$">
+	ExpiresDefault A604800
+	Header append Cache-Control "public"
+	</FilesMatch>
+
+	# Set up 2 Hour caching on commonly updated files
+	<FilesMatch "\.(xml|txt|html|js|css)$">
+	ExpiresDefault A7200
+	Header append Cache-Control "proxy-revalidate"
+	</FilesMatch>
+
+
+
