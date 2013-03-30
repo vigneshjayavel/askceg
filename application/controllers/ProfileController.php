@@ -8,7 +8,7 @@ class ProfileController extends CI_Controller {
 	{
 		$this->load->model('profilemodel');
 		$data['centerContent']=$this->profilemodel->getCenterContent();
-		$this->load->view('Skeleton',$data);
+		$this->load->view('spSkeleton',$data);
 		
 	}
 	function ViewUserProfile($user_id){
@@ -261,7 +261,11 @@ class ProfileController extends CI_Controller {
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
 		$data['centerContent']=$this->profilemodel->getCenterContentMyGroup();
+		$group_id=$this->profilemodel->getGroupId($this->session->userdata('group_id'));
+		if($group_id!=0||$group_id!=''||$group_id!=null)
 		$data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,null,null,"true");
+		else
+        $data['centerContent'].=":(";
 		$data['paginationrequired']="true";
 		$data['paginationtype']="question";
 		$data['groupScope']="true";

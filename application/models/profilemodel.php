@@ -482,14 +482,13 @@ function getInterimProfile(){
 
     }
     function getGroupId($user_id){
-      echo $user_id;
+    
      $sql='select group_id from USERS where user_id=?';
      $query=$this->db->query($sql,array($user_id));   
        if($row=$query->row_array())
-        echo 'Yess';
-      else
-        echo 'No';
+      
        return $row['group_id'];
+      
      }
      function getYearUserPhoto($year_id){//get the photos of users belonging to specified year
           $sql="select user_id from USERS where user_year=?";

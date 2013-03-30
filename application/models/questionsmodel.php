@@ -254,7 +254,7 @@ function printanswer($qid){
       $currentUserId=$CI->session->userdata('user_id');
       $groupId=$this->sqlGetGroupId($currentUserId);
       if($groupId==null||$groupId==''||$groupId==0){
-        $groupId=-1;        
+        $groupId=0;        
       }
     if($group_scope==true || $group_scope=="true"){ //group_scope questions
 
