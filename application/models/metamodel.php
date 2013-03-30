@@ -1,8 +1,22 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class MetaModel extends CI_Model{
+  public function curPageURL() {
+     $pageURL = 'http';
+     if ( isset( $_SERVER["HTTPS"] ) && strtolower( $_SERVER["HTTPS"] ) == "on" ) {$pageURL .= "s";}
+     $pageURL .= "://";
+     if ($_SERVER["SERVER_PORT"] != "80") {
+      $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+     } else {
+      $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+     }
+     return $pageURL;
+  }
 
     function getMeta($type,$identifier=null){
+
+      $currentUrl=$this->curPageURL();
+
       $meta='';
         switch($type){
           case 'question':
@@ -19,7 +33,7 @@ class MetaModel extends CI_Model{
                                <meta property="og:image" content="'.$url.'"/>
                                <meta property="og:site_name" content="'.base_url().'"/>
                                <meta property="og:description" content="posted by '.$row['user_name'].$row['q_description'].'"/>
-                             ';
+                                <meta property="og:url" content="'.$currentUrl.'" />';
                           }
                           else{
                             return $this->getMeta("normal");
@@ -46,6 +60,7 @@ class MetaModel extends CI_Model{
                                <meta property="og:image" content="'.$url.'"/>
                                <meta property="og:site_name" content="'.base_url().'"/>
                                <meta property="og:description" content="'.$desc.'"/>
+                               <meta property="og:url" content="'.$currentUrl.'" />
                              ';
                           }
                           else{
@@ -73,6 +88,7 @@ class MetaModel extends CI_Model{
                                <meta property="og:image" content="'.$url.'"/>
                                <meta property="og:site_name" content="'.base_url().'"/>
                                <meta property="og:description" content="'.strip_tags($row['a_content']).'"/>
+                               <meta property="og:url" content="'.$currentUrl.'" />
                              ';
                            }
                            else{
@@ -85,6 +101,7 @@ class MetaModel extends CI_Model{
                                <meta property="og:image" content="'.base_url().'assets/img/fbthumb-new.jpg"/>
                                <meta property="og:site_name" content="'.base_url().'"/>
                                <meta property="og:description" content="AskCEG - an exclusive question and answer platform for CEGians"/>
+                               <meta property="og:url" content="'.$currentUrl.'" />
                              ';
                              break;
 
