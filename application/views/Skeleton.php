@@ -118,7 +118,7 @@
 
   <body data-spy="scroll" data-target=".subnav" data-offset="80">
     <div class="background-holder"></div>
-    <div id="alertBox" style="display:none; padding-top: 60px;">
+    <div id="alertBox" style="display:none; padding-top: 58px;">
       <div class="alertMessage">
           Some Msg!!
       </div>

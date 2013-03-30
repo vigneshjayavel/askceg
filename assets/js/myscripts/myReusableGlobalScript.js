@@ -1,5 +1,5 @@
 
-function displayNotification(type,msg,redirectUrl){
+function displayNotification(type,msg,redirectUrl,wait){
     /*
     //display an alert msg
     $('<div class="alert alert-block alert-'+type+' fade in">' +
@@ -17,12 +17,22 @@ function displayNotification(type,msg,redirectUrl){
     */
     $('#alertBox .alertMessage').html('<span>'+msg+'</span>');
     $('#alertBox').fadeIn('slow');
-    setTimeout(function() {   
-       $('#alertBox').fadeOut('slow');
-       if(redirectUrl!=null){
-        location.href=redirectUrl;
-       }
-    }, 3000);
+    if(wait===undefined){
+        console.log('auto hide')
+        setTimeout(function() {   
+           $('#alertBox').fadeOut('slow');
+           if(redirectUrl!=undefined){
+            location.href=redirectUrl;
+           }
+        }, 3000);
+    }
+}
+
+function hideNotification(redirectUrl){
+    $('#alertBox').fadeOut('slow');
+    if(redirectUrl!=undefined){
+       location.href=redirectUrl;
+    }
 }
 
 $(window).load(function(){
@@ -164,76 +174,6 @@ $(document).ready(function(){
 
 });
 
-function initializeTicker() {
-
-    var timeID = 0;
-
-
-    if ($("div.text > div")
-        .length > 0) {
-        $("div.text > div")
-            .css("display", "none");
-        $("div.text > div:first")
-            .fadeIn(2000)
-            .css("display", "block")
-            .addClass("nowShowing");
-        timeID = setInterval('textRotate()', 2000);
-    }
-
-    $("div.text")
-        .mouseenter(function () {
-        clearInterval(timeID);
-    });
-
-    $("div.text")
-        .mouseleave(function () {
-        timeID = setInterval('textRotate()', 2000);
-    });
-
-
-
-}
-
-function textRotate() {
-
-
-    var items = $("div.text > .nowShowing");
-
-    if (items.length < 6) {
-
-        if ($("div.text > .nowShowing:last")
-            .next()
-            .length > 0) {
-
-            items.next()
-                .fadeIn(2000)
-                .css("display", "block")
-                .addClass("nowShowing");
-        } else {
-
-            $("div.text > div.nowShowing")
-                .each(function () {
-                $(this)
-                    .slideUp("2000")
-                    .removeClass("nowShowing");
-            });
-
-            $("div.text > div:first")
-                .fadeIn(2000)
-                .css("display", "block")
-                .addClass("nowShowing");
-        }
-
-
-    } else {
-
-        $("div.text > div.nowShowing:first")
-            .slideUp("2000")
-            .removeClass("nowShowing");
-
-    }
-
-}
 
 //TODO
 $(document).ready(function(){
@@ -274,7 +214,7 @@ $(document).ready(function(){
 
 
         if(!endOfRecords){
-            displayNotification('warning','<div id="paginationLoadingGfx"><center><img height=20 width=20 src="'+CI.base_url+'assets/img/mini-loader.gif"/>Loading...</center></div>');
+            displayNotification('warning','<div id="paginationLoadingGfx"><center><img height=20 width=20 src="'+CI.base_url+'assets/img/mini-loader.gif"/>Loading...</center></div>',null,'wait');
             $.ajax({
                 type: "post",
                 url: CI.base_url+'TestController/api_getQuestionsMarkup/',
@@ -297,9 +237,17 @@ $(document).ready(function(){
                         try {
                             var str = '';
                             var items=obj.data;
-
+                            //find no. of question elements contained in the markup
+                            var numItems = $(items).filter('.questionElementDiv').length;
+                            if(numItems<20){
+                                //end of records
+                                endOfRecords=true;
+                                hideNotification();
+                            }
+                            console.log(numItems)
                             $(this).append(str).fadeIn('slow');
                             $('#loadMoreQs').remove();
+                            hideNotification();
                             //$('#paginationLoadingGfx').remove();
                             $('#scrollableContentDiv').append(items).append('');
     ;
@@ -322,9 +270,8 @@ $(document).ready(function(){
 
         }
         else{
-            $('paginationLoadingGfx').remove();
+            displayNotification('warning','End of Questions for now!',null,null);
 
-            displayNotification('warning','End of Questions for now!');
 
         }
     }//end triggerDataLoad
