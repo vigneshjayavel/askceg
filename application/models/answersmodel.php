@@ -23,24 +23,28 @@ function sqlGetUserName($user_id){
   function userMarkup($user_id){
     $sql="select user_name,profile_pic,email_id from USERS where user_id=?";
     $query=$this->db->query($sql,array($user_id));
-  $markup='';
-  if($row=$query->row_array()){
-    
-    $user_name=$this->sqlGetUserName($user_id);
-   if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
-         $email=$row['email_id'];
-         $url=$this->get_gravatar($email);
-      }
-      else
-        $url=$row['profile_pic'];
-      
+  	$markup=null;
+	if($row=$query->row_array()){
 
-    return '<a rel="tooltip" data-placement="bottom" data-original-title="'.$user_name.'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
-              <img src="'.$url.'" height="40px" width="40px" alt="'.$user_name.'" class="display-pic" />
-            </a>';
+		$user_name=$row['user_name'];
+		if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
+			$email=$row['email_id'];
+			$url=$this->get_gravatar($email);
+		}
+	  	else
+	    	$url=$row['profile_pic'];
+	  
 
-  }
-  
+		$markup= '<a rel="tooltip" data-placement="bottom" data-original-title="'.$user_name.'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
+	          <img src="'.$url.'" height="40px" width="40px" alt="'.$user_name.'" class="display-pic" />
+	        </a>';
+
+  	}
+  	else{
+  		$markup= "user doesnt exist";
+  	}
+  	
+  	return $markup;
 
           
   }
@@ -120,10 +124,12 @@ function sqlGetUserName($user_id){
 	        	redirect('HomeController/error');
 
 	        $sql = "SELECT 
-				         a.a_id,a.a_content,a.q_id,a.posted_by,a.timestamp
+				         a.a_id,a.a_content,a.q_id,a.posted_by,a.timestamp,
+				         u.user_name,u.user_id,u.profile_pic,u.email_id
 					FROM
-						ANSWER a
+						ANSWER a, USERS u
 					where 
+						a.posted_by=u.user_id and
 						a.q_id=?  
 					order by a.a_id desc
 					";
@@ -141,10 +147,12 @@ function sqlGetUserName($user_id){
 	        else
 	        	redirect('HomeController/error');
  			$sql = "SELECT 
-				         a.a_id,a.a_content,a.q_id,a.posted_by,a.timestamp
+				         a.a_id,a.a_content,a.q_id,a.posted_by,a.timestamp,
+				         u.user_name,u.email_id,u.profile_pic,u.user_id
 					FROM
-						ANSWER a
+						ANSWER a, USERS u
 					where 
+						a.posted_by=u.user_id and
 						a.a_id=?
 					
 					";
@@ -172,34 +180,66 @@ function sqlGetUserName($user_id){
 			$vote=$this->sqlCheckUserVotedAnswer($currentUserId,$row->a_id);
 			if($vote==1){
 				$dynamicAnswerVotesDiv='
-				<span class="label label-success">You <i class="icon-thumbs-up"></i> this</span>
-				<div class="votesCountDiv" style="height:40%; ">
-					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
-				</div>';
+				<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
+				 <span class="label label-success">You <i class="icon-thumbs-up"></i> this</span>
+				';
 			}
 			else if($vote==-1){
 				$dynamicAnswerVotesDiv='
-				<span class="label label-warning">You <i class="icon-thumbs-down"></i> this</span>
-				<div class="votesCountDiv" style="height:40%; ">
-					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
-				</div>';
+				<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
+				 <span class="label label-warning">You <i class="icon-thumbs-down"></i> this</span>
+				';
 			}
 			else if($vote==0){
 				$dynamicAnswerVotesDiv='
-				<div class="upVotesDiv" style="height:30%; ">
-					<a class="voteButton upVoteButton" href="#" ><i class="icon-thumbs-up"></i></a>
-				</div>
-				<div class="votesCountDiv" style="height:40%; ">
-					<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
-				</div>
-				<div class="downVotesDiv" style="height:30%; ">
-					<a class="voteButton downVoteButton" href="#" ><i class="icon-thumbs-down"></i></a>
-				</div>';
+				<span class="votesCount">'.$this->sqlGetVotesCoutForAnswer($row->a_id).'</span>
+				 <a class="voteButton upVoteButton" href="#" ><i class="icon-thumbs-up"></i></a>
+				<a class="voteButton downVoteButton" href="#" ><i class="icon-thumbs-down"></i></a>
+				';
 			}
-		     
+		    
+		    //user markup
+
+			$user_name=$row->user_name;
+			if(strlen($row->profile_pic)==0||strlen($row->profile_pic)==1){
+				$email=$row->email_id;
+				$url=$this->get_gravatar($email);
+			}
+		  	else
+		    	$url=$row->profile_pic;
+		  
+
+			$user_avatar= '<a rel="tooltip" data-placement="bottom" data-original-title="'.$user_name.'" href="'.base_url().'ProfileController/ViewUserProfile/'.$row->user_id.'">
+		          <img src="'.$url.'" height="40px" width="40px" alt="'.$user_name.'" class="display-pic" />
+		        </a>';
+
+			  
+			  	
+
 			$previousAnswers.='
-			
+				
 				<div class="answerElementWrapper">
+					<div class="answerElementDiv" data-a_id="'.$row->a_id.'" class="well" style="float:left;width:100%">
+						<div class="span1">'.
+							$user_avatar.'
+						</div>
+						<div class="answerDetail span11">
+							<div class="row userDetailDiv">
+								<a rel="tooltip" data-placement="bottom" data-original-title="'.$user_name.'" href="'.base_url().'ProfileController/ViewUserProfile/'.$row->user_id.'">'.$row->user_name.'</a> <i class="icon-time"></i>'.$row->timestamp.'
+							</div>
+							<div class="row answerContentDiv">
+								<a href="'.base_url().'AnswersController/viewAnswer/'.$row->a_id.'" class="linkableAnswerContent">'.$row->a_content.'</a>
+							</div>
+							<div class="row answerVotesDiv" style="float:left;text-align:center">'.
+								$dynamicAnswerVotesDiv.$deleteButton.'
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+				<!--div class="answerElementWrapper">
 					<div class="answerElementDiv" data-a_id="'.$row->a_id.'" class="well" style="float:left;width:100%">
 						<div class="answerVotesDiv" style="float:left;text-align:center">
 							'.$dynamicAnswerVotesDiv.'
@@ -217,7 +257,7 @@ function sqlGetUserName($user_id){
 				    		</div>
 			    		</div>
 				    </div>
-				</div>
+				</div-->
 				';
 
 		

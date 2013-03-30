@@ -72,7 +72,7 @@ class MetaModel extends CI_Model{
                               $meta='<meta property="og:title" content="'.$row['q_content'].'"/>
                                <meta property="og:image" content="'.$url.'"/>
                                <meta property="og:site_name" content="'.base_url().'"/>
-                               <meta property="og:description" content="'.$row['a_content'].'"/>
+                               <meta property="og:description" content="'.strip_tags($row['a_content']).'"/>
                              ';
                            }
                            else{

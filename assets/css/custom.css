@@ -6,6 +6,9 @@ body{
 
 	background-color: #f1f1f1 !important;
 }
+.answerContentDiv p{
+  color:#999999;
+}
 
 div#right ul.nav{
 	background-color: #fafafa;
@@ -109,6 +112,7 @@ a.question:hover{
 .answerElementDiv{
   background-color: #fff;
   margin-bottom: 10px;
+  padding: 5px
 }
 
 input#ajaxSearchPanel{
