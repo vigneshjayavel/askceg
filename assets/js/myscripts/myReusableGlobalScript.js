@@ -837,6 +837,7 @@ $(document).ready(function(){
 
         if(!$('#postQuestionButton').attr('disabled')){
                 console.log(questionObj);
+                $('#postQuestionButton').text('Please wait..Posting..');
             //post qs ajaxIly
             $.post(CI.base_url+'QuestionsController/postQuestionToDb',
                 {'questionObj':JSON.stringify(questionObj)},
@@ -853,6 +854,7 @@ $(document).ready(function(){
                     else{
                         displayNotification(jsonObj.status,jsonObj.msg);
                     }
+                    $('#postQuestionButton').val('Post it');
                 },//callback ends
                 'json'
             );//post ends

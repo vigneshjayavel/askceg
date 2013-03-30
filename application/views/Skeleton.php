@@ -41,26 +41,14 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo base_url()?>assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo base_url()?>assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="<?php echo base_url()?>assets/ico/apple-touch-icon-57-precomposed.png">
-    <?php 
-    if(ENVIRONMENT=='local'){
-    ?>
     <script src="<?php echo base_url()?>assets/js/jquery.js"></script>
     <script src="<?php echo base_url()?>assets/js/bootstrap.js"></script>
+
     <script src="<?php echo base_url()?>assets/js/myscripts/myReusableGlobalScript.js"></script>
+      
     <script src="<?php echo base_url()?>assets/js/underscore.js"></script>
     <script src="<?php echo base_url()?>assets/js/backbone.js"></script>
-    <?php
-    }
-    else{
-    ?>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="<?php echo base_url()?>assets/js/bootstrap.min.js"></script>
-    <script src="<?php echo base_url()?>assets/js/myscripts/myReusableGlobalScript.js"></script>
-    <script src="<?php echo base_url()?>assets/js/underscore.js"></script>
-    <script src="<?php echo base_url()?>assets/js/backbone.js"></script>
-    <?php
-    }
-    ?>    <!--rich text editor-->
+    <!--rich text editor-->
     <link rel="stylesheet" href="<?php echo base_url()?>assets/redactor-editor/redactor.css" />
     <script src="<?php echo base_url()?>assets/redactor-editor/redactor.min.js"></script>
     

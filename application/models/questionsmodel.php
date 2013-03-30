@@ -108,13 +108,13 @@ class QuestionsModel extends CI_Model{
             <p>Could\'nt find a topic you are looking for?Create a topic by <a href="'.base_url().'QuestionsController/CreateDiscussion">clicking here</a></p> 
           </div>
           <div class="control-group">
-            <label class="control-label" for="textarea">Question</label>
+            <label class="control-label" for="textarea">Question / Post title</label>
             <div class="controls">
               <textarea  disabled="true" id="questionText" class="input-xlarge" rows="3"></textarea>
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="textarea">Question Description (Optional)</label>
+            <label class="control-label" for="textarea">Question Description / Post Content</label>
             <div class="controls">
               <textarea  disabled="true" id="questionDescText" class="input-xlarge" rows="3"></textarea>
             </div>
