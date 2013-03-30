@@ -155,6 +155,17 @@
     </div><!--/.fluid-container-->
 
   </body>
+  <script>
+    $(document).ready(function(){
+
+      //prevent scroll when a is clicked
+      $('a[href=#]').click( function(e) {
+         e.preventDefault();
+         console.log('clicked');
+      });
+
+    });
+  </script>
   <?php if(ENVIRONMENT!='local'){ ?>
   <script type="text/javascript">
 
@@ -245,7 +256,11 @@
       //on hide reload the current page so that session gets set
           location.reload();    
     });
+
+      
   });
+
+
   </script>
 
 
