@@ -169,6 +169,8 @@
   })();
 
 </script>
+
+  <link href='http://fonts.googleapis.com/css?family=Telex' rel='stylesheet' type='text/css'>
   <?php }
 
   if(!$CI->session->userdata('logged_in')){
