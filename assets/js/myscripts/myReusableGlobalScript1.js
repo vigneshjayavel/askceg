@@ -1,3 +1,69 @@
+//og post activities
+function askQs(url) {
+    FB.api(
+        '/me/askcegbeta:ask', //askcegbeta is the app namespace, like is the action
+        'post',
+        {
+            question: url
+        },
+        function(response) {
+            console.log(response);
+            if (!response || response.error) {
+                alert(response.error);
+            } else {
+                alert('Thanks for posting a qs');
+        }
+    });
+}
+function ansQs(url) {
+    FB.api(
+        '/me/askcegbeta:answer', //askcegbeta is the app namespace, like is the action
+        'post',
+        {
+            question: url
+        },
+        function(response) {
+            console.log(response);
+            if (!response || response.error) {
+                alert(response.error.message);
+            } else {
+                alert('Thanks for posting an answer');
+        }
+    });
+}
+function followQs(url) {
+    FB.api(
+        '/me/og.follow', //askcegbeta is the app namespace, like is the action
+        'post',
+        {
+            question: url
+        },
+        function(response) {
+            console.log(response);
+            if (!response || response.error) {
+                alert(response.error.message);
+            } else {
+                alert('Thanks for following a qs');
+        }
+    });
+}
+function voteAns(url) {
+    FB.api(
+        '/me/askcegbeta:vote', //askcegbeta is the app namespace, like is the action
+        'post',
+        {
+            answer: url
+        },
+        function(response) {
+            console.log(response);
+            if (!response || response.error) {
+                alert(response.error.message);
+            } else {
+                alert('Thanks for voting an answer');
+        }
+    });
+}
+
 
 function displayNotification(type,msg,redirectUrl,wait){
     /*
@@ -792,7 +858,8 @@ $(document).ready(function(){
                     var redirectUrl=CI.base_url+'AnswersController/viewAnswersForQuestion/';
                     if(jsonObj.status=='success'){
                         redirectUrl+=jsonObj.qsUrl;
-                        displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);                    
+                        askQs(redirectUrl);
+                        //displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);                    
                     }
                     else if(jsonObj.status=='warning'){
                         redirectUrl+=jsonObj.qsUrl;

@@ -29,10 +29,13 @@ class MetaModel extends CI_Model{
                               $url=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
                             else
                               $url=base_url().'assets/img/defaultquestion.jpg';
-                          $meta='<meta property="og:title" content="'.$row['q_content'].'"/>
+                          $meta='
+                              <meta property="og:type" content="question" /> 
+                              <meta property="question:options" content="'.$currentUrl.'" /> 
+                              <meta property="og:title" content="'.$row['q_content'].'"/>
                                <meta property="og:image" content="'.$url.'"/>
                                <meta property="og:site_name" content="'.base_url().'"/>
-                               <meta property="og:description" content="posted by '.$row['user_name'].$row['q_description'].'"/>
+                               <meta property="og:description" content=" Posted by '.$row['q_content'].$row['user_name'].'. '.$row['q_description'].'"/>
                                 <meta property="og:url" content="'.$currentUrl.'" />';
                           }
                           else{
@@ -41,7 +44,9 @@ class MetaModel extends CI_Model{
                           }
                           break;
           case 'topic':
-                          $sql="select t.topic_id,t.topic_name,t.topic_desc,t.posted_by,u.user_name from TOPIC t,USERS u where t.topic_url=? and t.posted_by=u.user_id";
+                          $sql="select t.topic_id,t.topic_name,t.topic_desc,
+                          t.posted_by,u.user_name from TOPIC t,USERS u 
+                          where t.topic_url=? and t.posted_by=u.user_id";
                           $query=$this->db->query($sql,array($identifier));
                           
                           if($row=$query->row_array()){
@@ -84,10 +89,11 @@ class MetaModel extends CI_Model{
                                   $url=base_url().'assets/img/topic/'.$row['topic_id'].'.jpg';
                             else
                               $url=base_url().'assets/img/defaulttopic.jpg';
-                              $meta='<meta property="og:title" content="'.$row['q_content'].'"/>
+                              $meta='<meta property="og:type"   content="askcegbeta:question" /> 
+                                <meta property="og:title" content="'.$row['q_content'].'"/>
                                <meta property="og:image" content="'.$url.'"/>
                                <meta property="og:site_name" content="'.base_url().'"/>
-                               <meta property="og:description" content="'.strip_tags($row['a_content']).'"/>
+                               <meta property="og:description" content="Answer : '.strip_tags($row['a_content']).'"/>
                                <meta property="og:url" content="'.$currentUrl.'" />
                              ';
                            }

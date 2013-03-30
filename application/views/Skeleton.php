@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# askcegbeta: http://ogp.me/ns/fb/askcegbeta#">
     <meta charset="utf-8">
     <title>AskCEG beta</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,9 @@
     <?php 
       if(isset($metaContent))
         echo $metaContent;
-      ?>
+    ?>
+    <meta property="fb:app_id" content="314511855323893" /> 
+  
     <!-- Le styles -->
     <link href="<?php echo base_url()?>assets/css/bootstrap.css" rel="stylesheet">
     <link href="<?php echo base_url()?>assets/css/custom.css" rel="stylesheet">
@@ -44,7 +46,7 @@
     <script src="<?php echo base_url()?>assets/js/jquery.js"></script>
     <script src="<?php echo base_url()?>assets/js/bootstrap.js"></script>
 
-    <script src="<?php echo base_url()?>assets/js/myscripts/myReusableGlobalScript.js"></script>
+    <script src="<?php echo base_url()?>assets/js/myscripts/myReusableGlobalScript1.js"></script>
       
     <script src="<?php echo base_url()?>assets/js/underscore.js"></script>
     <script src="<?php echo base_url()?>assets/js/backbone.js"></script>
@@ -159,7 +161,7 @@
     $(document).ready(function(){
 
       //prevent scroll when a is clicked
-      $('a[href=#]').click( function(e) {
+      $('a[href="#"]').on('click', function(e) {
          e.preventDefault();
          console.log('clicked');
       });

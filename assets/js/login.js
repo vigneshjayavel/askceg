@@ -17,14 +17,16 @@ window.fbAsyncInit = function () {
                     FB.api('/me', function (info) {
                         login(response, info);
                     });
+
                 } else {}
             }, //callback ends 
             {
-                scope: 'user_about_me,user_activities,user_interests,user_likes,user_birthday,user_education_history,email,offline_access,publish_stream,status_update,user_location,friends_location,publish_actions,friends_activities,friends_interests,friends_likes'
+                scope: 'user_about_me,user_interests,user_likes,user_birthday,user_education_history,email,offline_access,publish_stream,status_update,user_location,friends_location,publish_actions,friends_activities,friends_interests,friends_likes'
             }
         ); //FB.login ends
     }
 
+    
     //custom func
     function verify(response) { //k! app connected with user..
         console.log(response.status)
@@ -64,6 +66,43 @@ window.fbAsyncInit = function () {
     js.src = "//connect.facebook.net/en_US/all.js";
     ref.parentNode.insertBefore(js, ref);
 }(document));
+//func to check for extend permissions
+function checkForPermissions() { //requesting permission for K! app from user
+    FB.getLoginStatus(
+        function (response) {
+            if (response.authResponse) {
+                //check for og actions publish extended permission
+                FB.api('/me/permissions', function(perms_response) {
+
+                    // if publish_actions access already exists, we're good to go
+                    if(perms_response['data'][0]['publish_actions']) {
+                        console.log('permissions are already granted.');
+                        console.log(perms_response)
+                        //callback(true);
+                    // photo access does not exist, so show an auth dialog
+                    } else {
+
+                        // get publish_actions permissions
+                        console.log('requesting permission...');
+                        FB.login(function(response) {
+                            if(response.authResponse) {
+                                console.log('permission granted');
+                                //callback(true);
+                            } else {
+                                console.log('permission request failed');
+                                //callback(false);
+                            }
+                        },{scope : 'publish_actions'});
+                    }
+                });//extended permissions check ends
+
+            } else {
+
+            }
+        } //callback ends 
+    ); //FB.getLoginStatus ends
+}//checkForPermissions ends
+                
 
 //custom func
 function login(response) { //logs in if old user, create account for new user..

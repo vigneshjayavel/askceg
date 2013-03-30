@@ -7,6 +7,19 @@ class TestController extends CI_Controller {
 		$this->load->view('TestView');
 
 	}
+	function testNotifs(){
+
+		$this->load->model('notificationsmodel');
+
+    	echo $this->notificationsmodel->test();
+
+	}
+
+	function testFb(){
+		$data['centerContent']='<input type="submit" id="testerButton" onClick="checkForPermissions();"/>
+          ';
+		$this->load->view('Skeleton',$data);
+	}
 	function mail(){
 		$mailData['to']='dgr8geek@gmail.com';
 		$mailData['subject']='aasasas';
