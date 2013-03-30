@@ -46,7 +46,9 @@ class HomeModel extends CI_Model{
                   $content.='<div id="bio">
                   <img src="'.$row['profile_pic'].'" alt="No pic" class="display-pic" />
                   <h3>Greetings '.$CI->session->userdata('user_name').'!</h3>
-                   <p>Get to know about AskCEG.. Please read the following info..</p>
+                  <p>
+                  <img height="125" width="125" src="'.base_url().'assets/img/fbthumb.jpg" />
+                   Get to know about AskCEG.. Please read the following info..</p>
                    </div>';
     }
     $content.='
@@ -112,13 +114,15 @@ class HomeModel extends CI_Model{
                   </div>
                   <div >
                     <div class="span2">
-                      <a href="#" class="thumbnail">
+                      <a href="https://www.facebook.com/Vikki.ceg" class="thumbnail">
                           <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc7/c37.37.457.457/s160x160/418158_513008858731558_1392611612_n.jpg" alt="">
                       </a>
                     </div>
                     <div class="span6">      
                       <p>4th year MSc CS (Integrated)</p>
-                      
+                      <address>
+                      Student Director at <a href="www.cegtechforum.com">CEG Tech Forum</a>
+                      </address>
                     </div>
                   </div>
                   
@@ -131,7 +135,7 @@ class HomeModel extends CI_Model{
                   </div>
                   <div >
                     <div class="span2">
-                      <a href="#" class="thumbnail">
+                      <a href="https://www.facebook.com/vishnu.jayvel" class="thumbnail">
                           <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/c66.66.828.828/s160x160/532511_387198618032683_200153497_n.jpg" alt="">
                       </a>
                     </div>
@@ -163,7 +167,7 @@ class HomeModel extends CI_Model{
               </div>     
               <div class="tab-pane fade" id="suggestions">
                 <h2>Your suggestions help us!</h2>
-                <p>Send us your view/ideas/suggestions to <a href="emailto:askceg.in@gmail.com">askceg.in@gmail.com</a></p>
+                <p>Send us your view/ideas/suggestions to <a href="emailto:admin@askceg.krk.org.in"></a></p>
               </div>         
             </div>
           </div>

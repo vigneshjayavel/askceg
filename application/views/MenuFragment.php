@@ -64,6 +64,9 @@
                             </ul>
                             <?php } ?>
                     </li>
+                    <li>
+                        <a href="<?php echo base_url();?>home"><i class="icon-white icon-info-sign"></i></a>
+                    </li>
                   </ul>
             </div>
         </div>

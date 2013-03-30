@@ -13,6 +13,7 @@
  *
  *     local
  *     cloud
+ 		ctf
  *     
  *
  * NOTE: If you change these, also change the error_reporting() code below
@@ -36,7 +37,7 @@ if (defined('ENVIRONMENT'))
 			error_reporting(E_ALL);
 		break;
 	
-		case 'testing':
+		case 'ctf':
 		case 'cloud':
 			error_reporting(E_ALL);
 		break;

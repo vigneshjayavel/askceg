@@ -7,6 +7,15 @@ class TestController extends CI_Controller {
 		$this->load->view('TestView');
 
 	}
+	function mail(){
+		$mailData['to']='dgr8geek@gmail.com';
+		$mailData['subject']='aasasas';
+		$mailData['message']='asasasadasdasd';
+		$this->load->library('klib');
+		$this->klib->sendMail($mailData);
+		echo "mail sent";
+
+	}
     function createbatch(){
     	$this->load->model('testmodel');
 

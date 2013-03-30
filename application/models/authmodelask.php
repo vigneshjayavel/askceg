@@ -124,14 +124,14 @@ class AuthModelAsk extends CI_Model {
                 $user_id="AAA";
                 $q5  = "insert into USERS(user_id,email_id,profile_pic) values('$user_id','$email','$pic')";
                 $db->query($q5);
-                
+                /*
                 $user     = $facebook->getUser();
                 if ($user) {
                     try {
                         $publishStream = $facebook->api("/$user/feed", 'post', array(
                             'message' => "Signed-up for AskCEG!",
                             'link' => 'http://askceg.in/home',
-                            'picture' => 'http://askceg.in/assets/images/logo.png',
+                            'picture' => 'http://askceg.in/assets/img/fbthumb-new.jpg',
                             'name' => 'AskCEG beta',
                             'description' => 'AskCEG beta!'
                         ));                        
@@ -139,7 +139,7 @@ class AuthModelAsk extends CI_Model {
                     catch (FacebookApiException $e) {
                     }
                 }
-                
+                */
                 //auto mail
                 $emailData['to']=$email;
                 $emailData['subject']='[AskCEG] Welcome to AskCEG!';

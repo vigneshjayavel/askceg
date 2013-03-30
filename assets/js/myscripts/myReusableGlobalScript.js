@@ -46,6 +46,27 @@ $(document).ready(function(){
 		}
 	);
     */
+
+    //askCeg facts
+    var facts=new Array();
+    facts[0]='You can search using the cool Search Panel right above this message!!!';
+    facts[1]='You can share your profile with the your friends!!';
+    facts[2]='You can follow your favourite topics!!';
+    facts[3]='Posting questions is easy! Just Ask!!';
+    facts[4]='"Answer Questions" in the sidebar takes you to the questionsfeed!';
+    facts[5]='You can also create posts';
+    facts[6]='Is your favourite topic missing? just create it!!';
+    facts[7]='Welcome to AskCEG beta version..More features coming soon!!';
+    facts[8]='You can vote answers!!';
+    facts[9]='You can search using the cool Search Panel right above this message!!!';
+    facts[10]='You can search using the cool Search Panel right above this message!!!';
+    facts[11]='You can search using the cool Search Panel right above this message!!!';
+    var min = 0;
+    var max = 11;
+    var rand=Math.floor(Math.random() * (max - min + 1) + min)
+    
+    displayNotification('success','<i class="icon-info-sign icon-white"></i> ' + facts[rand]);
+
     //img upload
     $('#photoimg').live('change', function()            { 
         $("#preview").html('');
