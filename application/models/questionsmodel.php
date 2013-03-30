@@ -963,9 +963,9 @@ function getGroupScopeQuestions($group_id){
 
 	}
 
-  function sqlUpdateViewCount($q_id){
-  	$sql = "update QUESTION set views = views + 1 where q_id=?"; 
-  	$status=$this->db->query($sql,array($q_id));
+  function sqlUpdateViewCount($url){
+  	$sql = "update QUESTION set views = views + 1 where url=?"; 
+  	$status=$this->db->query($sql,array($url));
 
   }
 
