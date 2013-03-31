@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 29, 2013 at 12:34 PM
+-- Generation Time: Mar 31, 2013 at 12:41 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `ANSWER` (
   `vote` int(20) NOT NULL,
   `timestamp` varchar(50) NOT NULL,
   PRIMARY KEY (`a_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=82 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=98 ;
 
 --
 -- Dumping data for table `ANSWER`
@@ -117,7 +117,22 @@ INSERT INTO `ANSWER` (`a_id`, `a_content`, `q_id`, `posted_by`, `scope`, `vote`,
 (78, '<p>ffsfsf<br></p>', 55, 2011103089, '', 0, '06:15 PM 28-Mar-13'),
 (77, 'sfffsfsff<br>sfsff<br><br><br><br>sfssfsf<br><br>fsfs<br>fs<br>f<br>f<br>s<br>f<br>f<br>s<br>s<br>f<br><br><br>s<br>fs<br>f<br>fsfffsfsfsssf<br>', 55, 2011103089, '', 0, '05:12 PM 28-Mar-13'),
 (80, '<p>sffffff</p>', 55, 2011103603, '', 0, '03:20 AM 29-Mar-13'),
-(81, '<p>sssffsfsf</p><p><br></p>', 9, 2011103603, '', 0, '04:40 AM 29-Mar-13');
+(81, '<p>sssffsfsf</p><p><br></p>', 9, 2011103603, '', 0, '04:40 AM 29-Mar-13'),
+(82, '<p>u know?</p>', 4, 2011103599, '', 0, '06:52 PM 29-Mar-13'),
+(83, '<p>AAA</p>', 54, 2, '', 0, '09:04 PM 30-Mar-13'),
+(84, '<blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><p>Haaaa</p></blockquote>', 54, 2, '', 0, '09:42 PM 30-Mar-13'),
+(85, '<p>its differnt</p>', 60, 1, '', 0, '09:49 PM 30-Mar-13'),
+(86, 'asdasdasd asdasdsad asdasdasd asdasd asdasdasd asdasdsad asdasdasd asdasd asd asda<p>asd</p><p>asd</p><p>asd</p><p>asd</p><p>asd</p><p>asdasd</p><p>asdas</p><p>&nbsp;asd asdasdas</p><p>as</p><p>asda</p><p>asd</p><p>asd</p><p>as</p><p>dasddasdasdasd asdasdsad asdasdasd asdasd asdasdasd asdasdsad asdasdasd asdasd asd asda<p>asd</p><p>asd</p><p>asd</p><p>asd</p><p>asd</p><p>asdasd</p><p>asdas</p><p>&nbsp;asd asdasdas</p><p>as</p><p>asda</p><p>asd</p><p>asd</p><p>as</p><p>dasddasdasdasd asdasdsad as', 60, 1, '', 0, '09:49 PM 30-Mar-13'),
+(88, '<p>asasas</p><p><br></p>', 65, 1, '', 0, '09:57 PM 30-Mar-13'),
+(89, '<p>vhvhghghgh</p><p>hgfhfhf</p><p>ggdgdg</p>', 65, 1, '', 0, '09:58 PM 30-Mar-13'),
+(90, '<p>dasdasdsd</p>', 45, 1, '', 0, '10:32 PM 30-Mar-13'),
+(91, '<p>aSAsaSA</p><p>aSAs</p>', 45, 1, '', 0, '10:33 PM 30-Mar-13'),
+(92, 'ASsASsSAsSAs', 45, 1, '', 0, '10:33 PM 30-Mar-13'),
+(93, '<blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;">qweewqweqwe</blockquote>', 45, 1, '', 0, '10:33 PM 30-Mar-13'),
+(94, 'qweqweqe', 45, 1, '', 0, '10:33 PM 30-Mar-13'),
+(95, '<blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><p>donna</p></blockquote>', 66, 1, '', 0, '06:00 AM 31-Mar-13'),
+(96, '<p>:p</p>', 66, 1, '', 0, '06:00 AM 31-Mar-13'),
+(97, '<p>asdasd</p>', 66, 1, '', 0, '06:01 AM 31-Mar-13');
 
 -- --------------------------------------------------------
 
@@ -187,16 +202,14 @@ CREATE TABLE IF NOT EXISTS `FB_DETAILS` (
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`seqid`),
   UNIQUE KEY `fb_user_id` (`fb_user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=51 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `FB_DETAILS`
 --
 
 INSERT INTO `FB_DETAILS` (`email`, `fb_user_id`, `access_token`, `seqid`, `timestamp`, `status`) VALUES
-('dgr8geek@gmail.com', '100000673452300', 'AAAEeCZC9qCvUBAOqKJs3CJOay0HNQVCk5C4yRMZCz6unEYZCgrGDZC8yZByfekQZCrRTeeTZC2z1uM5SHfSWZCOTD6pXd9YPQXkaFtnokZCr0nFsJdRkwKbfp', 46, '2013-03-27 11:03:36', 1),
-('vigneshjmsc@gmail.com', 'vigneshjmsc@gmail.com', '', 45, '2013-03-27 10:34:16', 0),
-('vigneshjmsc@gmail.com', '100003324675095', 'AAAEeCZC9qCvUBAMk6qZCDB2S6lnS6J7KUxtgxDlASIWDe2DHYPHFIlDt723MvjzdxCCNmDUPbitGOZC5HRAN6BtZA89MamLaRFK8ogE63W8gDXZASeG7P', 50, '2013-03-28 18:23:59', 1);
+('dgr8geek@gmail.com', '100000673452300', 'AAAEeCZC9qCvUBAL1ijlybpT8s0ZANSgZAOW04YNbDTLYef49PUuUvJtTNvbNVWDmziCWOQLSrvREg68UqhGud6JpATAmIOC0QkvJOEgoOp9aDTRmfGA', 1, '2013-03-30 19:49:20', 1);
 
 -- --------------------------------------------------------
 
@@ -253,7 +266,30 @@ INSERT INTO `FOLLOWERS` (`q_id`, `user_id`) VALUES
 (53, 2011103600),
 (55, 2011103089),
 (55, 2011103603),
-(58, 2011103089);
+(58, 2011103089),
+(53, 1),
+(4, 2),
+(65, 2),
+(65, 1),
+(49, 1),
+(18, 1),
+(47, 1),
+(54, 1),
+(59, 1),
+(63, 1),
+(61, 1),
+(43, 1),
+(11, 1),
+(27, 1),
+(26, 1),
+(66, 1),
+(45, 1),
+(40, 1),
+(24, 1),
+(4, 1),
+(10, 1),
+(33, 1),
+(20, 1);
 
 -- --------------------------------------------------------
 
@@ -345,6 +381,20 @@ INSERT INTO `GROUP_REQUEST` (`user_id`, `group_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `NOTIFICATIONS`
+--
+
+CREATE TABLE IF NOT EXISTS `NOTIFICATIONS` (
+  `notif_id` bigint(10) NOT NULL AUTO_INCREMENT,
+  `notif_type` varchar(100) NOT NULL,
+  `notif_receiver` varchar(100) NOT NULL,
+  `notif_msg` varchar(1000) NOT NULL,
+  PRIMARY KEY (`notif_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `PROMOTE`
 --
 
@@ -373,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `QUESTION` (
   `url` varchar(400) NOT NULL,
   `anonymous` int(20) NOT NULL,
   PRIMARY KEY (`q_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=59 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=68 ;
 
 --
 -- Dumping data for table `QUESTION`
@@ -382,7 +432,7 @@ CREATE TABLE IF NOT EXISTS `QUESTION` (
 INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `timestamp`, `q_description`, `views`, `followers`, `url`, `anonymous`) VALUES
 (2, 'asdasd', 1, 2011103089, 0, '10:53 pm 02 Dec-12 ', 'asdasdasd', 4, 0, 'asdasd', 0),
 (3, 'who is obama?', 1, 2011103090, 10, '11:12 pm 02 Dec-12 ', '', 27, 0, 'who-is-obama', 0),
-(4, 'what is the rate of iphone 5?', 1, 2011103090, 0, '09:08 PM 06-Dec-12', '', 4, 0, 'what-is-the-rate-of-iphone-5', 0),
+(4, 'what is the rate of iphone 5?', 1, 2011103090, 0, '09:08 PM 06-Dec-12', '', 16, 0, 'what-is-the-rate-of-iphone-5', 0),
 (5, 'GJHGJ??', 1, 2011103090, 0, '12:32 PM 11-Dec-12', 'DDDCD', 3, 0, 'GJHGJ', 0),
 (6, 'What is Askceg?', 1, 2011103090, 0, '12:36 PM 11-Dec-12', '', 0, 0, 'What-is-Askceg', 0),
 (7, 'sdsdsdd', 1, 2011103090, 0, '11:20 AM 15-Dec-12', '', 0, 0, 'sdsdsdd', 0),
@@ -397,7 +447,7 @@ INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `
 (18, 'sfsfsff', 1, 2011103085, 0, '04:33 PM 23-Dec-12', '', 0, 0, 'sfsfsff', 0),
 (20, 'dgdgg', 4, 2011103085, 0, '04:36 PM 23-Dec-12', '', 0, 0, 'dgdgg', 0),
 (21, 'who is going to take webtech?', 2, 0, 0, '04:39 PM 23-Dec-12', '', 0, 0, 'who-is-going-to-take-webtech', 1),
-(22, 'why is acoe website slow?', 3, 2011103089, 0, '05:17 PM 23-Dec-12', '', 0, 0, 'why-is-acoe-website-slow', 1),
+(22, 'why is acoe website slow?', 3, 2011103089, 0, '05:17 PM 23-Dec-12', '', 4, 0, 'why-is-acoe-website-slow', 1),
 (23, 'heeeeeey!!', 5, 604, 0, '08:50 PM 23-Dec-12', '', 0, 0, 'heeeeeey', 0),
 (24, 'testing :D ????', 1, 2011103051, 0, '', '', 0, 0, 'testing', 0),
 (25, 'testing radio button', 6, 2011103089, 0, '01:06 PM 26-Dec-12', '', 0, 0, 'testing-radio-button', 0),
@@ -419,7 +469,7 @@ INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `
 (40, 'why this kolaveri de?', 1, 2011103089, 0, '02:39 AM 30-Dec-12', '', 0, 0, 'why-this-kolaveri-de', 1),
 (41, '********', 2, 2011103089, 0, '02:39 AM 30-Dec-12', '', 0, 0, '', 0),
 (44, 'will this be private??', 3, 2011103089, 1, '06:27 PM 13-Jan-13', '', 0, 0, 'will-this-be-private', 0),
-(45, 'sdfdfs sf sdfk jskdjfkj ksjdfkjkjksdfkjs ksjdkfjsdkjfksdjfk sdfjksdjfkjsdkf dsjfkjksdjfksjdkf skdf sdkfjsdkfjsdklfjsdkl jsdfk jsdklfj dkfjdfklgjskldfgjklsjgkj dflkgj jsdlkfg jkjjllkdjglkjdgkljslkdfjglksdfjg sdflgkjierti ierjtkljekltjkljekltj jekltj ekltjrekttetogtriogtrjiriyoiroy6i6yjiyjiyjyijyijyijyijyvjyjvyiyjiyjiyyijyijyij945 945i 945o opeioertioer erti ldfkvl kldfklv;kdflvk dlf;vk kldfv lkdf;vk;l l; ldfvl;kdfl;vkldfvkfldkvldfkvl dfvkldfkvldfvk;d erit0iertp dflgk ldfgklsdfdfs sf sdfk jskdjfkj', 8, 2011103089, 0, '06:59 PM 13-Jan-13', '', 0, 0, 'sdfdfs-sf-sdfk-jskdjfkj-ksjdfkjkjksdfkjs-ksjdkfjsdkjfksdjfk-sdfjksdjfkjsdkf-dsjfkjksdjfksjdkf-skdf-sdkfjsdkfjsdklfjsdkl-jsdfk-jsdklfj-dkfjdfklgjskldfgjklsjgkj-dflkgj-jsdlkfg-jkjjllkdjglkjdgkljslkdfjglksdfjg-sdflgkjierti-ierjtkljekltjkljekltj-jekltj-ekltjrekttetogtriogtrjiriyoiroy6i6yjiyjiyjyijyijyijyijyvjyjvyiyjiyjiyyijyijyij945-945i-945o-opeioertioer-erti-ldfkvl-kldfklv-kdflvk-dlf-vk-kldfv-lkdf-v', 0),
+(45, 'sdfdfs sf sdfk jskdjfkj ksjdfkjkjksdfkjs ksjdkfjsdkjfksdjfk sdfjksdjfkjsdkf dsjfkjksdjfksjdkf skdf sdkfjsdkfjsdklfjsdkl jsdfk jsdklfj dkfjdfklgjskldfgjklsjgkj dflkgj jsdlkfg jkjjllkdjglkjdgkljslkdfjglksdfjg sdflgkjierti ierjtkljekltjkljekltj jekltj ekltjrekttetogtriogtrjiriyoiroy6i6yjiyjiyjyijyijyijyijyvjyjvyiyjiyjiyyijyijyij945 945i 945o opeioertioer erti ldfkvl kldfklv;kdflvk dlf;vk kldfv lkdf;vk;l l; ldfvl;kdfl;vkldfvkfldkvldfkvl dfvkldfkvldfvk;d erit0iertp dflgk ldfgklsdfdfs sf sdfk jskdjfkj', 8, 2011103089, 0, '06:59 PM 13-Jan-13', '', 4, 0, 'sdfdfs-sf-sdfk-jskdjfkj-ksjdfkjkjksdfkjs-ksjdkfjsdkjfksdjfk-sdfjksdjfkjsdkf-dsjfkjksdjfksjdkf-skdf-sdkfjsdkfjsdklfjsdkl-jsdfk-jsdklfj-dkfjdfklgjskldfgjklsjgkj-dflkgj-jsdlkfg-jkjjllkdjglkjdgkljslkdfjglksdfjg-sdflgkjierti-ierjtkljekltjkljekltj-jekltj-ekltjrekttetogtriogtrjiriyoiroy6i6yjiyjiyjyijyijyijyijyvjyjvyiyjiyjiyyijyijyij945-945i-945o-opeioertioer-erti-ldfkvl-kldfklv-kdflvk-dlf-vk-kldfv-lkdf-v', 0),
 (46, 'asasas!', 4, 2011103089, 1, '07:05 PM 13-Jan-13', '', 0, 0, 'asasas', 0),
 (47, 'fdggdf', 4, 2011103089, 0, '08:08 PM 14-Jan-13', 'dfgfdgdfgfdg', 0, 0, 'fdggdf', 0),
 (48, 'new??', 4, 2011103089, 0, '08:09 PM 14-Jan-13', '', 0, 0, 'new', 0),
@@ -428,10 +478,17 @@ INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `
 (51, 'erertet', 4, 2011103089, 0, '08:16 PM 14-Jan-13', '', 0, 0, 'erertet', 0),
 (52, 'fwefwef vwe wer wer wer ', 9, 2011103089, 0, '08:16 PM 14-Jan-13', '', 0, 0, 'fwefwef-vwe-wer-wer-wer', 0),
 (53, 'qwqw!', 9, 2011103089, 0, '11:13 PM 17-Jan-13', '', 0, 0, 'qwqw', 0),
-(54, 'why do I need askCeg?', 1, 2011103597, 0, '03:32 PM 27-Mar-13', '', 0, 0, 'why-do-I-need-askCeg', 0),
+(54, 'why do I need askCeg?', 1, 2011103597, 0, '03:32 PM 27-Mar-13', '', 23, 0, 'why-do-I-need-askCeg', 0),
 (55, 'How is mentalist diff from sherlocks?', 1, 2011103600, 0, '05:40 PM 27-Mar-13', '', 0, 0, 'How-is-mentalist-diff-from-sherlocks', 0),
 (57, 'heeeeeeeeello?', 4, 2011103602, 0, '04:32 PM 28-Mar-13', '', 0, 0, 'heeeeeeeeello', 0),
-(58, 'ggggg', 4, 2011103089, 1, '04:19 PM 29-Mar-13', '', 0, 0, 'ggggg', 1);
+(58, 'ggggg', 4, 2011103089, 1, '04:19 PM 29-Mar-13', '', 0, 0, 'ggggg', 1),
+(59, 'how is kd billa?', 11, 2011103599, 0, '07:48 PM 29-Mar-13', '', 0, 0, 'how-is-kd-billa', 0),
+(60, 'how is askceg different?', 12, 2, 0, '11:16 AM 30-Mar-13', '', 6, 0, 'how-is-askceg-different', 0),
+(61, 'zzx', 1, 2, 0, '04:10 PM 30-Mar-13', '', 3, 0, 'zzx', 0),
+(62, 'aSAsASAsAS', 5, 2, 0, '04:11 PM 30-Mar-13', '', 1, 0, 'aSAsASAsAS', 0),
+(63, 'asasdasd', 1, 2, 0, '04:12 PM 30-Mar-13', '', 1, 0, 'asasdasd', 0),
+(64, 'sdasdsadadasad', 3, 2, 0, '04:18 PM 30-Mar-13', '', 1, 0, 'sdasdsadadasad', 0),
+(65, 'zsdasd', 5, 2, 0, '04:19 PM 30-Mar-13', '', 9, 0, 'zsdasd', 0);
 
 -- --------------------------------------------------------
 
@@ -506,7 +563,7 @@ CREATE TABLE IF NOT EXISTS `TOPIC` (
   `topic_url` varchar(200) NOT NULL,
   PRIMARY KEY (`topic_id`),
   UNIQUE KEY `topic_id` (`topic_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `TOPIC`
@@ -523,7 +580,8 @@ INSERT INTO `TOPIC` (`topic_id`, `topic_name`, `topic_desc`, `posted_by`, `categ
 (8, 'programming', '', 2011103089, 1, '01:47 AM 27-Dec-12', 'programming'),
 (9, 'JAVA labwork-4th sem', 'this is a askceg page where anyone can post questions related java lab and also post answer', 2011103089, 1, '02:09 AM 27-Dec-12', 'JAVA-labwork-4th-sem'),
 (10, 'c++', '0', 2011103089, 1, '04:47 AM 27-Dec-12', 'c'),
-(11, 'web', '0', 2011103602, 1, '01:18 AM 28-Mar-13', 'web');
+(11, 'web', '0', 2011103602, 1, '01:18 AM 28-Mar-13', 'web'),
+(12, 'Suckers', '', 2, 6, '11:12 AM 30-Mar-13', 'Suckers');
 
 -- --------------------------------------------------------
 
@@ -562,7 +620,8 @@ INSERT INTO `TOPIC_FOLLOWERS` (`topic_id`, `user_id`) VALUES
 (5, 2011103089),
 (8, 2011103053),
 (3, 2011103089),
-(9, 2011103089);
+(9, 2011103089),
+(1, 2011103599);
 
 -- --------------------------------------------------------
 
@@ -586,29 +645,14 @@ CREATE TABLE IF NOT EXISTS `USERS` (
   `isNormalAccount` int(11) NOT NULL,
   `profile_pic` varchar(300) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2011103604 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `USERS`
 --
 
 INSERT INTO `USERS` (`user_id`, `user_name`, `group_id`, `password`, `user_level`, `email_id`, `joined_on`, `user_year`, `user_degree`, `user_course`, `hash`, `complete`, `isNormalAccount`, `profile_pic`) VALUES
-(2011103089, 'vishnu', 1, '123123', 1, 'vishnu@gmail.com', '', 3, '', '', '', 0, 0, ''),
-(2011103090, 'Narain Sharma', 1, '123123', 1, 'narainthedude@gmail.com', '', 2, 'BE', 'CSE', '', 0, 0, ''),
-(2011103593, 'Anirudh', 1, '123123', 0, '', '', 0, 'BE', 'CSE', '', 0, 0, ''),
-(2011103087, 'swetha', 1, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
-(2011103085, 'adi', 1, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
-(2011103038, 'Jayashruthi', 1, '123123', 0, '', '', 0, 'BE', 'CSE', '', 0, 0, ''),
-(2011103054, 'Jai Vasanth', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
-(2011103053, 'Hema Varman', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
-(2011103050, 'Anudeep Ballu', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
-(2011103052, 'Harinikesh Suresh', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
-(2011103055, 'Jayasri ', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
-(2011103060, 'Vinay Srinivas', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
-(2011103058, 'Prashanth Anantharam', 2, '123123', 0, '', '', 2, 'BE', 'CSE', '', 0, 0, ''),
-(604, 'Annie Benet', 7, '123123', 2, 'annie@gmail.com', '', 0, 'M.E', 'CSE', '', 0, 0, ''),
-(2011103599, 'Vikki', 0, '', 0, 'dgr8geek@gmail.com', '', 0, 'Msc', 'CS', '', 1, 0, 'https://m.ak.fbcdn.net/profile.ak/hprofile-ak-prn1/173827_100000673452300_1106930760_t.jpg'),
-(2011103603, 'vignesh', 0, '', 0, 'vigneshjmsc@gmail.com', '', 0, 'hkh', 'jjkjkjkjkj', '', 1, 0, 'http://m-static.ak.fbcdn.net/rsrc.php/v2/yL/r/HsTZSDw4avx.gif');
+(1, 'vikki', 0, '', 0, 'dgr8geek@gmail.com', '', 0, 'msc', 'cs', '', 1, 0, 'https://m.ak.fbcdn.net/profile.ak/hprofile-ak-prn1/173827_100000673452300_1106930760_t.jpg');
 
 -- --------------------------------------------------------
 
@@ -639,6 +683,19 @@ CREATE TABLE IF NOT EXISTS `USER_HISTORY_LOG` (
 
 INSERT INTO `USER_HISTORY_LOG` (`user_id`, `group_id`) VALUES
 (2011103051, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `USER_NOTIFICATIONS`
+--
+
+CREATE TABLE IF NOT EXISTS `USER_NOTIFICATIONS` (
+  `user_id` int(20) NOT NULL,
+  `notif_id` bigint(100) NOT NULL,
+  `notif_read_status` int(2) NOT NULL DEFAULT '0',
+  `notif_read_time` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -698,7 +755,15 @@ INSERT INTO `VOTE` (`a_id`, `user_id`, `vote`, `timestamp`) VALUES
 (21, 2011103089, 1, '05:15 PM 02-Mar-13'),
 (20, 2011103089, -1, '05:16 PM 02-Mar-13'),
 (19, 2011103602, 1, '01:14 AM 28-Mar-13'),
-(66, 2011103602, 1, '01:16 AM 28-Mar-13');
+(66, 2011103602, 1, '01:16 AM 28-Mar-13'),
+(82, 2011103599, 1, '06:52 PM 29-Mar-13'),
+(71, 1, -1, '04:11 AM 30-Mar-13'),
+(83, 2, 1, '09:34 PM 30-Mar-13'),
+(84, 2, 1, '09:42 PM 30-Mar-13'),
+(86, 1, 1, '09:51 PM 30-Mar-13'),
+(85, 1, -1, '09:51 PM 30-Mar-13'),
+(90, 1, 1, '10:33 PM 30-Mar-13'),
+(97, 1, 1, '06:01 AM 31-Mar-13');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
