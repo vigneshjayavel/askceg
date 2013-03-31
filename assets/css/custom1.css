@@ -2,6 +2,10 @@
 
 -webkit-font-smoothing: subpixel-antialiased;
 }
+a.brand{
+  height:0px !important;
+  margin-top: -10px;
+}
 .navbar-unread {
 display: block !important;
 }

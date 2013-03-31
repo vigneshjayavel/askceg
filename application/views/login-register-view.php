@@ -17,7 +17,7 @@
 <link rel="shortcut icon" href="../favicon.ico"> 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/LoginFormAssets/css/demo.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/LoginFormAssets/css/style2.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/LoginFormAssets/css/animate-custom.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/LoginFormAssets/css/animate-custom1.css" />
 <div class="container">
     <section>				
         <div id="container_demo" >
@@ -31,7 +31,7 @@
                     { 
                     ?>
                     <form id="updateform" method="post"  action="<?php echo base_url();?>AuthControllerAsk/updateProfile" autocomplete="on"> 
-                        <h1> AskCEG - Update Profile </h1> 
+                        <h1> AskCEG - Create Profile </h1> 
                         <p> 
                             <label for="name"  >Your Fullname</label>
                             <input id="name" name="name" placeholder="John Doe.." required="required" type="text"/> 
@@ -43,6 +43,10 @@
                         <p> 
                             <label for="course"  > Programme/Course</label>
                             <input id="course" name="course" required="required" placeholder="Mechanical Engineering, Industrial Engineering,.." type="text"/> 
+                        </p>
+                        <p> 
+                            <label for="pass"  >Password</label>
+                            <input id="pass" name="pass" required="required" placeholder="******" type="password"/> 
                         </p>
                         <p class="signin button"> 
                             <input type="submit" value="Update Details!"/> 

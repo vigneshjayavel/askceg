@@ -16,7 +16,7 @@ class QuestionsModel extends CI_Model{
     $query="select count(url) as cnt from QUESTION where url = ?";
         $query=$this->db->query($query,array($url));
         $row=$query->row_array();
-        if($row['cnt']===1)
+        if($row['cnt']==1)
           return true;
       else
         return false;
@@ -42,7 +42,7 @@ class QuestionsModel extends CI_Model{
     $query="select count(topic_url) as cnt from TOPIC where topic_url = ?";
         $query=$this->db->query($query,array($url));
         $row=$query->row_array();
-        if($row['cnt']===1)
+        if($row['cnt']==1)
           return true;
       else
         return false;
@@ -154,7 +154,7 @@ function printanswer($qid){
     $markup.=$row['a_content']."<br>";
 
   }
-  if($markup === null){
+  if($markup == null){
     return "No content exists";
   }
   else
@@ -212,7 +212,7 @@ function printanswer($qid){
   if($row=$query->row_array()){
     
     $user_name=$this->sqlGetUserName($user_id);
-    if(strlen($row['profile_pic'])===0||strlen($row['profile_pic'])===1){
+    if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
           $email=$row['email_id'];
          $url=$this->get_gravatar($email);
       }
@@ -258,10 +258,10 @@ function printanswer($qid){
       $CI =& get_instance();
       $currentUserId=$CI->session->userdata('user_id');
       $groupId=$this->sqlGetGroupId($currentUserId);
-      if($groupId===null||$groupId===''||$groupId===0){
+      if($groupId===null||$groupId==''||$groupId==0){
         $groupId=0;        
       }
-    if($group_scope===true || $group_scope==="true"){ //group_scope questions
+    if($group_scope===true || $group_scope=="true"){ //group_scope questions
 
       
       $sql="SELECT q.q_id,q.q_content,q.q_description,q.topic_id,q.url,
@@ -302,7 +302,7 @@ function printanswer($qid){
     
 
     $CurrentuserGroup=$groupId;
-    if($group_scope==="null"||$group_scope===null){
+    if($group_scope=="null"||$group_scope===null){
     $sql.=" and (q.scope=0 or q.scope=".$CurrentuserGroup.") order by q_id desc"; 
       }
     if($set!=null){
@@ -345,7 +345,7 @@ from 0,19 (20 being the limit)
     
       foreach($result as $row){
         $currentUrl=urlencode(current_url());
-        if($row['anonymous']===1)
+        if($row['anonymous']==1)
           $userMarkup='
               <a rel="tooltip" data-placement="bottom" data-original-title="Anonymous" href="#">
               <img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="Anonymous" class="display-pic" />
@@ -355,7 +355,7 @@ from 0,19 (20 being the limit)
        //$content.=$row['category_name'];
         $dynamicFollowOrUnfollowButton='';
         $deleteButton='';
-        if($currentUserId===$row['posted_by'])
+        if($currentUserId==$row['posted_by'])
           $deleteButton.='
                       <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
                       href="'.$deleteUrl.$row['q_id'].'" class="label label-inverse">Delete
@@ -494,7 +494,7 @@ from 0,19 (20 being the limit)
 
         $this->load->library('klib');
         $timeObj=$this->klib->processTime($row['timestamp']);
-        if($row['anonymous']===1)
+        if($row['anonymous']==1)
         $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="Anonymous" class="display-pic" />
                   
                  <strong>Anonymous</strong> 
@@ -582,7 +582,7 @@ from 0,19 (20 being the limit)
       $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
       $content='<h2> Questions Followed:</h2>';
       foreach($result as $row){
-        if($row['anonymous']===1)
+        if($row['anonymous']==1)
         $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="James" class="display-pic" />
                   
                  <strong>Anonymous</strong> 
@@ -666,7 +666,7 @@ from 0,19 (20 being the limit)
       foreach( $result as $row ) {
       ///$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
       //$currentUrl=urlencode(current_url());
-      if($row['anonymous']===1)
+      if($row['anonymous']==1)
         $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="Anonymous" class="display-pic" />
                   
                  <strong>Anonymous</strong> 
@@ -720,7 +720,7 @@ function getGroupScopeQuestions($group_id){
       foreach( $result as $row ) {
       ///$url=base_url()."assets/img/".$this->sqlGetUserid($row['posted_by']).".jpg";
       //$currentUrl=urlencode(current_url());
-      if($row['anonymous']===1)
+      if($row['anonymous']==1)
         $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="Anonymous" class="display-pic" />
                   
                  <strong>Anonymous</strong> 
@@ -784,10 +784,10 @@ function getGroupScopeQuestions($group_id){
 
   function sqlGetFollowers($type,$id){
 
-    if($type==='qs'){
+    if($type=='qs'){
       $query="select * from FOLLOWERS where q_id=?";  
     }
-    else if($type==='topic'){
+    else if($type=='topic'){
       $query="select * from TOPIC_FOLLOWERS where topic_id=?";  
     }
     
@@ -855,12 +855,12 @@ function getGroupScopeQuestions($group_id){
       $anonymous=1;
     else
       $anonymous=0;
-    if($questionArray['scope']===1){
+    if($questionArray['scope']==1){
       $scope=0;
   
     }
     
-    else if($questionArray['scope']===2){
+    else if($questionArray['scope']==2){
 
     $CI=&get_instance();
   
@@ -873,7 +873,7 @@ function getGroupScopeQuestions($group_id){
       $sql = "insert into QUESTION(q_content,q_description,topic_id,posted_by,timestamp,url,anonymous,scope) 
           values(?,?,?,?,?,?,?,?)";
       $status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content']),$anonymous,$scope));
-      if($status===-1){
+      if($status==-1){
         $status='success';
         $msg='Question posted successfully!!.. Redirecting you';
         $qsUrl=$this->sqlGetQuestionUrlForQuestion($questionArray['q_content']);
@@ -928,7 +928,7 @@ function getGroupScopeQuestions($group_id){
         $topicArray['topic_desc'],$posted_by,$timestamp,
           $topicArray['category_id'],$topicUrl));
       
-      if($status===-1){
+      if($status==-1){
         $status='success';
         $msg='Topic '.$topicArray['topic_name'].' created successfully!! Redirecting you...';
         $topicUrl=$this->sqlGetTopicUrlForTopic($topicArray['topic_name']);
@@ -990,7 +990,7 @@ function getGroupScopeQuestions($group_id){
   	
   	$sql = "insert into FOLLOWERS(q_id,user_id) values(?,?)";
   	$status=$this->db->query($sql,array($q_id,$posted_by));
-    if($status===-1){
+    if($status==-1){
       return "success";
     }
   }
@@ -999,7 +999,7 @@ function getGroupScopeQuestions($group_id){
     
     $sql = "insert into TOPIC_FOLLOWERS(topic_id,user_id) values(?,?)";
     $status=$this->db->query($sql,array($topic_id,$follower));
-    if($status===-1){
+    if($status==-1){
       return "success";
     }
   }
@@ -1007,7 +1007,7 @@ function getGroupScopeQuestions($group_id){
   	 
   	$sql = "delete from FOLLOWERS where q_id =? and user_id =?";
   	$status=$this->db->query($sql,array($q_id,$posted_by));
-    if($status===-1){
+    if($status==-1){
       return "success";
     }
   }
@@ -1015,7 +1015,7 @@ function getGroupScopeQuestions($group_id){
      
     $sql = "delete from TOPIC_FOLLOWERS where topic_id =? and user_id =?";
     $status=$this->db->query($sql,array($topic_id,$follower));
-    if($status===-1){
+    if($status==-1){
       return "success";
     }
     
@@ -1049,7 +1049,7 @@ function getGroupScopeQuestions($group_id){
       $content.='<option value='.$row['TOPIC_ID'].'>'.$row['TOPIC_NAME'] .'</option>';
     
     }
-    if($content===null)
+    if($content==null)
       $content='no data';
 
     $jsonObj=json_encode(array('topicsData'=>$content
@@ -1099,7 +1099,7 @@ function getGroupScopeQuestions($group_id){
 
     }
 
-    if($content==='<h2>Topics Under this Category are:</h2>'){
+    if($content=='<h2>Topics Under this Category are:</h2>'){
       $content.='No topics Under this Category yet!'; 
     }
     

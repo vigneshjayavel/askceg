@@ -21,10 +21,11 @@ class AuthControllerAsk extends CI_Controller {
         $college=mysql_real_escape_string($this->input->post('college'));
         $degree=mysql_real_escape_string($this->input->post('degree'));
         $course=mysql_real_escape_string($this->input->post('course'));
+        $pass=mysql_real_escape_string($this->input->post('pass'));
         if($this->session->userdata('user_id')){
             $user_id=$this->session->userdata('user_id');
             //update profile
-            $q1 = "update USERS set user_name='$name',
+            $q1 = "update USERS set user_name='$name',password='$pass',
                      user_degree='$degree', user_course='$course', complete='1'
                      where user_id='$user_id'";
             $this->db->query($q1);
@@ -86,7 +87,7 @@ class AuthControllerAsk extends CI_Controller {
         //else
         else{
             //check if email is already registered in USERS
-            $q="select user_id from USERS where email_id='$email'";
+            $q="select user_id,email_id from USERS where email_id='$email'";
             $res=$this->db->query($q);
             if ($res->num_rows() > 0){
             //if yes then err
@@ -183,7 +184,7 @@ class AuthControllerAsk extends CI_Controller {
             $email=mysql_real_escape_string($this->input->post('email'));
             $pass=mysql_real_escape_string($this->input->post('pass'));
             //check whether he is activated and theres a valid record for given data
-            $q="select user_id,user_name,group_id,hash,profile_pic from USERS where email_id='$email' and password='$pass'";
+            $q="select complete,user_id,user_name,group_id,hash,profile_pic from USERS where email_id='$email' and password='$pass'";
             $res=$this->db->query($q);
             if ($res->num_rows() > 0){
                 $row=$res->row_array();
@@ -195,7 +196,8 @@ class AuthControllerAsk extends CI_Controller {
                     'user_name' => $row['user_name'],
                     'group_id' => $row['group_id'],
                     'isNormalAccount' => 1,
-                    'profile_pic' => $row['profile_pic']
+                    'profile_pic' => $row['profile_pic'],
+                    'isProfileComplete' => $row['complete']
 
                     );
 
@@ -267,7 +269,8 @@ class AuthControllerAsk extends CI_Controller {
             'user_name' => $responseObj['user_name'],
             'group_id' => 0,
             'isNormalAccount' => 0,
-            'profile_pic' => $responseObj['profile_pic']
+            'profile_pic' => $responseObj['profile_pic'],
+            'isProfileComplete'=> $responseObj['isProfileComplete']
             );
             //jus like $this->session->userdata('someKey']='someValue';
             //but note that here the key itself is an array of keys!!

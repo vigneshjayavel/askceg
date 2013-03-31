@@ -114,7 +114,7 @@
 
     <?php 
       $CI = &get_instance();
-      if($CI->session->userdata('isNormalAccount')==0){
+      if($CI->session->userdata('isProfileComplete')==0){
     ?>
       <script type="text/javascript" src="<?php echo base_url()?>assets/js/login.js"></script>
     <?php
@@ -207,16 +207,11 @@
   ?>
   <div class="modal hide fade in" id="registerModal" style="">
     <div class="modal-header">
-      <h3>
-        Sign up for AskCEG
-        <small>
-          (Already registered?
-          <a href="<?php echo base_url(); ?>AuthControllerAsk/normallogin">
-            Click here to login
-          </a>
-          )
-        </small>
-      </h3>
+      <center>
+        <h3>
+        Oops you need to be logged in!!
+        </h3>
+      </center>
     </div>
     <div class="modal-body">
       <div class="row-fluid">
@@ -225,43 +220,35 @@
             <img height="125" width="125" src="<?php echo base_url();?>assets/img/fbthumb.jpg" />
           </div>
           <div class="span9">
-            <p class="mbxs">
-              Login/Register with just one click via facebook
-            </p>   
-              
+            <p>
+              AskCEG is just one away.. Join us via facebook
               <span id="regStatusHolder">
                 <a href="#" class="fbLoginStatus"><img src="<?php echo base_url(); ?>assets/img/btns/fbLoginRegister.png"></a>
               </span>
-            </a>
-            
-            
+            </p> 
             <p>
-              <a class="show" data-content="We oblige to protect your privacy and will not give, sell or rent your email adress to others."
-              rel="popover" placement="bottom" data-original-title="We care for your privacy!">
-              </br>
-              <i class="icon-lock">
-              </i>
-              We protect your privacy!
-            </a>
-            </p>
+              <form method="post"  action="<?php echo base_url();?>AuthControllerAsk/processNormalLogin" autocomplete="on">
+                <input type="text" id="email" name="email" placeholder="Email">
+                <input type="password" id="pass" name="pass" placeholder="Password">
+                <input class="btn" type="submit" value="Login!"/>
+              </form>
+
+            </p>  
+              
+            
+            
+            <small>
+          (If you don't have a facebook account, 
+          <a href="<?php echo base_url(); ?>AuthControllerAsk/normalSignup">
+            sign up using your email!
+          </a>
+          )
+        </small>
           </div>
     </div>
   </div>
   <hr>
-  <div class="row-fluid">
-    <div class="span12">
-      <center>
-        <p>
-          or
-        </p>
-        
-        <a href="<?php echo base_url(); ?>AuthControllerAsk/normalSignup" class="btn btn-success">
-          Create an account here.
-        </a>
-      </center>
-      
-    </div>
-  </div>
+  
   </div>
   </div>
   <!--/registerModal-->
@@ -306,6 +293,19 @@
         });
  
     });
+    // Load the SDK Asynchronously
+    (function (d) {
+        var js, id = 'facebook-jssdk',
+            ref = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement('script');
+        js.id = id;
+        js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        ref.parentNode.insertBefore(js, ref);
+    }(document));
     </script>
 
 

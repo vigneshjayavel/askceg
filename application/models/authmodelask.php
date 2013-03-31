@@ -96,6 +96,7 @@ class AuthModelAsk extends CI_Model {
                 $responseObj['user_id'] = $user_id;
                 $responseObj['user_name'] = $user_name;
                 $responseObj['profile_pic'] = $pic;
+                $responseObj['isProfileComplete'] = $row10->complete;
                 return $responseObj;
             }
             
@@ -148,6 +149,7 @@ class AuthModelAsk extends CI_Model {
                 
                 $responseObj['statusCode'] = "3";
                 $responseObj['user_id']=$user_id;
+                $responseObj['isProfileComplete'] = 0;
                 return $responseObj;
             }
         /*
