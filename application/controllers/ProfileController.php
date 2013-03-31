@@ -245,39 +245,30 @@ class ProfileController extends CI_Controller {
 
     }
 	
-	function EditCategoryDesc($category_id){
-
-		$this->load->model('profilemodel');
-		$data['centerContent']=$this->profilemodel->EditCategoryDesc($category_id);
-		$this->load->view('Skeleton',$data);
-
-
-	}
 
 	function MyGroup()
 	{
-		if ($this->session->userdata('logged_in') == TRUE)
-	    {
-		$this->load->model('profilemodel');
-		$this->load->model('questionsmodel');
-		$data['centerContent']=$this->profilemodel->getCenterContentMyGroup();
-		$group_id=$this->profilemodel->getGroupId($this->session->userdata('group_id'));
-		if($group_id!=0||$group_id!=''||$group_id!=null)
-		$data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,null,null,"true");
-		else
-        $data['centerContent'].=":(";
-		$data['paginationrequired']="true";
-		$data['paginationtype']="question";
-		$data['groupScope']="true";
-		$this->load->view('Skeleton',$data);
+		if ($this->session->userdata('logged_in') == TRUE){
+				$this->load->model('profilemodel');
+				$this->load->model('questionsmodel');
+				$data['centerContent']=$this->profilemodel->getCenterContentMyGroup();
+				$group_id=$this->profilemodel->getGroupId($this->session->userdata('group_id'));
+				if($group_id!=0||$group_id!=''||$group_id!=null){
+				$data['centerContent'].=$this->questionsmodel->sqlReadQuestions(null,null,null,"true");
+				}
+				else
+		        $data['centerContent'].=":(";
+				$data['paginationrequired']="true";
+				$data['paginationtype']="question";
+				$data['groupScope']="true";
+				$this->load->view('Skeleton',$data);
 		}
-		else
-		{
-		$this->load->model('profilemodel');
-	    $this->data['centerContent']='sorry you havnt logged in yet!!';
-		$this->data['centerContent'].=$this->profilemodel->loginForm();
-		$this->load->view('Skeleton',$this->data);
-	    
+		else{
+				$this->load->model('profilemodel');
+			    $this->data['centerContent']='sorry you havnt logged in yet!!';
+				$this->data['centerContent'].=$this->profilemodel->loginForm();
+				$this->load->view('Skeleton',$this->data);
+		    
 		}
 	}
 	function MyYear()

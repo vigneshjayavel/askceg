@@ -377,6 +377,7 @@ from 0,19 (20 being the limit)
             Follow</a>';
         }
           $count++;
+          //time
           $timeObj=$this->klib->processTime($row['timestamp']);
         $content.=' 
         <div class="questionElementDiv">
@@ -481,7 +482,7 @@ from 0,19 (20 being the limit)
     $sql.=" and (q.scope=0 or q.scope=".$CurrentuserGroup.")  order by q.q_id desc ";
     //$query=$this->db->query($sql);
       
-    $query=$this->db->query($sql,array($this->sqlGetUserName($user_id)));
+    $query=$this->db->query($sql,array($user_id));
     if( $result=$query->result_array()){
       
       $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/';
@@ -489,6 +490,10 @@ from 0,19 (20 being the limit)
       $url1=base_url()."assets/img/".$user_id.".jpg"; // for getting images of the user who posted the ans
 
       foreach($result as $row){
+        //time
+
+        $this->load->library('klib');
+        $timeObj=$this->klib->processTime($row['timestamp']);
         if($row['anonymous']==1)
         $userMarkup='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="Anonymous" class="display-pic" />
                   
@@ -506,15 +511,15 @@ from 0,19 (20 being the limit)
                       </div><!--/userDetailDiv-->
                       <div id="questionDetailsDiv">
                         <p id="questionContent">
-                        <a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'">'.$row['q_content'].'</a>
+                        <a class="question" id="'.$row['q_id'].'" href="'.$questionUrl.$row['url'].'"><p>'.$row['q_content'].'</p></a>
                         </p>
                       </div><!--/questionDetailsDiv-->
                     </div><!--/questionDiv-->
                     <div id="answerDiv'.$row['a_id'].'" style="background-color:#DDD">
-                      '.$row['a_content'].'
+                      <p>'.$row['a_content'].'</p>
                       <div id="answerStats" style="float:right">
-                        <i class="icon-time"></i>'.$row['timestamp'].' 
-                      </div>
+                        <a data-placement="bottom" data-original-title="'.$timeObj['postedDatestring'].'" rel="tooltip popover" href="#">'.$timeObj['timeElapsed'].' ago</a>
+                </div>
                     </div><!--/answerDiv-->
                   </div><!--/questionAnswerDiv-->
                   ';
@@ -845,7 +850,7 @@ function getGroupScopeQuestions($group_id){
 
 		//current time
 
-		$timestamp=$this->getCurrentTime();
+		$timestamp=time();
     if($questionArray['anonymous'])
       $anonymous=1;
     else

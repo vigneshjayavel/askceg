@@ -176,7 +176,12 @@ function sqlGetUserName($user_id){
                       </a>';
         else
           $deleteButton='';
-        
+      //time
+         $this->load->library('klib');
+        $timeObj=$this->klib->processTime($row->timestamp);
+
+
+
 			$vote=$this->sqlCheckUserVotedAnswer($currentUserId,$row->a_id);
 			if($vote==1){
 				$dynamicAnswerVotesDiv='
@@ -225,7 +230,9 @@ function sqlGetUserName($user_id){
 						</div>
 						<div class="answerDetail span11">
 							<div class="row userDetailDiv">
-								<a rel="tooltip" data-placement="bottom" data-original-title="'.$user_name.'" href="'.base_url().'ProfileController/ViewUserProfile/'.$row->user_id.'">'.$row->user_name.'</a> <i class="icon-time"></i>'.$row->timestamp.'
+								<a rel="tooltip" data-placement="bottom" data-original-title="'.$user_name.'" href="'.base_url().'ProfileController/ViewUserProfile/'.$row->user_id.'">'.$row->user_name.'</a> 
+								<a data-placement="bottom" data-original-title="'.$timeObj['postedDatestring'].'" rel="tooltip popover" href="#">'.$timeObj['timeElapsed'].' ago</a>
+                
 							</div>
 							<div class="row answerContentDiv">
 								<a href="'.base_url().'AnswersController/viewAnswer/'.$row->a_id.'" class="linkableAnswerContent">'.$row->a_content.'</a>
@@ -239,25 +246,7 @@ function sqlGetUserName($user_id){
 
 
 
-				<!--div class="answerElementWrapper">
-					<div class="answerElementDiv" data-a_id="'.$row->a_id.'" class="well" style="float:left;width:100%">
-						<div class="answerVotesDiv" style="float:left;text-align:center">
-							'.$dynamicAnswerVotesDiv.'
-						</div>
-						<div class="answerDiv" style="float:left;">
-						'.'	<div class="userDetailDiv">'.
-								$this->userMarkup($row->posted_by).'
-							</div>
-							<div class="answerContentDiv">
-							<a href="'.base_url().'AnswersController/viewAnswer/'.$row->a_id.'" class="linkableAnswerContent">'.$row->a_content.'</a>
-							</div>
-							'. $deleteButton.'
-			    			<div class="answerStatsDiv " style="float:right" >
-			    				<i class="icon-time"></i>'.$row->timestamp.' 
-				    		</div>
-			    		</div>
-				    </div>
-				</div-->
+				
 				';
 
 		
@@ -331,7 +320,7 @@ function sqlGetUserName($user_id){
 
 		$answerArray=json_decode($answerObj,TRUE);
         
-        $timestamp=$this->getCurrentTime();
+        $timestamp=time();
 
 		// This assumes you followed the Getting Start guide...
 		$sql = "insert into ANSWER(a_content,q_id,posted_by,timestamp) 
@@ -350,6 +339,8 @@ function sqlGetUserName($user_id){
         where a_content=? and q_id=? and posted_by=? and timestamp=?";
         $query=$this->db->query($sql,array($answerArray['a_content'],$answerArray['q_id'],$posted_by,$timestamp));
         $row=$query->row_array();
+        $this->load->library('klib');
+        $timeObj=$this->klib->processTime($row['timestamp']);
 
     	$deleteUrl=base_url().'AnswersController/DeleteAnswer/';
         
@@ -372,7 +363,9 @@ function sqlGetUserName($user_id){
 						</div>
 						<div class="answerDetail span11">
 							<div class="row userDetailDiv">
-								<a rel="tooltip" data-placement="bottom" data-original-title="$user_name" href="'.base_url().'ProfileController/ViewUserProfile/'.$posted_by.'"></a> <i class="icon-time"></i>'.$row['timestamp'].'
+								<a rel="tooltip" data-placement="bottom" data-original-title="$user_name" href="'.base_url().'ProfileController/ViewUserProfile/'.$posted_by.'"></a> 
+								<a data-placement="bottom" data-original-title="'.$timeObj['postedDatestring'].'" rel="tooltip popover" href="#">'.$timeObj['timeElapsed'].' ago</a>
+                
 							</div>
 							<div class="row answerContentDiv">
 								<a href="'.base_url().'AnswersController/viewAnswer/'.$row['a_id'].'" class="linkableAnswerContent">'.$answerArray['a_content'].'</a>
@@ -385,48 +378,7 @@ function sqlGetUserName($user_id){
 				</div>
 
 
-        	<!--div class="answerElementDiv" data-a_id="'.$row['a_id'].'" class="well" style="float:left;width:100%">
-				<div class="answerVotesDiv" style="float:left;text-align:center">
-					<div class="upVotesDiv" style="height:30%; ">
-						<a class="voteButton upVoteButton" href="#" ><i class="icon-thumbs-up"></i></a>
-					</div>
-					<div class="votesCountDiv" style="height:40%; ">
-						<span class="votesCount">0</span>
-					</div>
-					<div class="downVotesDiv" style="height:30%; ">
-						<a class="voteButton downVoteButton" href="#" ><i class="icon-thumbs-down"></i></a>
-					</div>
-				</div>
-				<div class="answerDiv" style="float:left;">
-				'.'	<div class="userDetailDiv">'.
-						$this->userMarkup($posted_by).'
-					</div>
-					<div class="answerContentDiv">
-					'.$answerArray['a_content'].'
-					</div>
-						'. $deleteButton.'
-	    			<div class="answerStatsDiv " style="float:right" >
-	    				<i class="icon-time"></i>'.$row['timestamp'].' 
-		    		</div>
-	    		</div>
-		    </div-->';
-
-/*
-				
-        $answerMarkup='
-        	<div id="answerDiv'.'dummy-id'.'" class="well">
-			'.'<div id="userDetailDiv">
-				   	<img src="'.$url.'" height="40px" width="40px" alt="James" class="display-pic" />
-   				   	<a class="answer" id="#" href="#">'.$this->sqlGetUserName($posted_by).'</a>
-    			</div>'.$answerArray['a_content'].'
-    			<div id="answerStats" style="float:right">
-    				<a href=#><i class="icon-circle-arrow-up"></i>Vote</a>
-    				<a href=#><i class="icon-circle-arrow-down"></i></a>
-    				<i class="icon-time"></i>'.$this->getCurrentTime().'
-    			</div>
-			</div>';
-
-*/
+        	';
 
 		if($status==-1){
 			$status='success';
