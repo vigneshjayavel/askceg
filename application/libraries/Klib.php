@@ -1,6 +1,23 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
 class Klib {
+
+	public function processTime($timestamp){//todo
+				
+		$post_timestamp=$timestamp; //normal GMT UTC from record
+		$timezone = 'UP55'; //for IST
+		$daylight_saving = FALSE;
+		//to test the format
+		$datestringFormat = "%h:%i %a - %d %M %Y";
+		$post_timestamp_ist=gmt_to_local($post_timestamp, $timezone, $daylight_saving);
+		$timeObj['postedDatestring']=mdate($datestringFormat,$post_timestamp_ist);
+		$now_ist = gmt_to_local(time(), $timezone, $daylight_saving);
+		$timeObj['timeElapsed']=timespan($post_timestamp_ist, $now_ist);
+		return $timeObj;
+		
+	}
+
+
 	public function sendMail($emailData){  
 
 	  /*
