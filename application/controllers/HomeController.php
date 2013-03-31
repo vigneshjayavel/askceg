@@ -19,9 +19,14 @@ function HomeController()
 	    {
 		$this->load->model('homemodel');
 		$this->load->model('metamodel');
+		$this->load->model('questionsmodel');
        	$data['metaContent']=$this->metamodel->getmeta("normal");
 		$data['centerContent']=$this->homemodel->getHomePage();
-        $data['paginationrequired']="false";
+
+		$data['centerContent'].="</br><h3>Your personalised newsfeed</h3>".$this->questionsmodel->sqlReadQuestions();
+		$data['paginationrequired']="true";
+
+		$data['paginationtype']="question";
 		$this->load->view('Skeleton',$data);
 		}
 		
