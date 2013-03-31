@@ -15,7 +15,7 @@
   
     <!-- Le styles -->
     <link href="<?php echo base_url()?>assets/css/bootstrap.css" rel="stylesheet">
-    <link href="<?php echo base_url()?>assets/css/custom.css" rel="stylesheet">
+    <link href="<?php echo base_url()?>assets/css/custom1.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
