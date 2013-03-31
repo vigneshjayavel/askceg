@@ -7,6 +7,12 @@ class TestController extends CI_Controller {
 		$this->load->view('TestView');
 
 	}
+
+
+	function time(){//todo
+		$this->load->library('klib');
+		print_r($this->klib->processTime(1364729876));
+	}
 	function testNotifs(){
 
 		$this->load->model('notificationsmodel');
@@ -95,7 +101,7 @@ class TestController extends CI_Controller {
 	function testData($q_id){
 		echo "This is test!! ".$q_id;
 	}
-	function time(){
+	function time1(){
 		 $date = new DateTime(date('Y-m-d H:i:s AM'), new DateTimeZone('GMT'));
 $date->setTimezone(new DateTimeZone('IST'));
 

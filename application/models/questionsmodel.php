@@ -253,7 +253,8 @@ function printanswer($qid){
     $content='';
     $limit=20;
     $count=0;
-  
+    $this->load->library('klib');
+
       $CI =& get_instance();
       $currentUserId=$CI->session->userdata('user_id');
       $groupId=$this->sqlGetGroupId($currentUserId);
@@ -376,6 +377,7 @@ from 0,19 (20 being the limit)
             Follow</a>';
         }
           $count++;
+          $timeObj=$this->klib->processTime($row['timestamp']);
         $content.=' 
         <div class="questionElementDiv">
           <div class="questionPostDiv" class="well questionElement" >
@@ -402,7 +404,7 @@ from 0,19 (20 being the limit)
               <p>
                 '.$userMarkup.'
                 <i class="icon-time"></i>
-                <a href="#">'.$row['timestamp'].'</a>
+                <a data-placement="bottom" data-original-title="'.$timeObj['postedDatestring'].'" rel="tooltip popover" href="#">'.$timeObj['timeElapsed'].' ago</a>
                 <i class="icon-comment"></i>
                 <a rel="tooltip popover" href="'.$questionUrl.$row['url'].'" 
                   data-placement="bottom">
