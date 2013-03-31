@@ -645,7 +645,7 @@ $(document).ready(function(){
             //display voted status in answerVotesDiv
             var answerVotesDiv=$(parentAnswerElementDiv).find('div.answerVotesDiv');
             this.updateMarkupOfAnswerVotesDiv(answerVotesDiv,count)
-
+            //voteAns(CI.base_url+'AnswersController/viewAnswer/'+a_id)
         },
 
         updateVote : function(count,a_id){
@@ -859,7 +859,7 @@ $(document).ready(function(){
                     if(jsonObj.status=='success'){
                         redirectUrl+=jsonObj.qsUrl;
                         askQs(redirectUrl);
-                        //displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);                    
+                        displayNotification(jsonObj.status,jsonObj.msg,redirectUrl);                    
                     }
                     else if(jsonObj.status=='warning'){
                         redirectUrl+=jsonObj.qsUrl;

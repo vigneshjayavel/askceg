@@ -7,5 +7,18 @@ class NotificationsModel extends CI_Model{
 		echo "here is a notification!!!";
 	}
 
+
+	function sqlCreateNotification($receiver,$receiverType,$msg){
+
+
+	}
+
+
+	function sqlUpdateNotificationStatus($notifId,$userId){
+
+		
+	}
+
+
 }
 ?>

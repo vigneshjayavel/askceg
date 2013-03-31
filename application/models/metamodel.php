@@ -35,7 +35,7 @@ class MetaModel extends CI_Model{
                               <meta property="og:title" content="'.$row['q_content'].'"/>
                                <meta property="og:image" content="'.$url.'"/>
                                <meta property="og:site_name" content="'.base_url().'"/>
-                               <meta property="og:description" content=" Posted by '.$row['q_content'].$row['user_name'].'. '.$row['q_description'].'"/>
+                               <meta property="og:description" content=" Posted : '.$row['q_content'].$row['user_name'].'. '.$row['q_description'].'"/>
                                 <meta property="og:url" content="'.$currentUrl.'" />';
                           }
                           else{

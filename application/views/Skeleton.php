@@ -161,7 +161,7 @@
     $(document).ready(function(){
 
       //prevent scroll when a is clicked
-      $('a[href="#"]').on('click', function(e) {
+      $('body').on('click','a[href=#]', function(e) {
          e.preventDefault();
          console.log('clicked');
       });

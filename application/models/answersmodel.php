@@ -336,7 +336,7 @@ function sqlGetUserName($user_id){
 		// This assumes you followed the Getting Start guide...
 		$sql = "insert into ANSWER(a_content,q_id,posted_by,timestamp) 
 				values(?,?,?,?)";
-	$status=$this->db->query($sql,array($answerArray['a_content'],$answerArray['q_id'],$posted_by,$timestamp));
+		$status=$this->db->query($sql,array($answerArray['a_content'],$answerArray['q_id'],$posted_by,$timestamp));
 		
 
 
@@ -353,14 +353,39 @@ function sqlGetUserName($user_id){
 
     	$deleteUrl=base_url().'AnswersController/DeleteAnswer/';
         
-          $deleteButton='
-                      <a rel="tooltip" data-placement="top" data-original-title="Delete Question"
-                      href="'.$deleteUrl.$row['a_id'].'" class="label label-inverse">Delete
-                      </a>';
+		$deleteButton='
+		<a rel="tooltip" data-placement="top" data-original-title="Delete Question"
+		href="'.$deleteUrl.$row['a_id'].'" class="label label-inverse">Delete
+		</a>';
         
 
+		$dynamicAnswerVotesDiv='<span class="votesCount">0</span>
+		<a class="voteButton upVoteButton" href="#" ><i class="icon-thumbs-up"></i></a>
+		<a class="voteButton downVoteButton" href="#" ><i class="icon-thumbs-down"></i></a>
+		';
+
         $answerMarkup='
-        	<div class="answerElementDiv" data-a_id="'.$row['a_id'].'" class="well" style="float:left;width:100%">
+        		<div class="answerElementWrapper">
+					<div class="answerElementDiv" data-a_id="'.$row['a_id'].'" class="well" style="float:left;width:100%">
+						<div class="span1">'.
+							$this->userMarkup($posted_by).'
+						</div>
+						<div class="answerDetail span11">
+							<div class="row userDetailDiv">
+								<a rel="tooltip" data-placement="bottom" data-original-title="$user_name" href="'.base_url().'ProfileController/ViewUserProfile/'.$posted_by.'"></a> <i class="icon-time"></i>'.$row['timestamp'].'
+							</div>
+							<div class="row answerContentDiv">
+								<a href="'.base_url().'AnswersController/viewAnswer/'.$row['a_id'].'" class="linkableAnswerContent">'.$answerArray['a_content'].'</a>
+							</div>
+							<div class="row answerVotesDiv" style="float:left;text-align:center">'.
+								$dynamicAnswerVotesDiv.$deleteButton.'
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+        	<!--div class="answerElementDiv" data-a_id="'.$row['a_id'].'" class="well" style="float:left;width:100%">
 				<div class="answerVotesDiv" style="float:left;text-align:center">
 					<div class="upVotesDiv" style="height:30%; ">
 						<a class="voteButton upVoteButton" href="#" ><i class="icon-thumbs-up"></i></a>
@@ -384,8 +409,7 @@ function sqlGetUserName($user_id){
 	    				<i class="icon-time"></i>'.$row['timestamp'].' 
 		    		</div>
 	    		</div>
-		    </div>
-        ';
+		    </div-->';
 
 /*
 				
