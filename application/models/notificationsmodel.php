@@ -26,34 +26,36 @@ class NotificationsModel extends CI_Model{
 	}
 
 	function sqlFetchNotification($user_id){
-		$sql='SELECT 
-		 	  n.*
-		 	  FROM 
-		 	  NOTIFICATIONS n,TOPIC_FOLLOWERS t,
-		 	  GROUPS g
-		 	  where
-		 	  ((receiver_type="u" AND receiver_id="'.$user_id.'") OR
-		 	   (receiver_type="t" AND receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where user_id="'.$user_id.'")) OR
-               (receiver_type="g" AND receiver_id in (SELECT group_id from GROUPS where user_id="'.$user_id.'")) )';
+		$sql='	SELECT 
+					u.user_id,n.notif_id,n.receiver_type,n.notif_msg
+				FROM 
+					NOTIFICATIONS n,USERS u
+				where
+					(
+					(n.receiver_type="u" AND n.receiver_id=u.user_id) OR
+					(n.receiver_type="g" AND n.receiver_id = u.group_id)  OR
+				        (n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where                          user_id=u.user_id)) 	
+					) AND u.user_id="'.$user_id.'"
+				group by u.user_id,n.notif_id';
 
+	}
 
-
-
-
-
-
-
-
-
-
-
-		 	  (t.user_id="'.$user_id.'" OR g.user_id="'.$user_id.'" OR 
-		 	   n.receiver_id="'.$user_id.'") 
-		 	  (n.receiver_id=t.topic_id OR n.receiver_id=g.group_id) AND
-		 	  ((n.receiver_type="u" AND n.receiver_id="'.$user_id.'") OR
-		 	  (n.receiver_type="t" AND n.receiver_id=t.topic_id) OR
-		 	  (n.receiver_type="g" AND n.receiver_id=g.group_id))'
-              ; 
+	function sqlFetchNotificationCount($user_id){
+			$sql='	SELECT 
+					count(temp.temp_notif_id) 
+					from(SELECT 
+							n.notif_id as temp_notif_id
+						FROM 
+						NOTIFICATIONS n,USERS u,USER_NOTIFICATIONS un
+						where
+						(
+						(n.receiver_type="u" AND n.receiver_id=u.user_id) OR
+						(n.receiver_type="g" AND n.receiver_id = u.group_id)  OR
+						(n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where                          user_id=u.user_id)) 	
+						) AND
+						n.notif_id!=un.notif_id 
+						AND u.user_id="'.$user_id.'"
+						group by u.user_id,n.notif_id) temp';
 
 	}
 

@@ -9,23 +9,27 @@
             </a>
             <a class="brand" href="<?php echo base_url(); ?>HomeController">AskCEG</a>
             <div class="nav-collapse" id="main-menu">
-                <form class="navbar-search pull-left" action="">
-                    <input type="text" id="ajaxSearchPanel" autocomplete="off" 
-                    class="typeahead search-query span8"
-                    placeholder="Search for Questions, Posts, Topics and CEGians" 
-                    data-provide="typeahead" data-items="6">
-                </form>
+                
                 <div id="notificationsPanel" style="float:left"></div>
                 <ul class="nav pull-right" id="main-menu-right">
-                    <!--li><a id="swatch-link" href="#"><i class="icon-info-sign icon-white"></i></li-->
-                    <li class="dropdown" id="preview-menu">
+                    <form class="navbar-search pull-left" action="">
+                        <input type="text" id="ajaxSearchPanel" autocomplete="off" 
+                        class="typeahead search-query span8"
+                        placeholder="Search for Questions, Posts, Topics and CEGians" 
+                        data-provide="typeahead" data-items="6">
+                    </form>
+                    <li>
+                        <a href="#" onclick="alert('coming soon!');">
+                            <span class="navbar-unread">5</span>Notifications
+                        </a>
+                    <li style="border-left: 1px solid #4d68a7;border-right: 1px solid #4d68a7;" class="dropdown" id="preview-menu">
                         <?php 
                         if ($this->session->userdata('logged_in') == TRUE) { 
                           $url = $this->session->userdata('profile_pic'); 
                           echo '
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                           <span id="profilePicSpan"><img src="' . $url . '" height="25" width="25" alt="No pic " class="display-pic" /></span>
-                          <span id="userNameSpan">'. $this->session->userdata('user_name').'</span>'; 
+                          '; 
                         } 
                         else { 
                           echo '
@@ -37,6 +41,10 @@
                         <?php 
                         if ($this->session->userdata('logged_in') == TRUE) { ?>
                             <ul class="dropdown-menu">
+                                <li>
+                                     
+                                    <span class="pull-right" id="userNameSpan">Logged in as <?php echo $this->session->userdata('user_name')?> !&nbsp;&nbsp;</span>
+                                </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>ProfileController/MyProfile">MyProfile</a>
                                 </li>

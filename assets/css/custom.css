@@ -2,6 +2,24 @@
 
 -webkit-font-smoothing: subpixel-antialiased;
 }
+.navbar-unread {
+display: block !important;
+}
+.navbar-unread {
+background-color: #e74c3c;
+border-radius: 30px;
+color: white;
+font-size: 12px;
+font-weight: 500;
+line-height: 18px;
+padding: 0 5px;
+position: absolute;
+right: 9%;
+text-align: center;
+text-shadow: none;
+top: 7%;
+z-index: 10;
+}
 body{
 
 	background-color: #f1f1f1 !important;
