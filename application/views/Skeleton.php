@@ -29,7 +29,22 @@
       textarea {
         width: 360px;
       }
+
+      .scrollup{
+          width:40px;
+          height:40px;
+          opacity:0.3;
+          position:fixed;
+          bottom:50px;
+          right:100px;
+          display:none;
+          text-indent:-9999px;
+          background: url("<?php echo base_url();?>assets/img/icon_top.png") no-repeat;
+      }
+
+
     </style>
+    
     <link href="<?php echo base_url()?>assets/css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -119,6 +134,7 @@
   </head>
 
   <body data-spy="scroll" data-target=".subnav" data-offset="80">
+    <a href="#" class="scrollup">Scroll</a>
     <div class="background-holder"></div>
     <div id="alertBox" style="display:none; padding-top: 58px;">
       <div class="alertMessage">
@@ -271,6 +287,26 @@
   <?php
   }
   ?>
+
+  <script type="text/javascript">
+    $(document).ready(function(){ 
+ 
+        $(window).scroll(function(){
+            if ($(this).scrollTop() > 100) {
+                $('.scrollup').fadeIn();
+            } else {
+                $('.scrollup').fadeOut();
+            }
+            console.log('scroll')
+        }); 
+ 
+        $('.scrollup').click(function(){
+            $("html, body").animate({ scrollTop: 0 }, 600);
+            return false;
+        });
+ 
+    });
+    </script>
 
 
 </html>
