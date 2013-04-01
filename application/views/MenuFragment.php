@@ -11,6 +11,10 @@
             <div class="nav-collapse" id="main-menu">
                 
                 <div id="notificationsPanel" style="float:left"></div>
+                <?php
+                if ($this->session->userdata('logged_in') == TRUE)
+                {
+                ?>
                 <ul class="nav pull-right" id="main-menu-right">
                     <form class="navbar-search pull-left" action="">
                         <input type="text" id="ajaxSearchPanel" autocomplete="off" 
@@ -74,7 +78,10 @@
                     <li>
                         <a href="<?php echo base_url() ?>QuestionsController/AskQuestion"><i class="icon-white icon-pencil"></i></a>
                     </li>
-                  </ul>
+                </ul>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </div>
