@@ -29,12 +29,9 @@ class AuthControllerAsk extends CI_Controller {
                      user_degree='$degree', user_course='$course', complete='1'
                      where user_id='$user_id'";
             $this->db->query($q1);
-            echo 'Thanks for updating !!You will be redirected to the home!
-            <script>
-                window.setInterval(function(){
-                    window.location="'.base_url().'welcome";
-                },3000);
-            </script>
+            echo 'Thanks for updating !!
+                <a href="'.base_url().'welcome">Proceed here !</a>
+            
             ';
 
         }
