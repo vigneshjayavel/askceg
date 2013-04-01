@@ -138,7 +138,7 @@ class ProfileModel extends CI_Model{
       if($this->questionsmodel->sqlCheckUserFollowsTopic($currentUserId,$row['topic_id'])){
 
         $dynamicFollowOrUnfollowButton='
-          <a href="#" class="topicFollowButton" data-follow_status="yes" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
+          <a href="#" class="topicFollowButton btn-primary btn-small" data-follow_status="yes" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
           data-original-title="Click to unfollow the topic!">
           <i class="icon-minus-sign"></i>
           Followed</a>';
@@ -146,7 +146,7 @@ class ProfileModel extends CI_Model{
       }
       else{
         $dynamicFollowOrUnfollowButton='
-        <a href="#" class="topicFollowButton" data-follow_status="no" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
+        <a href="#" class="topicFollowButton btn-primary btn-small" data-follow_status="no" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
         data-original-title="Click to Follow the topic!">
         <i class="icon-plus-sign"></i>
         Follow</a>';

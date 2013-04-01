@@ -7,7 +7,7 @@
              <span class="icon-bar"></span>
 
             </a>
-            <a class="brand" href="<?php echo base_url(); ?>HomeController"><img height="45" width="120" src="<?php echo base_url();?>assets/img/asklogo1.png" /></a>
+            <a class="brand" href="<?php echo base_url(); ?>HomeController"><img height="45" width="100" src="<?php echo base_url();?>assets/img/asklogo1.png" /></a>
             <div class="nav-collapse" id="main-menu">
                 
                 <div id="notificationsPanel" style="float:left"></div>

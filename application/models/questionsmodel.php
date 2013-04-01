@@ -364,16 +364,16 @@ from 0,19 (20 being the limit)
           $deleteButton.='';
         if($this->sqlCheckUserFollowsQuestion($currentUserId,$row['q_id'])){
           $dynamicFollowOrUnfollowButton='
-            <a href="#" class="qsFollowButton" data-follow_status="yes" data-q_id="'.$row['q_id'].'" rel="tooltip" data-placement="top" 
+            <a href="#" class="qsFollowButton btn-small btn-primary" data-follow_status="yes" data-q_id="'.$row['q_id'].'" rel="tooltip" data-placement="top" 
             data-original-title="Click to unfollow the question!">
-            <i class="icon-minus-sign"></i>
+            <i class="icon-minus-sign icon-white"></i>
             Followed</a>';
         }
         else{
           $dynamicFollowOrUnfollowButton='
-            <a href="#" class="qsFollowButton" data-follow_status="no" data-q_id="'.$row['q_id'].'" rel="tooltip" data-placement="top" 
+            <a href="#" class="qsFollowButton btn-small btn-primary" data-follow_status="no" data-q_id="'.$row['q_id'].'" rel="tooltip" data-placement="top" 
             data-original-title="Click to follow the question!">
-            <i class="icon-plus-sign"></i>
+            <i class="icon-plus-sign icon-white"></i>
             Follow</a>';
         }
           $count++;
@@ -1079,7 +1079,7 @@ function getGroupScopeQuestions($group_id){
     	
       if($this->questionsmodel->sqlCheckUserFollowsTopic($currentUserId,$row['topic_id'])){
         $dynamicFollowOrUnfollowButton='
-        <a href="#" class="topicFollowButton" data-follow_status="yes" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
+        <a href="#" class="topicFollowButton btn-primary btn-small" data-follow_status="yes" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
         data-original-title="Click to unfollow the topic!">
         <i class="icon-minus-sign"></i>
         Followed</a>';
@@ -1087,7 +1087,7 @@ function getGroupScopeQuestions($group_id){
       }
       else{
         $dynamicFollowOrUnfollowButton='
-        <a href="#" class="topicFollowButton" data-follow_status="no" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
+        <a href="#" class="topicFollowButton btn-primary btn-small" data-follow_status="no" data-topic_id="'.$row['topic_id'].'" rel="tooltip" data-placement="top" 
         data-original-title="Click to Follow the topic!">
         <i class="icon-plus-sign"></i>
         Follow</a>';

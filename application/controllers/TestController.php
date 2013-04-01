@@ -7,6 +7,64 @@ class TestController extends CI_Controller {
 		$this->load->view('TestView');
 
 	}
+	function notifMarkup(){
+		$data['centerContent']='
+	<div class="todo mrm">
+            <div class="todo-search">
+              <input class="todo-search-field" type="search" value="" placeholder="Search">
+            </div>
+            <ul>
+              <li class="todo-done">
+                <div class="todo-icon fui-man-24"></div>
+                <div class="todo-content">
+                  <h4 class="todo-name">
+                    Meet <strong>Adrian</strong> at <strong>6pm</strong>
+                  </h4>
+                  Times Square
+                </div>
+              </li>
+
+              <li class="todo-done">
+                <div class="todo-icon fui-menu-24"></div>
+                <div class="todo-content">
+                  <h4 class="todo-name">
+                    Chat with <strong>V.Kudinov</strong>
+                  </h4>
+                  Skype conference an 9 am
+                </div>
+              </li>
+
+              <li>
+                <div class="todo-icon fui-eye-24"></div>
+                <div class="todo-content">
+                  <h4 class="todo-name">
+                    Watch <strong>Iron Man</strong>
+                  </h4>
+                  1998 Broadway
+                </div>
+              </li>
+
+              <li class="">
+                <div class="todo-icon fui-time-24"></div>
+                <div class="todo-content">
+                  <h4 class="todo-name">
+                    Fix bug on a <strong>Website</strong>
+                  </h4>
+                  As soon as possible
+                </div>
+              </li>
+            </ul>
+          </div>
+
+
+		';
+		$this->load->view('TestView',$data);
+	}
+	function testNotif(){
+		$this->load->model('notificationsmodel');
+		echo $this->notificationsmodel->sqlFetchNotification('1');
+		echo $this->notificationsmodel->sqlFetchNotificationCount('1');
+	}
 
 
 	function time(){//todo

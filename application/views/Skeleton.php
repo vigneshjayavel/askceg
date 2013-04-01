@@ -221,7 +221,7 @@
           </div>
           <div class="span9">
             <p>
-              AskCEG is just one away.. Join us via facebook
+              AskCEG is just one click away.. Join us via facebook
               <span id="regStatusHolder">
                 <a href="#" class="fbLoginStatus"><img src="<?php echo base_url(); ?>assets/img/btns/fbLoginRegister.png"></a>
               </span>

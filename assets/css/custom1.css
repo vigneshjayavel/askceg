@@ -2,9 +2,35 @@
 
 -webkit-font-smoothing: subpixel-antialiased;
 }
+
+.notificationsDiv ul.nav a{
+  color:#fcfcfc;
+  text-decoration: none;
+}
+.notificationsDiv ul.nav li.unread{
+  background: #95A5A6;
+  background-size: 20px 20px;
+  cursor: pointer;
+  padding: 18px 42px 17px 25px;
+  position: relative;
+  -webkit-transition: 0.25s;
+}
+.notificationsDiv ul.nav li{
+  background: #7F8C8D;
+  background-size: 20px 20px;
+  cursor: pointer;
+  padding: 18px 42px 17px 25px;
+  position: relative;
+  -webkit-transition: 0.25s;
+}
+
+a.qsFollowButton,a.topicFollowButton{
+  color:#333 !important;
+}
+
 a.brand{
   height:0px !important;
-  margin-top: -10px;
+  margin-top: -1px;
 }
 .navbar-unread {
 display: block !important;

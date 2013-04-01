@@ -101,7 +101,7 @@ function hideNotification(redirectUrl){
     }
 }
 
-$(window).load(function(){
+$(document).ready(function(){
 
 	$('#progressbar').hide();
 	$('#center').fadeIn(2);
@@ -352,6 +352,7 @@ $(document).ready(function(){
         events: {
           "click a.qsFollowButton" :  "followOrUnfollowQs",
           "click a.topicFollowButton" : "followOrUnfollowTopic",
+          "click a.userFollowButton" : "followOrUnfollowUser",
           "mouseover a.followersInfoTooltip" : "displayFollowersTooltip",
           "click #postAnswerButton" : "trackTypedAnswer",
           "click a.directQsPostButton" : "showPostDirectQsModal",
@@ -608,6 +609,74 @@ $(document).ready(function(){
             });
             
         },
+
+        followOrUnfollowUser : function(ev){
+            var topicFollowButtonElement=ev.currentTarget;
+            var topic_id=$(topicFollowButtonElement).data('topic_id');
+            var follow_status=$(topicFollowButtonElement).data('follow_status');
+            var follow_text='';
+            var topicFollowButtonMarkupObj={};
+            $(topicFollowButtonElement).empty().append('loading..');
+            var followUrl= CI.base_url+'QuestionsController/followTopic/';
+            var unfollowUrl= CI.base_url+'QuestionsController/unfollowTopic/';
+            var url=follow_status=='yes'?unfollowUrl+topic_id:followUrl+topic_id;
+            console.log('existing follow_status='+follow_status);
+            if(follow_status=='yes'){
+                topicFollowButtonMarkupObj={
+                follow_status : 'no',
+                tooltipText : 'Click to follow the topic!',
+                icon : 'icon-plus-sign',
+                followUnfollowText : 'Follow',
+                notificationStatus : 'success',
+                notificationMsg : 'You have unfollowed the topic successfully!'
+                };
+
+            }
+            else{
+                topicFollowButtonMarkupObj={
+                    follow_status : 'yes',
+                    tooltipText : 'Click to unfollow the topic!',
+                    icon : 'icon-minus-sign',
+                    followUnfollowText : 'Followed',
+                    notificationStatus : 'success',
+                    notificationMsg : 'You have followed the topic successfully!'
+                };
+            }
+            this.updateTopicFollowStatus(url,topicFollowButtonElement,topicFollowButtonMarkupObj);
+        },
+        /*after following/unfollowing update the markup of the button*/
+        convertMarkupOfUserFollowButtonElement:function(topicFollowButtonElement,topicFollowButtonMarkupObj){
+            
+            $(topicFollowButtonElement).empty()
+            $(topicFollowButtonElement).data('follow_status',topicFollowButtonMarkupObj.follow_status)
+            $(topicFollowButtonElement).prepend('<i class="'+topicFollowButtonMarkupObj.icon+'"></i> ')
+            $(topicFollowButtonElement).append(topicFollowButtonMarkupObj.followUnfollowText)
+            $(topicFollowButtonElement).tooltip('hide')
+            $(topicFollowButtonElement).attr('data-original-title', topicFollowButtonMarkupObj.tooltipText)
+            displayNotification(topicFollowButtonMarkupObj.notificationStatus,topicFollowButtonMarkupObj.notificationMsg);
+
+             //determining whether to inc/dec the followerscount
+            var updationType;
+            if(topicFollowButtonMarkupObj.followUnfollowText=='Followed'){
+                updationType='increment';
+            }
+            else{
+                updationType='decrement';
+            }
+            //updating the followers count
+            this.updateFollowersCount($(topicFollowButtonElement).data('topic_id'),updationType,'topic');
+        },
+        /*after following/unfollowing update db */
+        updateUserFollowStatus:function(url,topicFollowButtonElement,topicFollowButtonMarkupObj){
+            var that=this;
+            $.get(url,function(data){
+                that.convertMarkupOfTopicFollowButtonElement(topicFollowButtonElement,topicFollowButtonMarkupObj);
+            
+            });
+            
+        },
+
+
 
         showPostDirectQsModal: function(){
             $('#postDirectQsModal').modal('show');
