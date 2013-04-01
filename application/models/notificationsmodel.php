@@ -7,25 +7,45 @@ class NotificationsModel extends CI_Model{
 		echo "here is a notification!!!";
 	}
 
+	function sqlcreateMasterNotifications($receiver_id,$receiver_type,$notif_msg)
+	{
+			$sql='INSERT INTO 
+				  NOTIFICATIONS(receiver_id,receiver_type,notif_msg) 
+				  values(?,?,?)';
+			$query=$this->db->query($sql,array($receiver_id,$receiver_type,$notif_msg));
+	}
 
-	function createNotification($receiver_type,$receiver_id,$msg){
-    	$sql="INSERT into
-    	      NOTIFICATIONS(receiver_type,receiver_id,notif_msg)
-    	      values(?,?,?)";
+	function sqlcreateEnduserNotifications(){
+    	$sql='	INSERT 
+				  USER_NOTIFICATIONS 
+				  (
+				user_id, notif_id,notif_msg
+				  )
+				SELECT 
+					u.user_id,n.notif_id,n.notif_msg
+				FROM 
+					NOTIFICATIONS n,USERS u
+				where
+					(
+					(n.receiver_type="u" AND n.receiver_id=u.user_id) OR
+					(n.receiver_type="g" AND n.receiver_id = u.group_id)  OR
+				        (n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where                          user_id=u.user_id)) 	
+					)  group by u.user_id,n.notif_id';
+
     	$query=$this->db->query($sql,array($receiver_type,$receiver_id,$msg));
 
 	}
 
 
 	function sqlUpdateNotificationStatus($notif_id,$user_id){
-       $sql="INSERT into 
-       		USER_NOTIFICATIONS(user_id,notif_id)
-       		values(?,?)";
+       $sql='DELETE FROM 
+       		USER_NOTIFICATIONS 
+       		where user_id=? AND notif_id=?';
        $query=$this->db->query($sql,array($user_id,$notif_id));
 		
 	}
 
-	function sqlFetchNotifications($user_id,$unread){
+	function sqlFetchNotifications($user_id,$unread=null){
 		/*
 		$sql='	SELECT 
 					u.user_id,n.notif_id,n.receiver_type,n.notif_msg
@@ -39,6 +59,7 @@ class NotificationsModel extends CI_Model{
 					) AND u.user_id=?
 				group by u.user_id,n.notif_id';
 		*/
+		/*
 		$sql='	SELECT 
 					u.user_id,n.notif_id,n.receiver_type,n.notif_msg
 				FROM 
@@ -49,12 +70,15 @@ class NotificationsModel extends CI_Model{
 					(n.receiver_type="g" AND n.receiver_id = u.group_id)  OR
 				        (n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where                          user_id=u.user_id)) 	
 					) AND 
-  				u.user_id=?';
-  			if($unread!=null){
-  				$sql.=' AND n.notif_id!=un.notif_id';
-  			} 
-			$sql.='	group by u.user_id,n.notif_id';
-
+  				u.user_id=? 
+				group by u.user_id,n.notif_id';
+		*/
+		$sql='	SELECT 
+						*
+					FROM 
+					USER_NOTIFICATIONS un
+					where
+					un.user_id=?';
 
 		$query=$this->db->query($sql,array($user_id)); 
 		$result=$query->result_array();
@@ -82,18 +106,11 @@ class NotificationsModel extends CI_Model{
 
 	function sqlFetchNotificationCount($user_id){
 		$sql='	SELECT 
-						n.notif_id
+						notif_id
 					FROM 
-					NOTIFICATIONS n,USERS u,USER_NOTIFICATIONS un
+					USER_NOTIFICATIONS un
 					where
-					(
-					(n.receiver_type="u" AND n.receiver_id=u.user_id) OR
-					(n.receiver_type="g" AND n.receiver_id = u.group_id)  OR
-					(n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where                          user_id=u.user_id)) 	
-					) AND
-					n.notif_id!=un.notif_id 
-					AND u.user_id=?
-					group by u.user_id,n.notif_id';
+					un.user_id=?';
 
 		$result=$this->db->query($sql,array($user_id)); 
 		$content=0;
