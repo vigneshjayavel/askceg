@@ -1,3 +1,19 @@
+$(document).ready(function(){
+    //to get new notifications
+    function getNewNotificationsCount(){
+        var userId=userData.user_id;
+        $.getJSON(CI.base_url+'NotificationsController/getNewNotificationsCount/'+userId,
+            function(jsonObj){
+                console.log('got '+jsonObj.count)
+                $('span#newNotificationsCount').text(jsonObj.count).css('background-color','#e74c3c').fadeIn(300);
+                //$('li#getNewNotificationsBtn').css('background-color','#2C3E50').fadeIn(300);
+            }
+        );
+    }
+    getNewNotificationsCount();
+});
+
+
 //og post activities
 function askQs(url) {
     FB.api(
@@ -350,17 +366,44 @@ $(document).ready(function(){
             
         },
         events: {
-          "click a.qsFollowButton" :  "followOrUnfollowQs",
-          "click a.topicFollowButton" : "followOrUnfollowTopic",
-          "click a.userFollowButton" : "followOrUnfollowUser",
-          "mouseover a.followersInfoTooltip" : "displayFollowersTooltip",
-          "click #postAnswerButton" : "trackTypedAnswer",
-          "click a.directQsPostButton" : "showPostDirectQsModal",
-          "click a.voteButton" : "voteAnswer" ,
-          "click a.votedButton" :"diplayAlreadyVotedNotification"
+            "click span.notificationReadStatus":"updateNotificationReadStatus",
+            "click a.qsFollowButton" :  "followOrUnfollowQs",
+            "click a.topicFollowButton" : "followOrUnfollowTopic",
+            "click a.userFollowButton" : "followOrUnfollowUser",
+            "mouseover a.followersInfoTooltip" : "displayFollowersTooltip",
+            "click #postAnswerButton" : "trackTypedAnswer",
+            "click a.directQsPostButton" : "showPostDirectQsModal",
+            "click a.voteButton" : "voteAnswer" ,
+            "click a.votedButton" :"diplayAlreadyVotedNotification"
         },
+
+        updateNotificationReadStatus:function(ev){
+            var notificationReadStatusElement=ev.currentTarget;
+            var notif_id=$(notificationReadStatusElement).data('notif_id');
+            $(notificationReadStatusElement).empty().removeClass('icon-check').append('clearing..');
+            var that=this;
+            $.getJSON(CI.base_url+'NotificationsController/updateNotificationReadStatus/'+notif_id,
+             
+                function(jsonObj){
+                    console.log('got '+jsonObj.status)
+                    //get the answerElementDiv that holds the voteButton
+                    var parentNotificationElement=$(notificationReadStatusElement).closest('li');
+                    $(parentNotificationElement).fadeOut();
+                    that.updateNewNotificationsCount(-1);
+                }
+            );
+        },
+
+        updateNewNotificationsCount:function(count){
+            var newNotificationsCountElement=$('#newNotificationsCount')
+            var existingCount=parseInt($(newNotificationsCount).text());
+            existingCount+=count;
+            newNotificationsCountElement.text(existingCount);
+
+        },
+
         /* method for Ajaxifying follow/unfollow of qs*/
-        followOrUnfollowQs: function (ev) {
+        followOrUnfollowQs:function (ev) {
             var qsFollowButtonElement=ev.currentTarget;
             var q_id=$(qsFollowButtonElement).data('q_id');
             var follow_status=$(qsFollowButtonElement).data('follow_status');

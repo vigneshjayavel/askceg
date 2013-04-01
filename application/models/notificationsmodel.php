@@ -21,11 +21,12 @@ class NotificationsModel extends CI_Model{
        $sql="INSERT into 
        		USER_NOTIFICATIONS(user_id,notif_id)
        		values(?,?)";
-       $query=$this->db->query($sql,array($notif_id,$user_id));
+       $query=$this->db->query($sql,array($user_id,$notif_id));
 		
 	}
 
-	function sqlFetchNotification($user_id){
+	function sqlFetchNotifications($user_id,$unread){
+		/*
 		$sql='	SELECT 
 					u.user_id,n.notif_id,n.receiver_type,n.notif_msg
 				FROM 
@@ -37,22 +38,69 @@ class NotificationsModel extends CI_Model{
 				        (n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where                          user_id=u.user_id)) 	
 					) AND u.user_id=?
 				group by u.user_id,n.notif_id';
+		*/
+		$sql='	SELECT 
+					u.user_id,n.notif_id,n.receiver_type,n.notif_msg
+				FROM 
+					NOTIFICATIONS n,USERS u,USER_NOTIFICATIONS un
+				where
+					(
+					(n.receiver_type="u" AND n.receiver_id=u.user_id) OR
+					(n.receiver_type="g" AND n.receiver_id = u.group_id)  OR
+				        (n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where                          user_id=u.user_id)) 	
+					) AND 
+  				u.user_id=?';
+  			if($unread!=null){
+  				$sql.=' AND n.notif_id!=un.notif_id';
+  			} 
+			$sql.='	group by u.user_id,n.notif_id';
 
 
 		$query=$this->db->query($sql,array($user_id)); 
 		$result=$query->result_array();
-		$content='';
+		$content='
+		<div id="notificationsWrapper">
+			<div class="notificationsDiv">
+				<ul class="nav">
+		';
+		$i=1;
 		foreach($result as $row){
 			$content.='
-			<div>
-				'.$row['notif_msg'].'
-			<div>';
+			<li>
+				<span> <a href="#">'.$row['notif_msg'].'</a></span>
+				<span data-notif_id='.$row['notif_id'].' class="notificationReadStatus pull-right icon-check"></span>
+			</li>';
 			
 		}
+		$content.='
+				</ul>
+			</div>
+		</div>
+		';
 		return $content;
 	}
 
 	function sqlFetchNotificationCount($user_id){
+		$sql='	SELECT 
+						n.notif_id
+					FROM 
+					NOTIFICATIONS n,USERS u,USER_NOTIFICATIONS un
+					where
+					(
+					(n.receiver_type="u" AND n.receiver_id=u.user_id) OR
+					(n.receiver_type="g" AND n.receiver_id = u.group_id)  OR
+					(n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where                          user_id=u.user_id)) 	
+					) AND
+					n.notif_id!=un.notif_id 
+					AND u.user_id=?
+					group by u.user_id,n.notif_id';
+
+		$result=$this->db->query($sql,array($user_id)); 
+		$content=0;
+		return $result->num_rows();
+		
+
+		/*
 		$sql='	SELECT 
 				count(temp.temp_notif_id) as cnt
 				from(SELECT 
@@ -75,6 +123,7 @@ class NotificationsModel extends CI_Model{
 			$content=$row['cnt'];
 		}
 		return $content;
+		*/
 	}
 
 

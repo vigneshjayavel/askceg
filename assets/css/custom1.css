@@ -7,6 +7,11 @@
   color:#fcfcfc;
   text-decoration: none;
 }
+
+.notificationsDiv ul.nav li:hover{
+  background: #78c8e6;
+}
+
 .notificationsDiv ul.nav li.unread{
   background: #95A5A6;
   background-size: 20px 20px;
@@ -36,7 +41,7 @@ a.brand{
 display: block !important;
 }
 .navbar-unread {
-background-color: #e74c3c;
+  
 border-radius: 30px;
 color: white;
 font-size: 12px;

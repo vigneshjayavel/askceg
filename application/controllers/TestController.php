@@ -9,52 +9,18 @@ class TestController extends CI_Controller {
 	}
 	function notifMarkup(){
 		$data['centerContent']='
-	<div class="todo mrm">
-            <div class="todo-search">
-              <input class="todo-search-field" type="search" value="" placeholder="Search">
-            </div>
-            <ul>
-              <li class="todo-done">
-                <div class="todo-icon fui-man-24"></div>
-                <div class="todo-content">
-                  <h4 class="todo-name">
-                    Meet <strong>Adrian</strong> at <strong>6pm</strong>
-                  </h4>
-                  Times Square
-                </div>
-              </li>
-
-              <li class="todo-done">
-                <div class="todo-icon fui-menu-24"></div>
-                <div class="todo-content">
-                  <h4 class="todo-name">
-                    Chat with <strong>V.Kudinov</strong>
-                  </h4>
-                  Skype conference an 9 am
-                </div>
-              </li>
-
-              <li>
-                <div class="todo-icon fui-eye-24"></div>
-                <div class="todo-content">
-                  <h4 class="todo-name">
-                    Watch <strong>Iron Man</strong>
-                  </h4>
-                  1998 Broadway
-                </div>
-              </li>
-
-              <li class="">
-                <div class="todo-icon fui-time-24"></div>
-                <div class="todo-content">
-                  <h4 class="todo-name">
-                    Fix bug on a <strong>Website</strong>
-                  </h4>
-                  As soon as possible
-                </div>
-              </li>
-            </ul>
-          </div>
+	
+		<div class="">
+				<div class="notificationsDiv">
+					<ul class="nav">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+			</div>
 
 
 		';
