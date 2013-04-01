@@ -32,7 +32,7 @@ class AuthControllerAsk extends CI_Controller {
             echo 'Thanks for updating !!You will be redirected to the home!
             <script>
                 window.setInterval(function(){
-                    window.location="'.base_url().'HomeController";
+                    window.location="'.base_url().'welcome";
                 },3000);
             </script>
             ';
@@ -112,11 +112,11 @@ class AuthControllerAsk extends CI_Controller {
 
                 //generate a hash
                 $hash=md5($user_id);
-
+                $profile_pic=$this->get_gravatar($email);
                 //insert new record in USERS with hash
                 $q1 = "insert into USERS(user_name,user_degree, user_course, 
-                    complete,isNormalAccount,user_id,email_id,password,hash) values('$name','$degree',
-                    '$course',1,1,'$user_id','$email','$pass','$hash')";
+                    complete,isNormalAccount,user_id,email_id,password,hash,profile_pic) values('$name','$degree',
+                    '$course',1,1,'$user_id','$email','$pass','$hash','$profile_pic')";
                 $this->db->query($q1);
                 echo 'Thanks for registering !! Check your inbox for activation instructions!<br><b>Please check spam if you haven\'t received the mail!</b>';
                 //send activation to email
@@ -156,7 +156,7 @@ class AuthControllerAsk extends CI_Controller {
             echo 'Thanks for activating your account!! Please wait while you are being redirected!
                 <script>
                 window.setInterval(function(){
-                    window.location="'.base_url().'HomeController";
+                    window.location="'.base_url().'welcome";
                 },3000);
                 </script>';
         }
@@ -175,6 +175,14 @@ class AuthControllerAsk extends CI_Controller {
             echo "You are already logged in !! ".$this->session->userdata('user_id');
         }
     }
+    
+    function get_gravatar( $email, $s = 40, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+        $url = 'http://www.gravatar.com/avatar/';
+        $url .= md5( strtolower( trim( $email ) ) );
+        $url .= "?s=$s&d=$d&r=$r";
+             
+        return $url;
+    }
 
     function processNormalLogin(){
         //TODO
@@ -189,6 +197,13 @@ class AuthControllerAsk extends CI_Controller {
             if ($res->num_rows() > 0){
                 $row=$res->row_array();
                 if($row['hash']==NULL){
+
+                    if($row['profile_pic']!=''||$row['profile_pic']!=""||$row['profile_pic']!=null){
+                        $profile_pic=$row['profile_pic'];
+                    }
+                    else{
+                        $profile_pic=$this->get_gravatar($email);
+                    }
                     //he has acativated
                     $sessionData = array(
                     'user_id'  => $row['user_id'],
@@ -196,7 +211,7 @@ class AuthControllerAsk extends CI_Controller {
                     'user_name' => $row['user_name'],
                     'group_id' => $row['group_id'],
                     'isNormalAccount' => 1,
-                    'profile_pic' => $row['profile_pic'],
+                    'profile_pic' => $profile_pic,
                     'isProfileComplete' => $row['complete']
 
                     );

@@ -40,6 +40,7 @@
 
 $route['default_controller'] = "HomeController";
 $route['home'] = "HomeController";
+$route['welcome'] = "HomeController";
 $route['404_override'] = '';
 
 /* End of file routes.php */

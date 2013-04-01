@@ -86,12 +86,13 @@ class AuthModelAsk extends CI_Model {
                 $r10   = $db->query($q10);
                 $row10 = $r10->row();
                 $user_id=$row10->user_id;
-                $user_name=$row10->user_name;
                 if ($row10->complete == 1) { //already registered ( PROFILE IS COMPLETE )
                     
                     $responseObj['statusCode'] = "2";
+                    $user_name=$row10->user_name;
                 } else{
                     $responseObj['statusCode'] = "4";
+                    $user_name='';
                 }
                 $responseObj['user_id'] = $user_id;
                 $responseObj['user_name'] = $user_name;
