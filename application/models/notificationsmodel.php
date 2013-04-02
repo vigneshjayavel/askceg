@@ -31,7 +31,22 @@ class NotificationsModel extends CI_Model{
 					(n.receiver_type="g" AND n.receiver_id = u.group_id)  OR
 				        (n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where                          user_id=u.user_id)) 	
 					)  group by u.user_id,n.notif_id';
-
+			
+		/*sample
+		SELECT 
+					u.user_id,n.notif_id,n.notif_msg
+				FROM 
+					NOTIFICATIONS n 
+                                        JOIN USERS u
+                                        join USER_NOTIFICATIONS un
+				ON  
+					(
+					(n.receiver_type="u" AND n.receiver_id=u.user_id) OR
+					(n.receiver_type="g" AND n.receiver_id = u.group_id)  OR
+				        (n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where                          user_id=u.user_id)) 	
+					)  AND un.notif_id!=n.notif_id group by u.user_id,n.notif_id
+                                        
+*/
     	$query=$this->db->query($sql,array($receiver_type,$receiver_id,$msg));
 
 	}
