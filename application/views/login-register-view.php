@@ -17,7 +17,7 @@
 <link rel="shortcut icon" href="../favicon.ico"> 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/LoginFormAssets/css/demo.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/LoginFormAssets/css/style2.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/LoginFormAssets/css/animate-custom1.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/LoginFormAssets/css/animate-custom11.css" />
 <div class="container">
     <section>				
         <div id="container_demo" >

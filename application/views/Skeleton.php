@@ -14,8 +14,8 @@
     <meta property="fb:app_id" content="314511855323893" /> 
   
     <!-- Le styles -->
-    <link href="<?php echo base_url()?>assets/css/bootstrap.css" rel="stylesheet">
-    <link href="<?php echo base_url()?>assets/css/custom1.css" rel="stylesheet">
+    <link href="<?php echo base_url()?>assets/css/bootstrap1.css" rel="stylesheet">
+    <link href="<?php echo base_url()?>assets/css/custom11.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
