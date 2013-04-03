@@ -7,12 +7,45 @@ class NotificationsModel extends CI_Model{
 		echo "here is a notification!!!";
 	}
 
+	function notify(){
+
+		//user following another user
+			//get the target user's id
+			//inser a record for that user id(notify them)
+
+		//user asking a question in a topic
+			//get the topic id to whic the qs is posted
+			//get the users belonging to that topic
+			//notify them
+
+		//user answering a question
+			//get the userids of users who are following/created that qs
+			//notify them
+
+		//user following a question another user created
+			//get the userid of the creator
+			//notify him
+
+		//user joining a group
+			//get usersid belonging to that group
+			//notify them
+
+
+	}
+
 	function sqlcreateMasterNotifications($receiver_id,$receiver_type,$notif_msg)
-	{
-			$sql='INSERT INTO 
-				  NOTIFICATIONS(receiver_id,receiver_type,notif_msg) 
-				  values(?,?,?)';
-			$query=$this->db->query($sql,array($receiver_id,$receiver_type,$notif_msg));
+{		
+		//insert master record
+		$sql='INSERT INTO 
+			  NOTIFICATIONS(receiver_id,receiver_type,notif_msg) 
+			  values(?,?,?)';
+		$query=$this->db->query($sql,array($receiver_id,$receiver_type,$notif_msg));
+		//get the id of the last inserted record
+		$latest_notif_id=$this->db->insert_id();
+		//join tables and filter only the records which has the notif_id as the latest master notif record's id
+
+		//insert those records into the child table (these are the unread notifs)
+
 	}
 
 	function sqlcreateEnduserNotifications(){
@@ -26,11 +59,14 @@ class NotificationsModel extends CI_Model{
 				FROM 
 					NOTIFICATIONS n,USERS u
 				where
-					(
-					(n.receiver_type="u" AND n.receiver_id=u.user_id) OR
-					(n.receiver_type="g" AND n.receiver_id = u.group_id)  OR
-				        (n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where                          user_id=u.user_id)) 	
-					)  group by u.user_id,n.notif_id';
+					(n.receiver_type="u" AND n.receiver_id=u.user_id)
+					OR
+					(n.receiver_type="g" AND n.receiver_id = u.group_id)  
+					OR
+				    (n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where user_id=u.user_id)) 	
+					AND
+					n.notif_id=?
+				group by u.user_id,n.notif_id';
 			
 		/*sample
 		SELECT 
