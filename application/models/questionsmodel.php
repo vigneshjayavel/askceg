@@ -870,9 +870,10 @@ function getGroupScopeQuestions($group_id){
     $qsResult=$this->sqlIsQuestionExists($questionArray['q_content']);
     if(!$qsResult['exists']){
       //actual question insert
+      $q_url=$this->generateQuestionUrl($questionArray['q_content']);
       $sql = "insert into QUESTION(q_content,q_description,topic_id,posted_by,timestamp,url,anonymous,scope) 
           values(?,?,?,?,?,?,?,?)";
-      $status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content']),$anonymous,$scope));
+      $status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$q_url,$anonymous,$scope));
       
       $receiver_id=$questionArray['topic_id'];//topic to which the question belongs
       $sqlt="SELECT
@@ -886,13 +887,16 @@ function getGroupScopeQuestions($group_id){
         $msg='Question posted successfully!!.. Redirecting you';
         
         $qsUrl=$this->sqlGetQuestionUrlForQuestion($questionArray['q_content']);
-        $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/'.$resulta['url'];
+        $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/'.$q_url;
         $topicUrl=base_url().'ProfileController/viewTopic/'.$topic['topic_url'];
           $this->load->library('klib');
           $questionAuthor=$this->klib->getUserData($posted_by);
-          $msg=$questionAuthor['user_name'].' asked a question <b><a href="'.$questionUrl.'">'.substr( $questionArray['q_content'],0,20).'...</a> in the topic <a href="'.$topic_url.'">'.$topic['topic_name'].'</a></b>';
-          $this->klib->generateNotifications($receiver_id,'t',$msg);
-          
+          $msg=$questionAuthor['user_name'].' asked a question <b><a href="'.$questionUrl.'">'.substr( $questionArray['q_content'],0,20).'...</a> in the topic <a href="'.$topicUrl.'">'.$topic['topic_name'].'</a></b>';
+          $this->klib->generateNotifications($receiver_id,'t',$msg,$posted_by);
+          if($scope!=0){
+             $this->klib->generateNotifications($scope,'g',$posted_by,$msg);
+         
+          }
       }
       else{
         $status='error';

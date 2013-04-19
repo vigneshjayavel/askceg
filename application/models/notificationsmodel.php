@@ -33,13 +33,13 @@ class NotificationsModel extends CI_Model{
 
 	}
 
-	function sqlcreateMasterNotifications($receiver_id,$receiver_type,$notif_msg)
+	function sqlcreateMasterNotifications($receiver_id,$receiver_type,$notif_msg,$initiator_id)
 {		
 		//insert master record
 		$sql='INSERT INTO 
-			  NOTIFICATIONS(receiver_id,receiver_type,notif_msg,timestamp) 
-			  values(?,?,?,?)';
-		$query=$this->db->query($sql,array($receiver_id,$receiver_type,$notif_msg,time()));
+			  NOTIFICATIONS(receiver_id,receiver_type,notif_msg,timestamp,initiator_id) 
+			  values(?,?,?,?,?)';
+		$query=$this->db->query($sql,array($receiver_id,$receiver_type,$notif_msg,time(),$initiator_id));
 		//get the id of the last inserted record with the msg (assumed unique)
 		$sql='Select notif_id from NOTIFICATIONS where notif_msg = ?';
 		$query=$this->db->query($sql,array($notif_msg)); 
