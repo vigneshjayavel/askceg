@@ -4,13 +4,13 @@
 -moz-font-smoothing: subpixel-antialiased;
 }
 
-.notificationsDiv ul.nav a{
+.notificationsDiv ul.nav a,.newsfeedDiv ul.nav a{
   color:#333;
   text-decoration: none;
 }
 
-.notificationsDiv ul.nav li:hover{
-  background: #1e8cbe;
+.notificationsDiv ul.nav li:hover,.newsfeedDiv ul.nav li:hover{
+  background: #fafafa;
 }
 
 .notificationsDiv ul.nav li.unread{
@@ -22,7 +22,7 @@
   -webkit-transition: 0.25s;
   -miz-transition: 0.25s;
 }
-.notificationsDiv ul.nav li{
+.notificationsDiv ul.nav li,.newsfeedDiv ul.nav li{
   background: #f5f5f5;
   color:#333;
   background-size: 20px 20px;
@@ -31,6 +31,10 @@
   position: relative;
   -webkit-transition: 0.25s;
   -moz-transition: 0.25s;
+}
+
+.newsfeedDiv ul.nav li{
+  margin-bottom: 1%;
 }
 
 a.qsFollowButton,a.topicFollowButton{

@@ -12,9 +12,11 @@ class NewsfeedModel extends CI_Model{
 			<h2 id="timeline">
 			 '.$userData['user_name'].' \'s Timeline
 			</h2>
-			<span>
-				<img src="'.$userData['user_name'].'">
-			</span>
+			<center>
+				<h6>
+					All of '.$userData['user_name'].'\'s questions and answers..
+				</h6>
+			</center>
 		</header>
 		<ol id="timeline">
 		';
@@ -109,8 +111,8 @@ class NewsfeedModel extends CI_Model{
 		$query=$this->db->query($sql,array($user_id)); 
 		$result=$query->result_array();
 		$content='
-		<div id="notificationsWrapper">
-			<div class="notificationsDiv">
+		<div id="newsfeedWrapper">
+			<div class="newsfeedDiv">
 				<ul class="nav">
 		';
 		$i=1;

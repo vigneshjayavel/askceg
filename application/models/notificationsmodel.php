@@ -150,7 +150,8 @@ class NotificationsModel extends CI_Model{
 					USER_NOTIFICATIONS un,NOTIFICATIONS n
 					where
 					un.notif_id=n.notif_id and 
-					un.user_id=? and un.new=1';
+					un.user_id=? and un.new=1 
+					order by un.notif_id desc';
 
 		$query=$this->db->query($sql,array($user_id)); 
 		if ($query->num_rows() > 0){
