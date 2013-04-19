@@ -342,7 +342,7 @@ function sqlGetUserName($user_id){
 	        $userData=$this->klib->getUserData($receiver_id);
 	        $answerAuthor=$this->klib->getUserData($posted_by);
 	        $emailData['to']=$userData['email_id'];
-	        $msg=$answerAuthor['user_name'].' answered your question <b><a href="'.$questionUrl.'">'.$resulta['q_content'].'</a></b>';
+	        $msg=$answerAuthor['profile_url'].$answerAuthor['user_name'].' answered your question <b><a href="'.$questionUrl.'">"'.$resulta['q_content'].'"</a></b>';
 	        $emailData['subject']=$msg;
 	        $emailData['message']=$msg;
 	        $this->klib->generateNotifications($receiver_id,'u',$msg,$posted_by,$emailData);
