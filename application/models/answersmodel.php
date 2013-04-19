@@ -326,8 +326,23 @@ function sqlGetUserName($user_id){
 		$sql = "insert into ANSWER(a_content,q_id,posted_by,timestamp) 
 				values(?,?,?,?)";
 		$status=$this->db->query($sql,array($answerArray['a_content'],$answerArray['q_id'],$posted_by,$timestamp));
-		
-
+		//selecting the author of the question for which answer is created
+		$sqla="SELECT 
+		    posted_by
+		    FROM QUESTION q
+		    where q.q_id=?";
+		$querya=$this->db->query($sqla,array($answerArray['q_id']));
+		$resulta=$querya->row_array();
+		$receiver_id=$resulta['posted_by'];//question author is reciever here
+        if($status==-1){
+        	$this->load->library('klib');
+	        $userData=$this->klib->getUserData($receiver_id);
+	        $emailData['to']=$userData['email_id'];
+	        $emailData['subject']=$userData['user_name'].' followed you!';
+	        $emailData['message']=$userData['user_name'].' followed you!';
+	        $this->klib->generateNotifications($receiver_id,'u',$userData['user_name'].' followed you!',$emailData);
+	        
+        }
 
         //return the newly added answer
         $CI =& get_instance();
