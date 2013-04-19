@@ -2,6 +2,7 @@
             <ul class="nav nav-list affix">
               <li class="nav-header">Quicklinks</li>
               <li><a href="<?php echo base_url() ?>ProfileController/MyProfile">My profile</a></li>
+              <li><a href="<?php echo base_url() ?>ProfileController/timeline">My timeline</a></li>
               <li><a href="<?php echo base_url() ?>ProfileController/MyGroup">My batch</a></li>
               <li><a href="<?php echo base_url() ?>ProfileController/ViewMyYearProfile/">My year</a></li>
               <li><a href="<?php echo base_url() ?>QuestionsController/AskQuestion">Create question / Post</a></li>

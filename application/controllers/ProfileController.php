@@ -12,6 +12,18 @@ class ProfileController extends CI_Controller {
 		
 	}
 
+	function timeline($user_id=null){
+
+		$this->load->model('newsfeedmodel');
+		if($user_id==null){
+			$user_id=$this->session->userdata('user_id');
+		}
+		$data['centerContent']=$this->newsfeedmodel->getTimeLine($user_id);
+		$data['sidebarDisabled']=true;
+		$this->load->view('Skeleton',$data);
+
+	}
+
 	function followUser($user_id){
 		$follower_id=$this->session->userdata('user_id');
 		$this->load->model('profilemodel');
