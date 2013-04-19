@@ -26,6 +26,18 @@ class Klib {
 			$this->sendMail($emailData);	
 		}
 	}
+	public function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+        $url = 'http://www.gravatar.com/avatar/';
+        $url .= md5( strtolower( trim( $email ) ) );
+        $url .= "?s=$s&d=$d&r=$r";
+              if ( $img ) {
+              $url = '<img src="' . $url . '"';
+              foreach ( $atts as $key => $val )
+                  $url .= ' ' . $key . '="' . $val . '"';
+              $url .= ' />';
+          }
+     return $url;
+    }
 
 	public function getUserData($user_id){
 		$userData=array();
@@ -34,7 +46,19 @@ class Klib {
         $query=$CI->db->query($sql,array($user_id)); 
         $row=$query->row_array();
         $userData['email_id']=$row['email_id'];
+
         $userData['user_name']=$row['user_name'];
+
+         /* if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
+            $email=$row['email_id'];
+             $url=$this->get_gravatar($email);
+          }
+          else
+            $url=$row['profile_pic'];
+        $userData['profile_url']='
+              <a rel="tooltip" data-placement="bottom" data-original-title="'.$row['user_name'].'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
+                <img src="'.$url.'" height="40px" width="40px" alt="'.$row['user_name'].'" class="display-pic" />
+              </a>';*/
         return $userData;
 	}
 	public function sendMail($emailData){  

@@ -891,10 +891,14 @@ function getGroupScopeQuestions($group_id){
         $topicUrl=base_url().'ProfileController/viewTopic/'.$topic['topic_url'];
           $this->load->library('klib');
           $questionAuthor=$this->klib->getUserData($posted_by);
-          $msg=$questionAuthor['user_name'].' asked a question <b><a href="'.$questionUrl.'">'.substr( $questionArray['q_content'],0,20).'...</a> in the topic <a href="'.$topicUrl.'">'.$topic['topic_name'].'</a></b>';
-          $this->klib->generateNotifications($receiver_id,'t',$msg,$posted_by);
+          if($anonymous==1)
+            $msg1='Anonymous user';
+          else
+            $msg1=$questionAuthor['user_name'];
+          $msg1.=' asked a question <b><a href="'.$questionUrl.'">"'.substr( $questionArray['q_content'],0,20).'..."</a> in the topic <a href="'.$topicUrl.'">'.$topic['topic_name'].'</a></b>';
+          $this->klib->generateNotifications($receiver_id,'t',$msg1,$posted_by);
           if($scope!=0){
-             $this->klib->generateNotifications($scope,'g',$posted_by,$msg);
+             $this->klib->generateNotifications($scope,'g',$msg1,$posted_by);
          
           }
       }
