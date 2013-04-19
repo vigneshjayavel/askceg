@@ -217,10 +217,10 @@ ul#ajaxSearchDropdown li{
 }
 
 *{
-  -o-transition: color .2s ease-out, background .4s ease-in;
-  -moz-transition: color .2s ease-out, background .4s ease-in;
-  -webkit-transition: color .2s ease-out, background .4s ease-in;
- transition: color .2s ease-out, background .4s ease-in;
+  -o-transition: color .2s ease-out, background .3s ease-in;
+  -moz-transition: color .2s ease-out, background .3s ease-in;
+  -webkit-transition: color .2s ease-out, background .3s ease-in;
+ transition: color .2s ease-out, background .3s ease-in;
 }
 
 /*timeline*/
