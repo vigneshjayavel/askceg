@@ -8,9 +8,14 @@ class NewsfeedModel extends CI_Model{
 		$userData=$this->klib->getUserData($user_id);
 		$content='';
 		$content.='
-		<h2 id="timeline">
-		 '.$userData['user_name'].' \'s Timeline
-		</h2>
+		<header id="timeline">
+			<h2 id="timeline">
+			 '.$userData['user_name'].' \'s Timeline
+			</h2>
+			<span>
+				<img src="'.$userData['user_name'].'">
+			</span>
+		</header>
 		<ol id="timeline">
 		';
 		$sql='select * from NOTIFICATIONS where initiator_id=?

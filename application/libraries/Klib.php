@@ -30,7 +30,7 @@ class Klib {
 	public function getUserData($user_id){
 		$userData=array();
 		$CI=& get_instance();
-		$sql="select user_name,email_id from USERS where user_id=?";
+		$sql="select user_name,email_id,profile_pic from USERS where user_id=?";
         $query=$CI->db->query($sql,array($user_id)); 
         $row=$query->row_array();
         $userData['email_id']=$row['email_id'];
