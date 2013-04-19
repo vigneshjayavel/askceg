@@ -16,7 +16,7 @@ class NotificationsController extends CI_Controller {
 		$this->load->model('notificationsmodel');
 		
 		$userId=$this->session->userdata('user_id');
-			$content=$this->notificationsmodel->sqlFetchNotifications($userId,'unread');
+		$content=$this->notificationsmodel->sqlFetchNotifications($userId,'unread');
 		$data['centerContent']='<h4>Your recent notifications</h4>'.$content;
 		
 		$this->load->view('Skeleton',$data);

@@ -665,8 +665,8 @@ $(document).ready(function(){
             var follow_text='';
             var userFollowButtonMarkupObj={};
             $(userFollowButtonElement).empty().append('loading..');
-            var followUrl= CI.base_url+'ProfileController/followuser/';
-            var unfollowUrl= CI.base_url+'ProfileController/unfollowuser/';
+            var followUrl= CI.base_url+'ProfileController/followUser/';
+            var unfollowUrl= CI.base_url+'ProfileController/unfollowUser/';
             var url=follow_status=='yes'?unfollowUrl+user_id:followUrl+user_id;
             console.log('existing follow_status='+follow_status);
             if(follow_status=='yes'){

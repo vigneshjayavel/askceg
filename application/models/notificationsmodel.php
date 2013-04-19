@@ -41,8 +41,8 @@ class NotificationsModel extends CI_Model{
 			  values(?,?,?)';
 		$query=$this->db->query($sql,array($receiver_id,$receiver_type,$notif_msg));
 		//get the id of the last inserted record with the msg (assumed unique)
-		$sql='Select notif_id from NOTIFICATIONS where notif_msg=?';
-		$query=$this->db->query($sql,array($user_id)); 
+		$sql='Select notif_id from NOTIFICATIONS where notif_msg = ?';
+		$query=$this->db->query($sql,array($notif_msg)); 
 		$row=$query->row_array();
 		$latest_notif_id=$row['notif_id'];
 		//join tables and filter only the records which has the notif_id as the latest master notif record's id
@@ -62,10 +62,9 @@ class NotificationsModel extends CI_Model{
 					(n.receiver_type="g" AND n.receiver_id = u.group_id)  
 					OR
 				    (n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where user_id=u.user_id)) 	
-					AND
-					n.notif_id=?
-				group by u.user_id,n.notif_id';
-		$query=$this->db->query($sql,array($notif_id));		
+				group by u.user_id,n.notif_id 
+				having n.notif_id=?';
+		$query=$this->db->query($sql,array($latest_notif_id));		
 		
 	}
 
@@ -183,7 +182,7 @@ class NotificationsModel extends CI_Model{
 					FROM 
 					USER_NOTIFICATIONS un
 					where
-					un.user_id=?';
+					un.user_id=? and un.new=1';
 
 		$result=$this->db->query($sql,array($user_id)); 
 		$content=0;

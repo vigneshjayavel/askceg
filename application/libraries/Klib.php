@@ -17,7 +17,25 @@ class Klib {
 		
 	}
 
+	public function generateNotifications($receiver_id,$receiver_type,$notif_msg,$emailData=null){
 
+		$CI =& get_instance();
+	    $CI->load->model('notificationsmodel');
+		$CI->notificationsmodel->sqlcreateMasterNotifications($receiver_id,$receiver_type,$notif_msg);
+		if($emailData!=null){
+			$this->sendMail($emailData);	
+		}
+	}
+
+	public function getUserData($user_id){
+		$userData=array();
+		$CI=& get_instance();
+		$query=$CI->db->query("select user_name,email_id from USERS where user_id='$user_id'");
+        $row=$query->row_array();
+        $userData['email_id']=$row['email_id'];
+        $userData['user_name']=$row['user_name'];
+        
+	}
 	public function sendMail($emailData){  
 
 	  /*

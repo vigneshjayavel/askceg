@@ -21,7 +21,7 @@ class ProfileController extends CI_Controller {
 	function unfollowUser($user_id){
 		$follower_id=$this->session->userdata('user_id');
 		$this->load->model('profilemodel');
-		$this->questionsmodel->sqlDeleteFollowerUser($user_id,$follower_id);
+		$this->profilemodel->sqlDeleteFollowerUser($user_id,$follower_id);
 	}
 
 	function ViewUserProfile($user_id){
