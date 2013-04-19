@@ -5,7 +5,8 @@
 }
 
 .notificationsDiv ul.nav a,.newsfeedDiv ul.nav a{
-  color:#333;
+  color:#444;
+  font-size: 16px;
   text-decoration: none;
 }
 
@@ -182,7 +183,7 @@ font-size: 13px !important;
 }
 
 input#ajaxSearchPanel{
-  cursor: pointer;
+  cursor: text;
 }
 
 input#ajaxSearchPanel::-webkit-input-placeholder {

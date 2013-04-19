@@ -4,10 +4,11 @@ $(document).ready(function(){
         var userId=userData.user_id;
         $.getJSON(CI.base_url+'NotificationsController/getNewNotificationsCount/'+userId,
             function(jsonObj){
-                console.log('got '+jsonObj.count)
-                if(jsonObj.count!=0){
+                count=jsonObj.count;
+                if(count!=0){
                     $('span#newNotificationsCount').text(jsonObj.count).css('background-color','#e74c3c').fadeIn(300);
-                    document.title = '('+count+ ') new title';
+                    var newTitle = '('+count+') AskCEG beta';
+                    document.title=(newTitle);
                 }
                 else {
                     console.log('no new notifications');
@@ -34,7 +35,7 @@ function askQs(url) {
         function(response) {
             console.log(response);
             if (!response || response.error) {
-                alert(response.error);
+                //alert(response.error);
             } else {
                 alert('Thanks for posting a qs');
         }
@@ -50,7 +51,7 @@ function ansQs(url) {
         function(response) {
             console.log(response);
             if (!response || response.error) {
-                alert(response.error.message);
+                //alert(response.error.message);
             } else {
                 alert('Thanks for posting an answer');
         }
@@ -66,7 +67,7 @@ function followQs(url) {
         function(response) {
             console.log(response);
             if (!response || response.error) {
-                alert(response.error.message);
+                //alert(response.error.message);
             } else {
                 alert('Thanks for following a qs');
         }
@@ -82,7 +83,7 @@ function voteAns(url) {
         function(response) {
             console.log(response);
             if (!response || response.error) {
-                alert(response.error.message);
+                //alert(response.error.message);
             } else {
                 alert('Thanks for voting an answer');
         }
@@ -408,6 +409,8 @@ $(document).ready(function(){
             var existingCount=parseInt($(newNotificationsCount).text());
             existingCount+=count;
             newNotificationsCountElement.text(existingCount);
+            var newTitle = '('+existingCount+') AskCEG beta';
+            document.title=(newTitle);
 
         },
 
@@ -522,6 +525,8 @@ $(document).ready(function(){
             $('#postAnswerButton').val('Answering..');
             $('span.error').remove();
 
+            $('#postAnswerButton')
+                .attr('disabled',true)
             //get the question id from 'id' attr of the question <a> element
             //all question links willl be in <a class="question"></a> element
             //in a particular question's page i.e AnswersController/ViewAnswerForQuestion/q_id
@@ -555,6 +560,9 @@ $(document).ready(function(){
                     //that.enableOrDisablepostAnswerButton();
                     $('#answerText').setCode('');//clear editor
                     that.updateAnswersCount(q_id);
+
+                    $('#postAnswerButton')
+                        .attr('disabled',false)
                 }
                 else {
 

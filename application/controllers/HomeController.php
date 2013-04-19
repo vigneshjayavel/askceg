@@ -27,7 +27,7 @@ function HomeController()
 			$data['centerContent'].="</br><h3>What's happening in AskCEG</h3>
 			<h6>Follow the topics of your interest to know more...</h6>"
 			.$this->newsfeedmodel->getNewsfeed($this->session->userdata('user_id'));
-			$data['paginationrequired']="true";
+			//$data['paginationrequired']="true";
 
 			$data['paginationtype']="question";
 			$this->load->view('Skeleton',$data);

@@ -186,7 +186,7 @@
 
     });
   </script>
-  <?php if(ENVIRONMENT!='local'){ ?>
+  <?php if(ENVIRONMENT=='local'){ ?>
   <script type="text/javascript">
 
   var _gaq = _gaq || [];
