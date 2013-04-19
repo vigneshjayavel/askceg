@@ -29,7 +29,7 @@ class ProfileController extends CI_Controller {
 		$this->load->model('questionsmodel');
 		if($this->profilemodel->isStudent($user_id)==true){
 	           
-		$data['centerContent']=$this->profilemodel->getUserProfile($user_id);
+		$data['centerContent']=$this->profilemodel->getUserProfile($user_id,$this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAsked($user_id);
 		$data['centerContent'].=$this->questionsmodel->getQuestionsFollowed($user_id);
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($user_id);
@@ -172,7 +172,7 @@ class ProfileController extends CI_Controller {
 	    if($this->profilemodel->isStudent($this->session->userdata('user_id'))==true){
 	        
 		
-		$data['centerContent']=$this->profilemodel->getUserProfile($this->session->userdata('user_id'));
+		$data['centerContent']=$this->profilemodel->getUserProfile($this->session->userdata('user_id'),null);
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAsked($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsFollowed($this->session->userdata('user_id'));
 		$data['centerContent'].=$this->questionsmodel->getQuestionsAnswered($this->session->userdata('user_id'));

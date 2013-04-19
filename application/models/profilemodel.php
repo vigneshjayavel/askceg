@@ -621,7 +621,7 @@ function getInterimProfile(){
       }
     }
 
-    function getUserProfile($user_id){
+    function getUserProfile($user_id,$currentUserId=null){
       $sql='select * from USERS where user_id=?';
       $query=$this->db->query($sql,array($user_id));
       if($row=$query->row_array()){
@@ -671,11 +671,28 @@ function getInterimProfile(){
           else
             $url=$row['profile_pic'];
           
-
+          $dynamicFollowOrUnfollowButton='';
+          if($user_id!=$currentUserId && $currentUserId!=null){
+            if($this->sqlCheckUserFollowsUser($user_id,$currentUserId)){
+              $dynamicFollowOrUnfollowButton='
+                <a href="#" class="userFollowButton btn-small btn-primary" data-follow_status="yes" data-user_id="'.$row['user_id'].'" rel="tooltip" data-placement="top" 
+                data-original-title="Click to unfollow the user!">
+                <i class="icon-minus-sign icon-white"></i>
+                Followed</a>';
+            }
+            else{
+              $dynamicFollowOrUnfollowButton='
+                <a href="#" class="userFollowButton btn-small btn-primary" data-follow_status="no" data-user_id="'.$row['user_id'].'" rel="tooltip" data-placement="top" 
+                data-original-title="Click to follow the user!">
+                <i class="icon-plus-sign icon-white"></i>
+                Follow</a>';
+            }
+          }
+          
         return'<div class="well">
                 <table>
                 <tr>
-                  <td>Follw/unfollow</td>
+                  <td>'.$dynamicFollowOrUnfollowButton.'</td>
                 </tr>
                 <tr>
                       <td>Name:
@@ -727,6 +744,17 @@ function getInterimProfile(){
       ';
         }
 
+    }
+
+    function sqlCheckUserFollowsUser($user_id,$follower_id){
+
+      $query="select user_id from USER_FOLLOWERS where user_id=? and follower=?";
+      $query=$this->db->query($query,array($user_id,$follower_id));
+      if ($row=$query->row_array() ) {
+        return TRUE;
+      }
+      else
+        return FALSE;
     }
     function getGroupName($group_id){
       $sql='select group_name from GROUPS where group_id=?';

@@ -612,7 +612,7 @@ $(document).ready(function(){
 
         followOrUnfollowUser : function(ev){
             var userFollowButtonElement=ev.currentTarget;
-            var user_id=$(topicFollowButtonElement).data('user_id');
+            var user_id=$(userFollowButtonElement).data('user_id');
             var follow_status=$(userFollowButtonElement).data('follow_status');
             var follow_text='';
             var userFollowButtonMarkupObj={};
@@ -642,7 +642,7 @@ $(document).ready(function(){
                     notificationMsg : 'You have followed the user successfully!'
                 };
             }
-            this.updateuserFollowStatus(url,userFollowButtonElement,userFollowButtonMarkupObj);
+            this.updateUserFollowStatus(url,userFollowButtonElement,userFollowButtonMarkupObj);
         },
         /*after following/unfollowing update the markup of the button*/
         convertMarkupOfUserFollowButtonElement:function(userFollowButtonElement,userFollowButtonMarkupObj){
@@ -670,7 +670,7 @@ $(document).ready(function(){
         updateUserFollowStatus:function(url,userFollowButtonElement,userFollowButtonMarkupObj){
             var that=this;
             $.get(url,function(data){
-                that.convertMarkupOfuserFollowButtonElement(userFollowButtonElement,userFollowButtonMarkupObj);
+                that.convertMarkupOfUserFollowButtonElement(userFollowButtonElement,userFollowButtonMarkupObj);
             
             });
             
