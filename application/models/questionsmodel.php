@@ -996,7 +996,6 @@ function getGroupScopeQuestions($group_id){
   }
 
   function sqlCreateFollowerTopic($topic_id,$follower){
-    
     $sql = "insert into TOPIC_FOLLOWERS(topic_id,user_id) values(?,?)";
     $status=$this->db->query($sql,array($topic_id,$follower));
     if($status==-1){

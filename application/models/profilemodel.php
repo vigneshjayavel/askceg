@@ -604,111 +604,157 @@ function getInterimProfile(){
           }
      return $url;
     }
-    function getUserProfile($user_id){
 
-    
-      $sql='select * from USERS where user_id=?';
-      $query=$this->db->query($sql,array($user_id));
-    if($row=$query->row_array()){
-      $CI=&get_instance();
-      if($user_id==$CI->session->userdata('user_id')){
-          
-     $edit=' <a href="'.base_url().'ProfileController/EditProfile" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
- }
-       else
-         $edit='';
-    //groupMarkup
-      if($row['group_id']==0){
-        $q="select * from GROUP_REQUEST where user_id=?";
-          $qu=$this->db->query($q,array($user_id));
-          if($r=$qu->row_array()){
-            $groupMarkup='<td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$r['group_id'].'">'.$this->getGroupName($r['group_id']).'(request pending)</a>
-                   </td>
-                  ';
-          }
-          else{
-        $groupMarkup="Batch info not updated yet";
-          }
+    function sqlCreateFollowerUser($user_id,$follower_id){
+      $sql = "insert into USER_FOLLOWERS(user_id,follower) values(?,?)";
+      $status=$this->db->query($sql,array($user_id,$follower_id));
+      if($status==-1){
+        return "success";
       }
-      else{
-        $groupMarkup='<td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$row['group_id'].'">'.$this->getGroupName($row['group_id']).'</a>
-                   </td>
-                  ';
-      }  
-       //yearMarkup
-      if($row['user_year']==0){
-
-          
-
-          $yearMarkup="year info not updated yet";
-      }
-      else{
-        $yearMarkup='<a href="'.base_url().'ProfileController/ViewYearProfile/'.$row['user_year'].'"> '.$row['user_year'].'</a>
-                 ';
-
-      }          
-      //userpic markup
-     
-      if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
-        $email=$row['email_id'];
-         $url=$this->get_gravatar($email);
-      }
-      else
-        $url=$row['profile_pic'];
-      
-
-      return'<div class="well">
-              <table>
-              <tr>
-                    <td>Name:
-                    </td>
-                    <td>'.$row['user_name'].'
-                    </td>
-                     <div class="ask-dp pull-right">
-                    <img src="'.$url.'">
-                    </div>
-              </tr>
-              </table>
-              </div>
-              <div class="well">
-              <table>
-              <tr>
-                   <td>Group/Batch :
-                   </td>
-                   <td>'.$groupMarkup.'
-              </tr>
-              </table>
-              </div>
-              
-        <div class="well">
-              <table>
-              <tr>
-                  <td>Year:
-                  </td>
-                  <td>
-                 '.$yearMarkup.' </td>
-
-              </tr>
-              </table>
-              </div>
-              
-              <div class="well">
-              <table>
-              <tr>
-                  <td>Degree and Course:
-                  </td>
-                  <td>'.$row['user_degree'].'-'.$row['user_course'].'
-                  </td>
-
-              </tr>
-              <tr>
-                '.$edit.'
-              </tr>
-              </table>
-              </div>
-    ';
     }
 
+    function sqlDeleteFollowerUser(){
+      $sql = "delete from USER_FOLLOWERS where user_id=? and follower=?";
+      $status=$this->db->query($sql,array($user_id,$follower_id));
+      if($status==-1){
+        return "success";
+      }
+    }
+
+    function getUserProfile($user_id,$currentUserId=null){
+      $sql='select * from USERS where user_id=?';
+      $query=$this->db->query($sql,array($user_id));
+      if($row=$query->row_array()){
+          $CI=&get_instance();
+          if($user_id==$CI->session->userdata('user_id')){
+              
+            $edit=' <a href="'.base_url().'ProfileController/EditProfile" class="btn btn-primary disabled"><i class="icon-cog"></i>EditProfile</a>';
+          }
+          else
+            $edit='';
+          //groupMarkup
+          if($row['group_id']==0){
+            $q="select * from GROUP_REQUEST where user_id=?";
+              $qu=$this->db->query($q,array($user_id));
+              if($r=$qu->row_array()){
+                $groupMarkup='<td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$r['group_id'].'">'.$this->getGroupName($r['group_id']).'(request pending)</a>
+                       </td>
+                      ';
+              }
+              else{
+            $groupMarkup="Batch info not updated yet";
+              }
+          }
+          else{
+            $groupMarkup='<td><a href="'.base_url().'ProfileController/ViewGroupProfile/'.$row['group_id'].'">'.$this->getGroupName($row['group_id']).'</a>
+                       </td>
+                      ';
+          }  
+           //yearMarkup
+          if($row['user_year']==0){
+
+              
+
+              $yearMarkup="year info not updated yet";
+          }
+          else{
+            $yearMarkup='<a href="'.base_url().'ProfileController/ViewYearProfile/'.$row['user_year'].'"> '.$row['user_year'].'</a>
+                     ';
+
+          }          
+          //userpic markup
+         
+          if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
+            $email=$row['email_id'];
+             $url=$this->get_gravatar($email);
+          }
+          else
+            $url=$row['profile_pic'];
+          
+          $dynamicFollowOrUnfollowButton='';
+          if($user_id!=$currentUserId && $currentUserId!=null){
+            if($this->sqlCheckUserFollowsUser($user_id,$currentUserId)){
+              $dynamicFollowOrUnfollowButton='
+                <a href="#" class="userFollowButton btn-small btn-primary" data-follow_status="yes" data-user_id="'.$row['user_id'].'" rel="tooltip" data-placement="top" 
+                data-original-title="Click to unfollow the user!">
+                <i class="icon-minus-sign icon-white"></i>
+                Followed</a>';
+            }
+            else{
+              $dynamicFollowOrUnfollowButton='
+                <a href="#" class="userFollowButton btn-small btn-primary" data-follow_status="no" data-user_id="'.$row['user_id'].'" rel="tooltip" data-placement="top" 
+                data-original-title="Click to follow the user!">
+                <i class="icon-plus-sign icon-white"></i>
+                Follow</a>';
+            }
+          }
+          
+        return'<div class="well">
+                <table>
+                <tr>
+                  <td>'.$dynamicFollowOrUnfollowButton.'</td>
+                </tr>
+                <tr>
+                      <td>Name:
+                      </td>
+                      <td>'.$row['user_name'].'
+                      </td>
+                       <div class="ask-dp pull-right">
+                      <img src="'.$url.'">
+                      </div>
+                </tr>
+                </table>
+                </div>
+                <div class="well">
+                <table>
+                <tr>
+                     <td>Group/Batch :
+                     </td>
+                     <td>'.$groupMarkup.'
+                </tr>
+                </table>
+                </div>
+                
+          <div class="well">
+                <table>
+                <tr>
+                    <td>Year:
+                    </td>
+                    <td>
+                   '.$yearMarkup.' </td>
+
+                </tr>
+                </table>
+                </div>
+                
+                <div class="well">
+                <table>
+                <tr>
+                    <td>Degree and Course:
+                    </td>
+                    <td>'.$row['user_degree'].'-'.$row['user_course'].'
+                    </td>
+
+                </tr>
+                <tr>
+                  '.$edit.'
+                </tr>
+                </table>
+                </div>
+      ';
+        }
+
+    }
+
+    function sqlCheckUserFollowsUser($user_id,$follower_id){
+
+      $query="select user_id from USER_FOLLOWERS where user_id=? and follower=?";
+      $query=$this->db->query($query,array($user_id,$follower_id));
+      if ($row=$query->row_array() ) {
+        return TRUE;
+      }
+      else
+        return FALSE;
     }
     function getGroupName($group_id){
       $sql='select group_name from GROUPS where group_id=?';
