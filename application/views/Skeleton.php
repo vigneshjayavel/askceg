@@ -161,12 +161,14 @@
 
          </div><!--/span-->
         
+        <?php if(!isset($sidebarDisabled)){ ?>
         <div class="span3">
           <div id="right" class="affix">
            <?php include "SidebarFragment.php"; ?>
           </div><!--/right -->
         </div><!--/span-->
-        
+        <?php
+        }?>
       </div><!--/row-->
 
 

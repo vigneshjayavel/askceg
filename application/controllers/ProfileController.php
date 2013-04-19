@@ -15,7 +15,8 @@ class ProfileController extends CI_Controller {
 	function timeline($user_id){
 
 		$this->load->model('newsfeedmodel');
-		$data['centerContent']=$this->newsfeedmodel->getNewsfeed($user_id);
+		$data['centerContent']=$this->newsfeedmodel->getTimeLine($user_id);
+		$data['sidebarDisabled']=true;
 		$this->load->view('Skeleton',$data);
 
 	}
