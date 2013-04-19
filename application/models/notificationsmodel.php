@@ -37,9 +37,9 @@ class NotificationsModel extends CI_Model{
 {		
 		//insert master record
 		$sql='INSERT INTO 
-			  NOTIFICATIONS(receiver_id,receiver_type,notif_msg) 
-			  values(?,?,?)';
-		$query=$this->db->query($sql,array($receiver_id,$receiver_type,$notif_msg));
+			  NOTIFICATIONS(receiver_id,receiver_type,notif_msg,timestamp) 
+			  values(?,?,?,?)';
+		$query=$this->db->query($sql,array($receiver_id,$receiver_type,$notif_msg,time()));
 		//get the id of the last inserted record with the msg (assumed unique)
 		$sql='Select notif_id from NOTIFICATIONS where notif_msg = ?';
 		$query=$this->db->query($sql,array($notif_msg)); 
@@ -145,7 +145,7 @@ class NotificationsModel extends CI_Model{
 				group by u.user_id,n.notif_id';
 		*/
 		$sql='	SELECT 
-						un.notif_id,n.notif_msg 
+						un.notif_id,n.notif_msg,n.timestamp  
 					FROM 
 					USER_NOTIFICATIONS un,NOTIFICATIONS n
 					where
@@ -153,26 +153,35 @@ class NotificationsModel extends CI_Model{
 					un.user_id=? and un.new=1';
 
 		$query=$this->db->query($sql,array($user_id)); 
-		$result=$query->result_array();
-		$content='
-		<div id="notificationsWrapper">
-			<div class="notificationsDiv">
-				<ul class="nav">
-		';
-		$i=1;
-		foreach($result as $row){
+		if ($query->num_rows() > 0){
+			$result=$query->result_array();
+			$content='
+			<div id="notificationsWrapper">
+				<div class="notificationsDiv">
+					<ul class="nav">
+			';
+			$i=1;
+			$this->load->library('klib');
+			foreach($result as $row){
+				$timeObj=$this->klib->processTime($row['timestamp']);
+				$content.='
+				<li>
+					<span> <a href="#">'.$row['notif_msg'].'</a></span>
+					&nbsp;<span class="timeElapsed">'.$timeObj['timeElapsed'].' ago..</span>
+					<span data-notif_id='.$row['notif_id'].' class="notificationReadStatus pull-right icon-check"></span>
+				</li>';
+				
+			}
 			$content.='
-			<li>
-				<span> <a href="#">'.$row['notif_msg'].'</a></span>
-				<span data-notif_id='.$row['notif_id'].' class="notificationReadStatus pull-right icon-check"></span>
-			</li>';
-			
-		}
-		$content.='
-				</ul>
+					</ul>
+				</div>
 			</div>
-		</div>
-		';
+			';
+
+		}
+		else{
+			$content='No new notifications.. Check back later!';
+		}
 		return $content;
 	}
 

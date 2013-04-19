@@ -17,17 +17,19 @@ function HomeController()
 	    }
 	    else
 	    {
-		$this->load->model('homemodel');
-		$this->load->model('metamodel');
-		$this->load->model('questionsmodel');
-       	$data['metaContent']=$this->metamodel->getmeta("normal");
-		$data['centerContent']=$this->homemodel->getHomePage();
+			$this->load->model('homemodel');
+			$this->load->model('metamodel');
+			$this->load->model('newsfeedmodel');
+	       	$data['metaContent']=$this->metamodel->getmeta("normal");
+			$data['centerContent']='';
+			//$data['centerContent']=$this->homemodel->getHomePage();
 
-		$data['centerContent'].="</br><h3>Your personalised newsfeed</h3>".$this->questionsmodel->sqlReadQuestions();
-		$data['paginationrequired']="true";
+			$data['centerContent'].="</br><h3>What's happening in AskCEG</h3>"
+			.$this->newsfeedmodel->getNewsfeed($this->session->userdata('user_id'));
+			$data['paginationrequired']="true";
 
-		$data['paginationtype']="question";
-		$this->load->view('Skeleton',$data);
+			$data['paginationtype']="question";
+			$this->load->view('Skeleton',$data);
 		}
 		
 	}
