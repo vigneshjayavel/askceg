@@ -11,6 +11,19 @@ class ProfileController extends CI_Controller {
 		$this->load->view('spSkeleton',$data);
 		
 	}
+
+	function followUser($user_id){
+		$follower_id=$this->session->userdata('user_id');
+		$this->load->model('profilemodel');
+		$this->profilemodel->sqlCreateFollowerUser($user_id,$follower_id);
+	}
+
+	function unfollowUser($user_id){
+		$follower_id=$this->session->userdata('user_id');
+		$this->load->model('profilemodel');
+		$this->questionsmodel->sqlDeleteFollowerUser($user_id,$follower_id);
+	}
+
 	function ViewUserProfile($user_id){
 		$this->load->model('profilemodel');
 		$this->load->model('questionsmodel');
