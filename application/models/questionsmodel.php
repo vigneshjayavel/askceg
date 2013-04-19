@@ -873,10 +873,26 @@ function getGroupScopeQuestions($group_id){
       $sql = "insert into QUESTION(q_content,q_description,topic_id,posted_by,timestamp,url,anonymous,scope) 
           values(?,?,?,?,?,?,?,?)";
       $status=$this->db->query($sql,array($questionArray['q_content'],$questionArray['q_description'],$questionArray['topic_id'],$posted_by,$timestamp,$this->generateQuestionUrl($questionArray['q_content']),$anonymous,$scope));
+      
+      $receiver_id=$questionArray['topic_id'];//topic to which the question belongs
+      $sqlt="SELECT
+             topic_name,topic_url
+             FROM TOPIC 
+             where topic_id=?";
+    $queryt=$this->db->query($sqlt,array($receiver_id));
+    $topic=$queryt->row_array();
       if($status==-1){
         $status='success';
         $msg='Question posted successfully!!.. Redirecting you';
+        
         $qsUrl=$this->sqlGetQuestionUrlForQuestion($questionArray['q_content']);
+        $questionUrl=base_url().'AnswersController/viewAnswersForQuestion/'.$resulta['url'];
+        $topicUrl=base_url().'ProfileController/viewTopic/'.$topic['topic_url'];
+          $this->load->library('klib');
+          $questionAuthor=$this->klib->getUserData($posted_by);
+          $msg=$questionAuthor['user_name'].' asked a question <b><a href="'.$questionUrl.'">'.substr( $questionArray['q_content'],0,20).'...</a> in the topic <a href="'.$topic_url.'">'.$topic['topic_name'].'</a></b>';
+          $this->klib->generateNotifications($receiver_id,'t',$msg);
+          
       }
       else{
         $status='error';
