@@ -25,9 +25,9 @@
                     <li style="border-right: 1px solid #4d68a7;">
                         <a href="<?php echo base_url() ?>HomeController"><i class="icon-white icon-home"></i></a>
                     </li>
-                    <li style="border-right: 1px solid #4d68a7;">
-                        <a href="#" onclick="alert('coming soon!');">
-                            <span class="navbar-unread">5</span><i class="icon-white icon-exclamation-sign"></i> &nbsp;Notifications
+                    <li id="getNewNotificationsBtn" style="border-right: 1px solid #4d68a7;">
+                        <a href="<?php echo base_url();?>NotificationsController/getNewNotifications">
+                            <span id="newNotificationsCount" class="navbar-unread"><img src="<?php echo base_url();?>assets/img/mini-loader.gif" width="15" height="15" /></span><i class="icon-white icon-exclamation-sign"></i> &nbsp;Notifications
                         </a>
                     <li style="border-right: 1px solid #4d68a7;" class="dropdown" id="preview-menu">
                         <?php 
