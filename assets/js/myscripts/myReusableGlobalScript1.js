@@ -9,6 +9,10 @@ $(document).ready(function(){
                     $('span#newNotificationsCount').text(jsonObj.count).css('background-color','#e74c3c').fadeIn(300);
                     document.title = '('+count+ ') new title';
                 }
+                else {
+                    console.log('no new notifications');
+                    $('span#newNotificationsCount').text('');
+                }
                 
                     
                 //$('li#getNewNotificationsBtn').css('background-color','#2C3E50').fadeIn(300);

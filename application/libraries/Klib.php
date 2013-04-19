@@ -30,11 +30,12 @@ class Klib {
 	public function getUserData($user_id){
 		$userData=array();
 		$CI=& get_instance();
-		$query=$CI->db->query("select user_name,email_id from USERS where user_id='$user_id'");
+		$sql="select user_name,email_id from USERS where user_id=?";
+        $query=$CI->db->query($sql,array($user_id)); 
         $row=$query->row_array();
         $userData['email_id']=$row['email_id'];
         $userData['user_name']=$row['user_name'];
-        
+        return $userData;
 	}
 	public function sendMail($emailData){  
 

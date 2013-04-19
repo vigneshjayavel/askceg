@@ -7,6 +7,22 @@ class TestController extends CI_Controller {
 		$this->load->view('TestView');
 
 	}
+
+
+    function testNo($user_id,$follower_id=2){
+      $sql = "insert into USER_FOLLOWERS(user_id,follower) values(?,?)";
+      $status=$this->db->query($sql,array($user_id,$follower_id));
+      if($status==-1){
+        $this->load->library('klib');
+        $userData=$this->klib->getUserData($follower_id);
+        $emailData['to']=$userData['email_id'];
+        $emailData['subject']=$userData['user_name'].' followed you!';
+        $emailData['message']=$userData['user_name'].' followed you!';
+        $this->klib->generateNotifications($user_id,'u',$userData['user_name'].' followed you!');
+        echo "asas ".$userData['email_id'];
+      }
+    }
+
 	function notifMarkup(){
 		$data['centerContent']='
 	

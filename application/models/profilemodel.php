@@ -610,7 +610,7 @@ function getInterimProfile(){
       $status=$this->db->query($sql,array($user_id,$follower_id));
       if($status==-1){
         $this->load->library('klib');
-        $userData=$this->klib->getUserData($user_id);
+        $userData=$this->klib->getUserData($follower_id);
         $emailData['to']=$userData['email_id'];
         $emailData['subject']=$userData['user_name'].' followed you!';
         $emailData['message']=$userData['user_name'].' followed you!';
