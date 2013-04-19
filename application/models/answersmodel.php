@@ -328,19 +328,24 @@ function sqlGetUserName($user_id){
 		$status=$this->db->query($sql,array($answerArray['a_content'],$answerArray['q_id'],$posted_by,$timestamp));
 		//selecting the author of the question for which answer is created
 		$sqla="SELECT 
-		    posted_by
+		    posted_by,q_content,url
 		    FROM QUESTION q
-		    where q.q_id=?";
+		    where q.q_id=?
+		    ";
 		$querya=$this->db->query($sqla,array($answerArray['q_id']));
 		$resulta=$querya->row_array();
 		$receiver_id=$resulta['posted_by'];//question author is reciever here
         if($status==-1){
+        	$questionUrl=base_url().'AnswersController/viewAnswersForQuestion/'.$resulta['url'];
+    
         	$this->load->library('klib');
 	        $userData=$this->klib->getUserData($receiver_id);
+	        $answerAuthor=$this->klib->getUserData($posted_by);
 	        $emailData['to']=$userData['email_id'];
-	        $emailData['subject']=$userData['user_name'].' followed you!';
-	        $emailData['message']=$userData['user_name'].' followed you!';
-	        $this->klib->generateNotifications($receiver_id,'u',$userData['user_name'].' followed you!',$emailData);
+	        $msg=$answerAuthor['user_name'].' answered your question <b><a href="'.$questionUrl.'">'.$resulta['q_content'].'</a></b>';
+	        $emailData['subject']=$msg;
+	        $emailData['message']=$msg;
+	        $this->klib->generateNotifications($receiver_id,'u',$msg,$emailData);
 	        
         }
 
