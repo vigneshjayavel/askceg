@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 31, 2013 at 12:41 PM
+-- Generation Time: Apr 19, 2013 at 11:49 AM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `ANSWER` (
   `vote` int(20) NOT NULL,
   `timestamp` varchar(50) NOT NULL,
   PRIMARY KEY (`a_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=98 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=105 ;
 
 --
 -- Dumping data for table `ANSWER`
@@ -132,7 +132,14 @@ INSERT INTO `ANSWER` (`a_id`, `a_content`, `q_id`, `posted_by`, `scope`, `vote`,
 (94, 'qweqweqe', 45, 1, '', 0, '10:33 PM 30-Mar-13'),
 (95, '<blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><p>donna</p></blockquote>', 66, 1, '', 0, '06:00 AM 31-Mar-13'),
 (96, '<p>:p</p>', 66, 1, '', 0, '06:00 AM 31-Mar-13'),
-(97, '<p>asdasd</p>', 66, 1, '', 0, '06:01 AM 31-Mar-13');
+(97, '<p>asdasd</p>', 66, 1, '', 0, '06:01 AM 31-Mar-13'),
+(98, '<p>asdasdd</p>', 65, 0, '', 0, '1364768742'),
+(99, '<p>www</p>', 65, 0, '', 0, '1364768754'),
+(100, '<p>qweqwewqe</p>', 65, 0, '', 0, '1364768771'),
+(101, '<p>awsdasdasd</p>', 65, 0, '', 0, '1364768790'),
+(102, '<blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><p>AAA</p></blockquote>', 57, 1, '', 0, '1364773074'),
+(103, '<p>erfervwr we we rwerwe rwr wrwer&nbsp;</p>', 57, 1, '', 0, '1364773089'),
+(104, '<blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><p>asass</p></blockquote>', 64, 3, '', 0, '1364820674');
 
 -- --------------------------------------------------------
 
@@ -202,14 +209,16 @@ CREATE TABLE IF NOT EXISTS `FB_DETAILS` (
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`seqid`),
   UNIQUE KEY `fb_user_id` (`fb_user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `FB_DETAILS`
 --
 
 INSERT INTO `FB_DETAILS` (`email`, `fb_user_id`, `access_token`, `seqid`, `timestamp`, `status`) VALUES
-('dgr8geek@gmail.com', '100000673452300', 'AAAEeCZC9qCvUBAL1ijlybpT8s0ZANSgZAOW04YNbDTLYef49PUuUvJtTNvbNVWDmziCWOQLSrvREg68UqhGud6JpATAmIOC0QkvJOEgoOp9aDTRmfGA', 1, '2013-03-30 19:49:20', 1);
+('dgr8geek@gmail.com', '100000673452300', 'BAAEeCZC9qCvUBABxot8IIQJaqpgZAnfzpoqLfFgtQAqVFfZCbxSZAEVfwZBm50aeFVJfNogf3wEIXR3Guj6JtmcIqZBAnFUHmawzzp2Xprymhky1PptKq3ZBCNgtjyCRlVa18Ha6XafdumZA1N1PYSvesBsoqRnWJUZCeZASJB3AdgqZCsKwiN0XjZAXPZAS9YWV69z', 5, '2013-04-01 13:06:50', 1),
+('vigneshjayavel@gmail.com', '100005637937154', 'AAAEeCZC9qCvUBADh2YCTHRMPGHMd3G4QuHsDWHnI2sfzS13JKQ8WpCVcZAaqhRDEoPfVvJ8Tu1FCKfpDmGw1MhwYeOL85d3oRgslZAthp5ug0ZAypZBwX', 9, '2013-04-01 16:03:12', 1),
+('vigneshjmsc@gmail.com', '100003324675095', 'AAAEeCZC9qCvUBAM17iVfs9jBME6Y7D8m3fMMNHHcnfxOxnuZBvmvywZBQZBDuIBbrBCzegNwU2igcMewLHNhZBNytVVfcw1St61scUl1hd1dSH89RRRtw', 8, '2013-04-01 13:30:14', 1);
 
 -- --------------------------------------------------------
 
@@ -270,14 +279,14 @@ INSERT INTO `FOLLOWERS` (`q_id`, `user_id`) VALUES
 (53, 1),
 (4, 2),
 (65, 2),
-(65, 1),
+(2, 1),
 (49, 1),
 (18, 1),
 (47, 1),
 (54, 1),
-(59, 1),
+(65, 1),
 (63, 1),
-(61, 1),
+(14, 8),
 (43, 1),
 (11, 1),
 (27, 1),
@@ -286,10 +295,26 @@ INSERT INTO `FOLLOWERS` (`q_id`, `user_id`) VALUES
 (45, 1),
 (40, 1),
 (24, 1),
-(4, 1),
+(5, 1),
 (10, 1),
 (33, 1),
-(20, 1);
+(20, 1),
+(65, 8),
+(61, 8),
+(64, 8),
+(63, 8),
+(62, 8),
+(57, 8),
+(53, 8),
+(29, 8),
+(22, 8),
+(7, 8),
+(51, 8),
+(37, 8),
+(26, 8),
+(25, 8),
+(57, 1),
+(62, 1);
 
 -- --------------------------------------------------------
 
@@ -386,11 +411,21 @@ INSERT INTO `GROUP_REQUEST` (`user_id`, `group_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `NOTIFICATIONS` (
   `notif_id` bigint(10) NOT NULL AUTO_INCREMENT,
-  `notif_type` varchar(100) NOT NULL,
-  `notif_receiver` varchar(100) NOT NULL,
+  `receiver_type` varchar(100) NOT NULL,
+  `receiver_id` varchar(100) NOT NULL,
   `notif_msg` varchar(1000) NOT NULL,
+  `timestamp` varchar(100) NOT NULL,
   PRIMARY KEY (`notif_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+
+--
+-- Dumping data for table `NOTIFICATIONS`
+--
+
+INSERT INTO `NOTIFICATIONS` (`notif_id`, `receiver_type`, `receiver_id`, `notif_msg`, `timestamp`) VALUES
+(1, 'u', '1', 'Bala followed you', ''),
+(2, 'u', '2', 'Narain followed you', ''),
+(3, 'g', '8', 'Your group profile is updated', '');
 
 -- --------------------------------------------------------
 
@@ -430,65 +465,65 @@ CREATE TABLE IF NOT EXISTS `QUESTION` (
 --
 
 INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `timestamp`, `q_description`, `views`, `followers`, `url`, `anonymous`) VALUES
-(2, 'asdasd', 1, 2011103089, 0, '10:53 pm 02 Dec-12 ', 'asdasdasd', 4, 0, 'asdasd', 0),
-(3, 'who is obama?', 1, 2011103090, 10, '11:12 pm 02 Dec-12 ', '', 27, 0, 'who-is-obama', 0),
-(4, 'what is the rate of iphone 5?', 1, 2011103090, 0, '09:08 PM 06-Dec-12', '', 16, 0, 'what-is-the-rate-of-iphone-5', 0),
-(5, 'GJHGJ??', 1, 2011103090, 0, '12:32 PM 11-Dec-12', 'DDDCD', 3, 0, 'GJHGJ', 0),
-(6, 'What is Askceg?', 1, 2011103090, 0, '12:36 PM 11-Dec-12', '', 0, 0, 'What-is-Askceg', 0),
-(7, 'sdsdsdd', 1, 2011103090, 0, '11:20 AM 15-Dec-12', '', 0, 0, 'sdsdsdd', 0),
-(9, 'When is college reopening??', 1, 2011103089, 3, '12:04 PM 17-Dec-12', 'I dont want it to reopen at all!!! :P', 3, 0, 'When-is-college-reopening', 0),
-(10, 'How cool is AskCEG? :D', 1, 2011103053, 0, '09:57 AM 18-Dec-12', '', 5, 0, 'How-cool-is-AskCEG-D', 0),
-(11, 'ghikjfkjrf', 2, 2011103090, 0, '05:18 PM 18-Dec-12', '', 0, 0, 'ghikjfkjrf', 0),
-(12, 'hey boys ?', 2, 2011103090, 0, '05:19 PM 18-Dec-12', '', 0, 0, 'hey-boys', 0),
-(14, 'who is obama?', 1, 2011103089, 0, '11:03 PM 21-Dec-12', '', 0, 0, 'who-is-obama-1356110311', 0),
-(15, 'who is obama?', 1, 2011103089, 0, '11:05 PM 21-Dec-12', '', 0, 0, 'who-is-obama-1356110408', 0),
-(16, 'how u doing?', 3, 2011103089, 0, '12:29 AM 23-Dec-12', '', 0, 0, 'how-u-doing', 0),
-(17, 'when is k13?', 5, 2011103089, 0, '12:32 AM 23-Dec-12', '', 0, 0, 'when-is-k13', 0),
-(18, 'sfsfsff', 1, 2011103085, 0, '04:33 PM 23-Dec-12', '', 0, 0, 'sfsfsff', 0),
-(20, 'dgdgg', 4, 2011103085, 0, '04:36 PM 23-Dec-12', '', 0, 0, 'dgdgg', 0),
-(21, 'who is going to take webtech?', 2, 0, 0, '04:39 PM 23-Dec-12', '', 0, 0, 'who-is-going-to-take-webtech', 1),
-(22, 'why is acoe website slow?', 3, 2011103089, 0, '05:17 PM 23-Dec-12', '', 4, 0, 'why-is-acoe-website-slow', 1),
-(23, 'heeeeeey!!', 5, 604, 0, '08:50 PM 23-Dec-12', '', 0, 0, 'heeeeeey', 0),
-(24, 'testing :D ????', 1, 2011103051, 0, '', '', 0, 0, 'testing', 0),
-(25, 'testing radio button', 6, 2011103089, 0, '01:06 PM 26-Dec-12', '', 0, 0, 'testing-radio-button', 0),
-(26, 'harry potter?', 4, 2011103089, 0, '01:07 PM 26-Dec-12', '', 0, 0, 'harry-potter', 0),
-(27, 'qwert!', 5, 2011103089, 0, '01:30 PM 26-Dec-12', '', 0, 0, 'qwert', 0),
-(28, 'svfvzsvzc', 6, 2011103089, 0, '01:33 PM 26-Dec-12', '', 0, 0, 'svfvzsvzc', 0),
-(29, 'sss', 6, 2011103089, 0, '01:34 PM 26-Dec-12', '', 0, 0, 'sss', 0),
-(30, 'is 4th sem easy?', 1, 2011103090, 1, '01:35 PM 26-Dec-12', '', 0, 0, 'is-4th-sem-easy', 0),
-(31, 'did anyone complete the lab work?', 9, 2011103002, 1, '04:46 PM 26-Dec-12', '', 0, 0, 'checking-group-scope', 0),
-(32, 'dsdggg', 1, 2011103089, 1, '04:46 PM 26-Dec-12', '', 0, 0, 'dsdggg', 0),
-(33, 'fsfssfsf', 6, 2011103089, 0, '01:39 AM 27-Dec-12', '', 0, 0, 'fsfssfsf', 0),
-(34, 'hello', 4, 2011103089, 0, '01:40 AM 27-Dec-12', '', 0, 0, 'hello', 0),
-(35, 'from a fourth semester perspective,what are the subjects that we should be conceptually strong at for better future prospects or for future studies?\n', 7, 2011103089, 0, '01:46 AM 27-Dec-12', '', 0, 0, 'from-a-fourth-semester-perspective-what-are-the-subjects-that-we-should-be-conceptually-strong-at-for-better-future-prospects-or-for-future-studies', 0),
-(42, '!@#$!^!@%!^@!&!!!', 1, 2011103089, 0, '01:59 AM 31-Dec-12', '', 0, 0, '-1356899351', 0),
-(43, 'How can I learn coding?', 1, 2011103089, 0, '06:34 PM 09-Jan-13', '', 0, 0, 'How-can-I-learn-coding', 0),
-(37, ' How to handle StackOverflowError in Java?', 9, 2011103089, 0, '02:11 AM 27-Dec-12', '', 0, 0, 'How-to-handle-StackOverflowError-in-Java', 0),
-(38, '\nObjective-C/iOS vs Java - Career Prospects ? (A non-technical queries, well mostly)', 9, 2011103089, 0, '02:14 AM 27-Dec-12', '', 0, 0, '0-votes-0answers-18-views-Objective-C-iOS-vs-Java-Career-Prospects-A-non-technical-queries-well-mostly', 0),
-(39, 'asdad', 5, 2011103089, 0, '05:14 AM 27-Dec-12', '', 0, 0, 'asdad', 0),
-(40, 'why this kolaveri de?', 1, 2011103089, 0, '02:39 AM 30-Dec-12', '', 0, 0, 'why-this-kolaveri-de', 1),
-(41, '********', 2, 2011103089, 0, '02:39 AM 30-Dec-12', '', 0, 0, '', 0),
-(44, 'will this be private??', 3, 2011103089, 1, '06:27 PM 13-Jan-13', '', 0, 0, 'will-this-be-private', 0),
-(45, 'sdfdfs sf sdfk jskdjfkj ksjdfkjkjksdfkjs ksjdkfjsdkjfksdjfk sdfjksdjfkjsdkf dsjfkjksdjfksjdkf skdf sdkfjsdkfjsdklfjsdkl jsdfk jsdklfj dkfjdfklgjskldfgjklsjgkj dflkgj jsdlkfg jkjjllkdjglkjdgkljslkdfjglksdfjg sdflgkjierti ierjtkljekltjkljekltj jekltj ekltjrekttetogtriogtrjiriyoiroy6i6yjiyjiyjyijyijyijyijyvjyjvyiyjiyjiyyijyijyij945 945i 945o opeioertioer erti ldfkvl kldfklv;kdflvk dlf;vk kldfv lkdf;vk;l l; ldfvl;kdfl;vkldfvkfldkvldfkvl dfvkldfkvldfvk;d erit0iertp dflgk ldfgklsdfdfs sf sdfk jskdjfkj', 8, 2011103089, 0, '06:59 PM 13-Jan-13', '', 4, 0, 'sdfdfs-sf-sdfk-jskdjfkj-ksjdfkjkjksdfkjs-ksjdkfjsdkjfksdjfk-sdfjksdjfkjsdkf-dsjfkjksdjfksjdkf-skdf-sdkfjsdkfjsdklfjsdkl-jsdfk-jsdklfj-dkfjdfklgjskldfgjklsjgkj-dflkgj-jsdlkfg-jkjjllkdjglkjdgkljslkdfjglksdfjg-sdflgkjierti-ierjtkljekltjkljekltj-jekltj-ekltjrekttetogtriogtrjiriyoiroy6i6yjiyjiyjyijyijyijyijyvjyjvyiyjiyjiyyijyijyij945-945i-945o-opeioertioer-erti-ldfkvl-kldfklv-kdflvk-dlf-vk-kldfv-lkdf-v', 0),
-(46, 'asasas!', 4, 2011103089, 1, '07:05 PM 13-Jan-13', '', 0, 0, 'asasas', 0),
-(47, 'fdggdf', 4, 2011103089, 0, '08:08 PM 14-Jan-13', 'dfgfdgdfgfdg', 0, 0, 'fdggdf', 0),
-(48, 'new??', 4, 2011103089, 0, '08:09 PM 14-Jan-13', '', 0, 0, 'new', 0),
-(49, 'sadadsd', 4, 2011103089, 0, '08:10 PM 14-Jan-13', '', 0, 0, 'sadadsd', 0),
-(50, 'gjhghjgh', 4, 2011103089, 0, '08:10 PM 14-Jan-13', '', 0, 0, 'gjhghjgh', 0),
-(51, 'erertet', 4, 2011103089, 0, '08:16 PM 14-Jan-13', '', 0, 0, 'erertet', 0),
-(52, 'fwefwef vwe wer wer wer ', 9, 2011103089, 0, '08:16 PM 14-Jan-13', '', 0, 0, 'fwefwef-vwe-wer-wer-wer', 0),
-(53, 'qwqw!', 9, 2011103089, 0, '11:13 PM 17-Jan-13', '', 0, 0, 'qwqw', 0),
-(54, 'why do I need askCeg?', 1, 2011103597, 0, '03:32 PM 27-Mar-13', '', 23, 0, 'why-do-I-need-askCeg', 0),
-(55, 'How is mentalist diff from sherlocks?', 1, 2011103600, 0, '05:40 PM 27-Mar-13', '', 0, 0, 'How-is-mentalist-diff-from-sherlocks', 0),
-(57, 'heeeeeeeeello?', 4, 2011103602, 0, '04:32 PM 28-Mar-13', '', 0, 0, 'heeeeeeeeello', 0),
-(58, 'ggggg', 4, 2011103089, 1, '04:19 PM 29-Mar-13', '', 0, 0, 'ggggg', 1),
-(59, 'how is kd billa?', 11, 2011103599, 0, '07:48 PM 29-Mar-13', '', 0, 0, 'how-is-kd-billa', 0),
-(60, 'how is askceg different?', 12, 2, 0, '11:16 AM 30-Mar-13', '', 6, 0, 'how-is-askceg-different', 0),
-(61, 'zzx', 1, 2, 0, '04:10 PM 30-Mar-13', '', 3, 0, 'zzx', 0),
-(62, 'aSAsASAsAS', 5, 2, 0, '04:11 PM 30-Mar-13', '', 1, 0, 'aSAsASAsAS', 0),
-(63, 'asasdasd', 1, 2, 0, '04:12 PM 30-Mar-13', '', 1, 0, 'asasdasd', 0),
-(64, 'sdasdsadadasad', 3, 2, 0, '04:18 PM 30-Mar-13', '', 1, 0, 'sdasdsadadasad', 0),
-(65, 'zsdasd', 5, 2, 0, '04:19 PM 30-Mar-13', '', 9, 0, 'zsdasd', 0);
+(2, 'asdasd', 1, 2011103089, 0, '1364729876', 'asdasdasd', 5, 0, 'asdasd', 0),
+(3, 'who is obama?', 1, 2011103090, 10, '1364729876', '', 27, 0, 'who-is-obama', 0),
+(4, 'what is the rate of iphone 5?', 1, 2011103090, 0, '1364729876', '', 17, 0, 'what-is-the-rate-of-iphone-5', 0),
+(5, 'GJHGJ??', 1, 2011103090, 0, '1364729876', 'DDDCD', 3, 0, 'GJHGJ', 0),
+(6, 'What is Askceg?', 1, 2011103090, 0, '1364729876', '', 2, 0, 'What-is-Askceg', 0),
+(7, 'sdsdsdd', 1, 2011103090, 0, '1364729876', '', 0, 0, 'sdsdsdd', 0),
+(9, 'When is college reopening??', 1, 2011103089, 3, '1364729876', 'I dont want it to reopen at all!!! :P', 3, 0, 'When-is-college-reopening', 0),
+(10, 'How cool is AskCEG? :D', 1, 2011103053, 0, '1364729876', '', 5, 0, 'How-cool-is-AskCEG-D', 0),
+(11, 'ghikjfkjrf', 2, 2011103090, 0, '1364729876', '', 0, 0, 'ghikjfkjrf', 0),
+(12, 'hey boys ?', 2, 2011103090, 0, '1364729876', '', 0, 0, 'hey-boys', 0),
+(14, 'who is obama?', 1, 2011103089, 0, '1364729876', '', 0, 0, 'who-is-obama-1356110311', 0),
+(15, 'who is obama?', 1, 2011103089, 0, '1364729876', '', 0, 0, 'who-is-obama-1356110408', 0),
+(16, 'how u doing?', 3, 2011103089, 0, '1364729876', '', 0, 0, 'how-u-doing', 0),
+(17, 'when is k13?', 5, 2011103089, 0, '1364729876', '', 0, 0, 'when-is-k13', 0),
+(18, 'sfsfsff', 1, 2011103085, 0, '1364729876', '', 0, 0, 'sfsfsff', 0),
+(20, 'dgdgg', 4, 2011103085, 0, '1364729876', '', 0, 0, 'dgdgg', 0),
+(21, 'who is going to take webtech?', 2, 0, 0, '1364729876', '', 0, 0, 'who-is-going-to-take-webtech', 1),
+(22, 'why is acoe website slow?', 3, 2011103089, 0, '1364729876', '', 4, 0, 'why-is-acoe-website-slow', 1),
+(23, 'heeeeeey!!', 5, 604, 0, '1364729876', '', 0, 0, 'heeeeeey', 0),
+(24, 'testing :D ????', 1, 2011103051, 0, '1364729876', '', 0, 0, 'testing', 0),
+(25, 'testing radio button', 6, 2011103089, 0, '1364729876', '', 0, 0, 'testing-radio-button', 0),
+(26, 'harry potter?', 4, 2011103089, 0, '1364729876', '', 0, 0, 'harry-potter', 0),
+(27, 'qwert!', 5, 2011103089, 0, '1364729876', '', 0, 0, 'qwert', 0),
+(28, 'svfvzsvzc', 6, 2011103089, 0, '1364729876', '', 0, 0, 'svfvzsvzc', 0),
+(29, 'sss', 6, 2011103089, 0, '1364729876', '', 0, 0, 'sss', 0),
+(30, 'is 4th sem easy?', 1, 2011103090, 1, '1364729876', '', 0, 0, 'is-4th-sem-easy', 0),
+(31, 'did anyone complete the lab work?', 9, 2011103002, 1, '1364729876', '', 0, 0, 'checking-group-scope', 0),
+(32, 'dsdggg', 1, 2011103089, 1, '1364729876', '', 0, 0, 'dsdggg', 0),
+(33, 'fsfssfsf', 6, 2011103089, 0, '1364729876', '', 0, 0, 'fsfssfsf', 0),
+(34, 'hello', 4, 2011103089, 0, '1364729876', '', 0, 0, 'hello', 0),
+(35, 'from a fourth semester perspective,what are the subjects that we should be conceptually strong at for better future prospects or for future studies?\n', 7, 2011103089, 0, '1364729876', '', 0, 0, 'from-a-fourth-semester-perspective-what-are-the-subjects-that-we-should-be-conceptually-strong-at-for-better-future-prospects-or-for-future-studies', 0),
+(42, '!@#$!^!@%!^@!&!!!', 1, 2011103089, 0, '1364729876', '', 0, 0, '-1356899351', 0),
+(43, 'How can I learn coding?', 1, 2011103089, 0, '1364729876', '', 0, 0, 'How-can-I-learn-coding', 0),
+(37, ' How to handle StackOverflowError in Java?', 9, 2011103089, 0, '1364729876', '', 0, 0, 'How-to-handle-StackOverflowError-in-Java', 0),
+(38, '\nObjective-C/iOS vs Java - Career Prospects ? (A non-technical queries, well mostly)', 9, 2011103089, 0, '1364729876', '', 0, 0, '0-votes-0answers-18-views-Objective-C-iOS-vs-Java-Career-Prospects-A-non-technical-queries-well-mostly', 0),
+(39, 'asdad', 5, 2011103089, 0, '1364729876', '', 0, 0, 'asdad', 0),
+(40, 'why this kolaveri de?', 1, 2011103089, 0, '1364729876', '', 0, 0, 'why-this-kolaveri-de', 1),
+(41, '********', 2, 2011103089, 0, '1364729876', '', 0, 0, '', 0),
+(44, 'will this be private??', 3, 2011103089, 1, '1364729876', '', 0, 0, 'will-this-be-private', 0),
+(45, 'sdfdfs sf sdfk jskdjfkj ksjdfkjkjksdfkjs ksjdkfjsdkjfksdjfk sdfjksdjfkjsdkf dsjfkjksdjfksjdkf skdf sdkfjsdkfjsdklfjsdkl jsdfk jsdklfj dkfjdfklgjskldfgjklsjgkj dflkgj jsdlkfg jkjjllkdjglkjdgkljslkdfjglksdfjg sdflgkjierti ierjtkljekltjkljekltj jekltj ekltjrekttetogtriogtrjiriyoiroy6i6yjiyjiyjyijyijyijyijyvjyjvyiyjiyjiyyijyijyij945 945i 945o opeioertioer erti ldfkvl kldfklv;kdflvk dlf;vk kldfv lkdf;vk;l l; ldfvl;kdfl;vkldfvkfldkvldfkvl dfvkldfkvldfvk;d erit0iertp dflgk ldfgklsdfdfs sf sdfk jskdjfkj', 8, 2011103089, 0, '1364729876', '', 4, 0, 'sdfdfs-sf-sdfk-jskdjfkj-ksjdfkjkjksdfkjs-ksjdkfjsdkjfksdjfk-sdfjksdjfkjsdkf-dsjfkjksdjfksjdkf-skdf-sdkfjsdkfjsdklfjsdkl-jsdfk-jsdklfj-dkfjdfklgjskldfgjklsjgkj-dflkgj-jsdlkfg-jkjjllkdjglkjdgkljslkdfjglksdfjg-sdflgkjierti-ierjtkljekltjkljekltj-jekltj-ekltjrekttetogtriogtrjiriyoiroy6i6yjiyjiyjyijyijyijyijyvjyjvyiyjiyjiyyijyijyij945-945i-945o-opeioertioer-erti-ldfkvl-kldfklv-kdflvk-dlf-vk-kldfv-lkdf-v', 0),
+(46, 'asasas!', 4, 2011103089, 1, '1364729876', '', 0, 0, 'asasas', 0),
+(47, 'fdggdf', 4, 2011103089, 0, '1364729876', 'dfgfdgdfgfdg', 0, 0, 'fdggdf', 0),
+(48, 'new??', 4, 2011103089, 0, '1364729876', '', 0, 0, 'new', 0),
+(49, 'sadadsd', 4, 2011103089, 0, '1364729876', '', 0, 0, 'sadadsd', 0),
+(50, 'gjhghjgh', 4, 2011103089, 0, '1364729876', '', 0, 0, 'gjhghjgh', 0),
+(51, 'erertet', 4, 2011103089, 0, '1364729876', '', 0, 0, 'erertet', 0),
+(52, 'fwefwef vwe wer wer wer ', 9, 2011103089, 0, '1364729876', '', 0, 0, 'fwefwef-vwe-wer-wer-wer', 0),
+(53, 'qwqw!', 9, 2011103089, 0, '1364729876', '', 0, 0, 'qwqw', 0),
+(54, 'why do I need askCeg?', 1, 2011103597, 0, '1364729876', '', 23, 0, 'why-do-I-need-askCeg', 0),
+(55, 'How is mentalist diff from sherlocks?', 1, 2011103600, 0, '1364729876', '', 0, 0, 'How-is-mentalist-diff-from-sherlocks', 0),
+(57, 'heeeeeeeeello?', 4, 2011103602, 0, '1364729876', '', 5, 0, 'heeeeeeeeello', 0),
+(58, 'ggggg', 4, 2011103089, 1, '1364729876', '', 0, 0, 'ggggg', 1),
+(59, 'how is kd billa?', 11, 2011103599, 0, '1364729876', '', 0, 0, 'how-is-kd-billa', 0),
+(60, 'how is askceg different?', 12, 2, 0, '1364729876', '', 9, 0, 'how-is-askceg-different', 0),
+(61, 'zzx', 1, 2, 0, '1364729876', '', 3, 0, 'zzx', 0),
+(62, 'aSAsASAsAS', 5, 2, 0, '1364729876', '', 1, 0, 'aSAsASAsAS', 0),
+(63, 'asasdasd', 1, 2, 0, '1364729876', '', 1, 0, 'asasdasd', 0),
+(64, 'sdasdsadadasad', 3, 2, 0, '1364729876', '', 4, 0, 'sdasdsadadasad', 0),
+(65, 'zsdasd', 5, 2, 0, '1364729876', '', 21, 0, 'zsdasd', 0);
 
 -- --------------------------------------------------------
 
@@ -610,18 +645,11 @@ CREATE TABLE IF NOT EXISTS `TOPIC_FOLLOWERS` (
 --
 
 INSERT INTO `TOPIC_FOLLOWERS` (`topic_id`, `user_id`) VALUES
-(1, 2011103085),
-(1, 2011103090),
-(8, 2011103090),
-(9, 2011103051),
-(9, 2011103052),
-(9, 2011103053),
-(9, 2011103054),
-(5, 2011103089),
-(8, 2011103053),
-(3, 2011103089),
-(9, 2011103089),
-(1, 2011103599);
+(1, 1),
+(1, 3),
+(2, 2),
+(2, 4),
+(1, 4);
 
 -- --------------------------------------------------------
 
@@ -645,14 +673,17 @@ CREATE TABLE IF NOT EXISTS `USERS` (
   `isNormalAccount` int(11) NOT NULL,
   `profile_pic` varchar(300) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `USERS`
 --
 
 INSERT INTO `USERS` (`user_id`, `user_name`, `group_id`, `password`, `user_level`, `email_id`, `joined_on`, `user_year`, `user_degree`, `user_course`, `hash`, `complete`, `isNormalAccount`, `profile_pic`) VALUES
-(1, 'vikki', 0, '', 0, 'dgr8geek@gmail.com', '', 0, 'msc', 'cs', '', 1, 0, 'https://m.ak.fbcdn.net/profile.ak/hprofile-ak-prn1/173827_100000673452300_1106930760_t.jpg');
+(1, 'vikki', 8, '123123', 0, 'dgr8geek@gmail.com', '', 0, 'msc', '212', '', 1, 0, 'https://m.ak.fbcdn.net/profile.ak/hprofile-ak-prn1/173827_100000673452300_1106930760_t.jpg'),
+(2, 'vishnu', 9, '123123', 0, 'vigneshjmsc@gmail.com', '', 0, 'asas', 'asd', '', 1, 0, 'http://m-static.ak.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg'),
+(3, 'bala', 8, '', 0, 'vigneshjayavel@gmail.com', '', 0, '', '', '', 0, 0, 'http://profile.ak.fbcdn.net/static-ak/rsrc.php/v1/yi/r/odA9sNLrE86.jpg'),
+(4, 'Narain', 9, '', 0, '', '', 0, '', '', '', 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -693,8 +724,7 @@ INSERT INTO `USER_HISTORY_LOG` (`user_id`, `group_id`) VALUES
 CREATE TABLE IF NOT EXISTS `USER_NOTIFICATIONS` (
   `user_id` int(20) NOT NULL,
   `notif_id` bigint(100) NOT NULL,
-  `notif_read_status` int(2) NOT NULL DEFAULT '0',
-  `notif_read_time` varchar(100) NOT NULL
+  `new` int(3) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -763,7 +793,8 @@ INSERT INTO `VOTE` (`a_id`, `user_id`, `vote`, `timestamp`) VALUES
 (86, 1, 1, '09:51 PM 30-Mar-13'),
 (85, 1, -1, '09:51 PM 30-Mar-13'),
 (90, 1, 1, '10:33 PM 30-Mar-13'),
-(97, 1, 1, '06:01 AM 31-Mar-13');
+(97, 1, 1, '06:01 AM 31-Mar-13'),
+(104, 1, 1, '03:14 PM 19-Apr-13');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
