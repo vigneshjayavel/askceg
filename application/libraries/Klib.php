@@ -92,7 +92,8 @@ class Klib {
 	    $CI->email->subject($emailData['subject']);
 	    $CI->email->message($emailData['message']);
 	    try{
-	   		$CI->email->send();
+	    	if(ENVIRONMENT!='local')
+	   			$CI->email->send();	
 	    }
 	    catch(Exception $e){
 	    	echo $e->getMessage();
