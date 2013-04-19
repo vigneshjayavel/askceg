@@ -40,12 +40,33 @@ class NotificationsModel extends CI_Model{
 			  NOTIFICATIONS(receiver_id,receiver_type,notif_msg) 
 			  values(?,?,?)';
 		$query=$this->db->query($sql,array($receiver_id,$receiver_type,$notif_msg));
-		//get the id of the last inserted record
-		$latest_notif_id=$this->db->insert_id();
+		//get the id of the last inserted record with the msg (assumed unique)
+		$sql='Select notif_id from NOTIFICATIONS where notif_msg=?';
+		$query=$this->db->query($sql,array($user_id)); 
+		$row=$query->row_array();
+		$latest_notif_id=$row['notif_id'];
 		//join tables and filter only the records which has the notif_id as the latest master notif record's id
-
 		//insert those records into the child table (these are the unread notifs)
-
+		$sql='	INSERT 
+				  USER_NOTIFICATIONS 
+				  (
+				user_id,notif_id
+				  )
+				SELECT 
+					u.user_id,n.notif_id
+				FROM 
+					NOTIFICATIONS n,USERS u
+				where
+					(n.receiver_type="u" AND n.receiver_id=u.user_id)
+					OR
+					(n.receiver_type="g" AND n.receiver_id = u.group_id)  
+					OR
+				    (n.receiver_type="t" AND n.receiver_id in (SELECT topic_id from TOPIC_FOLLOWERS where user_id=u.user_id)) 	
+					AND
+					n.notif_id=?
+				group by u.user_id,n.notif_id';
+		$query=$this->db->query($sql,array($notif_id));		
+		
 	}
 
 	function sqlcreateEnduserNotifications(){
@@ -89,8 +110,8 @@ class NotificationsModel extends CI_Model{
 
 
 	function sqlUpdateNotificationStatus($notif_id,$user_id){
-       $sql='DELETE FROM 
-       		USER_NOTIFICATIONS 
+       $sql='UPDATE 
+       		USER_NOTIFICATIONS SET new=0  
        		where user_id=? AND notif_id=?';
        $query=$this->db->query($sql,array($user_id,$notif_id));
 		
@@ -125,11 +146,12 @@ class NotificationsModel extends CI_Model{
 				group by u.user_id,n.notif_id';
 		*/
 		$sql='	SELECT 
-						*
+						un.notif_id,n.notif_msg 
 					FROM 
-					USER_NOTIFICATIONS un
+					USER_NOTIFICATIONS un,NOTIFICATIONS n
 					where
-					un.user_id=?';
+					un.notif_id=n.notif_id and 
+					un.user_id=? and un.new=1';
 
 		$query=$this->db->query($sql,array($user_id)); 
 		$result=$query->result_array();
