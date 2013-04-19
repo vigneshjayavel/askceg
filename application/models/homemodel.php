@@ -43,13 +43,13 @@ class HomeModel extends CI_Model{
     $query=$this->db->query($query,array($CI->session->userdata('user_id')));
     $content='';
     if($row=$query->row_array()){
-                  $content.='<div id="bio">
-                  <img src="'.$row['profile_pic'].'" alt="No pic" class="display-pic" />
-                  <h3>Greetings '.$CI->session->userdata('user_name').'!</h3>
-                  <p>
-                  <img height="125" width="125" src="'.base_url().'assets/img/fbthumb.jpg" />
-                   Get to know about AskCEG.. Please read the following info..</p>
-                   </div>';
+      $content.='<div id="bio">
+      <img src="'.$row['profile_pic'].'" alt="No pic" class="display-pic" />
+      <h3>Greetings '.$CI->session->userdata('user_name').'!</h3>
+      <p>
+      <img height="125" width="125" src="'.base_url().'assets/img/fbthumb.jpg" />
+       Get to know about AskCEG.. Please read the following info..</p>
+       </div>';
     }
     $content.='
     
