@@ -59,7 +59,21 @@ function sqlGetUserName($user_id){
     if($query==-1){
 
    		if($vote!=-1){
-
+   			$sqlr="SELECT 
+   			a.posted_by ,a.a_content
+   			FROM ANSWER a
+   			where 
+   			a.a_id=?";
+   			$queryr=$this->db->query($sqlr,array($a_id));
+   			$rowr=$queryr->row_array();
+   			 $this->load->library('klib');
+            
+             $receiver_id=$rowr['posted_by'];
+             //$initiator_id=$user_id;
+              $userData=$this->klib->getUserData($user_id);
+       
+             $this->klib->generateNotifications($receiver_id,'u',$userData['user_name'].' voted your answer '.$rowr['a_content'],$user_id);
+       
    		}
 
     }
