@@ -614,7 +614,7 @@ function getInterimProfile(){
         $emailData['to']=$userData['email_id'];
         $emailData['subject']=$userData['user_name'].' followed you!';
         $emailData['message']=$userData['user_name'].' followed you!';
-        $this->klib->generateNotifications($user_id,'u',$userData['profile_url'].$userData['user_name'].' followed you!',$follower_id,$emailData);
+        $this->klib->generateNotifications($user_id,'u',$userData['user_name'].' followed you!',$follower_id,$emailData);
         return "success";
       }
     }

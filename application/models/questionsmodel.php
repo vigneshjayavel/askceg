@@ -892,11 +892,9 @@ function getGroupScopeQuestions($group_id){
           $this->load->library('klib');
           $questionAuthor=$this->klib->getUserData($posted_by);
           if($anonymous==1)
-            $msg1='<img src="'.base_url().'assets/img/users/9999.jpg" height="40px" width="40px" alt="Anonymous" class="display-pic" />
-  
-            '.'Anonymous user';
+            $msg1='Anonymous user';
           else
-            $msg1=$questionAuthor['profile_url'].$questionAuthor['user_name'];
+            $msg1=$questionAuthor['user_name'];
           $msg1.=' asked a question <b><a href="'.$questionUrl.'">"'.substr( $questionArray['q_content'],0,20).'..."</a> in the topic <a href="'.$topicUrl.'">'.$topic['topic_name'].'</a></b>';
           $this->klib->generateNotifications($receiver_id,'t',$msg1,$posted_by);
           if($scope!=0){

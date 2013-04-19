@@ -46,9 +46,10 @@ class Klib {
         $query=$CI->db->query($sql,array($user_id)); 
         $row=$query->row_array();
         $userData['email_id']=$row['email_id'];
+
         $userData['user_name']=$row['user_name'];
 
-          if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
+         /* if(strlen($row['profile_pic'])==0||strlen($row['profile_pic'])==1){
             $email=$row['email_id'];
              $url=$this->get_gravatar($email);
           }
@@ -57,7 +58,7 @@ class Klib {
         $userData['profile_url']='
               <a rel="tooltip" data-placement="bottom" data-original-title="'.$row['user_name'].'" href="'.base_url().'ProfileController/ViewUserProfile/'.$user_id.'">
                 <img src="'.$url.'" height="40px" width="40px" alt="'.$row['user_name'].'" class="display-pic" />
-              </a>';
+              </a>';*/
         return $userData;
 	}
 	public function sendMail($emailData){  
