@@ -17,11 +17,11 @@ class Klib {
 		
 	}
 
-	public function generateNotifications($receiver_id,$receiver_type,$notif_msg,$emailData=null){
+	public function generateNotifications($receiver_id,$receiver_type,$notif_msg,$initiator_id,$emailData=null){
 
 		$CI =& get_instance();
 	    $CI->load->model('notificationsmodel');
-		$CI->notificationsmodel->sqlcreateMasterNotifications($receiver_id,$receiver_type,$notif_msg);
+		$CI->notificationsmodel->sqlcreateMasterNotifications($receiver_id,$receiver_type,$notif_msg,$initiator_id);
 		if($emailData!=null){
 			$this->sendMail($emailData);	
 		}

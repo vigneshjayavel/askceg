@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 19, 2013 at 11:49 AM
+-- Generation Time: Apr 19, 2013 at 04:50 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `ANSWER` (
   `vote` int(20) NOT NULL,
   `timestamp` varchar(50) NOT NULL,
   PRIMARY KEY (`a_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=105 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=132 ;
 
 --
 -- Dumping data for table `ANSWER`
@@ -139,7 +139,34 @@ INSERT INTO `ANSWER` (`a_id`, `a_content`, `q_id`, `posted_by`, `scope`, `vote`,
 (101, '<p>awsdasdasd</p>', 65, 0, '', 0, '1364768790'),
 (102, '<blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><p>AAA</p></blockquote>', 57, 1, '', 0, '1364773074'),
 (103, '<p>erfervwr we we rwerwe rwr wrwer&nbsp;</p>', 57, 1, '', 0, '1364773089'),
-(104, '<blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><p>asass</p></blockquote>', 64, 3, '', 0, '1364820674');
+(104, '<blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><p>asass</p></blockquote>', 64, 3, '', 0, '1364820674'),
+(105, '<p>cbcbcbcb</p>', 68, 2011103089, '', 0, '1366373240'),
+(106, '<p>cbcbcbcb</p>', 68, 2011103089, '', 0, '1366373240'),
+(107, '<p>vvvxvxvx</p>', 68, 2011103089, '', 0, '1366373271'),
+(108, '<p>sfsfsf</p>', 68, 2011103089, '', 0, '1366373384'),
+(109, '<p>fsfssfss</p>', 68, 2011103089, '', 0, '1366373547'),
+(110, '<p>dggggdg</p>', 68, 2011103089, '', 0, '1366374787'),
+(111, '<p>dgdgdgd</p>', 68, 2011103089, '', 0, '1366374953'),
+(112, '<p>bcbcbb</p>', 24, 2011103089, '', 0, '1366374991'),
+(113, '<p>ffsffsf</p>', 68, 2011103089, '', 0, '1366375147'),
+(114, '<p>dggdgdgd</p>', 68, 2011103089, '', 0, '1366375177'),
+(115, '<p>vbbccb</p>', 68, 2011103089, '', 0, '1366375195'),
+(116, '<p>fsfsffsff</p>', 68, 3, '', 0, '1366375427'),
+(117, '<p>sfsffsff</p>', 68, 3, '', 0, '1366375717'),
+(118, 'fdfssfs', 68, 3, '', 0, '1366375812'),
+(119, 'fsffssf', 68, 3, '', 0, '1366375956'),
+(120, 'fsffssf', 68, 3, '', 0, '1366376108'),
+(121, '<p>sfsffs</p>', 68, 3, '', 0, '1366376122'),
+(122, '<p>vvvxvv</p>', 68, 3, '', 0, '1366376154'),
+(123, '<p>dgdggdgg</p>', 68, 3, '', 0, '1366376196'),
+(124, 'dvdgdg', 68, 3, '', 0, '1366376466'),
+(125, '<p>testinh</p>', 68, 3, '', 0, '1366376608'),
+(126, '<p>hello intiATION<br></p>', 60, 4, '', 0, '1366382197'),
+(127, '<p>hello intiATION<br></p>', 60, 4, '', 0, '1366382272'),
+(128, '<p>hello intiATION<br></p>', 60, 4, '', 0, '1366382272'),
+(129, '<p>hello intiATION<br></p>', 60, 4, '', 0, '1366382283'),
+(130, '<p>hello intiATION<br></p>', 60, 4, '', 0, '1366382344'),
+(131, '<p>hello intiATION<br></p>', 60, 4, '', 0, '1366382620');
 
 -- --------------------------------------------------------
 
@@ -209,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `FB_DETAILS` (
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`seqid`),
   UNIQUE KEY `fb_user_id` (`fb_user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `FB_DETAILS`
@@ -218,7 +245,8 @@ CREATE TABLE IF NOT EXISTS `FB_DETAILS` (
 INSERT INTO `FB_DETAILS` (`email`, `fb_user_id`, `access_token`, `seqid`, `timestamp`, `status`) VALUES
 ('dgr8geek@gmail.com', '100000673452300', 'BAAEeCZC9qCvUBABxot8IIQJaqpgZAnfzpoqLfFgtQAqVFfZCbxSZAEVfwZBm50aeFVJfNogf3wEIXR3Guj6JtmcIqZBAnFUHmawzzp2Xprymhky1PptKq3ZBCNgtjyCRlVa18Ha6XafdumZA1N1PYSvesBsoqRnWJUZCeZASJB3AdgqZCsKwiN0XjZAXPZAS9YWV69z', 5, '2013-04-01 13:06:50', 1),
 ('vigneshjayavel@gmail.com', '100005637937154', 'AAAEeCZC9qCvUBADh2YCTHRMPGHMd3G4QuHsDWHnI2sfzS13JKQ8WpCVcZAaqhRDEoPfVvJ8Tu1FCKfpDmGw1MhwYeOL85d3oRgslZAthp5ug0ZAypZBwX', 9, '2013-04-01 16:03:12', 1),
-('vigneshjmsc@gmail.com', '100003324675095', 'AAAEeCZC9qCvUBAM17iVfs9jBME6Y7D8m3fMMNHHcnfxOxnuZBvmvywZBQZBDuIBbrBCzegNwU2igcMewLHNhZBNytVVfcw1St61scUl1hd1dSH89RRRtw', 8, '2013-04-01 13:30:14', 1);
+('vigneshjmsc@gmail.com', '100003324675095', 'AAAEeCZC9qCvUBAM17iVfs9jBME6Y7D8m3fMMNHHcnfxOxnuZBvmvywZBQZBDuIBbrBCzegNwU2igcMewLHNhZBNytVVfcw1St61scUl1hd1dSH89RRRtw', 8, '2013-04-01 13:30:14', 1),
+('vishnuj81093@gmail.com', '100002276456345', 'BAAEeCZC9qCvUBAEvMnIYyxmbwnZCKAT0nsiI3oce34w0DhQ78OHIuDe2SyI6ZCcfe6iZA9HfQBZAnrEvmyhOVV83EYhtLOQXJUgY9BIVBnPvS8vLo1y3WvdyK4HkmZBYIr20inEYIRGNTLZAxKxZBYkT20JC9J0kWYKKa6pu2xz254z95RODrfuBgQc2BpEXkAtsgW6', 10, '2013-04-19 11:41:20', 1);
 
 -- --------------------------------------------------------
 
@@ -415,17 +443,29 @@ CREATE TABLE IF NOT EXISTS `NOTIFICATIONS` (
   `receiver_id` varchar(100) NOT NULL,
   `notif_msg` varchar(1000) NOT NULL,
   `timestamp` varchar(100) NOT NULL,
+  `initiator_id` int(10) NOT NULL,
   PRIMARY KEY (`notif_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
 
 --
 -- Dumping data for table `NOTIFICATIONS`
 --
 
-INSERT INTO `NOTIFICATIONS` (`notif_id`, `receiver_type`, `receiver_id`, `notif_msg`, `timestamp`) VALUES
-(1, 'u', '1', 'Bala followed you', ''),
-(2, 'u', '2', 'Narain followed you', ''),
-(3, 'g', '8', 'Your group profile is updated', '');
+INSERT INTO `NOTIFICATIONS` (`notif_id`, `receiver_type`, `receiver_id`, `notif_msg`, `timestamp`, `initiator_id`) VALUES
+(33, 'u', '2', 'Narain followed you!', '1366380140', 0),
+(34, 't', '2', 'Jetti asked a question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/">testing notif?...</a> in the topic <a href="">ibatch</a></b>', '1366380217', 0),
+(35, 't', '4', 'Jetti asked a question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/">hello group?...</a> in the topic <a href="">Movies</a></b>', '1366380993', 0),
+(36, 'g', '9', 'Jetti asked a question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/">hello group?...</a> in the topic <a href="">Movies</a></b>', '1366380993', 0),
+(37, 't', '3', 'Jetti asked a question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/dsadad">dsadad...</a> in the topic <a href="">ibatch boys</a></b>', '1366381152', 0),
+(38, 'g', '9', 'Jetti asked a question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/dsadad">dsadad...</a> in the topic <a href="">ibatch boys</a></b>', '1366381152', 0),
+(39, 't', '3', 'Jetti asked a question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/zczczc-group-testing">zczczc group testing...</a> in the topic <a href="">ibatch boys</a></b>', '1366381215', 0),
+(40, 'g', '9', 'Jetti asked a question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/zczczc-group-testing">zczczc group testing...</a> in the topic <a href="">ibatch boys</a></b>', '1366381215', 0),
+(41, 't', '3', 'Jetti asked a question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/fsffffsf">fsffffsf...</a> in the topic <a href="">ibatch boys</a></b>', '1366381272', 0),
+(42, 't', '4', 'Jetti asked a question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/group">group?...</a> in the topic <a href="http://vikki.askceg.ap01.aws.af.cm/ask/ProfileController/viewTopic/Movies">Movies</a></b>', '1366381486', 0),
+(43, 'g', '9', 'Jetti asked a question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/group">group?...</a> in the topic <a href="http://vikki.askceg.ap01.aws.af.cm/ask/ProfileController/viewTopic/Movies">Movies</a></b>', '1366381486', 0),
+(44, 'u', '2', 'Narain answered your question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/how-is-askceg-different">how is askceg different?</a></b>', '1366382620', 4),
+(45, 'u', '2', 'Narain followed you!', '1366382670', 4),
+(46, 't', '2', 'Narain asked a question <b><a href="http://vikki.askceg.ap01.aws.af.cm/ask/AnswersController/viewAnswersForQuestion/testing-notif-now">testing notif now?\n...</a> in the topic <a href="http://vikki.askceg.ap01.aws.af.cm/ask/ProfileController/viewTopic/ibatch">ibatch</a></b>', '1366382915', 4);
 
 -- --------------------------------------------------------
 
@@ -458,7 +498,7 @@ CREATE TABLE IF NOT EXISTS `QUESTION` (
   `url` varchar(400) NOT NULL,
   `anonymous` int(20) NOT NULL,
   PRIMARY KEY (`q_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=68 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=79 ;
 
 --
 -- Dumping data for table `QUESTION`
@@ -484,7 +524,7 @@ INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `
 (21, 'who is going to take webtech?', 2, 0, 0, '1364729876', '', 0, 0, 'who-is-going-to-take-webtech', 1),
 (22, 'why is acoe website slow?', 3, 2011103089, 0, '1364729876', '', 4, 0, 'why-is-acoe-website-slow', 1),
 (23, 'heeeeeey!!', 5, 604, 0, '1364729876', '', 0, 0, 'heeeeeey', 0),
-(24, 'testing :D ????', 1, 2011103051, 0, '1364729876', '', 0, 0, 'testing', 0),
+(24, 'testing :D ????', 1, 2011103051, 0, '1364729876', '', 2, 0, 'testing', 0),
 (25, 'testing radio button', 6, 2011103089, 0, '1364729876', '', 0, 0, 'testing-radio-button', 0),
 (26, 'harry potter?', 4, 2011103089, 0, '1364729876', '', 0, 0, 'harry-potter', 0),
 (27, 'qwert!', 5, 2011103089, 0, '1364729876', '', 0, 0, 'qwert', 0),
@@ -518,12 +558,23 @@ INSERT INTO `QUESTION` (`q_id`, `q_content`, `topic_id`, `posted_by`, `scope`, `
 (57, 'heeeeeeeeello?', 4, 2011103602, 0, '1364729876', '', 5, 0, 'heeeeeeeeello', 0),
 (58, 'ggggg', 4, 2011103089, 1, '1364729876', '', 0, 0, 'ggggg', 1),
 (59, 'how is kd billa?', 11, 2011103599, 0, '1364729876', '', 0, 0, 'how-is-kd-billa', 0),
-(60, 'how is askceg different?', 12, 2, 0, '1364729876', '', 9, 0, 'how-is-askceg-different', 0),
+(60, 'how is askceg different?', 12, 2, 0, '1364729876', '', 13, 0, 'how-is-askceg-different', 0),
 (61, 'zzx', 1, 2, 0, '1364729876', '', 3, 0, 'zzx', 0),
 (62, 'aSAsASAsAS', 5, 2, 0, '1364729876', '', 1, 0, 'aSAsASAsAS', 0),
 (63, 'asasdasd', 1, 2, 0, '1364729876', '', 1, 0, 'asasdasd', 0),
 (64, 'sdasdsadadasad', 3, 2, 0, '1364729876', '', 4, 0, 'sdasdsadadasad', 0),
-(65, 'zsdasd', 5, 2, 0, '1364729876', '', 21, 0, 'zsdasd', 0);
+(65, 'zsdasd', 5, 2, 0, '1364729876', '', 21, 0, 'zsdasd', 0),
+(68, 'Testing??', 1, 2, 0, '1366373166', 'Testing question', 20, 0, 'Testing-1366373166', 0),
+(69, 'hello topic notification', 2, 3, 0, '1366378621', '', 0, 0, 'hello-topic-notification', 0),
+(70, 'hello topic testing 2', 2, 3, 0, '1366379319', '', 0, 0, 'hello-topic-testing-2', 0),
+(71, 'fsfsfsff', 2, 3, 0, '1366379477', '', 0, 0, 'fsfsfsff', 0),
+(72, 'testing notif?', 2, 2, 0, '1366380217', '', 0, 0, 'testing-notif', 0),
+(73, 'hello group?', 4, 2, 9, '1366380993', '', 0, 0, 'hello-group', 0),
+(74, 'dsadad', 3, 2, 9, '1366381152', '', 0, 0, 'dsadad', 0),
+(75, 'zczczc group testing?', 3, 2, 9, '1366381215', '', 0, 0, 'zczczc-group-testing', 0),
+(76, 'fsffffsf', 3, 2, 0, '1366381272', '', 0, 0, 'fsffffsf', 0),
+(77, 'group?', 4, 2, 9, '1366381486', '', 1, 0, 'group', 0),
+(78, 'testing notif now?\n', 2, 4, 0, '1366382915', '\n\n', 1, 0, 'testing-notif-now', 0);
 
 -- --------------------------------------------------------
 
@@ -673,7 +724,7 @@ CREATE TABLE IF NOT EXISTS `USERS` (
   `isNormalAccount` int(11) NOT NULL,
   `profile_pic` varchar(300) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `USERS`
@@ -681,9 +732,10 @@ CREATE TABLE IF NOT EXISTS `USERS` (
 
 INSERT INTO `USERS` (`user_id`, `user_name`, `group_id`, `password`, `user_level`, `email_id`, `joined_on`, `user_year`, `user_degree`, `user_course`, `hash`, `complete`, `isNormalAccount`, `profile_pic`) VALUES
 (1, 'vikki', 8, '123123', 0, 'dgr8geek@gmail.com', '', 0, 'msc', '212', '', 1, 0, 'https://m.ak.fbcdn.net/profile.ak/hprofile-ak-prn1/173827_100000673452300_1106930760_t.jpg'),
-(2, 'vishnu', 9, '123123', 0, 'vigneshjmsc@gmail.com', '', 0, 'asas', 'asd', '', 1, 0, 'http://m-static.ak.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg'),
-(3, 'bala', 8, '', 0, 'vigneshjayavel@gmail.com', '', 0, '', '', '', 0, 0, 'http://profile.ak.fbcdn.net/static-ak/rsrc.php/v1/yi/r/odA9sNLrE86.jpg'),
-(4, 'Narain', 9, '', 0, '', '', 0, '', '', '', 0, 0, '');
+(2, 'Jetti', 9, '123123', 1, 'jetti@gmail.com', '', 0, 'asas', 'asd', '', 1, 0, 'http://m-static.ak.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg'),
+(3, 'bala', 8, '123123', 0, 'bala@gmail.com', '', 0, '', '', '', 0, 0, 'http://profile.ak.fbcdn.net/static-ak/rsrc.php/v1/yi/r/odA9sNLrE86.jpg'),
+(4, 'Narain', 9, '123123', 0, 'narain@gmail.com', '', 0, '', '', '', 0, 0, ''),
+(10, 'Vishnu', 0, '123', 0, 'vishnuj81093@gmail.com', '', 0, 'BE', 'CSE', '', 1, 0, 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/572552_100002276456345_349324707_t.jpg');
 
 -- --------------------------------------------------------
 
@@ -695,6 +747,15 @@ CREATE TABLE IF NOT EXISTS `USER_FOLLOWERS` (
   `user_id` int(20) NOT NULL,
   `follower` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `USER_FOLLOWERS`
+--
+
+INSERT INTO `USER_FOLLOWERS` (`user_id`, `follower`) VALUES
+(2, 10),
+(2, 2011103089),
+(2, 4);
 
 -- --------------------------------------------------------
 
@@ -726,6 +787,28 @@ CREATE TABLE IF NOT EXISTS `USER_NOTIFICATIONS` (
   `notif_id` bigint(100) NOT NULL,
   `new` int(3) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `USER_NOTIFICATIONS`
+--
+
+INSERT INTO `USER_NOTIFICATIONS` (`user_id`, `notif_id`, `new`) VALUES
+(2, 14, 0),
+(2, 14, 0),
+(2, 14, 0),
+(2, 18, 1),
+(2, 18, 1),
+(2, 18, 1),
+(2, 18, 1),
+(2, 18, 1),
+(2, 28, 1),
+(2, 33, 1),
+(2, 34, 1),
+(4, 34, 1),
+(2, 44, 1),
+(2, 33, 1),
+(2, 46, 1),
+(4, 46, 1);
 
 -- --------------------------------------------------------
 
