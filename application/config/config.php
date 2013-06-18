@@ -20,13 +20,19 @@
 $mode=ENVIRONMENT;
 
 if($mode=='local'){
-	$base_url='http://vikki.askceg.ap01.aws.af.cm/ask/';
+	$base_url='http://vikki.askceg.com/ask/';
 }
 else if($mode=='cloud'){
 	$base_url='http://askceg.ap01.aws.af.cm/';
 }
 else if($mode=='ctf'){
 	$base_url='http://askceg.krk.org.in/';
+}
+else if($mode=='final'){
+	$base_url='http://askceg.com/';
+}
+else if($mode=='beta'){
+	$base_url='http://test.askceg.com/';
 }
 
 $config['base_url']	= $base_url;

@@ -39,6 +39,8 @@ if (defined('ENVIRONMENT'))
 	
 		case 'ctf':
 		case 'cloud':
+		case 'final':
+		case 'beta':
 			error_reporting(E_ALL);
 		break;
 

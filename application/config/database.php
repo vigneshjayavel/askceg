@@ -73,6 +73,12 @@ else if($mode=="ctf" || $mode=="cloud"){
 	$password = 'this1is2absolute3nonsense';
 	$dbname = 'askceg';
 }
+else if($mode=="final" || $mode=="beta"){
+	$hostname = 'localhost';
+	$username = 'root';
+	$password = 'this1is2absolute3nonsense';
+	$dbname = 'askdb';
+}
 /*
 else if($mode=="cloud"){
 	
