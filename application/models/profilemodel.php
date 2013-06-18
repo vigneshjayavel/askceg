@@ -638,6 +638,7 @@ function getInterimProfile(){
           }
           else
             $edit='';
+           $timeline=' <a href="'.base_url().'ProfileController/timeline/'.$user_id.'" class="btn btn-primary disabled"><i class="icon-cog"></i>ViewTimeline</a>';
           //groupMarkup
           if($row['group_id']==0){
             $q="select * from GROUP_REQUEST where user_id=?";
@@ -743,7 +744,7 @@ function getInterimProfile(){
 
                 </tr>
                 <tr>
-                  '.$edit.'
+                  '.$edit.$timeline.'
                 </tr>
                 </table>
                 </div>

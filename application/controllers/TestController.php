@@ -67,11 +67,30 @@ class TestController extends CI_Controller {
 		$this->load->view('Skeleton',$data);
 	}
 	function mail(){
-		$mailData['to']='dgr8geek@gmail.com';
-		$mailData['subject']='aasasas';
-		$mailData['message']='asasasadasdasd';
-		$this->load->library('klib');
-		$this->klib->sendMail($mailData);
+
+
+		$config = Array(
+	        'smtp_user' => 'saktnea2013@gmail.com',
+	        'smtp_pass' => 'subbuvishali',
+	        'protocol'=>'smtp',
+			'smtp_host'=>'ssl://smtp.googlemail.com',
+			'smtp_port'=>'465',
+			'smtp_timeout'=>'30',  
+			'charset'=>'utf-8',   
+	        'mailtype' => 'html',
+			'newline'=>"\r\n"
+	    );
+		$emailData['to']='dgr8geek@gmail.com';
+		$emailData['subject']='aasasas';
+		$emailData['message']='asasasadasdasd';
+		
+		$CI =& get_instance();
+	    $CI->load->library('email', $config);
+	    $CI->email->from('saktnea2013@gmail.com', "TNEA 2013");
+	    $CI->email->to($emailData['to']);
+	    $CI->email->subject("This is the sub");
+	    $CI->email->message("message@@@");
+		$CI->email->send();	
 		echo "mail sent";
 
 	}
